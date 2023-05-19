@@ -12,8 +12,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :tweets
-  # has_many :likes
-  # has_many :retweets
+  has_many :likes
+  has_many :retweets
 
 
   # only allow letter, number, underscore and punctuation.
