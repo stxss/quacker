@@ -2,8 +2,8 @@ class User < ApplicationRecord
   attr_writer :login
 
   enum visibility: {
-    public:  0,
-    private: 1
+    public_visibility:  0,
+    private_visibility: 1
   }
 
   # Include default devise modules. Others available are:
