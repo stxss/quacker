@@ -11,7 +11,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :tweets
+  has_many :created_tweets, class_name: "Tweet"
   has_many :likes
   has_many :retweets
 

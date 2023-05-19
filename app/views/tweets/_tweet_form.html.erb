@@ -1,10 +1,11 @@
 
 <div>
-  <%= form_with model: @tweet do |f| %>
+  <%= form_with model: Tweet.new, url: tweets_url do |f| %>
     <div>
       <%= f.text_area :body, placeholder: "What's on your mind?", :rows => 4 , :cols => 50 %>
     </div>
+  <%= f.submit "Tweet" %><br />
   <% end %>
 <div>
 
-<%= button_to "Tweet", new_tweet_url, method: :get %><br />
+

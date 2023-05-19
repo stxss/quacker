@@ -1,7 +1,12 @@
-<% Tweet.all do |t|%>
-  <%= t %>
-<% end%>
+
 
 <%= render "tweet_form" %>
+
+<% Tweet.all.each do |t| %>
+  <div>
+    <%= User.find_by(id: t.user_id).username %>
+    <%= t.body %>
+  </div><br />
+<% end%>
 
 <%= button_to "Sign out", destroy_user_session_url, method: :delete %>
