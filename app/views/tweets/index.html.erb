@@ -2,4 +2,6 @@
   <%= t %>
 <% end%>
 
-hi!
+<%= render "tweet_form" %>
+
+<%= button_to "Sign out", destroy_user_session_url, method: :delete %>

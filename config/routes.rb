@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   # root "articles#index"
   root "tweets#index"
   resources :users
+  resources :tweets
 end
