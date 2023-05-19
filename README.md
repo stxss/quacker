@@ -1,24 +1,5 @@
-# README
+# Twitter Clone
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project is a part of the [Ruby On Rails Final Project](https://www.theodinproject.com/lessons/ruby-on-rails-rails-final-project#project-building-facebook) following The Odin Project's curriculum.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+I made a custom modification and instead of going with the suggested Facebook clone, I opted for a custom Twitter clone
