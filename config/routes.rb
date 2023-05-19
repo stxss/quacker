@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   root "tweets#index"
   resources :users
   resources :tweets
+
+  get "/:username", to: "users#show"
 end

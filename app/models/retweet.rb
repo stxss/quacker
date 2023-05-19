@@ -3,5 +3,4 @@ class Retweet < ApplicationRecord
 
   # If quote tweet it can have likes
   # has_many :likes
-
 end
