@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :tweets
   resources :follows, only: %i[create destroy]
+  resources :notifications, only: %i[index]
 
   get "/:username", to: "users#show", as: "username"
 end
