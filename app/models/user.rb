@@ -17,6 +17,12 @@ class User < ApplicationRecord
   has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_follows
 
+  has_many :notifications_given, class_name: "Notification", foreign_key: "notifier_id", dependent: :destroy
+  has_many :notifieds, through: :notifications_given, source: :notifier
+
+  has_many :notifications_received, class_name: "Notification", foreign_key: "notified_id", dependent: :destroy
+  has_many :notifiers, through: :notifications_received
+
   has_many :created_tweets, class_name: "Tweet", dependent: :destroy
   # has_many :liked_tweets, dependent: :destroy
   # has_many :retweets, dependent: :destroy

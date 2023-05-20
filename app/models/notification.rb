@@ -7,4 +7,11 @@ class Notification < ApplicationRecord
     reply:          4,
     retweet:        5
   }
+
+  belongs_to :notifier, class_name: "User"
+  belongs_to :notified, class_name: "User"
+
+  validates :notifier_id, presence: true
+  validates :notified_id, presence: true
+
 end
