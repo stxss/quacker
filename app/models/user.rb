@@ -34,17 +34,21 @@ class User < ApplicationRecord
 
   def follow(other)
     active_follows.create(followed_id: other[:followed_id].to_i)
+    notify(other[:followed_id].to_i, :follow)
   end
 
   def unfollow(other)
     active_follows.find_by(followed_id: other.id).destroy
+    notify(other.id, :unfollow)
   end
 
   def follows?(other)
     following.include?(other)
   end
 
-  private
+  def notify(other_id, type)
+    notifications_given.create(notifier_id: id, notified_id: other_id, notification_type: type)
+  end
 
   def login
     @login || username || email
