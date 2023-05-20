@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   resources :users
   resources :tweets
 
-  get "/:username", to: "users#show"
+  get "/:username", to: "users#show", as: "username"
 end
