@@ -1,4 +1,2 @@
-<%= form_for(current_user.active_follows.build) do |f| %>
-  <div><%= hidden_field_tag :followed_id, User.find_by(username: params[:username]).id %></div>
-  <%= f.submit "Follow", class: "btn btn-primary" %>
-<% end %>
+<%= button_to "Follow", current_user.active_follows.build, params: {follow: {followed_id: User.find_by(username: params[:username]).id }}  %>
+

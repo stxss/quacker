@@ -27,7 +27,7 @@ class User < ApplicationRecord
   validate :validate_username
 
   def follow(other)
-    active_follows.create(followed_id: other.id)
+    active_follows.create(followed_id: other[:followed_id].to_i)
   end
 
   def unfollow(other)

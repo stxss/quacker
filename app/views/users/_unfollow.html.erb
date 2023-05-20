@@ -1,4 +1,1 @@
-<%= form_for(current_user.active_follows.find_by(followed_id: @user.id),
-             html: { method: :delete }) do |f| %>
-  <%= f.submit "Unfollow", class: "btn" %>
-<% end %>
+<%= button_to "Unfollow", current_user.active_follows.find_by(followed_id: @user.id), params: {follow: {followed_id: User.find_by(username: params[:username]).id }}, method: :delete  %>
