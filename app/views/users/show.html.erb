@@ -12,7 +12,7 @@
   <%= button_to "Edit profile", edit_user_url(id: current_user.id), method: :get %>
 <% else %>
   <% if current_user.follows?(@user) %>
-    <%= render "unfollow" %>
+    <%= render "unfollow" , follow: current_user.active_follows.find_by(followed_id: @user.id)%>
   <% else %>
     <%= render "follow" %>
   <% end %>
