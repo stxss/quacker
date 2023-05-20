@@ -19,13 +19,17 @@
 <% end %>
 
 
-<div> Joined on DATE </div>
+<div> Joined <%= @user.created_at.strftime("%B %Y") %> </div>
 
-<div> following </div>
+<div> <%= @user.following.count %> </div>
 
-<div> followers </div>
+<div> <%= @user.followers.count %> </div>
 
-<div> tweets </div>
+<div>
+  <% @user.created_tweets.each do |t| %>
+    <%= t.body %>
+  <% end %>
+</div>
 
 <div> "replies/retweets" </div>
 
