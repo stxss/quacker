@@ -1,12 +1,3 @@
-<div><%= button_to "Home" %></div>
-<div><%= button_to "Explore" %></div>
-<div><%= button_to "Notifications", notifications_path, method: :get %></div>
-<div><%= button_to "Messages" %></div>
-<div><%= button_to "Bookmarks" %></div>
-<div><%= button_to "Profile", username_path(current_user.username), method: :get %></div>
-<div><%= button_to "Settings" %></div><br />
-
-
 <div><%= render "tweet_form" %></div>
 
 <% Tweet.all.each do |t| %>
