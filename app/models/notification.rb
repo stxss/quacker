@@ -1,5 +1,5 @@
 class Notification < ApplicationRecord
-  enum type: {
+  enum notification_type: {
     follow_request: 0,
     follow:         1,
     unfollow:       2,
