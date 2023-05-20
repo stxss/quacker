@@ -11,15 +11,34 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :created_tweets, class_name: "Tweet"
-  has_many :likes
-  has_many :retweets
+  has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :following, through: :active_follows, source: :followed
 
+  has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followers, through: :passive_follows
+
+  has_many :created_tweets, class_name: "Tweet", dependent: :destroy
+  # has_many :liked_tweets, dependent: :destroy
+  # has_many :retweets, dependent: :destroy
 
   # only allow letter, number, underscore and punctuation.
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
   validate :validate_username
+
+  def follow(other)
+    active_follows.create(followed_id: other.id)
+  end
+
+  def unfollow(other)
+    active_follows.find_by(followed_id: other.id).destroy
+  end
+
+  def follows?(other)
+    following.include?(other)
+  end
+
+  private
 
   def login
     @login || username || email
@@ -28,7 +47,7 @@ class User < ApplicationRecord
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if (login = conditions.delete(:login))
-      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", {value: login.downcase}]).first
     elsif conditions.has_key?(:username) || conditions.has_key?(:email)
       where(conditions.to_h).first
     end

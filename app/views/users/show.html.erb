@@ -1,11 +1,24 @@
-<%# <%= User.find_by(username: params[:username]).display_name %> %>
-<%= User.find_by(username: params[:username]).username %>
 
-<% if current_user.id == User.find_by(username: params[:username]).id %>
-  <%= button_to "Edit", edit_user_url(id: current_user.id), method: :get %>
+
+
+<p>Logged in as <%= current_user.username %></p>
+
+
+<%# <%= User.find_by(username: params[:username]).display_name %> %>
+<%= "@#{User.find_by(username: params[:username]).username}" %>
+<%= "@#{User.find_by(username: params[:username]).id}" %>
+
+<% if current_user == User.find_by(username: params[:username]) %>
+  <%= button_to "Edit profile", edit_user_url(id: current_user.id), method: :get %>
 <% else %>
-  <%= button_to "Follow" %>
-<% end%>
+  <% if current_user.follows?(@user) %>
+    <%= render "unfollow" %>
+  <% else %>
+    <%= render "follow" %>
+  <% end %>
+<% end %>
+
+
 <div> Joined on DATE </div>
 
 <div> following </div>
