@@ -12,17 +12,6 @@ RSpec.describe "Create a user", type: :feature do
     expect(page).to have_content("Home\nExplore\nNotifications\nMessages\nBookmarks\nProfile\nSettings\nSign out")
   end
 
-  scenario "wrong confirmation password" do
-    visit root_path
-    click_on "Sign up"
-    fill_in "Email", with: "test@test.com"
-    fill_in "Username", with: "test"
-    fill_in "Password", with: "qwerty"
-    fill_in "Password confirmation", with: "Qwerty"
-    click_on "Sign up"
-    expect(page).to have_content("Password confirmation doesn't match Password")
-  end
-
   scenario "password too short" do
     visit root_path
     click_on "Sign up"
@@ -32,6 +21,28 @@ RSpec.describe "Create a user", type: :feature do
     fill_in "Password confirmation", with: "qwert"
     click_on "Sign up"
     expect(page).to have_content("Password is too short")
+  end
+
+  scenario "no password" do
+    visit root_path
+    click_on "Sign up"
+    fill_in "Email", with: "test@test.com"
+    fill_in "Username", with: "test"
+    fill_in "Password", with: ""
+    fill_in "Password confirmation", with: "qwert"
+    click_on "Sign up"
+    expect(page).to have_content("Password can't be blank")
+  end
+
+  scenario "wrong confirmation password" do
+    visit root_path
+    click_on "Sign up"
+    fill_in "Email", with: "test@test.com"
+    fill_in "Username", with: "test"
+    fill_in "Password", with: "qwerty"
+    fill_in "Password confirmation", with: "Qwerty"
+    click_on "Sign up"
+    expect(page).to have_content("Password confirmation doesn't match Password")
   end
 
   scenario "wrong email format" do
