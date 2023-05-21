@@ -23,13 +23,14 @@
 
 <div> Joined <%= @user.created_at.strftime("%B %Y") %> </div>
 
-<div> <%= @user.following.count %> </div>
+<div> <%= @user.following.count %> Following </div>
 
-<div> <%= @user.followers.count %> </div>
+<div> <%= @user.followers.count %> Followers </div>
 
 <div>
+  Tweets:
   <% @user.created_tweets.each do |t| %>
-    <%= t.body %>
+    <div><%= t.body %></div>
   <% end %>
 </div>
 
