@@ -31,6 +31,7 @@ class User < ApplicationRecord
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
   validate :validate_username
+  validates :username, presence: true, uniqueness: true
 
   def follow(other)
     active_follows.create(followed_id: other[:followed_id].to_i)
