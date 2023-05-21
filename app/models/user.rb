@@ -40,6 +40,7 @@ class User < ApplicationRecord
 
   def unfollow(other)
     active_follows.find_by(followed_id: other.id).destroy
+    other.notifications_received.where(notifier_id: id, notified_id: other.id, notification_type: :follow).destroy_all
   end
 
   def follows?(other)
