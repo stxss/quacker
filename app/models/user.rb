@@ -43,7 +43,7 @@ class User < ApplicationRecord
     other.notifications_received.where(notifier_id: id, notified_id: other.id, notification_type: :follow).destroy_all
   end
 
-  def follows?(other)
+  def following?(other)
     following.include?(other)
   end
 

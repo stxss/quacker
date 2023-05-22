@@ -7,7 +7,7 @@
 <% if current_user == User.find_by(username: params[:username]) %>
   <%= button_to "Edit profile", settings_url(id: current_user.id), method: :get %>
 <% else %>
-  <% if current_user.follows?(@user) %>
+  <% if current_user.following?(@user) %>
     <%= render "unfollow", unfollow: current_user.active_follows.find_by(followed_id: @user.id),
                            user: @user,
                            params: {follow: {followed_id: User.find_by(username: params[:username]).id }}  %>

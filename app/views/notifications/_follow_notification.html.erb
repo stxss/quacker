@@ -1,7 +1,7 @@
 <>
   <%= User.find_by(id: notifier).username %> followed you
   <div>
-    <% if current_user.follows?(User.find_by(id: notifier)) %>
+    <% if current_user.following?(User.find_by(id: notifier)) %>
       <%= render "users/unfollow", unfollow: current_user.active_follows.find_by(followed_id: notifier),
                                    user: User.find_by(id: notifier),
                                    params: {follow: {followed_id: notifier }} %>
