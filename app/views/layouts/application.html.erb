@@ -19,8 +19,8 @@
       <div><%= button_to "Notifications", notifications_path, method: :get %></div>
       <div><%= button_to "Messages" %></div>
       <div><%= button_to "Bookmarks" %></div>
-      <div><%= button_to "Profile", username_path(current_user.username), method: :get %></div>
-      <div><%= button_to "Settings" %></div><br />
+      <div><%= button_to "Profile", username_url(current_user.username), method: :get %></div>
+      <div><%= button_to "Settings", settings_url(id: current_user.id), method: :get %></div><br />
     <% end %>
     <%= yield %>
 
