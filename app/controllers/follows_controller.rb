@@ -7,6 +7,7 @@ class FollowsController < ApplicationController
     @follow = current_user.follow(follow_params)
 
     if @follow.save
+      current_user.notify(follow_params[:followed_id].to_i, :follow)
       redirect_to username_url(@user.username)
     else
       flash[:alert] = "Oops, something went wrong"

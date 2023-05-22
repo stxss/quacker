@@ -34,8 +34,8 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
 
   def follow(other)
+    # notify(other[:followed_id].to_i, :follow)
     active_follows.create(followed_id: other[:followed_id].to_i)
-    notify(other[:followed_id].to_i, :follow)
   end
 
   def unfollow(other)
