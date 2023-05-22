@@ -67,6 +67,25 @@ RSpec.describe "Create a user", type: :feature do
     expect(page).to have_content("Username can't be blank")
   end
 
+  scenario "registering with already existing username" do
+    visit root_path
+    click_on "Sign up"
+    fill_in "Email", with: "test@test.com"
+    fill_in "Username", with: "test"
+    fill_in "Password", with: "qwerty"
+    fill_in "Password confirmation", with: "qwerty"
+    click_on "Sign up"
+    visit root_path
+    click_on "Sign out"
+    click_on "Sign up"
+    fill_in "Email", with: "test1@test.com"
+    fill_in "Username", with: "test"
+    fill_in "Password", with: "qwerty"
+    fill_in "Password confirmation", with: "qwerty"
+    click_on "Sign up"
+    expect(page).to have_content("Username has already been taken")
+  end
+
   scenario "registering with already existing email" do
     visit root_path
     click_on "Sign up"
@@ -86,22 +105,14 @@ RSpec.describe "Create a user", type: :feature do
     expect(page).to have_content("Email has already been taken")
   end
 
-  scenario "registering with already existing username" do
+  scenario "registering with an email as username" do
     visit root_path
     click_on "Sign up"
     fill_in "Email", with: "test@test.com"
-    fill_in "Username", with: "test"
+    fill_in "Username", with: "test2@test.com"
     fill_in "Password", with: "qwerty"
     fill_in "Password confirmation", with: "qwerty"
     click_on "Sign up"
-    visit root_path
-    click_on "Sign out"
-    click_on "Sign up"
-    fill_in "Email", with: "test1@test.com"
-    fill_in "Username", with: "test"
-    fill_in "Password", with: "qwerty"
-    fill_in "Password confirmation", with: "qwerty"
-    click_on "Sign up"
-    expect(page).to have_content("Username has already been taken")
+    expect(page).to have_content("Username is invalid")
   end
 end
