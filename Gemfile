@@ -27,7 +27,11 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+# Used for login/register purposes
 gem 'devise'
+
+# Test code coverage analysis
+gem 'simplecov', require: false, group: :test
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
