@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Unfollow", type: :feature do
+RSpec.describe "Unfollow", type: :feature, driver: :selenium do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
 
@@ -14,20 +14,24 @@ RSpec.describe "Unfollow", type: :feature do
   end
 
   scenario "First unfollows second" do
-    visit username_url(other_user.username)
+    visit username_path(other_user.username)
     click_on "Unfollow"
+    click_on "Confirm"
     expect(user.following).not_to include(other_user)
     expect(other_user.followers).not_to include(user)
   end
 
   scenario "Second unfollows first" do
+    visit root_path
     click_on "Sign out"
     fill_in "Login", with: other_user.email
     fill_in "Password", with: other_user.password
     click_on "Log in"
-    visit username_url(user.username)
-    # expect(page).not_to have_selector(:link_or_button, :exact_text => "Follow")
+    visit username_path(user.username)
     click_on "Unfollow"
+    within("#dialog") do
+      click_on "Confirm"
+    end
     expect(other_user.following).not_to include(user)
     expect(user.followers).not_to include(other_user)
   end
