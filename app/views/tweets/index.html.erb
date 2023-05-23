@@ -2,7 +2,7 @@
 
 <% Tweet.all.each do |t| %>
   <div>
-    <%= link_to User.find_by(id: t.user_id).username, username_path(User.find_by(id: t.user_id).username), :class => "author" %>
+    <%= link_to User.find_by(id: t.user_id).username, username_path(User.find_by(id: t.user_id).username), user_id: t.user_id , :class => "author" %>
     <%= t.body %>
   </div><br />
 <% end%>
