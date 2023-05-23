@@ -28,10 +28,10 @@ class User < ApplicationRecord
   # has_many :retweets, dependent: :destroy
 
   # only allow letter, number, underscore and punctuation.
-  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
+  validates_format_of :username, with: /^[a-zA-Z0-9_]*$/, :multiline => true
 
   validate :validate_username
-  validates :username, presence: true, uniqueness: true
+  validates :username, presence: true, uniqueness: true, length: { in: 4..15 }
 
   def follow(other)
     # notify(other[:followed_id].to_i, :follow)

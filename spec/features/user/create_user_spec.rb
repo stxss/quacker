@@ -115,4 +115,15 @@ RSpec.describe "Create a user", type: :feature do
     click_on "Sign up"
     expect(page).to have_content("Username is invalid")
   end
+
+  scenario "registering with an dots in username" do
+    visit root_path
+    click_on "Sign up"
+    fill_in "Email", with: "test@test.com"
+    fill_in "Username", with: "test.test"
+    fill_in "Password", with: "qwerty"
+    fill_in "Password confirmation", with: "qwerty"
+    click_on "Sign up"
+    expect(page).to have_content("Username is invalid")
+  end
 end
