@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Follow", type: :feature, driver: :selenium do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
+  let!(:third_user) { create(:user) }
 
   before do
     visit root_path
@@ -28,5 +29,14 @@ RSpec.describe "Follow", type: :feature, driver: :selenium do
     click_on "Follow"
     expect(other_user.following).to include(user)
     expect(user.followers).to include(other_user)
+  end
+
+  scenario "invalid follow" do
+    visit root_path
+    visit username_path(third_user.username)
+    User.find_by(username: third_user.username).destroy
+    click_on "Follow"
+    expect(page).to have_content("Oops, something went wrong")
+    expect(other_user.following).not_to include(third_user)
   end
 end
