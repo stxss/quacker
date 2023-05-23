@@ -10,9 +10,10 @@
   <% if current_user.following?(@user) %>
     <%= render "unfollow", unfollow: current_user.active_follows.find_by(followed_id: @user.id),
                            user: @user,
-                           params: {follow: {followed_id: User.find_by(username: params[:username]).id }}  %>
+                           params: {follow: {followed_id: @user.id }} %>
   <% else %>
-    <%= render "follow" %>
+    <%= p @user %>
+    <%= render "follow", params: {follow: {followed_id: @user.id }} %>
   <% end %>
 <% end %>
 
