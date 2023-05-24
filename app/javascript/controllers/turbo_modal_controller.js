@@ -6,4 +6,25 @@ export default class extends Controller {
         this.element.parentElement.removeAttribute("src"); // it might be nice to also remove the modal SRC
         this.element.remove();
     }
+
+    next(event) {
+      if (event.detail.success) {
+        const fetchResponse = event.detail.fetchResponse;
+        const username = fetchResponse.response.username;
+
+        history.pushState(
+          { turbo_frame_history: true },
+          "",
+          `/${username}`
+        );
+
+        Turbo.visit(fetchResponse.response.url);
+      }
+    }
+
+    close(e) {
+      if (e.detail.success) {
+        this.hideModal()
+      }
+    }
 }

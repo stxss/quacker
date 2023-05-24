@@ -1,7 +1,7 @@
 
-      <% if current_user.created_at > 5.seconds.ago %>
-        <%= "HELLO NEW VIS" %>
-      <% end %>
+<% if current_user.created_at > (0.2).seconds.ago %>
+  <%= render "users/profile_form" %>
+<% end %>
 
 <div><%= render "tweet_form" %></div>
 

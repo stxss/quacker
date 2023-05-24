@@ -1,0 +1,48 @@
+<div id="user-profile">
+  <div id="username">
+    Username <%= "@#{@user.username}" %>
+  </div>
+  <div id="display-name">
+    Display name <%= "@#{@user.display_name}" %>
+  </div>
+  <div id="bio">
+    Biography <%= "@#{@user.biography}" %>
+  </div>
+  <div>
+    user id <%= "@#{@user.id}" %>
+  </div>
+
+  <% if current_user == @user %>
+      <%= button_to "Edit profile", settings_url(username: current_user.username), method: :get %>
+  <% else %>
+    <% if current_user.following?(@user) %>
+      <%= render "unfollow", unfollow: current_user.active_follows.find_by(followed_id: @user.id),
+                             user: @user,
+                             params: {follow: {followed_id: @user.id }} %>
+    <% else %>
+      <%= render "follow", params: {follow: {followed_id: @user.id }} %>
+    <% end %>
+  <% end %>
+
+
+  <div> Joined <%= @user.created_at.strftime("%B %Y") %> </div>
+
+  <div> <%= @user.following.count %> Following </div>
+
+  <div> <%= @user.followers.count %> Followers </div>
+
+  <div>
+    Tweets:
+    <% @user.created_tweets.each do |t| %>
+      <div><%= t.body %></div>
+    <% end %>
+  </div>
+
+  <div> "replies/retweets" </div>
+
+  <div> media </div>
+
+  <div> likes </div>
+</div>
+
+

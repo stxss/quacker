@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   root "tweets#index"
-  resources :users, except: %i[ edit ] do
+
+  # path "" -> removes the /users/ prefix from url, specifying username as the identifier instead of the default :id
+  resources :users, path: "", param: :username, only: [:index, :new, :create, :edit, :update, :destroy] do
     member do
-      get "following", "followers"
+      get :following, :followers
     end
   end
 
@@ -16,6 +18,6 @@ Rails.application.routes.draw do
   resources :follows, only: %i[create destroy]
   resources :notifications, only: %i[index]
 
-  get "/settings/profile", to: "users#edit", as: "settings"
+  get "/settings/profile/", to: "users#edit", as: "settings"
   get "/:username", to: "users#show", as: "username"
 end
