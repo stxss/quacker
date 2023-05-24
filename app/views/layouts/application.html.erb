@@ -22,7 +22,7 @@
       <div><%= button_to "Profile", username_url(current_user.username), method: :get %></div>
       <div><%= button_to "Settings", settings_url(id: current_user.id), method: :get %></div><br />
     <% end %>
+    <%= turbo_frame_tag "modal" %>
     <%= yield %>
-
   </body>
 </html>
