@@ -9,7 +9,7 @@ RSpec.describe "Create a user", type: :feature do
     fill_in "Password", with: "qwerty"
     fill_in "Password confirmation", with: "qwerty"
     click_on "Sign up"
-    expect(page).to have_content("Home\nExplore\nNotifications\nMessages\nBookmarks\nProfile\nSettings\nSign out")
+    expect(page).to have_content("Welcome! You have signed up successfully.")
   end
 
   scenario "password too short" do

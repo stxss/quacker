@@ -8,7 +8,7 @@ RSpec.describe "Log in a user", type: :feature do
     fill_in "Login", with: user.email
     fill_in "Password", with: user.password
     click_on "Log in"
-    expect(page).to have_content("Home\nExplore\nNotifications\nMessages\nBookmarks\nProfile\nSettings\nSign out")
+    expect(page).to have_content("Signed in successfully.")
   end
 
   scenario "with username" do
@@ -16,6 +16,6 @@ RSpec.describe "Log in a user", type: :feature do
     fill_in "Login", with: user.username
     fill_in "Password", with: user.password
     click_on "Log in"
-    expect(page).to have_content("Home\nExplore\nNotifications\nMessages\nBookmarks\nProfile\nSettings\nSign out")
+    expect(page).to have_content("Signed in successfully.")
   end
 end
