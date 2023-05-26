@@ -1,0 +1,25 @@
+<%= form_with model: @account do |f| %>
+  <div>
+    <%= f.label :you_dont_follow, "You don't follow" %>
+    <%= f.check_box :you_dont_follow %>
+  </div>
+  <div>
+    <%= f.label :who_dont_follow_you, "Who don't follow you" %>
+    <%= f.check_box :who_dont_follow_you %>
+  </div>
+  <div>
+    <%= f.label :with_new_account, "With a new account" %>
+    <%= f.check_box :with_new_account %>
+  </div>
+  <div>
+    <%= f.label :with_default_profile_photo, "Who have a default profile photo" %>
+    <%= f.check_box :with_default_profile_photo %>
+  </div>
+  <div>
+    <%= f.label :no_confirmed_email, "Who haven't confirmed their email" %>
+    <%= f.check_box :no_confirmed_email %>
+  </div>
+  <div>
+    These filters won’t affect notifications from people you follow.
+  </div>
+<% end %>

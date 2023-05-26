@@ -1,0 +1,13 @@
+<%= form_with model: @account do |f| %>
+  <div>
+    <%= f.label :sensitive_media, "Display media that may contain sensitive content" %>
+    <%= f.check_box :sensitive_media %>
+  </div>
+<% end %>
+
+<div>
+  <%= link_to "Search settings", settings_search_url %>
+</div>
+
+
+

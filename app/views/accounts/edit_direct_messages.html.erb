@@ -1,0 +1,20 @@
+<div>
+  Manage who can message you directly.
+</div>
+
+<%= form_with model: @account do |f| %>
+  <div>
+    <%= f.label :message_requests_from_everyone, "Allow message requests from everyone" %>
+    <%= f.check_box :message_requests_from_everyone %>
+    <div>
+      Let people who you don’t follow send you message requests and add you to group conversations. To reply to their messages, you need to accept the request.
+    </div>
+  </div>
+  <div>
+    <%= f.label :show_read_receipts, "Show read receipts" %>
+    <%= f.check_box :show_read_receipts %>
+    <div>
+      Let people you’re messaging with know when you’ve seen their messages. Read receipts are not shown on message requests.
+    </div>
+  </div>
+<% end %>

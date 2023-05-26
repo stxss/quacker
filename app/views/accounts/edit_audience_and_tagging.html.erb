@@ -1,0 +1,19 @@
+<%= form_with model: @account do |f| %>
+  <div>
+    <%= f.label :visibility, "Protect your Tweets" %>
+    <%= f.check_box :visibility %>
+    <div>
+      When selected, your Tweets and other account information are only visible to people who follow you.
+    </div>
+  </div>
+<% end %>
+
+<div>
+  <%= link_to "Photo tagging", settings_audience_and_tagging_url %>
+  <div>
+    Off
+  </div>
+</div>
+
+
+
