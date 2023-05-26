@@ -1,11 +1,6 @@
 class User < ApplicationRecord
   attr_writer :login
 
-  enum visibility: {
-    public_visibility:  0,
-    private_visibility: 1
-  }
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
