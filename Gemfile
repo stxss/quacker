@@ -33,6 +33,9 @@ gem 'devise'
 # Test code coverage analysis
 gem 'simplecov', require: false, group: :test
 
+# Automating test runs on file save
+gem 'guard-rspec', require: false
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
@@ -77,4 +80,8 @@ group :development, :test do
   gem "capybara"
   gem "webdrivers"
   gem "faker"
+end
+
+group :development do
+  gem 'guard'
 end
