@@ -2,7 +2,9 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    resource.create_account
+    if resource.save
+      resource.create_account
+    end
   end
 
 end
