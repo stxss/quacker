@@ -1,7 +1,9 @@
-<%= form_with model: @account do |f| %>
+<%= form_with model: current_user.account, method: :patch, id: "account-visibility" do |f| %>
   <div>
-    <%= f.label :visibility, "Protect your Tweets" %>
-    <%= f.check_box :visibility %>
+    <%= f.label :private_visibility, onclick: "this.form.requestSubmit()" do %>
+      <div>Protect your Tweets</div>
+      <%= f.check_box :private_visibility, { checked: current_user.account.private_visibility? }, onchange: "this.form.requestSubmit()" %>
+      <% end %>
     <div>
       When selected, your Tweets and other account information are only visible to people who follow you.
     </div>
