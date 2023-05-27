@@ -2,10 +2,16 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-// Unfollow confirmation window
+// Modal confirmation windows
 Turbo.setConfirmMethod(() => {
     let dialog = document.getElementById("turbo-confirm")
     dialog.showModal()
+
+    // Specifically for the checkbox when setting the protected tweets setting on
+    let diagCheckBox = document.getElementById("account_private_visibility")
+    if (diagCheckBox) {
+        diagCheckBox.checked = false
+    }
 
     return new Promise((resolve, reject) => {
         dialog.addEventListener("close", () => {

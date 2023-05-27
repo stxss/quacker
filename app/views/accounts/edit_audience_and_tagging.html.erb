@@ -1,14 +1,15 @@
-<%= form_with model: current_user.account, method: :patch, id: "account-visibility" do |f| %>
+<%= form_with model: current_user.account, method: :patch, data: ({ turbo_confirm: "Are you sure?" } unless current_user.account.private_visibility? ), id: "account-visibility" do |f| %>
   <div>
-    <%= f.label :private_visibility, onclick: "this.form.requestSubmit()" do %>
+    <%= f.label :private_visibility, onchange: "this.form.requestSubmit()" do %>
       <div>Protect your Tweets</div>
-      <%= f.check_box :private_visibility, { checked: current_user.account.private_visibility? }, onchange: "this.form.requestSubmit()" %>
-      <% end %>
+        <%= f.check_box :private_visibility,{ checked: current_user.account.private_visibility? } %>
+    <% end %>
     <div>
       When selected, your Tweets and other account information are only visible to people who follow you.
     </div>
   </div>
 <% end %>
+
 
 <div>
   <%= link_to "Photo tagging", settings_audience_and_tagging_url %>
@@ -17,5 +18,15 @@
   </div>
 </div>
 
-
-
+<dialog id="turbo-confirm">
+  <form id="dialog" method="dialog">
+    <h3>Protect your Tweets?</h3>
+    <span>This will make them visible only to your Twitter followers.</span>
+    <div>
+      <button value="confirm">Protect</button>
+    </div>
+    <div>
+      <button value="cancel">Cancel</button>
+    </div>
+  </form>
+</dialog>

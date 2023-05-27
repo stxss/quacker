@@ -34,7 +34,8 @@ class AccountsController < ApplicationController
     @account = current_user.account
 
     if @account.update(account_params)
-      redirect_to username_url(current_user.username)
+      # redirect_to username_url(current_user.username)
+      redirect_to request.referrer
     else
       flash.now[:alert] = "Oops, something went wrong, check your fields again"
       render :edit, status: :unprocessable_entity
