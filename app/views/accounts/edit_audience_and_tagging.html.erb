@@ -10,11 +10,16 @@
   </div>
 <% end %>
 
-
 <div>
   <%= link_to "Photo tagging", settings_tagging_url %>
   <div>
-    Off
+    <% if current_user.account.allow_media_tagging_turned_off? %>
+      <span>Off</span>
+    <% elsif current_user.account.allow_media_tagging_anyone_can_tag? %>
+      <span>Anyone can tag you</span>
+    <% else %>
+      <span>Only people you follow can tag you</span>
+    <% end %>
   </div>
 </div>
 
