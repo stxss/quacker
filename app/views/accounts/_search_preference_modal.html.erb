@@ -1,0 +1,26 @@
+<%= turbo_frame_tag id="modal" do %>
+  <div data-controller="turbo-modal" >
+    <%= form_with model: current_user.account, method: :patch, id:"sensitive-media-display" do |f| %>
+      <div>
+        <%= f.label :hide_potentially_sensitive_content, onchange: "this.form.requestSubmit()" do %>
+        <div>Hide sensitive content</div>
+          <%= f.check_box :hide_potentially_sensitive_content, { checked: current_user.account.hide_potentially_sensitive_content? } %>
+        <% end %>
+        <div>
+          This prevents Tweets with potentially sensitive content from displaying in your search results.
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :remove_blocked_and_muted_accounts, onchange: "this.form.requestSubmit()" do %>
+        <div>Remove blocked and muted accounts</div>
+          <%= f.check_box :remove_blocked_and_muted_accounts, { checked: current_user.account.remove_blocked_and_muted_accounts? } %>
+        <% end %>
+        <div>
+          Use this to eliminate search results from accounts you’ve blocked or muted.
+        </div>
+        <button data-action="click->turbo-modal#hideModal">X</button>
+      </div>
+    <% end %>
+  </div>
+<% end %>

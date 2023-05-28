@@ -1,0 +1,15 @@
+<%= form_with model: current_user.account, method: :patch, id:"sensitive-tweet-display" do |f| %>
+  <div>
+    <%= f.label :display_sensitive_media, onchange: "this.form.requestSubmit()" do %>
+    <div>Display media that may contain sensitive content</div>
+      <%= f.check_box :display_sensitive_media, { checked: current_user.account.display_sensitive_media? }  %>
+    <% end %>
+    <div>
+      When enabled, pictures and videos you Tweet will be marked as sensitive for people who don’t want to see sensitive content.
+    </div>
+  </div>
+<% end %>
+
+<div>
+  <%= link_to "Search settings", settings_search_url %>
+</div>

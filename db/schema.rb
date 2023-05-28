@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_28_125834) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_28_194822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,8 +19,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_28_125834) do
     t.integer "allow_media_tagging", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "sensitive_tweets", default: false, null: false
-    t.boolean "display_sensitive_tweets", default: false, null: false
+    t.boolean "sensitive_media", default: false, null: false
+    t.boolean "display_sensitive_media", default: false, null: false
     t.boolean "remove_blocked_and_muted_accounts", default: true, null: false
     t.boolean "muted_notif_you_dont_follow", default: false, null: false
     t.boolean "muted_notif_dont_follow_you", default: false, null: false
@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_28_125834) do
     t.boolean "allow_message_request_from_everyone", default: false, null: false
     t.boolean "show_read_receipts", default: false, null: false
     t.boolean "private_visibility", default: false
+    t.boolean "hide_potentially_sensitive_content", default: false, null: false
     t.index ["user_id"], name: "index_accounts_on_user_id", unique: true
   end
 

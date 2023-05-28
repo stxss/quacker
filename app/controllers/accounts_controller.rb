@@ -41,7 +41,7 @@ class AccountsController < ApplicationController
   private
 
   def account_params
-    params.require(:account).permit(:private_visibility, :allow_media_tagging, :sensitive_tweets, :display_sensitive_tweets)
+    params.require(:account).permit(:private_visibility, :allow_media_tagging, :sensitive_media, :display_sensitive_media, :hide_potentially_sensitive_content, :remove_blocked_and_muted_accounts)
   end
 end
 
