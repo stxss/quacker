@@ -1,0 +1,22 @@
+<%= form_with model: current_user.account, method: :patch do |f| %>
+  <div>
+    <%= f.label :allow_media_tagging, onchange: "toggleRadioButtons(); this.form.requestSubmit();" do %>
+      <div>Photo tagging</div>
+      <%= f.check_box :allow_media_tagging, { checked: current_user.account.allow_media_tagging != "turned_off" }, "anyone_can_tag","turned_off" %>
+    <% end %>
+    <% if current_user.account.allow_media_tagging != "turned_off" %>
+      <div id="radioButtons">
+        <%= f.label :allow_media_tagging, "Anyone can tag you", value: "anyone_can_tag" %>
+        <%= f.radio_button :allow_media_tagging, "anyone_can_tag", onclick: "this.form.requestSubmit()" %>
+        <%= f.label :allow_media_tagging, "Only people you follow can tag you", value: "only_people_you_follow" %>
+        <%= f.radio_button :allow_media_tagging, "only_people_you_follow", onclick: "this.form.requestSubmit()" %>
+      </div>
+    <% end %>
+
+    <div>
+      When selected, your Tweets and other account information are only visible to people who follow you.
+    </div>
+  </div>
+<% end %>
+
+<%= javascript_include_tag "media_tagging" %>

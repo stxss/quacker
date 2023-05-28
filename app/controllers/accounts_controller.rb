@@ -45,7 +45,7 @@ class AccountsController < ApplicationController
   private
 
   def account_params
-    params.require(:account).permit(:private_visibility)
+    params.require(:account).permit(:private_visibility, :allow_media_tagging)
   end
 end
 
