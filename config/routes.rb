@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :tweets
   resources :follows, only: %i[create destroy]
   resources :notifications, only: %i[index]
-  resources :accounts, path: "settings", only: %i[ index edit update ]
+  resources :accounts, path: "settings", only: %i[index edit update]
 
   get "/:username", to: "users#show", as: "username"
 
@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get "/settings/your_tweets/", to: "accounts#edit_your_tweets", as: "settings_your_tweets"
 
   get "/settings/content_you_see/", to: "accounts#edit_content_you_see", as: "settings_content_you_see"
+  get "/settings/search", to: "accounts#edit_search", as: "settings_search"
 
   get "/settings/mute_and_block/", to: "accounts#edit_mute_and_block", as: "settings_mute_and_block"
   get "/settings/blocked/all", to: "accounts#edit_blocked_all", as: "settings_blocked_all"
