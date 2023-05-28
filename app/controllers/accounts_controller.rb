@@ -26,10 +26,6 @@ class AccountsController < ApplicationController
     @account = current_user.account
   end
 
-  # def edit_privacy_and_safety
-  #   @account = current_user.account
-  # end
-
   def update
     @account = current_user.account
 
