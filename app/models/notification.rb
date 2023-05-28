@@ -12,5 +12,4 @@ class Notification < ApplicationRecord
 
   validates :notifier_id, presence: true
   validates :notified_id, presence: true
-
 end

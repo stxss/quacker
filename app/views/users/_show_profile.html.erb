@@ -1,15 +1,12 @@
 <div id="user-profile">
   <div id="username">
-    Username <%= "@#{@user.username}" %>
+    <%= "@#{@user.username}" %>
   </div>
   <div id="display-name">
-    Display name <%= "@#{@user.display_name}" %>
+    <%= "#{@user.display_name}" %>
   </div>
   <div id="bio">
-    Biography <%= "@#{@user.biography}" %>
-  </div>
-  <div>
-    user id <%= "@#{@user.id}" %>
+    <%= "#{@user.biography}" %>
   </div>
 
   <% if current_user == @user %>
