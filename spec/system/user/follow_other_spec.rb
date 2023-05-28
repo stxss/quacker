@@ -15,8 +15,7 @@ RSpec.describe "Follow", type: :system do
     visit username_path(other_user.username)
     click_on "Follow"
     expect(page).to have_button("Unfollow")
-    # expect(user.following).to include(other_user)
-    # expect(other_user.followers).to include(user)
+    expect(page).not_to have_button("Follow")
   end
 
   it "Second doesn't follow first" do
@@ -24,8 +23,7 @@ RSpec.describe "Follow", type: :system do
     visit username_path(user.username)
     click_on "Follow"
     expect(page).to have_button("Unfollow")
-    # expect(other_user.following).to include(user)
-    # expect(user.followers).to include(other_user)
+    expect(page).not_to have_button("Follow")
   end
 
   it "invalid follow" do
@@ -34,6 +32,5 @@ RSpec.describe "Follow", type: :system do
     User.find_by(username: third_user.username).destroy
     click_on "Follow"
     expect(page).to have_content("Oops, something went wrong")
-    # expect(other_user.following).not_to include(third_user)
   end
 end

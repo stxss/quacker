@@ -1,5 +1,5 @@
 require 'simplecov'
-SimpleCov.start 
+SimpleCov.start
 
 # Previous content of test helper now starts here
 

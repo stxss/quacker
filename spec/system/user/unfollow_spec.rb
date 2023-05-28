@@ -20,8 +20,7 @@ RSpec.describe "Unfollow", type: :system do
     click_on "Unfollow"
     click_on "Confirm"
     expect(page).to have_button("Follow")
-    # expect(user.following).not_to include(other_user)
-    # expect(other_user.followers).not_to include(user)
+    expect(page).not_to have_button("Unfollow")
   end
 
   it "Second unfollows first" do
@@ -32,6 +31,8 @@ RSpec.describe "Unfollow", type: :system do
       click_on "Confirm"
     end
     expect(page).to have_button("Follow")
+    expect(page).not_to have_button("Unfollow")
+
     # expect(other_user.following).not_to include(user)
     # expect(user.followers).not_to include(other_user)
   end
