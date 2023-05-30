@@ -2,17 +2,21 @@
   Manage who can message you directly.
 </div>
 
-<%= form_with model: @account do |f| %>
+<%= form_with model: current_user.account, method: :patch, id:"manage-direct-messages" do |f| %>
   <div>
-    <%= f.label :message_requests_from_everyone, "Allow message requests from everyone" %>
-    <%= f.check_box :message_requests_from_everyone %>
+    <%= f.label :allow_message_request_from_everyone, onchange: "this.form.requestSubmit()" do %>
+      <div>Allow message requests from everyone</div>
+      <%= f.check_box :allow_message_request_from_everyone, {checked: current_user.account.allow_message_request_from_everyone? } %>
+    <% end %>
     <div>
       Let people who you don’t follow send you message requests and add you to group conversations. To reply to their messages, you need to accept the request.
     </div>
   </div>
   <div>
-    <%= f.label :show_read_receipts, "Show read receipts" %>
-    <%= f.check_box :show_read_receipts %>
+    <%= f.label :show_read_receipts, onchange: "this.form.requestSubmit()" do %>
+      <div>Show read receipts</div>
+      <%= f.check_box :show_read_receipts, {checked: current_user.account.show_read_receipts? } %>
+    <% end %>
     <div>
       Let people you’re messaging with know when you’ve seen their messages. Read receipts are not shown on message requests.
     </div>
