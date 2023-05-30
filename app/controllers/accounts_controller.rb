@@ -41,7 +41,7 @@ class AccountsController < ApplicationController
   private
 
   def account_params
-    params.require(:account).permit(:private_visibility, :allow_media_tagging, :sensitive_media, :display_sensitive_media, :hide_potentially_sensitive_content, :remove_blocked_and_muted_accounts)
+    params.require(:account).permit(:private_visibility, :allow_media_tagging, :sensitive_media, :display_sensitive_media, :hide_potentially_sensitive_content, :remove_blocked_and_muted_accounts, :muted_notif_you_dont_follow, :muted_notif_dont_follow_you, :muted_notif_new_account, :muted_notif_default_profile_pic, :muted_notif_no_confirm_email)
   end
 end
 

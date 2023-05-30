@@ -1,23 +1,33 @@
-<%= form_with model: @account do |f| %>
+<%= form_with model: current_user.account, method: :patch, id: "advanced-nofitication-filters" do |f| %>
   <div>
-    <%= f.label :you_dont_follow, "You don't follow" %>
-    <%= f.check_box :you_dont_follow %>
+    <%= f.label :muted_notif_you_dont_follow, onchange: "this.form.requestSubmit()" do %>
+      <div>You don't follow</div>
+      <%= f.check_box :muted_notif_you_dont_follow, { checked: current_user.account.muted_notif_you_dont_follow? } %>
+    <% end %>
   </div>
   <div>
-    <%= f.label :who_dont_follow_you, "Who don't follow you" %>
-    <%= f.check_box :who_dont_follow_you %>
+    <%= f.label :muted_notif_dont_follow_you, onchange: "this.form.requestSubmit()" do %>
+      <div>Who don't follow you</div>
+      <%= f.check_box :muted_notif_dont_follow_you, { checked: current_user.account.muted_notif_dont_follow_you? } %>
+    <% end %>
   </div>
   <div>
-    <%= f.label :with_new_account, "With a new account" %>
-    <%= f.check_box :with_new_account %>
+    <%= f.label :muted_notif_new_account, onchange: "this.form.requestSubmit()" do %>
+      <div>With a new account</div>
+      <%= f.check_box :muted_notif_new_account, { checked: current_user.account.muted_notif_new_account? } %>
+    <% end %>
   </div>
   <div>
-    <%= f.label :with_default_profile_photo, "Who have a default profile photo" %>
-    <%= f.check_box :with_default_profile_photo %>
+    <%= f.label :muted_notif_default_profile_pic, onchange: "this.form.requestSubmit()" do %>
+      <div>Who have a default profile photo</div>
+      <%= f.check_box :muted_notif_default_profile_pic, { checked: current_user.account.muted_notif_default_profile_pic? } %>
+    <% end %>
   </div>
   <div>
-    <%= f.label :no_confirmed_email, "Who haven't confirmed their email" %>
-    <%= f.check_box :no_confirmed_email %>
+    <%= f.label :muted_notif_no_confirm_email, onchange: "this.form.requestSubmit()" do %>
+      <div>Who haven't confirmed their email</div>
+      <%= f.check_box :muted_notif_no_confirm_email, { checked: current_user.account.muted_notif_no_confirm_email? } %>
+    <% end %>
   </div>
   <div>
     These filters won’t affect notifications from people you follow.
