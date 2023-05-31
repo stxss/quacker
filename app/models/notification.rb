@@ -1,10 +1,9 @@
 class Notification < ApplicationRecord
   enum notification_type: {
-    follow_request: 0,
-    follow:         1,
-    like:           2,
-    reply:          3,
-    retweet:        4
+    follow:  0,
+    like:    1,
+    reply:   2,
+    retweet: 3
   }
 
   belongs_to :notifier, class_name: "User"

@@ -22,7 +22,11 @@
         <div><%= button_to "Bookmarks" %></div>
         <div><%= button_to "Profile", username_url(current_user.username), method: :get %></div>
         <div><%= button_to "Settings", settings_account_url(user_id: current_user.id), method: :get %></div><br />
+        <% if current_user.passive_follows.exists?(is_request: true) %>
+          <div><%= button_to "Follow Requests", notifications_follow_request_path, method: :get %></div>
+        <% end %>
       <% end %>
+
     </div>
     <%= yield %>
 

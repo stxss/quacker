@@ -31,8 +31,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { in: 4..15 }
 
   def follow(other)
-    # notify(other[:followed_id].to_i, :follow)
-    active_follows.create(followed_id: other[:followed_id].to_i)
+    active_follows.create(followed_id: other[:followed_id].to_i, is_request: other[:is_request])
   end
 
   def unfollow(other)
@@ -40,8 +39,20 @@ class User < ApplicationRecord
     other.notifications_received.where(notifier_id: id, notified_id: other.id, notification_type: :follow).destroy_all
   end
 
+  def decline_follow_request(other)
+    passive_follows.find_by(follower_id: other.id).destroy
+  end
+
+  def accept_follow_request(other)
+    passive_follows.update(followed_id: id, is_request: false)
+  end
+
   def following?(other)
-    following.include?(other)
+    following.include?(other) && other.passive_follows.exists?(follower_id: id, is_request: false)
+  end
+
+  def sent_pending_request?(other)
+    following.include?(other) && other.passive_follows.exists?(follower_id: id, is_request: true)
   end
 
   def notify(other_id, type)

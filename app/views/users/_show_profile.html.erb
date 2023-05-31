@@ -18,19 +18,25 @@
                                 user: @user,
                                 params: {follow: {followed_id: @user.id }} %>
       <% else %>
-        <%= render "follow", params: {follow: {followed_id: @user.id }} %>
+        <% if current_user.sent_pending_request?(@user) %>
+          <%= render "cancel_request", unfollow: current_user.active_follows.find_by(followed_id: @user.id, is_request: true),
+                                      user: @user,
+                              params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility? }} %>
+        <% else %>
+          <%= render "follow", params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility? }} %>
+        <% end %>
       <% end %>
     <% end %>
 
     <div> Joined <%= @user.created_at.strftime("%B %Y") %> </div>
 
-    <div> <%= @user.following.count %> Following </div>
+    <div> <%= @user.active_follows.where(is_request: false).count %> Following </div>
 
-    <div> <%= @user.followers.count %> Followers </div>
+    <div> <%= @user.passive_follows.where(is_request: false).count %> Followers </div>
 
   </div>
 
-  <% if current_user.following?(@user) || !@user.account.private_visibility? %>
+  <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility? %>
     <div id="user-profile-private">
       <div>
         Tweets:

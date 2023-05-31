@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   resources :tweets
-  resources :follows, only: %i[create destroy]
+  resources :follows, only: %i[create destroy update]
   resources :notifications, only: %i[index]
   resources :accounts, path: "settings", only: %i[index edit update]
 
@@ -45,6 +45,9 @@ Rails.application.routes.draw do
   get "/settings/notifications/advanced_filters", to: "accounts#edit_notifications_advanced_filters", as: "settings_notifications_advanced_filters"
 
   get "/settings/direct_messages/", to: "accounts#edit_direct_messages", as: "settings_direct_messages"
+
+  get "/notifications/follower_requests", to: "notifications#index_follow_request_notification", as: "notifications_follow_request"
+  patch "/notifications/follower_requests", to: "follows#update"
   # get "/settings//", to: "accounts#edit_", as: "settings_"
 
   # get "/settings/account/", to: "", as: "settings"

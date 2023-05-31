@@ -14,6 +14,10 @@ RSpec.describe "Follow", type: :system do
     login_as user
     visit username_path(other_user.username)
     click_on "Follow"
+    visit root_path
+    click_on "Sign out"
+    login_as other_user
+    click_on "Follow requests"
     expect(page).to have_button("Unfollow")
     expect(page).not_to have_button("Follow")
   end

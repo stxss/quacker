@@ -16,14 +16,34 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    @user = Follow.find_by(id: params[:id]).followed
-    current_user.unfollow(@user)
+    @follow = Follow.find(params[:id])
+
+    if @follow.is_request
+      @user = @follow.follower
+      current_user.decline_follow_request(@user)
+    else
+      @user = @follow.followed
+      current_user.unfollow(@user)
+    end
     redirect_to username_url(@user.username)
+  end
+
+  def update
+    @follow = Follow.find(params[:id])
+
+    if @follow.is_request
+      @user = @follow.follower
+      current_user.accept_follow_request(@user)
+    else
+      flash[:alert] = "Oops, something went wrong"
+      redirect_to root_path
+    end
+    redirect_to request.referrer
   end
 
   private
 
   def follow_params
-    params.require(:follow).permit(:followed_id)
+    params.require(:follow).permit(:followed_id, :follower_id, :is_request)
   end
 end
