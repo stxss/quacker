@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   attr_writer :login
 
+  after_create :create_account
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
