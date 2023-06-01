@@ -21,11 +21,13 @@ class FollowsController < ApplicationController
     if @follow.is_request
       @user = @follow.follower
       current_user.decline_follow_request(@user)
+      redirect_to request.referrer
+
     else
       @user = @follow.followed
       current_user.unfollow(@user)
+      redirect_to username_url(@user.username)
     end
-    redirect_to username_url(@user.username)
   end
 
   def update
