@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Update user profile fields", type: :system do
   before do
-    # driven_by :selenium_chrome_headless
-    driven_by :selenium_chrome
+    driven_by :selenium_chrome_headless
+    # driven_by :selenium_chrome
   end
 
   let!(:user) { create(:user) }
