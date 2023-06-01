@@ -3,8 +3,6 @@
     <%= render "follow_request_notification", notifier: n.notifier_id %>
   <% elsif n.notification_type == "follow" %>
     <%= render "follow_notification", notifier: n.notifier_id %>
-  <% elsif n.notification_type == "unfollow" %>
-    <%= render "unfollow_notification", notifier: n.notifier_id %>
   <% elsif n.notification_type == "like" %>
     <%= render "like_notification", notifier: n.notifier_id %>
   <% elsif n.notification_type == "reply" %>
