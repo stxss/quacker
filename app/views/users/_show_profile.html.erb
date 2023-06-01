@@ -20,9 +20,9 @@
         <% if current_user.sent_pending_request?(@user) %>
           <%= render "cancel_request", unfollow: current_user.active_follows.find_by(followed_id: @user.id, is_request: true),
                                       user: @user,
-                              params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility? }} %>
+                              params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility }} %>
         <% else %>
-          <%= render "follow", params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility? }} %>
+          <%= render "follow", params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility }} %>
         <% end %>
       <% end %>
     <% end %>
@@ -35,7 +35,7 @@
 
   </div>
 
-  <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility? %>
+  <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
     <div id="user-profile-private">
       <div>
         Tweets:

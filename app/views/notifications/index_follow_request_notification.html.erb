@@ -8,7 +8,7 @@
       <% current_user.passive_follows.where(is_request: true).each do |n|%>
         <div>
           <%= render "user_follow_card", user: User.find(n.follower_id),
-                                         unfollow: User.find(n.follower_id).active_follows.find_by(follower_id: n.follower_id, is_request: true),
+                                         unfollow: User.find(n.follower_id).active_follows.find_by(followed_id: n.followed_id, is_request: true),
                                          follow: User.find(n.follower_id).active_follows.find_by(followed_id: n.followed_id, is_request: true),
                                          params: {follow: {follower_id: n.follower_id }} %>
         <div>
