@@ -1,9 +1,9 @@
   <div id="user-profile-general">
+    <div id="display-name">
+      <%= "#{@user.display_name}" %> <%= lock_icon_svg if @user.account.private_visibility %>
+    </div>
     <div id="username">
       <%= "@#{@user.username}" %>
-    </div>
-    <div id="display-name">
-      <%= "#{@user.display_name}" %>
     </div>
     <div id="bio">
       <%= "#{@user.biography}" %>
