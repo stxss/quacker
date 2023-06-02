@@ -7,9 +7,7 @@ export default class extends Controller {
     toggleRadioButtons() {
         let el = this.radioButtonsTarget
 
-        if (el) {
-            el.parentNode.removeChild(el);
-        }
+        if (el) {el.parentNode.removeChild(el);}
     }
 
     submit() {
