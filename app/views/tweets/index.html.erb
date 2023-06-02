@@ -5,11 +5,11 @@
 
 <div><%= render "tweet_form" %></div>
 
-<% Tweet.all.each do |t| %>
+<% @tweets.each do |t| %>
   <div>
     <%= link_to t.author.username, username_path(t.author.username), user: t.author, :class => "author" %>
     <%= t.body %>
   </div><br />
-<% end%>
+<% end %>
 
 <%= button_to "Sign out", destroy_user_session_url, method: :delete %>

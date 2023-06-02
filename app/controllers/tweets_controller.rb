@@ -1,6 +1,7 @@
 class TweetsController < ApplicationController
   def index
-    @tweets = Tweet.all
+    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
+    @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
   end
 
   def new
