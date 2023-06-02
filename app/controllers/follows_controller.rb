@@ -22,7 +22,6 @@ class FollowsController < ApplicationController
       @user = @follow.follower
       current_user.decline_follow_request(@user)
       redirect_to request.referrer
-
     else
       @user = @follow.followed
       current_user.unfollow(@user)

@@ -1,36 +1,8 @@
 class AccountsController < ApplicationController
-  SETTINGS_METHODS = %w[privacy_and_safety
-    audience_and_tagging
-    tagging
-    your_tweets
-    content_you_see
-    search
-    mute_and_block
-    blocked_all
-    blocked_imported
-    muted_all
-    muted_keywords
-    notifications_advanced_filters
-    direct_messages
-  ]
-
-  class << self
-    SETTINGS_METHODS.each do |setting_name|
-      define_method "edit_#{setting_name}" do
-        @account = current_user.account
-      end
-    end
-  end
-
-  def edit
-    @account = current_user.account
-  end
-
   def update
     @account = current_user.account
 
     if @account.update(account_params)
-      # redirect_to username_url(current_user.username)
       redirect_to request.referrer
     else
       flash.now[:alert] = "Oops, something went wrong, check your fields again"
