@@ -1,11 +1,11 @@
 
-<div>
+<div data-controller="tweet">
   <%= form_with model: Tweet.new, url: tweets_url do |f| %>
-    <div>
-      <%= f.text_area :body, placeholder: "What's on your mind?", :rows => 4 , :cols => 50 %>
+    <div data-tweet-target="area" data-action="change->tweet#verifyLength change->tweet#autogrow">
+      <%= f.text_area :body, placeholder: "What's on your mind?", :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
     </div>
   <%= f.submit "Tweet" %><br />
   <% end %>
-<div>
+</div>
 
 
