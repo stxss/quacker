@@ -12,13 +12,11 @@ export default class extends Controller {
         let area = this.areaTarget
         let content = area.querySelector("textarea").value
         let length = content.length
-        // let button = document.querySelector("#submit-tweet")
-        // let button = this.submitTarget
+
+        if (content.match(/^\s*$/)) {length = 0}
 
         if (length < 1 || length > 280) {
           if (!this.submitTarget.querySelector("#fake-submit-tweet")) {
-            // console.log(this.submitTarget);
-            // console.log(this.submitTarget.querySelector("#real-submit-tweet"));
 
             if (this.submitTarget.querySelector("#real-submit-tweet")) {
               this.submitTarget.querySelector("#real-submit-tweet").remove()
