@@ -39,3 +39,20 @@
  #display-name {
   font-weight: 700;
  }
+
+ #circle-counter {
+  width: 20px;
+  height: 20px;
+  transition-property: width, height;
+  transition-duration: 0.15s;
+ }
+
+ #circle-counter .over-limit {
+  width: 30px;
+  height: 30px;
+  font-size: 10px;
+  transition-property: width, height;
+  transition-duration: 0.15s;
+  transform: translate(-50%, 0);
+  margin: auto;
+ }

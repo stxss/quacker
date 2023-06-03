@@ -4,7 +4,7 @@
     <div data-tweet-target="area" data-action="input->tweet#verifyLength">
       <%= f.text_area :body, placeholder: "What's on your mind?", :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
     </div>
-    <div id="char-limit" data-tweet-target="counter" data-action="input->tweet#showCount">
+    <div id="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount">
     </div>
   <%= f.submit "Tweet", id: "submit-tweet", disabled: true %><br />
   <% end %>
