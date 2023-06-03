@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the media tagging setting
 export default class extends Controller {
-    static targets = [ "area", "counter", "circle" ];
+    static targets = [ "area", "counter", "circle", "submit" ];
 
     connect() {
         this.verifyLength()
@@ -12,9 +12,37 @@ export default class extends Controller {
         let area = this.areaTarget
         let content = area.querySelector("textarea").value
         let length = content.length
-        let button = document.querySelector("#submit-tweet")
+        // let button = document.querySelector("#submit-tweet")
+        // let button = this.submitTarget
 
-        button.disabled = length < 1 || length > 280
+        if (length < 1 || length > 280) {
+          if (!this.submitTarget.querySelector("#fake-submit-tweet")) {
+            // console.log(this.submitTarget);
+            // console.log(this.submitTarget.querySelector("#real-submit-tweet"));
+
+            if (this.submitTarget.querySelector("#real-submit-tweet")) {
+              this.submitTarget.querySelector("#real-submit-tweet").remove()
+            }
+
+            let fakeButton = document.createElement("div")
+            let fakeText = document.createTextNode("Tweet")
+            fakeButton.appendChild(fakeText)
+            fakeButton.setAttribute("id", "fake-submit-tweet")
+            this.submitTarget.appendChild(fakeButton)
+          }
+        } else {
+          if (!this.submitTarget.querySelector("input")) {
+            this.submitTarget.querySelector("#fake-submit-tweet").remove()
+
+            let submitButton = document.createElement("input")
+            submitButton.setAttribute("type", "submit")
+            submitButton.setAttribute("name", "commit")
+            submitButton.setAttribute("value", "Tweet")
+            submitButton.setAttribute("id", "real-submit-tweet")
+            submitButton.setAttribute("data-disable-with", "Tweet")
+            this.submitTarget.appendChild(submitButton);
+          }
+        }
 
         let circleContainer = this.circleTarget
         this.showCount(length)

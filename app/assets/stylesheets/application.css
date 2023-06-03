@@ -56,3 +56,29 @@
   transform: translate(-50%, 0);
   margin: auto;
  }
+
+ #fake-submit-tweet,
+ input[type="submit" i] {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+#fake-submit-tweet {
+  opacity: 0.6;
+  cursor: default;
+}
+
+#fake-submit-tweet:focus {
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
