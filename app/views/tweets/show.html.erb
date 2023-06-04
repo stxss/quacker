@@ -1,0 +1,4 @@
+<div id="tweet">
+  <%= link_to @tweet.author.username, username_path(@tweet.author.username), :class => "author" %>
+  <%= @tweet.body %>
+</div><br />
