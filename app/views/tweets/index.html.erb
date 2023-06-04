@@ -6,7 +6,7 @@
 <div><%= render "tweet_form" %></div>
 
 <% @tweets.each do |t| %>
-  <div>
+  <div id="tweet">
     <%= link_to t.author.username, username_path(t.author.username), user: t.author, :class => "author" %>
     <%= t.body %>
   </div><br />

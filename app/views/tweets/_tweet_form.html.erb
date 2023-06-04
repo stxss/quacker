@@ -5,7 +5,10 @@
       <%= f.text_area :body, placeholder: "What's on your mind?", :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
     </div>
     <div id="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
-    <div id="submit-tweet" data-tweet-target="submit"></div>
+    <div id="submit-tweet" data-tweet-target="submit">
+      <div id="fake-submit-tweet">
+        Tweet
+      </div>
+    </div>
   <% end %>
 </div>
-
