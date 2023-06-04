@@ -82,3 +82,29 @@
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
+
+.tweet {
+  border: 1px solid grey;
+  margin: 20px;
+}
+
+.tweet-panel {
+  color: black;
+  display: block;
+  text-decoration: none;
+}
+
+.tweet-panel:visited {
+  text-decoration: none;
+}
+
+.creation-info {
+  display: block;
+  align-items: center;
+  padding: 5px;
+}
+
+.author {
+  color: black;
+  text-decoration: none;
+}
