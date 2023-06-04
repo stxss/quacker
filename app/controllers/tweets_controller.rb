@@ -10,8 +10,8 @@ class TweetsController < ApplicationController
     if @tweet.save
       redirect_to root_path
     else
-      flash.now[:alert] = "Oops, something went wrong, check your fields again"
-      render :index, status: :unprocessable_entity
+      flash[:alert] = "Oops, something went wrong, check your fields again"
+      redirect_to request.referrer
     end
   end
 
