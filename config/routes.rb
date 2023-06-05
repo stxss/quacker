@@ -12,12 +12,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tweets
+  resources :tweets, except: [:show]
   resources :follows, only: %i[create destroy update]
   resources :notifications, only: %i[index]
   resources :accounts, path: "settings", only: %i[index edit update]
 
   get "/:username", to: "users#show", as: "username"
+
+  get "/:username/status/:id", to: "tweets#show", as: "single_tweet"
 
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
