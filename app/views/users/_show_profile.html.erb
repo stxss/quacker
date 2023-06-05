@@ -40,7 +40,7 @@
       <div>
         Tweets:
         <% @user.created_tweets.each do |t| %>
-          <div><%= t.body %></div>
+          <%= render "tweets/single_tweet", t: t %>
         <% end %>
       </div>
 

@@ -6,20 +6,7 @@
 <div><%= render "tweet_form" %></div>
 
 <% @tweets.each do |t| %>
-  <div class="tweet">
-    <%= link_to username_path(t.author.username), :class => "author" do %>
-      <div class="creation-info">
-        <span id="display-name"><%= t.author.display_name %></span>
-        <span id="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>
-        <span id="display-username"><%= "@#{t.author.username}" %></span>
-        <span> · </span>
-        <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id) %>
-      </div>
-    <% end%>
-      <div id="tweet-body" >
-          <a onclick="window.location = '<%= single_tweet_url(username: t.author.username, id: t.id) %>'"><%= t.body %></a>
-      </div>
-  </div>
+  <%= render "single_tweet", t: t %>
 <% end %>
 
 <%= button_to "Sign out", destroy_user_session_url, method: :delete %>
