@@ -5,7 +5,6 @@ export default class extends Controller {
     static targets = [ "area", "counter", "circle", "submit" ];
 
     connect() {
-        this.verifyLength()
     }
 
     verifyLength() {
