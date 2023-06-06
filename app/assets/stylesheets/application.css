@@ -130,3 +130,10 @@
   .likes > span {
     margin-right: 10px;
   }
+
+  #like_count {
+    margin-left: 10px;
+
+  }
+
+

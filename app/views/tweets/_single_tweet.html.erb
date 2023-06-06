@@ -15,15 +15,23 @@
     </div>
 
     <div class="likes">
-      <% if current_user.liked_tweets.where(tweet_id: t).exists? %>
-        <span id="unlike">
-            <%= button_to "</3", like_path(username: current_user.username, id: current_user.liked_tweets.find_by(tweet_id: t.id)), params: { like: { tweet_id: t.id } }, method: :delete %>
-        </span>
-      <% else %>
-        <span id="like">
-            <%= button_to "<3", likes_path(username: current_user.username), params: { like: { tweet_id: t.id } }, method: :post %>
+      <%= turbo_frame_tag "like_#{t.id}" do %>
+        <% if current_user.liked_tweets.where(tweet_id: t).exists? %>
+          <span id="unlike">
+            <%= render "tweets/unlike_button", tweet: t %>
+          </span>
+        <% else %>
+          <span id="like">
+            <%= render "tweets/like_button", tweet: t %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <%= turbo_frame_tag "like_count_#{t.id}" do %>
+        <span id="like_count">
+          <%= render "tweets/like_count", tweet: t %>
         </span>
       <% end %>
-      <span id="like-count"><%= t.likes.count %></span>
     </div>
 </div>
+
