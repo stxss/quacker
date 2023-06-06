@@ -1,0 +1,3 @@
+<% @user.created_tweets.each do |t| %>
+  <%= render "tweets/single_tweet", t: t %>
+<% end %>
