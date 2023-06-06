@@ -1,5 +1,10 @@
 <%= render "profile_banner" %>
 
-<% @user.liked_tweets.order(created_at: :desc).each do |t| %>
-  <%= render "tweets/single_tweet", t: Tweet.find(t.tweet_id) %>
+<% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
+  <% @user.liked_tweets.order(created_at: :desc).each do |t| %>
+    <%= render "tweets/single_tweet", t: Tweet.find(t.tweet_id) %>
+  <% end %>
+<% else %>
+  <h3>These Tweets are protected</h3>
+  <span>Only approved followers can see @<%= @user.username %>’s Tweets. To request access, click Follow.</span>
 <% end %>
