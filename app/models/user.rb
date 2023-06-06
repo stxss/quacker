@@ -21,7 +21,7 @@ class User < ApplicationRecord
   has_many :notifiers, through: :notifications_received
 
   has_many :created_tweets, class_name: "Tweet", dependent: :destroy
-  # has_many :liked_tweets, dependent: :destroy
+  has_many :liked_tweets, class_name: "Like", dependent: :destroy
   # has_many :retweets, dependent: :destroy
 
   has_one :account, dependent: :destroy
@@ -59,6 +59,10 @@ class User < ApplicationRecord
 
   def notify(other_id, type)
     notifications_given.create(notifier_id: id, notified_id: other_id, notification_type: type)
+  end
+
+  def like_tweet(other)
+    liked_tweets.create(tweet_id: other[:tweet_id].to_i, user_id: id)
   end
 
   def login

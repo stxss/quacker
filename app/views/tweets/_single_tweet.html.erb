@@ -13,4 +13,9 @@
         <div><%= t.body %></div>
         </a>
     </div>
+
+    <div id="like">
+        <%= button_to "<3", likes_path(username: current_user.username), params: { like: { tweet_id: t.id } }, method: :post %>
+    </div>
+
 </div>

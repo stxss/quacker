@@ -3,6 +3,10 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
   end
 
+  def index_liked_tweets
+    @user = User.find_by(username: params[:username])
+  end
+
   def edit
     @user = current_user
   end

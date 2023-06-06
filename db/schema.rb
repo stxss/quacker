@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_144021) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_05_182619) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_144021) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "likes_count", default: 0
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -75,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_144021) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "parent_id"
+    t.integer "likes_count"
     t.index ["parent_id"], name: "index_tweets_on_parent_id"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
@@ -93,6 +95,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_144021) do
     t.string "location"
     t.string "website"
     t.date "birth_date"
+    t.integer "likes_count"
+    t.integer "follows_count"
+    t.integer "tweets_count"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true

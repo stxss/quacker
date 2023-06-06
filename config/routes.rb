@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
   get "/:username/status/:id", to: "tweets#show", as: "single_tweet"
 
+  get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
+  resources :likes, path: "/:username/likes", only: [:create, :destroy]
+
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
 

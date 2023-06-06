@@ -48,7 +48,7 @@
 
       <div> media </div>
 
-      <div> likes </div>
+      <span><%= link_to "Likes", user_likes_url(@user.username)%> </span>
     </div>
   <% else %>
     <h3>These Tweets are protected</h3>
