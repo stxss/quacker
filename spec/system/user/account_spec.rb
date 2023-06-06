@@ -42,37 +42,51 @@ RSpec.describe "Update user account settings", type: :system do
     expect(page).to have_css("#current-tagging-setting", text: "Only people you follow can tag you")
   end
 
-  xit "" do
+  xit "when a user has sensitive media, a warning is displayed" do
   end
 
-  xit "" do
+  xit "when a user allows sensitive media to appear, no warning is issued" do
   end
 
-  xit "" do
+  xit "when a user hides sensitive media from the search results" do
   end
 
-  xit "" do
+  xit "when a user removes blocked/muted accounts from search" do
   end
 
-  xit "" do
+  xit "when a user blocks someone" do
   end
 
-  xit "" do
+  xit "when a user mutes someone" do
   end
 
-  xit "" do
+  xit "when a user mutes words" do
   end
 
-  xit "" do
+  xit "when a user mutes notifications from people that they don't follow" do
   end
 
-  xit "" do
+  xit "when a user mutes notifications from people who don't follow them" do
   end
 
-  xit "" do
+  xit "when a user mutes notifications from people with a new account" do
   end
 
-  xit "" do
+  xit "when a user mutes notifications from people with a default profile picture" do
+  end
+
+  xit "when a user mutes notifications from people who haven't confirmed their email" do
+  end
+
+  xit "when a user allows message requests only from people they follow" do
+  end
+
+  xit "when a user allows message requests from everyone" do
+  end
+
+  xit "when a user has message receipts off" do
+  end
+
+  xit "when a user has message receipts on" do
   end
 end
-

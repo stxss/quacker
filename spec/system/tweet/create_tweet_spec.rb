@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Update user account settings", type: :system do
   before do
     driven_by :selenium_chrome_headless
+    # driven_by :selenium_chrome
   end
 
   let!(:user) { create(:user) }
@@ -13,15 +14,16 @@ RSpec.describe "Update user account settings", type: :system do
   end
 
   it "creates a normal tweet" do
+    visit root_path
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
-    expect(page).to have_css("#tweet", text: "First tweet!")
+    expect(page).to have_css("#tweet-body", text: "First tweet!")
   end
 
   it "creates a tweet with a single character" do
     fill_in "tweet_body", with: "1"
     click_on "Tweet"
-    expect(page).to have_css("#tweet", text: "1")
+    expect(page).to have_css("#tweet-body", text: "1")
   end
 
   it "doesn't create a tweet with only whitespace characters" do
@@ -34,7 +36,7 @@ RSpec.describe "Update user account settings", type: :system do
     exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
     fill_in "tweet_body", with: exact_limit_tweet
     click_on "Tweet"
-    expect(page).to have_css("#tweet", text: exact_limit_tweet)
+    expect(page).to have_css("#tweet-body", text: exact_limit_tweet)
   end
 
   it "doesn't create a tweet with more than 280 of characters" do
