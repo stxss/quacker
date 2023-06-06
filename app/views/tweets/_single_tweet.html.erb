@@ -14,8 +14,14 @@
         </a>
     </div>
 
-    <div id="like">
-        <%= button_to "<3", likes_path(username: current_user.username), params: { like: { tweet_id: t.id } }, method: :post %>
-    </div>
+    <% if current_user.liked_tweets.where(tweet_id: t).exists? %>
+      <div id="unlike">
+          <%= button_to "</3", like_path(username: current_user.username, id: current_user.liked_tweets.find_by(tweet_id: t.id)), params: { like: { tweet_id: t.id } }, method: :delete %>
+      </div>
+    <% else %>
+      <div id="like">
+          <%= button_to "<3", likes_path(username: current_user.username), params: { like: { tweet_id: t.id } }, method: :post %>
+      </div>
+    <% end %>
 
 </div>

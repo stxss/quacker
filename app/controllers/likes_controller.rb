@@ -10,6 +10,12 @@ class LikesController < ApplicationController
     end
   end
 
+  def destroy
+    @like = Like.find(params[:id])
+
+    redirect_to request.referrer if @like.destroy
+  end
+
   private
 
   def like_params
