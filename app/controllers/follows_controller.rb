@@ -2,18 +2,24 @@ class FollowsController < ApplicationController
   # before_action :logged_in_user
 
   def create
-    @user = User.find(follow_params[:followed_id])
+    begin
+      @user = User.find(follow_params[:followed_id])
 
-    @follow = current_user.follow(follow_params)
+      @follow = current_user.follow(follow_params)
 
-    if @follow.save
-      current_user.notify(follow_params[:followed_id].to_i, :follow)
-      redirect_to username_url(@user.username)
-    else
+      if @follow.save
+        current_user.notify(follow_params[:followed_id].to_i, :follow)
+        redirect_to username_url(@user.username)
+      else
+        flash[:alert] = "Oops, something went wrong"
+        redirect_to root_path
+      end
+    rescue ActiveRecord::RecordNotFound
       flash[:alert] = "Oops, something went wrong"
       redirect_to root_path
     end
   end
+
 
   def destroy
     @follow = Follow.find(params[:id])

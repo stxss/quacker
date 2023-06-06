@@ -38,7 +38,7 @@ RSpec.describe "Follow", type: :system do
   it "invalid follow" do
     login_as other_user
     visit username_path(third_user.username)
-    User.find_by(username: third_user.username).destroy
+    third_user.destroy
     click_on "Follow"
     expect(page).to have_content("Oops, something went wrong")
   end
