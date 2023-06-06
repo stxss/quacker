@@ -2,7 +2,7 @@ class FollowsController < ApplicationController
   # before_action :logged_in_user
 
   def create
-    @user = User.find_by(id: follow_params[:followed_id])
+    @user = User.find(follow_params[:followed_id])
 
     @follow = current_user.follow(follow_params)
 
