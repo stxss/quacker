@@ -2,7 +2,7 @@
   <% if n.notification_type == "follow" %>
     <%= render "follow_notification", notifier: n.notifier_id %>
   <% elsif n.notification_type == "like" %>
-    <%= render "like_notification", notifier: n.notifier_id %>
+    <%= render "like_notification", notifier: n.notifier_id, tweet: n.tweet_id %>
   <% elsif n.notification_type == "reply" %>
     <%= render "reply_notification", notifier: n.notifier_id %>
   <% elsif n.notification_type == "retweet" %>

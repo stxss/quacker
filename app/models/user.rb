@@ -57,8 +57,8 @@ class User < ApplicationRecord
     following.include?(other) && other.passive_follows.exists?(follower_id: id, is_request: true)
   end
 
-  def notify(other_id, type)
-    notifications_given.create(notifier_id: id, notified_id: other_id, notification_type: type)
+  def notify(other_id, type, tweet_id: nil)
+    notifications_given.create(notifier_id: id, notified_id: other_id, notification_type: type, tweet_id: tweet_id)
   end
 
   def like_tweet(other)
