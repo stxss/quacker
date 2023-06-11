@@ -1,11 +1,11 @@
 <div class="tweet">
-  <%= link_to username_path(t.author.username), :class => "author" do %>
+  <%= link_to username_path(t.author.username), class: "author" do %>
     <div class="creation-info">
       <span id="display-name"><%= t.author.display_name %></span>
       <span id="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>
       <span id="display-username"><%= "@#{t.author.username}" %></span>
       <span> · </span>
-      <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id) %>
+      <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id), id: "created-time" %>
     </div>
   <% end%>
     <div id="tweet-body">
