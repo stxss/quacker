@@ -44,4 +44,40 @@ RSpec.describe "Update user account settings", type: :system do
     expect(page).not_to have_css("#real-submit-tweet")
     expect(page).to have_css("#fake-submit-tweet")
   end
+
+  it "shows a tweet created minutes ago" do
+    content = Faker::Hipster.paragraph_by_chars(characters: 100)
+    test_tweet =  user.created_tweets.create(body: content)
+    test_tweet.update(created_at: 2.minutes.ago)
+    visit root_path
+    expect(page).to have_css("#tweet-body", text: content)
+    expect(page).to have_css("#created-time", text: "2 min")
+  end
+
+  it "shows a tweet created hours ago" do
+    content = Faker::Hipster.paragraph_by_chars(characters: 100)
+    test_tweet =  user.created_tweets.create(body: content)
+    test_tweet.update(created_at: 2.hours.ago)
+    visit root_path
+    expect(page).to have_css("#tweet-body", text: content)
+    expect(page).to have_css("#created-time", text: "2 h")
+  end
+
+  it "shows a tweet created this year" do
+    content = Faker::Hipster.paragraph_by_chars(characters: 100)
+    test_tweet =  user.created_tweets.create(body: content)
+    test_tweet.update(created_at: Date.new(Time.zone.now.year, 4, 7))
+    visit root_path
+    expect(page).to have_css("#tweet-body", text: content)
+    expect(page).to have_css("#created-time", text: "Apr 7")
+  end
+
+  it "shows a tweet created last year" do
+    content = Faker::Hipster.paragraph_by_chars(characters: 100)
+    test_tweet =  user.created_tweets.create(body: content)
+    test_tweet.update(created_at: Date.new(Time.zone.now.year - 1, 11, 7))
+    visit root_path
+    expect(page).to have_css("#tweet-body", text: content)
+    expect(page).to have_css("#created-time", text: "Nov 7, #{Time.zone.now.year - 1}")
+  end
 end
