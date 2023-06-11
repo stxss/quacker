@@ -1,13 +1,7 @@
   <div id="user-profile">
-    <div id="display-name">
-      <%= @user.display_name %> <%= lock_icon_svg if @user.account.private_visibility %>
-    </div>
-    <div id="username">
-      <%= "@#{@user.username}" %>
-    </div>
-    <div id="bio">
-      <%= @user.biography %>
-    </div>
+    <div id="display-name"><%= render "display_name" %></div>
+    <div id="username"><%= render "username" %></div>
+    <div id="bio"><%= render "biography" %></div>
 
     <% if current_user == @user %>
         <%= button_to "Edit profile", settings_url(username: current_user.username), method: :get %>
