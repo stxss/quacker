@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_06_153415) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_12_153336) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,22 +62,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_06_153415) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "retweets", force: :cascade do |t|
-    t.string "body"
-    t.integer "tweet_id"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "tweets", force: :cascade do |t|
     t.string "body"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "parent_id"
+    t.bigint "tweet_id_to_reply"
     t.integer "likes_count"
-    t.index ["parent_id"], name: "index_tweets_on_parent_id"
+    t.integer "retweet_id"
+    t.integer "retweet_body"
+    t.index ["tweet_id_to_reply"], name: "index_tweets_on_tweet_id_to_reply"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
@@ -104,5 +98,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_06_153415) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "tweets", "tweets", column: "parent_id"
+  add_foreign_key "tweets", "tweets", column: "tweet_id_to_reply"
 end

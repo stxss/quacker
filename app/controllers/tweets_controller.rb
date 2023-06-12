@@ -19,9 +19,24 @@ class TweetsController < ApplicationController
     end
   end
 
+  def retweet
+    # @retweet = current_user.created_tweets.build(retweet_id: retweet_params[:retweet_id])
+    @retweet = current_user.created_tweets.build(retweet_params)
+    # body: retweet_params[:retweet_body], retweet_id: retweet_params[:retweet_id]
+    if @retweet.save
+      redirect_to root_path
+    else
+      redirect_to request.referrer, alert: "Couldn't retweet"
+    end
+  end
+
   private
 
   def tweet_params
-    params.require(:tweet).permit(:body, :parent_id)
+    params.require(:tweet).permit(:body)
+  end
+
+  def retweet_params
+    params.require(:retweet).permit(:retweet_id)
   end
 end

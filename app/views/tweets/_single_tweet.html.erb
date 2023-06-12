@@ -1,4 +1,7 @@
 <div class="tweet">
+  <% if !t.body && t.retweet_id %>
+    this is a retweet!!
+  <% end %>
   <%= link_to username_path(t.author.username), class: "author" do %>
     <div class="creation-info">
       <span id="display-name"><%= t.author.display_name %></span>
@@ -31,5 +34,24 @@
         <%= render "tweets/like_count", tweet: t %>
       <% end %>
     </div>
+
+    <div class="retweets">
+      <%= turbo_frame_tag "retweet_#{t.id}" do %>
+        <% if current_user.retweeted_tweets.where(retweet_id: t).exists? %>
+          <span id="unretweet">
+            <%= render "tweets/unretweet_button", tweet: t %>
+          </span>
+        <% else %>
+          <span id="retweet">
+            <%= render "tweets/retweet_button", tweet: t %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <%= turbo_frame_tag "retweet_count_#{t.id}" do %>
+        <%= render "tweets/retweet_count", tweet: t %>
+      <% end %>
+    </div>
+
 </div>
 
