@@ -28,9 +28,7 @@
       <% end %>
 
       <%= turbo_frame_tag "like_count_#{t.id}" do %>
-        <span id="like_count">
-          <%= render "tweets/like_count", tweet: t %>
-        </span>
+        <%= render "tweets/like_count", tweet: t %>
       <% end %>
     </div>
 </div>

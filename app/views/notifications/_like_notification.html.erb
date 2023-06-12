@@ -1,6 +1,4 @@
-<div>
-  <%= User.find_by(id: notifier).username %> liked your Tweet
-  <div>
-    <%= Tweet.find(tweet).body %>
-  </div>
+<div class="notification" id="like-notification">
+  <span><%= render "users/display_name", user: User.find(notifier) %></span> liked your Tweet
+  <div><%= Tweet.find(tweet).body %></div>
 </div>

@@ -1,4 +1,4 @@
-<div>
+<div class="notification" id="follow-notification">
   <%= User.find_by(id: notifier).username %> followed you
   <div>
     <% if current_user.following?(User.find_by(id: notifier)) %>
