@@ -1,57 +1,16 @@
 <div class="tweet">
   <% if !t.body && t.retweet_id %>
-    this is a retweet!!
+    <%= render "tweets/retweet_info", t: t %>
+    <%= render "tweets/creator_info", t: Tweet.find(t.retweet_id) %>
+    <%= render "tweets/tweet_body", t: Tweet.find(t.retweet_id) %>
+    <%= render "tweets/likes", t: Tweet.find(t.retweet_id) %>
+    <%= render "tweets/retweets", t: Tweet.find(t.retweet_id) %>
+  <% else %>
+    <%= render "tweets/creator_info", t: t %>
+    <%= render "tweets/tweet_body", t: t %>
+    <%= render "tweets/likes", t: t %>
+    <%= render "tweets/retweets", t: t %>
   <% end %>
-  <%= link_to username_path(t.author.username), class: "author" do %>
-    <div class="creation-info">
-      <span id="display-name"><%= t.author.display_name %></span>
-      <span id="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>
-      <span id="display-username"><%= "@#{t.author.username}" %></span>
-      <span> · </span>
-      <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id), id: "created-time" %>
-    </div>
-  <% end%>
-    <div id="tweet-body">
-        <a onclick="window.location = '<%= single_tweet_url(username: t.author.username, id: t.id) %>'">
-        <div><%= t.body %></div>
-        </a>
-    </div>
-
-    <div class="likes">
-      <%= turbo_frame_tag "like_#{t.id}" do %>
-        <% if current_user.liked_tweets.where(tweet_id: t).exists? %>
-          <span id="unlike">
-            <%= render "tweets/unlike_button", tweet: t %>
-          </span>
-        <% else %>
-          <span id="like">
-            <%= render "tweets/like_button", tweet: t %>
-          </span>
-        <% end %>
-      <% end %>
-
-      <%= turbo_frame_tag "like_count_#{t.id}" do %>
-        <%= render "tweets/like_count", tweet: t %>
-      <% end %>
-    </div>
-
-    <div class="retweets">
-      <%= turbo_frame_tag "retweet_#{t.id}" do %>
-        <% if current_user.retweeted_tweets.where(retweet_id: t).exists? %>
-          <span id="unretweet">
-            <%= render "tweets/unretweet_button", tweet: t %>
-          </span>
-        <% else %>
-          <span id="retweet">
-            <%= render "tweets/retweet_button", tweet: t %>
-          </span>
-        <% end %>
-      <% end %>
-
-      <%= turbo_frame_tag "retweet_count_#{t.id}" do %>
-        <%= render "tweets/retweet_count", tweet: t %>
-      <% end %>
-    </div>
 
 </div>
 
