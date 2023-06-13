@@ -1,0 +1,17 @@
+<div class="retweets">
+  <%= turbo_frame_tag "retweet_#{t.id}" do %>
+    <% if current_user.created_tweets.where(retweet_id: t).exists? %>
+      <span id="unretweet">
+        <%= render "tweets/unretweet_button", t: t %>
+      </span>
+    <% else %>
+      <span id="retweet">
+        <%= render "tweets/retweet_button", t: t %>
+      </span>
+    <% end %>
+  <% end %>
+
+  <%= turbo_frame_tag "retweet_count_#{t.id}" do %>
+    <%= render "tweets/retweet_count", t: t %>
+  <% end %>
+</div>

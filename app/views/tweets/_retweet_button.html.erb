@@ -1,1 +1,1 @@
-<%= button_to "rt", retweet_url, params: { retweet: { retweet_id: tweet.id } }, method: :post, remote: true %>
+<%= button_to "rt", retweet_url(t.id), params: { retweet: { retweet_id: t.id } }, method: :post, remote: true %>

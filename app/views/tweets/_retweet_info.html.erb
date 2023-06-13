@@ -1,0 +1,5 @@
+<%= link_to username_path(t.author.username), class: "author" do %>
+  <div class="retweet-info">
+    <span id="display-name"><%= t.author.display_name %></span> Retweeted
+  </div>
+<% end %>

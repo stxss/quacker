@@ -22,7 +22,6 @@ class User < ApplicationRecord
 
   has_many :created_tweets, class_name: "Tweet", dependent: :destroy
   has_many :liked_tweets, class_name: "Like", dependent: :destroy
-  has_many :retweeted_tweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy
 
   has_one :account, dependent: :destroy
 

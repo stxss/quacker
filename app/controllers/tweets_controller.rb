@@ -20,9 +20,8 @@ class TweetsController < ApplicationController
   end
 
   def retweet
-    # @retweet = current_user.created_tweets.build(retweet_id: retweet_params[:retweet_id])
     @retweet = current_user.created_tweets.build(retweet_params)
-    # body: retweet_params[:retweet_body], retweet_id: retweet_params[:retweet_id]
+
     if @retweet.save
       redirect_to root_path
     else

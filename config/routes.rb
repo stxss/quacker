@@ -20,7 +20,10 @@ Rails.application.routes.draw do
   get "/:username", to: "users#show", as: "username"
 
   get "/:username/status/:id", to: "tweets#show", as: "single_tweet"
-  post "/tweets/retweet", to: "tweets#retweet", as: "retweet"
+  post "/tweets/retweet/:id", to: "tweets#retweet", as: "retweet"
+  delete "/tweets/retweet/:id", to: "tweets#destroy"
+
+
 
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
   resources :likes, path: "/:username/likes", only: [:create, :destroy]
