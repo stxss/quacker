@@ -1,10 +1,14 @@
 class UsersController < ApplicationController
   def show
-    @user = User.find_by(username: params[:username])
+    fetch_user
   end
 
   def index_liked_tweets
-    @user = User.find_by(username: params[:username])
+    fetch_user
+  end
+
+  def index_retweets
+    fetch_user
   end
 
   def edit
@@ -34,5 +38,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:display_name, :biography, :location, :website, :birth_date)
+  end
+
+  def fetch_user
+    @user = User.find_by(username: params[:username])
   end
 end
