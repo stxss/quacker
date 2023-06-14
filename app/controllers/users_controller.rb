@@ -22,7 +22,7 @@ class UsersController < ApplicationController
             turbo_stream.update("modal", "")
           ]
         }
-        # format.html { redirect_to username_url(current_user.username) }
+        format.html { redirect_to username_url(current_user.username) }
       else
         flash.now[:alert] = "Oops, something went wrong, check your fields again"
         render :edit, status: :unprocessable_entity

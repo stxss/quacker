@@ -18,11 +18,21 @@ class TweetsController < ApplicationController
 
   def retweet
     @retweet = current_user.created_tweets.build(retweet_params)
+    @tweet = Tweet.find(retweet_params[:retweet_id])
 
-    if @retweet.save
-      redirect_to root_path
-    else
-      redirect_to request.referrer, alert: "Couldn't retweet"
+    respond_to do |format|
+      if @retweet.save
+        format.turbo_stream {
+          render turbo_stream: [
+            turbo_stream.update("retweet_count_#{@tweet.id}", partial: "tweets/retweet_count", locals: {t: @tweet}),
+            turbo_stream.update("retweet_#{@tweet.id}", partial: "tweets/unretweet_button", locals: {t: @tweet})
+          ]
+        }
+        format.html { redirect_to request.referrer }
+        current_user.notify(@tweet.author.id, :retweet, tweet_id: @tweet.id)
+      else
+        redirect_to request.referrer, alert: "Couldn't retweet"
+      end
     end
   end
 
