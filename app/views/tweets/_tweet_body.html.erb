@@ -2,4 +2,7 @@
   <a onclick="window.location = '<%= single_tweet_url(username: t.author.username, id: t.id) %>'">
   <div><%= t.body %></div>
   </a>
+  <% if current_user == t.author %>
+    <%= render "tweets/delete_button", t: t %>
+  <% end %>
 </div>

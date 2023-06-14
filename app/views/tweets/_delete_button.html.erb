@@ -1,0 +1,14 @@
+<%= button_to "Delete", tweet_path(username: current_user.username, id: current_user.created_tweets.find(t.id)), params: { tweet: { tweet_id: t.id } }, method: :delete, remote: true, form: { data: {turbo_confirm: "Are you sure?"}} %>
+
+<dialog id="turbo-confirm">
+  <form id="dialog" method="dialog">
+    <h3>Delete Tweet?</h3>
+    <span>This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Twitter search results. </span>
+    <div>
+      <button value="confirm">Delete</button>
+    </div>
+    <div>
+      <button value="cancel">Cancel</button>
+    </div>
+  </form>
+</dialog>
