@@ -10,16 +10,12 @@ class FollowsController < ApplicationController
       if @follow.save
         current_user.notify(follow_params[:followed_id].to_i, :follow)
         redirect_to username_url(@user.username)
-      else
-        flash[:alert] = "Oops, something went wrong"
-        redirect_to root_path
       end
     rescue ActiveRecord::RecordNotFound
       flash[:alert] = "Oops, something went wrong"
       redirect_to root_path
     end
   end
-
 
   def destroy
     @follow = Follow.find(params[:id])
@@ -41,9 +37,6 @@ class FollowsController < ApplicationController
     if @follow.is_request
       @user = @follow.follower
       current_user.accept_follow_request(@user)
-    else
-      flash[:alert] = "Oops, something went wrong"
-      redirect_to root_path
     end
     redirect_to request.referrer
   end

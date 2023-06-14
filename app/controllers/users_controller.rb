@@ -7,10 +7,6 @@ class UsersController < ApplicationController
     fetch_user
   end
 
-  def index_retweets
-    fetch_user
-  end
-
   def edit
     @user = current_user
   end

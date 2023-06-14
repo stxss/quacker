@@ -63,7 +63,7 @@ class User < ApplicationRecord
   def like_tweet(other)
     liked_tweets.create(tweet_id: other[:tweet_id].to_i)
   end
-
+  
   def login
     @login || username || email
   end
