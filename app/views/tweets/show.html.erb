@@ -1,4 +1,6 @@
-<div id="tweet">
-  <%= link_to @tweet.author.username, username_path(@tweet.author.username), :class => "author" %>
-  <%= @tweet.body %>
+<div class="tweet">
+  <%= render "tweets/creator_info", t: @tweet %>
+  <%= render "tweets/tweet_body", t: @tweet %>
+  <%= render "tweets/likes", t: @tweet %>
+  <%= render "tweets/retweets", t: @tweet %>
 </div><br />
