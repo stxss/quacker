@@ -13,10 +13,19 @@ class LikesController < ApplicationController
         }
         format.html { redirect_to request.referrer }
         current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
-      else
-        flash.now[:alert] = "Oops, something went wrong, check your fields again"
-        render :edit, status: :unprocessable_entity
+      # else
+        # flash.now[:alert] = "Oops, something went wrong, check your fields again"
+        # render :edit, status: :unprocessable_entity
       end
+    end
+  rescue ActiveRecord::RecordNotFound
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{like_params[:tweet_id]}"),
+          flash.now[:alert] = "Couldn't like"
+        ]
+      }
     end
   end
 
@@ -34,9 +43,6 @@ class LikesController < ApplicationController
         }
         format.html { redirect_to request.referrer }
         @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :like, tweet_id: @tweet.id).destroy_all
-      else
-        flash.now[:alert] = "Oops, something went wrong, check your fields again"
-        render :edit, status: :unprocessable_entity
       end
     end
   end
