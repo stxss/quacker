@@ -1,4 +1,4 @@
-<%= link_to username_path(t.author.username), class: "author" do %>
+<%= link_to username_path(t.author.username), class: "author",target: :_top  do %>
   <div class="creation-info">
     <span id="display-name"><%= t.author.display_name %></span>
     <span id="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>

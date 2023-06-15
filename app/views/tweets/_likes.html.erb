@@ -1,13 +1,9 @@
 <div class="likes">
   <%= turbo_frame_tag "like_#{t.id}" do %>
     <% if current_user.liked_tweets.where(tweet_id: t).exists? %>
-      <span id="unlike">
-        <%= render "tweets/unlike_button", tweet: t %>
-      </span>
+      <%= render "tweets/unlike_button", tweet: t %>
     <% else %>
-      <span id="like">
-        <%= render "tweets/like_button", tweet: t %>
-      </span>
+      <%= render "tweets/like_button", tweet: t %>
     <% end %>
   <% end %>
 

@@ -1,1 +1,3 @@
-<%= button_to "<3", likes_path(username: current_user.username), params: { like: { tweet_id: tweet.id } }, method: :post, remote: true %>
+<span id="like">
+  <%= button_to "<3", likes_path(username: current_user.username), params: { like: { tweet_id: tweet.id } }, method: :post, remote: true %>
+</span>
