@@ -56,4 +56,21 @@ RSpec.describe "Retweets", type: :system do
       expect(page).to have_css("#tweet-body", text: "Public tweet!")
     end
   end
+
+  it "user can't retweet deleted tweet" do
+    visit root_path
+    fill_in "tweet_body", with: "Public tweet!"
+    click_on "Tweet"
+    visit root_path
+    login_as other_user
+    visit username_path(user.username)
+    user.created_tweets.last.destroy
+    click_on "rt"
+    expect(page).to have_content("Couldn't retweet")
+    # within ".retweet-info" do
+      # expect(page).to have_css("#display-name", text: other_user.display_name).once
+      # expect(page).to have_css("#display-name", text: user.display_name).once
+      # expect(page).to have_css("#tweet-body", text: "Public tweet!")
+    # end
+  end
 end

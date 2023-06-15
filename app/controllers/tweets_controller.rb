@@ -30,6 +30,15 @@ class TweetsController < ApplicationController
         redirect_to request.referrer, alert: "Couldn't retweet"
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{retweet_params[:retweet_id]}"),
+          flash.now[:alert] = "Couldn't retweet"
+        ]
+      }
+    end
   end
 
   def destroy
