@@ -4,10 +4,6 @@ class TweetsController < ApplicationController
     @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
   end
 
-  def show
-    @tweet = Tweet.find(params[:id])
-  end
-
   def create
     @tweet = current_user.created_tweets.build(tweet_params)
 

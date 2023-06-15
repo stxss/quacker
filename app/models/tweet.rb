@@ -13,8 +13,6 @@ class Tweet < ApplicationRecord
 
   has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy
 
-  validates :retweet_id, uniqueness: { scope: :user_id }
-
   default_scope { order(created_at: :desc) }
 
   def retweet?
