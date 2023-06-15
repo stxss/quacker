@@ -121,17 +121,20 @@
     text-decoration: underline;
   }
 
-  .likes {
+  .likes,
+  .retweets {
     display: flex;
     padding: 5px;
     align-items: center;
   }
 
-  .likes > span {
+  .likes > span,
+  .retweets > span {
     margin-right: 10px;
   }
 
-  #like_count {
+  #like_count,
+  #retweet_count {
     margin-left: 10px;
   }
 
