@@ -21,9 +21,7 @@ Rails.application.routes.draw do
 
   get "/:username/status/:id", to: "tweets#show", as: "single_tweet"
   post "/tweets/retweet/:id", to: "tweets#retweet", as: "retweet"
-  delete "/tweets/retweet/:id", to: "tweets#destroy"
-
-
+  delete "/tweets/retweet/:id", to: "tweets#destroy_retweet", as: "unretweet"
 
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
   resources :likes, path: "/:username/likes", only: [:create, :destroy]

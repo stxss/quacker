@@ -56,6 +56,28 @@ class TweetsController < ApplicationController
         ]
       }
       format.html { redirect_to request.referrer }
+      @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
+    end
+  end
+
+  def destroy_retweet
+    @tweet = current_user.created_tweets.find_by(retweet_id: retweet_params[:retweet_id])
+    @og = Tweet.find(@tweet.retweet_id)
+    p @og
+    p @tweet
+    @tweet.destroy
+
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{@tweet.id}"),
+          turbo_stream.update("retweet_#{@og.id}", partial: "tweets/retweet_button", locals: {t: @og}),
+          turbo_stream.update("retweet_count_#{@og.id}", partial: "tweets/retweet_count", locals: {t: @og})
+        ]
+      }
+
+      format.html { redirect_to request.referrer }
+      @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
     end
   end
 
