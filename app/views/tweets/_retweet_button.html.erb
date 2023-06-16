@@ -1,3 +1,3 @@
 <span id="retweet">
-  <%= button_to "rt", retweet_path(t.id), params: { retweet: { retweet_id: t.id } }, method: :post, remote: true %>
+  <%= button_to retweet_icon_svg, retweet_path(t.id), params: { retweet: { retweet_id: t.id } }, remote: true %>
 </span>

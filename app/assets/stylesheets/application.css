@@ -96,6 +96,14 @@
   max-height: 20px;
  }
 
+ #icon-retweet,
+ #icon-like,
+ #icon-unlike {
+  max-width: 24px;
+  max-height: 24px;
+  transform: scale(0.7813);
+}
+
   #display-name {
     font-weight: 700;
    }
@@ -141,4 +149,28 @@
   .notification {
     border: 1px solid grey;
     padding: 5px;
+  }
+
+  #retweet button,
+  #unretweet button,
+  #like button,
+  #unlike button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  #retweet button {
+    fill: black
+  }
+
+  #unretweet button {
+    fill: green
+  }
+
+  #unlike button {
+    fill: red
   }

@@ -1,3 +1,4 @@
 <span id="unretweet">
-  <%= button_to "xrt", retweet_path(username: current_user.username, id: current_user.created_tweets.find_by(retweet_id: t.id)), params: { retweet: { retweet_id: t.id } }, method: :delete, remote: true, data: { turbo_frame: "retweet-#{t.id}" } %>
+  <%= button_to retweet_icon_svg, unretweet_path(id: t.id), params: { retweet: { retweet_id: t.id } }, method: :delete, remote: true, data: { turbo_frame: "retweet-#{t.id}" } %>
 </span>
+
