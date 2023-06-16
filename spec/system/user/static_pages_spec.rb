@@ -31,6 +31,7 @@ RSpec.describe "Check user static pages", type: :system do
     # Assert that the first three tweets are liked
     tweets[0..2].each do |tweet|
       within("#tweet_#{tweet.id}") do
+        expect(page).not_to have_css("#like")
         expect(page).to have_css("#unlike")
       end
     end
@@ -39,6 +40,7 @@ RSpec.describe "Check user static pages", type: :system do
     tweets[3..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
         expect(page).to have_css("#like")
+        expect(page).not_to have_css("#unlike")
       end
     end
 
@@ -47,7 +49,7 @@ RSpec.describe "Check user static pages", type: :system do
     expect(page).to have_css("#tweet-body").thrice
   end
 
-  xit "displays user tweets and retweets" do
+  it "displays user tweets and retweets" do
     tweets = create_list(:tweet, 10, user_id: user.id, body: "Test tweet ")
 
     visit root_path
@@ -55,27 +57,29 @@ RSpec.describe "Check user static pages", type: :system do
     visit username_path(user.username)
 
     # Find the first five tweets and retweet them
-    tweets[0..5].each do |tweet|
+    tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
         find("#retweet").click
       end
     end
 
     # Assert that the first five tweets are retweeted
-    tweets[0..5].each do |tweet|
+    tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
+        expect(page).not_to have_css("#retweet")
         expect(page).to have_css("#unretweet")
       end
     end
 
     # Assert that the remaining tweets are not retweeted
-    tweets[6..9].each do |tweet|
+    tweets[5..9].each do |tweet|
       within("#tweet_#{tweet.id}") do
         expect(page).to have_css("#retweet")
+        expect(page).not_to have_css("#unretweet")
       end
     end
 
     visit username_path(other_user.username)
-    expect(page).to have_css("#tweet-body").thrice
+    expect(page).to have_css("#tweet-body").exactly(5).times
   end
 end

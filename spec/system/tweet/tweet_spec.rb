@@ -210,6 +210,18 @@ RSpec.describe "Tweet creation", type: :system do
     expect(page).to have_css("#unlike")
   end
 
+  it "users can unlike tweets" do
+    visit root_path
+    fill_in "tweet_body", with: "First tweet!"
+    click_on "Tweet"
+    visit root_path
+    login_as other_user
+    visit username_path(user.username)
+    find("#like").click
+    find("#unlike").click
+    expect(page).to have_css("#like")
+  end
+
   it "users cannot like deleted tweets" do
     visit root_path
     fill_in "tweet_body", with: "Public tweet!"
@@ -220,5 +232,8 @@ RSpec.describe "Tweet creation", type: :system do
     user.created_tweets.last.destroy
     find("#like").click
     expect(page).to have_content("Couldn't like")
+  end
+
+  xit "private account retweets" do
   end
 end
