@@ -7,10 +7,12 @@ class LikesController < ApplicationController
       if @like.save
         format.turbo_stream {
           render turbo_stream: [
+            turbo_stream.update("tweet_#{@tweet.id}", partial: "tweets/single_tweet", locals: {t: @tweet}),
             turbo_stream.update("like_count_#{@tweet.id}", partial: "tweets/like_count", locals: {tweet: @tweet}),
             turbo_stream.update("like_#{@tweet.id}", partial: "tweets/unlike_button", locals: {tweet: @tweet})
           ]
         }
+
         format.html { redirect_to request.referrer }
         current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
       # else
@@ -37,6 +39,7 @@ class LikesController < ApplicationController
       if @like.destroy
         format.turbo_stream {
           render turbo_stream: [
+            turbo_stream.update("tweet_#{@tweet.id}", partial: "tweets/single_tweet", locals: {t: @tweet}),
             turbo_stream.update("like_count_#{@tweet.id}", partial: "tweets/like_count", locals: {tweet: @tweet}),
             turbo_stream.update("like_#{@tweet.id}", partial: "tweets/like_button", locals: {tweet: @tweet})
           ]
