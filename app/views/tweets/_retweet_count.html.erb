@@ -1,3 +1,7 @@
-<span id="retweet_count">
-  <%= t.retweets.count %>
-</span>
+<% if current_user.created_tweets.where(retweet_id: t).exists? %>
+  <span id="retweet-count" style="color: green"><%= t.retweets.count %></span>
+<% else %>
+  <span id="retweet-count" style="color: black"><%= t.retweets.count %></span>
+<% end %>
+
+

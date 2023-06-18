@@ -1,0 +1,21 @@
+<div class="dropdown" data-controller="retweet"  data-action="click->retweet#dropMenu" data-retweet-target="dropdown">
+
+  <% if current_user.created_tweets.where(retweet_id: t).exists? %>
+    <span id="menu-unretweet" data-retweet-target="menuButton">
+      <button><%= retweet_icon_svg %></button>
+    </span>
+  <% else %>
+    <span id="menu-retweet" data-retweet-target="menuButton">
+      <button><%= retweet_icon_svg %></button>
+    </span>
+  <% end %>
+
+  <div id="myDropdown" class="dropdown-content" data-retweet-target="menu">
+    <% if current_user.created_tweets.where(retweet_id: t).exists? %>
+      <%= render "tweets/unretweet_button", t: t %>
+    <% else %>
+      <%= render "tweets/retweet_button", t: t %>
+    <% end %>
+    <a href="#">Quote Tweet</a>
+  </div>
+</div>

@@ -25,7 +25,7 @@ class TweetsController < ApplicationController
         format.turbo_stream {
           render turbo_stream: [
             turbo_stream.update("retweet_count_#{@tweet.id}", partial: "tweets/retweet_count", locals: {t: @tweet}),
-            turbo_stream.update("retweet_#{@tweet.id}", partial: "tweets/unretweet_button", locals: {t: @tweet})
+            turbo_stream.update("retweet_#{@tweet.id}", partial: "tweets/drop_menu", locals: {t: @tweet})
           ]
         }
         format.html { redirect_to request.referrer }
@@ -63,15 +63,13 @@ class TweetsController < ApplicationController
   def destroy_retweet
     @tweet = current_user.created_tweets.find_by(retweet_id: retweet_params[:retweet_id])
     @og = Tweet.find(@tweet.retweet_id)
-    p @og
-    p @tweet
     @tweet.destroy
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
           turbo_stream.remove("tweet_#{@tweet.id}"),
-          turbo_stream.update("retweet_#{@og.id}", partial: "tweets/retweet_button", locals: {t: @og}),
+          turbo_stream.update("retweet_#{@og.id}", partial: "tweets/drop_menu", locals: {t: @og}),
           turbo_stream.update("retweet_count_#{@og.id}", partial: "tweets/retweet_count", locals: {t: @og})
         ]
       }
