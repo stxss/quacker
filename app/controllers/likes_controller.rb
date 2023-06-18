@@ -8,7 +8,7 @@ class LikesController < ApplicationController
         format.turbo_stream {
           render turbo_stream: [
             turbo_stream.replace("tweet_#{@tweet.id}", partial: "tweets/single_tweet", locals: {t: @tweet}),
-            turbo_stream.update("like_count_#{@tweet.id}", partial: "tweets/like_count", locals: {tweet: @tweet}),
+            turbo_stream.update("like_count_#{@tweet.id}", partial: "tweets/like_count", locals: {t: @tweet}),
             turbo_stream.update("like_#{@tweet.id}", partial: "tweets/unlike_button", locals: {tweet: @tweet})
           ]
         }
@@ -40,7 +40,7 @@ class LikesController < ApplicationController
         format.turbo_stream {
           render turbo_stream: [
             turbo_stream.replace("tweet_#{@tweet.id}", partial: "tweets/single_tweet", locals: {t: @tweet}),
-            turbo_stream.update("like_count_#{@tweet.id}", partial: "tweets/like_count", locals: {tweet: @tweet}),
+            turbo_stream.update("like_count_#{@tweet.id}", partial: "tweets/like_count", locals: {t: @tweet}),
             turbo_stream.update("like_#{@tweet.id}", partial: "tweets/like_button", locals: {tweet: @tweet})
           ]
         }
