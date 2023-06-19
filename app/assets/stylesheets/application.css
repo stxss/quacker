@@ -157,7 +157,8 @@
   #like button,
   #unlike button,
   #menu-retweet button,
-  #menu-unretweet button {
+  #menu-unretweet button,
+  #limited-rt {
     background: none;
     border: none;
     padding: 0;

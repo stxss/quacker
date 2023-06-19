@@ -17,9 +17,37 @@ class TweetsController < ApplicationController
   end
 
   def retweet
-    @retweet = current_user.created_tweets.build(retweet_params)
     @tweet = Tweet.find(retweet_params[:retweet_id])
 
+    if @tweet.author.account.private_visibility && current_user != @tweet.author
+      redirect_to request.referrer, alert: "Couldn't retweet"
+      return
+    end
+
+    @retweet = current_user.created_tweets.build(retweet_params)
+
+    respond_to do |format|
+      if @retweet.save
+          format.turbo_stream {
+            render turbo_stream: [
+              turbo_stream.update("retweet_count_#{@tweet.id}", partial: "tweets/retweet_count", locals: {t: @tweet}),
+              turbo_stream.update("retweet_#{@tweet.id}", partial: "tweets/drop_menu", locals: {t: @tweet})
+            ]
+          }
+      format.html { redirect_to request.referrer }
+      current_user.notify(@tweet.author.id, :retweet, tweet_id: @tweet.id)
+      end
+    end
+  rescue ActiveRecord::RecordNotFound
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{retweet_params[:retweet_id]}"),
+          flash.now[:alert] = "Couldn't retweet"
+        ]
+      }
+    end
+  end
     respond_to do |format|
       if @retweet.save
         format.turbo_stream {
@@ -30,8 +58,6 @@ class TweetsController < ApplicationController
         }
         format.html { redirect_to request.referrer }
         current_user.notify(@tweet.author.id, :retweet, tweet_id: @tweet.id)
-      else
-        redirect_to request.referrer, alert: "Couldn't retweet"
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -63,13 +89,20 @@ class TweetsController < ApplicationController
   def destroy_retweet
     @tweet = current_user.created_tweets.find_by(retweet_id: retweet_params[:retweet_id])
     @og = Tweet.find(@tweet.retweet_id)
+
+    @button_update = if @tweet.author.account.private_visibility
+      turbo_stream.update("retweet_#{@og.id}", partial: "tweets/fake_retweet_menu", locals: {t: @og})
+    else
+      turbo_stream.update("retweet_#{@og.id}", partial: "tweets/drop_menu", locals: {t: @og})
+    end
+
     @tweet.destroy
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
           turbo_stream.remove("tweet_#{@tweet.id}"),
-          turbo_stream.update("retweet_#{@og.id}", partial: "tweets/drop_menu", locals: {t: @og}),
+          @button_update,
           turbo_stream.update("retweet_count_#{@og.id}", partial: "tweets/retweet_count", locals: {t: @og})
         ]
       }

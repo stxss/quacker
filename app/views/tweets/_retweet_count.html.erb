@@ -1,5 +1,7 @@
 <% if current_user.created_tweets.where(retweet_id: t).exists? %>
   <span id="retweet-count" style="color: green"><%= t.retweets.count %></span>
+<% elsif !current_user.created_tweets.where(retweet_id: t).exists? && t.author.account.private_visibility && current_user != t.author %>
+  <span id="retweet-count" style="color: black; opacity: 0.65"><%= t.retweets.count %></span>
 <% else %>
   <span id="retweet-count" style="color: black"><%= t.retweets.count %></span>
 <% end %>

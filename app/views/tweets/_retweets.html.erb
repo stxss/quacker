@@ -1,8 +1,12 @@
 <span class="retweets">
-  <%= turbo_frame_tag "retweet_#{t.id}" do %>
-    <span class="menu">
+  <% if (t.author.account.private_visibility && current_user == t.author) || (t.author.account.private_visibility && current_user != t.author && current_user.created_tweets.where(retweet_id: t).exists?) || !t.author.account.private_visibility %>
+    <%= turbo_frame_tag "retweet_#{t.id}" do %>
       <%= render "tweets/drop_menu", t: t %>
-    </span>
+    <% end %>
+  <% elsif t.author.account.private_visibility && current_user != t.author %>
+    <%= turbo_frame_tag "retweet_#{t.id}" do %>
+      <%= render "tweets/fake_retweet_menu" %>
+    <% end %>
   <% end %>
 
   <%= turbo_frame_tag "retweet_count_#{t.id}" do %>
