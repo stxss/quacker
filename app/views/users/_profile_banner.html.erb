@@ -22,9 +22,6 @@
     <% end %>
 
     <div> Joined <%= @user.created_at.strftime("%B %Y") %> </div>
-
     <div> <%= @user.active_follows.where(is_request: false).count %> Following </div>
-
     <div> <%= @user.passive_follows.where(is_request: false).count %> Followers </div>
-
   </div>
