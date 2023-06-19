@@ -127,7 +127,8 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     fill_in "tweet_body", with: "Public tweet!"
     click_on "Tweet"
-    within ".retweets" do
+    within ".retweets .dropdown" do
+      find("#menu-retweet").click
       find("#retweet").click
     end
     visit root_path
@@ -144,7 +145,8 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    within ".retweets" do
+    within ".retweets .dropdown" do
+      find("#menu-retweet").click
       find("#retweet").click
     end
     visit root_path
@@ -163,7 +165,8 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     user.created_tweets.last.destroy
-    within ".retweets" do
+    within ".retweets .dropdown" do
+      find("#menu-retweet").click
       find("#retweet").click
     end
     expect(page).to have_content("Couldn't retweet")
