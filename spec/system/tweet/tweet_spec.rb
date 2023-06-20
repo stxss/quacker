@@ -123,6 +123,58 @@ RSpec.describe "Tweet creation", type: :system do
     expect(page).not_to have_button("Delete")
   end
 
+
+  it "tweets have like button" do
+    visit root_path
+    fill_in "tweet_body", with: "First tweet!"
+    click_on "Tweet"
+    expect(page).to have_css("#like")
+  end
+
+  it "authors can like their own tweets" do
+    visit root_path
+    fill_in "tweet_body", with: "First tweet!"
+    click_on "Tweet"
+    visit username_path(user.username)
+    find("#like").click
+    expect(page).to have_css("#unlike")
+  end
+
+  it "users can like others' tweets" do
+    visit root_path
+    fill_in "tweet_body", with: "First tweet!"
+    click_on "Tweet"
+    visit root_path
+    login_as other_user
+    visit username_path(user.username)
+    find("#like").click
+    expect(page).to have_css("#unlike")
+  end
+
+  it "users can unlike tweets" do
+    visit root_path
+    fill_in "tweet_body", with: "First tweet!"
+    click_on "Tweet"
+    visit root_path
+    login_as other_user
+    visit username_path(user.username)
+    find("#like").click
+    find("#unlike").click
+    expect(page).to have_css("#like")
+  end
+
+  it "users cannot like deleted tweets" do
+    visit root_path
+    fill_in "tweet_body", with: "Public tweet!"
+    click_on "Tweet"
+    visit root_path
+    login_as other_user
+    visit username_path(user.username)
+    user.created_tweets.last.destroy
+    find("#like").click
+    expect(page).to have_content("Couldn't like")
+  end
+
   it "user can retweet own tweets" do
     visit root_path
     fill_in "tweet_body", with: "Public tweet!"
@@ -193,60 +245,92 @@ RSpec.describe "Tweet creation", type: :system do
     expect(page).not_to have_css("#tweet-body", text: "Public tweet!")
   end
 
-  xit "private account retweets" do
-  end
-
-  it "tweets have like button" do
-    visit root_path
-    fill_in "tweet_body", with: "First tweet!"
-    click_on "Tweet"
-    expect(page).to have_css("#like")
-  end
-
-  it "authors can like their own tweets" do
-    visit root_path
-    fill_in "tweet_body", with: "First tweet!"
-    click_on "Tweet"
+  it "users cannot retweet tweets from private users" do
+    login_as other_user
     visit username_path(user.username)
-    find("#like").click
-    expect(page).to have_css("#unlike")
-  end
+    click_on "Follow"
 
-  it "users can like others' tweets" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    login_as user
+    visit settings_audience_and_tagging_path
+    check "account_private_visibility"
+    click_on "Protect"
+    visit root_path
+    fill_in "tweet_body", with: "Public tweet!"
     click_on "Tweet"
+
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    find("#like").click
-    expect(page).to have_css("#unlike")
+    within ".retweets" do
+      expect(page).not_to have_css(".dropdown")
+      expect(page).not_to have_css("#menu-retweet")
+    end
   end
 
-  it "users can unlike tweets" do
-    visit root_path
-    fill_in "tweet_body", with: "First tweet!"
-    click_on "Tweet"
-    visit root_path
+  it "users can unretweet tweets from private users they had previously retweeted" do
     login_as other_user
     visit username_path(user.username)
-    find("#like").click
-    find("#unlike").click
-    expect(page).to have_css("#like")
-  end
+    click_on "Follow"
 
-  it "users cannot like deleted tweets" do
+    visit root_path
+    login_as user
     visit root_path
     fill_in "tweet_body", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
+
     login_as other_user
     visit username_path(user.username)
-    user.created_tweets.last.destroy
-    find("#like").click
-    expect(page).to have_content("Couldn't like")
+    within ".retweets .dropdown" do
+      find("#menu-retweet").click
+      find("#retweet").click
+    end
+
+    visit root_path
+    login_as user
+    visit settings_audience_and_tagging_path
+    check "account_private_visibility"
+    click_on "Protect"
+
+    visit root_path
+    login_as other_user
+
+    within ".retweets" do
+      expect(page).to have_css(".dropdown")
+      expect(page).to have_css("#menu-retweet")
+    end
   end
 
-  xit "private account retweets" do
+  it "if a user sets account to private mid-unretweet, a fake retweet button replaces the menu" do
+    login_as other_user
+    visit username_path(user.username)
+    click_on "Follow"
+
+    visit root_path
+    login_as user
+    visit root_path
+    fill_in "tweet_body", with: "Public tweet!"
+    click_on "Tweet"
+    visit root_path
+
+    login_as other_user
+    visit username_path(user.username)
+    within ".retweets .dropdown" do
+      find("#menu-retweet").click
+      find("#retweet").click
+    end
+
+    visit username_path(user.username)
+    user.account.update(private_visibility: true)
+    within ".retweets .dropdown" do
+      find("#menu-unretweet").click
+      find("#unretweet").click
+    end
+    
+    within ".retweets" do
+      expect(page).not_to have_css(".dropdown")
+      expect(page).not_to have_css("#menu-retweet")
+    end
   end
 end
