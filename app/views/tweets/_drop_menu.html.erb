@@ -1,6 +1,6 @@
 <div class="dropdown" data-controller="retweet"  data-action="click->retweet#dropMenu" data-retweet-target="dropdown">
 
-  <% if current_user.created_tweets.where(retweet_id: t).exists? && current_user != t.author %>
+  <% if current_user.created_tweets.where(retweet_id: t).exists? %>
     <span id="menu-unretweet" data-retweet-target="menuButton" >
   <% else %>
     <span id="menu-retweet" data-retweet-target="menuButton">

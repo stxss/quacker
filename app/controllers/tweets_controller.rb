@@ -99,13 +99,13 @@ class TweetsController < ApplicationController
     @tweet = current_user.created_tweets.find_by(retweet_id: retweet_params[:retweet_id])
     @og = Tweet.find(@tweet.retweet_id)
 
-    @button_update = if @tweet.author.account.private_visibility
+    @tweet.destroy
+
+    @button_update = if (@og.author.account.private_visibility && current_user != @og.author)
       turbo_stream.update("retweet_#{@og.id}", partial: "tweets/fake_retweet_menu", locals: {t: @og})
     else
       turbo_stream.update("retweet_#{@og.id}", partial: "tweets/drop_menu", locals: {t: @og})
     end
-
-    @tweet.destroy
 
     respond_to do |format|
       format.turbo_stream {
