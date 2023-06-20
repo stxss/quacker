@@ -59,6 +59,7 @@ RSpec.describe "Check user static pages", type: :system do
     # Find the first five tweets and retweet them
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
+        find("#menu-retweet").click
         find("#retweet").click
       end
     end
@@ -66,6 +67,7 @@ RSpec.describe "Check user static pages", type: :system do
     # Assert that the first five tweets are retweeted
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
+        find("#menu-unretweet").click
         expect(page).not_to have_css("#retweet")
         expect(page).to have_css("#unretweet")
       end
@@ -74,6 +76,7 @@ RSpec.describe "Check user static pages", type: :system do
     # Assert that the remaining tweets are not retweeted
     tweets[5..9].each do |tweet|
       within("#tweet_#{tweet.id}") do
+        find("#menu-retweet").click
         expect(page).to have_css("#retweet")
         expect(page).not_to have_css("#unretweet")
       end

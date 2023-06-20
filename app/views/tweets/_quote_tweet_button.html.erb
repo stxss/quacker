@@ -1,0 +1,26 @@
+<span id="quote-tweet">
+  <%= button_to compose_tweet_url, params: { quote_tweet: { retweet_id: t.id } }, remote: true, class: "quote-button", method: :get, data: { turbo_frame: "compose_modal" } do %>
+    <%= content_tag(:span, quote_icon_svg) %>
+    <%= content_tag(:span, "Quote Tweet", class: "quote-text") %>
+  <% end %>
+</span>
+
+<% if false %>
+<span id="retweet">
+  <%= button_to compose_tweet_url, params: { quote_tweet: { retweet_id: t.id } }, remote: true, class: "retweet-button", method: :get, data: { turbo_frame: "compose_modal" } do %>
+    <%= content_tag(:span, quote_icon_svg) %>
+    <%= content_tag(:span, "Quote Tweet", class: "quote-text") %>
+  <% end %>
+
+  <%= render "tweets/compose_modal" %>
+</span>
+<% end %>
+
+<% if false %>
+<span id="retweet">
+  <%= button_to compose_tweet_url, params: { retweet: { retweet_id: t.id } }, remote: true, class: "retweet-button", method: :get do %>
+    <%= content_tag(:span, quote_icon_svg) %>
+    <%= content_tag(:span, "Quote Tweet", class: "quote-text") %>
+  <% end %>
+</span>
+<% end %>

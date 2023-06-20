@@ -26,10 +26,10 @@
           <div><%= button_to "Follow Requests", notifications_follow_request_path, method: :get %></div>
         <% end %>
       <% end %>
-
     </div>
     <%= yield %>
 
     <%= turbo_frame_tag "modal" %>
+    <%= turbo_frame_tag "compose_modal", target: "_top" %>
   </body>
 </html>

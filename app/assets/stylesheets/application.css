@@ -19,7 +19,8 @@
     overflow:hidden;
  }
 
- #modal {
+ #modal,
+ #compose_modal {
    position: absolute;
    z-index: 2;
    right: 10px;
@@ -95,7 +96,8 @@
 
  #icon-retweet,
  #icon-like,
- #icon-unlike {
+ #icon-unlike,
+ #icon-quote {
   max-width: 24px;
   max-height: 24px;
   transform: scale(0.7813);
@@ -158,7 +160,8 @@
   #unlike button,
   #menu-retweet button,
   #menu-unretweet button,
-  #limited-rt {
+  #limited-rt,
+  #quote-tweet button {
     background: none;
     border: none;
     padding: 0;

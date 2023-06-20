@@ -179,11 +179,15 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    within ".retweets" do
+    within ".retweets .dropdown" do
+      find("#menu-retweet").click
       find("#retweet").click
     end
     visit root_path
-    find("#unretweet").click
+    within ".retweets .dropdown" do
+      find("#menu-unretweet").click
+      find("#unretweet").click
+    end
     expect(page).not_to have_css("#display-name", text: other_user.display_name).once
     expect(page).not_to have_css("#display-name", text: user.display_name).once
     expect(page).not_to have_css("#tweet-body", text: "Public tweet!")

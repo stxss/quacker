@@ -12,7 +12,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tweets, except: [:show]
+  resources :tweets, except: [:show, :new]
+
+  get "/compose/tweet", to: "tweets#compose_modal", as: "compose_tweet"
+
   resources :follows, only: %i[create destroy update]
   resources :notifications, only: %i[index]
   resources :accounts, path: "settings", only: %i[index edit update]

@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "compose_modal" do %>
+  <%= render "tweets/tweet_form" %>
+  <%= render "tweets/single_tweet", t: @tweet %>
+<% end %>

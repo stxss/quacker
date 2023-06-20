@@ -48,6 +48,15 @@ class TweetsController < ApplicationController
       }
     end
   end
+
+  def compose_modal
+    @tweet = Tweet.find(params[:quote_tweet][:retweet_id])
+  end
+
+  def quote_tweet
+    @quote_tweet = current_user.created_tweets.build(quote_tweet_params)
+    @tweet = Tweet.find(quote_tweet_params[:retweet_id])
+
     respond_to do |format|
       if @retweet.save
         format.turbo_stream {
@@ -120,5 +129,9 @@ class TweetsController < ApplicationController
 
   def retweet_params
     params.require(:retweet).permit(:retweet_id)
+  end
+
+  def quote_tweet_params
+    params.require(:quote_tweet).permit(:retweet_id, :body)
   end
 end
