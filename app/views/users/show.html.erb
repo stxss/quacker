@@ -1,9 +1,1 @@
-<%= render "profile_banner" %>
-
-<% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
-  <%= render "page_links" %>
-  <%= render "all_tweets", user: @user %>
-<% else %>
-  <h3>These Tweets are protected</h3>
-  <span>Only approved followers can see @<%= @user.username %>’s Tweets. To request access, click Follow.</span>
-<% end %>
+<%= render "show_profile" %>

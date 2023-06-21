@@ -1,12 +1,1 @@
-
-<% if current_user.created_at > (0.2).seconds.ago %>
-  <%= render "users/profile_form" %>
-<% end %>
-
-<div><%= render "tweet_form" %></div>
-
-<% @tweets.each do |t| %>
-  <%= render "single_tweet", t: t %>
-<% end %>
-
-<%= button_to "Sign out", destroy_user_session_url, method: :delete %>
+<%= render "tweets/timeline" %>

@@ -41,5 +41,6 @@
       <% end %>
     <% end %>
     <button data-action="click->turbo-modal#hideModal">I'll do it later</button>
+    <%= button_to "I'll do it later", user_path(current_user.username), method: :get  %>
   </div>
 <% end %>
