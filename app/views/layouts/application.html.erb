@@ -29,7 +29,6 @@
     </div>
     <%= yield %>
 
-    <%= turbo_frame_tag "modal" %>
-    <%= turbo_frame_tag "compose_modal", target: "_top" %>
+    <%= turbo_frame_tag "modal", target: "_top" %>
   </body>
 </html>

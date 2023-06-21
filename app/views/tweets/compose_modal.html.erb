@@ -1,4 +1,8 @@
-<%= turbo_frame_tag "compose_modal" do %>
-  <%= render "tweets/tweet_form" %>
-  <%= render "tweets/single_tweet", t: @tweet %>
-<% end %>
+<%# <%= turbo_frame_tag id="modal" do %> %>
+  <%# <div data-controller="turbo-modal"> %>
+    <%# <button data-action="click->turbo-modal#hideModal">X</button> %>
+    <%= render "tweets/quote_form" %>
+    <%= render "tweets/single_tweet_quote", t: @tweet %>
+  <%# </div> %>
+<%# <% end %> %>
+
