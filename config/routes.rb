@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root "tweets#index"
+  get "/home", to: "tweets#index"
+  root to: redirect("/home", status: 302)
 
   # path "" -> removes the /users/ prefix from url, specifying username as the identifier instead of the default :id
   resources :users, path: "", param: :username, only: [:index, :new, :create, :edit, :update, :destroy] do
