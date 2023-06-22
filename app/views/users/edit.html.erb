@@ -1,3 +1,8 @@
 <%= render "profile_form", user: current_user %>
-<%# <%= render "show_profile" %> %>
-<%# <%= render "tweets/timeline" %> %>
+
+<% if session[:edit_profile] %>
+  <%= render "tweets/timeline" %>
+  <% session.delete(:edit_profile) %>
+<% else %>
+  <%= render "show_profile" %>
+<% end %>

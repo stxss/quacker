@@ -1,5 +1,5 @@
 <%= turbo_frame_tag id="modal" do %>
-  <div data-controller="turbo-modal" >
+  <div data-controller="turbo-modal" data-turbo-modal-username="<%= session[:current_user_username] %>" data-previous-page-url="<%= session[:previous_page_url] %>">
     <%= form_with model: @user, url: user_path(current_user.username) , data: { controller: 'turbo-modal', action: 'turbo:submit-end->turbo-modal#next' }, method: :patch , multipart: true do |form| %>
       <%= fields_for "user" do |f| %>
         <div>
@@ -40,7 +40,6 @@
         <%= f.submit "Save", data: { turbo_frame: "modal" } %>
       <% end %>
     <% end %>
-    <button data-action="click->turbo-modal#hideModal">I'll do it later</button>
-    <%= button_to "I'll do it later", user_path(current_user.username), method: :get  %>
+    <button data-action="click->turbo-modal#hideModal" data-turbo-modal-user="<%= current_user.username %>">I'll do it later</button>
   </div>
 <% end %>

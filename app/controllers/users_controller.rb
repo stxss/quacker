@@ -9,6 +9,15 @@ class UsersController < ApplicationController
 
   def edit
     @user = current_user
+    session[:current_user_username] = current_user.username
+    session[:previous_page_url] = request.referrer
+
+    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
+    @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
+
+    if !request.referrer || request.referrer.split("/").last != current_user.username
+      session[:edit_profile] = true
+    end
   end
 
   def update
