@@ -19,8 +19,8 @@ export default class extends Controller {
 
     next(event) {
       if (event.detail.success) {
-        const fetchResponse = event.detail.fetchResponse;
-        const username = fetchResponse.response.username;
+        let fetchResponse = event.detail.fetchResponse;
+        let username = fetchResponse.response.username;
 
         history.pushState(
           { turbo_frame_history: true },

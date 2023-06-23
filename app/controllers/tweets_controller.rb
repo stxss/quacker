@@ -21,11 +21,6 @@ class TweetsController < ApplicationController
   def retweet
     @tweet = Tweet.find(retweet_params[:retweet_id])
 
-    if @tweet.author.account.private_visibility && current_user != @tweet.author
-      redirect_to request.referrer, alert: "Couldn't retweet"
-      return
-    end
-
     @retweet = current_user.created_tweets.build(retweet_params)
 
     respond_to do |format|
