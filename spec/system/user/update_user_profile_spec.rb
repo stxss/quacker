@@ -34,4 +34,15 @@ RSpec.describe "Update user profile fields", type: :system do
     expect(page).to have_css("#display-name", text: "display name for user")
     expect(page).to have_css("#bio", text: "a simple biography")
   end
+
+  it "when visiting edit profile page url" do
+    login_as user
+    visit "/settings/profile"
+    fill_in "Display name", with: "display name for user"
+    fill_in "Biography", with: "a simple biography"
+    click_on "Save"
+    click_on "Profile"
+    expect(page).to have_css("#display-name", text: "display name for user")
+    expect(page).to have_css("#bio", text: "a simple biography")
+  end
 end
