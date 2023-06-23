@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         format.turbo_stream {
           render turbo_stream: [
             turbo_stream.replace("user-profile", partial: "users/profile_banner", locals: {user: current_user}),
-            turbo_stream.update("modal", "")
+            turbo_stream.remove("modal")
           ]
         }
         format.html { redirect_to username_url(current_user.username) }
