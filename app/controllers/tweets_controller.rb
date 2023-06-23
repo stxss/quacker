@@ -1,4 +1,6 @@
 class TweetsController < ApplicationController
+  before_action :first_visit?, only: [:index]
+
   def index
     following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
     @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
@@ -133,5 +135,9 @@ class TweetsController < ApplicationController
 
   def quote_tweet_params
     params.require(:quote_tweet).permit(:retweet_id, :body)
+  end
+
+  def first_visit?
+    session[:first_visit] = current_user.sign_in_count == 1 && session[:first_visit].nil?
   end
 end

@@ -1,4 +1,4 @@
-<% if current_user.created_at > (0.2).seconds.ago %>
+<% if session[:first_visit] %>
   <%= render "users/profile_form" %>
 <% end %>
 
