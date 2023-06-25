@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :tweets, except: [:show, :new]
 
-  get "/compose/tweet", to: "tweets#compose_modal", as: "compose_tweet"
+  match "/compose/tweet", to: "tweets#new", via: [:get, :post], as: "compose_tweet"
 
   resources :follows, only: %i[create destroy update]
   resources :notifications, only: %i[index]

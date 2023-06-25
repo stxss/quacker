@@ -1,5 +1,17 @@
 class TweetsController < ApplicationController
   before_action :first_visit?, only: [:index]
+  before_action :check_refresh, only: [:new]
+
+  def new
+    @tweet = Tweet.new
+
+    session[:retweet_id] = params[:retweet_id] if params[:retweet_id].present?
+
+    @retweet = Tweet.find(session[:retweet_id]) if session[:retweet_id].present?
+
+    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
+    @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
+  end
 
   def index
     following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
@@ -22,37 +34,6 @@ class TweetsController < ApplicationController
     @tweet = Tweet.find(retweet_params[:retweet_id])
 
     @retweet = current_user.created_tweets.build(retweet_params)
-
-    respond_to do |format|
-      if @retweet.save
-          format.turbo_stream {
-            render turbo_stream: [
-              turbo_stream.update("retweet_count_#{@tweet.id}", partial: "tweets/retweet_count", locals: {t: @tweet}),
-              turbo_stream.update("retweet_#{@tweet.id}", partial: "tweets/drop_menu", locals: {t: @tweet})
-            ]
-          }
-      format.html { redirect_to request.referrer }
-      current_user.notify(@tweet.author.id, :retweet, tweet_id: @tweet.id)
-      end
-    end
-  rescue ActiveRecord::RecordNotFound
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{retweet_params[:retweet_id]}"),
-          flash.now[:alert] = "Couldn't retweet"
-        ]
-      }
-    end
-  end
-
-  def compose_modal
-    @tweet = Tweet.find(params[:quote_tweet][:retweet_id])
-  end
-
-  def quote_tweet
-    @quote_tweet = current_user.created_tweets.build(quote_tweet_params)
-    @tweet = Tweet.find(quote_tweet_params[:retweet_id])
 
     respond_to do |format|
       if @retweet.save
@@ -128,11 +109,17 @@ class TweetsController < ApplicationController
     params.require(:retweet).permit(:retweet_id)
   end
 
-  def quote_tweet_params
-    params.require(:quote_tweet).permit(:retweet_id, :body)
-  end
-
   def first_visit?
     session[:first_visit] = current_user.sign_in_count == 1 && session[:first_visit].nil?
+  end
+
+  def check_refresh
+    if (session[:last_request] == "GET" && request.method == "POST") || request.method == "POST"
+      session[:refresh] = true
+    elsif (session[:last_request] == "POST" && request.method == "GET") || session[:last_request] == "GET" && request.method == "GET"
+      session[:refresh] = false
+    end
+
+    session[:last_request] = request.method
   end
 end

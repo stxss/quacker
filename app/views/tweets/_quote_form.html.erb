@@ -4,6 +4,9 @@
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
     </div>
     <div id="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
+      <div id= "origin_tweet">
+        <%= render "tweets/quote_single_tweet", t: rt %>
+      </div>
     <div id="submit-tweet" data-tweet-target="submit">
       <div id="fake-submit-tweet">
         Tweet

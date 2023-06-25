@@ -1,0 +1,12 @@
+<%= turbo_frame_tag id="modal" do %>
+  <% if session[:refresh] && session[:retweet_id].present? %>
+  <%= render "tweets/quote_form", rt: @retweet %>
+  <% else %>
+  <%= render "tweets/tweet_form" %>
+  <% end %>
+<% end %>
+
+<div><%= render "tweets/tweet_form" %></div>
+<%= render "tweets/timeline" %>
+
+
