@@ -4,4 +4,3 @@ This project is a part of the [Ruby On Rails Final Project](https://www.theodinp
 
 I made a custom modification and instead of going with the suggested Facebook clone, I opted for a custom Twitter clone
 
-test
