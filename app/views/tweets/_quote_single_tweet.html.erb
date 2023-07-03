@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "tweet_#{t.id}" do %>
+  <div class="tweet" >
+    <% if t.body && t.retweet_id %>
+      <%= render "tweets/quote_tweet_info", t: t %>
+    <% else %>
+      <%= render "tweets/creator_info", t: t%>
+      <%= render "tweets/tweet_body", t: t %>
+    <% end %>
+  </div>
+<% end %>

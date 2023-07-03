@@ -1,1 +1,9 @@
+<% if session[:first_visit] %>
+  <%= render "users/profile_form" %>
+<% end %>
+
+<div><%= render "tweets/tweet_form" %></div>
+
 <%= render "tweets/timeline" %>
+
+<%= button_to "Sign out", destroy_user_session_url, method: :delete %>
