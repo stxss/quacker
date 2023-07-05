@@ -7,7 +7,7 @@ class Tweet < ApplicationRecord
   belongs_to :author, class_name: "User", foreign_key: :user_id, counter_cache: true
   has_many :likes
 
-  has_many :comments, class_name: "Tweet", foreign_key: "parent_id"
+  has_many :comments, class_name: "Tweet", foreign_key: :parent_tweet_id
   belongs_to :parent, class_name: "Tweet", optional: true, counter_cache: true
 
   has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy

@@ -11,6 +11,7 @@
           <%= render "tweets/delete_button", t: t %>
         <% end %>
       <div class="activity-box">
+        <%= render "tweets/comments", t: t %>
         <%= render "tweets/retweets", t: t %>
         <%= render "tweets/likes", t: t %>
       </div>
