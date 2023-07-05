@@ -1,6 +1,7 @@
 class TweetsController < ApplicationController
   before_action :first_visit?, only: [:index]
   before_action :check_refresh, only: [:new]
+  before_action :set_cache_headers, only: [:index]
 
   def new
     @tweet = Tweet.new
@@ -125,7 +126,12 @@ class TweetsController < ApplicationController
     elsif (session[:last_request] == "POST" && request.method == "GET") || session[:last_request] == "GET" && request.method == "GET"
       session[:refresh] = false
     end
-
     session[:last_request] = request.method
+  end
+
+  def set_cache_headers
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 end
