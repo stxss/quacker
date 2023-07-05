@@ -23,10 +23,16 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @tweet = current_user.created_tweets.build(tweet_params)
+    @tweet = if params[:retweet_id]
+      current_user.created_tweets.build(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
+    else
+      current_user.created_tweets.build(tweet_params)
+    end
 
-    if @tweet.save
-      redirect_to root_path
+    respond_to do |format|
+      if @tweet.save
+        format.html { redirect_to root_path }
+      end
     end
   end
 
@@ -102,7 +108,7 @@ class TweetsController < ApplicationController
   private
 
   def tweet_params
-    params.require(:tweet).permit(:body)
+    params.require(:tweet).permit(:body, :quoted_retweet_id)
   end
 
   def retweet_params

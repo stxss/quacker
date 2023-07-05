@@ -11,6 +11,7 @@ class Tweet < ApplicationRecord
   belongs_to :parent, class_name: "Tweet", optional: true, counter_cache: true
 
   has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy
+  has_many :quote_tweets, class_name: "Tweet", foreign_key: :quoted_retweet_id, dependent: :destroy
 
   default_scope { order(created_at: :desc) }
 
