@@ -1,0 +1,20 @@
+<div data-controller="tweet">
+  <%= form_with model: Tweet.new, url: tweets_url(parent_tweet_id: t), data: { turbo: false } do |f| %>
+    <div id="origin_tweet">
+        <%= render "tweets/quote_single_tweet", t: t %>
+    </div>
+    <div data-tweet-target="area" data-action="input->tweet#verifyLength">
+      <% if Tweet.find(params[:parent_tweet_id]).author == current_user %>
+        <%= f.text_area :body, placeholder: "Add another Tweet!" , :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
+      <% else %>
+        <%= f.text_area :body, placeholder: "Tweet your reply!" , :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
+      <% end %>
+    </div>
+    <div id="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
+    <div id="submit-tweet" data-tweet-target="submit">
+      <div id="fake-submit-tweet">
+        Tweet
+      </div>
+    </div>
+  <% end %>
+</div>

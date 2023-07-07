@@ -4,6 +4,7 @@
     <%= render "tweets/creator_info", t: Tweet.find(t.retweet_id) %>
     <%= render "tweets/tweet_body", t: Tweet.find(t.retweet_id) %>
     <div class="activity-box">
+      <%= render "tweets/comments", t: Tweet.find(t.retweet_id) %>
       <%= render "tweets/retweets", t: Tweet.find(t.retweet_id) %>
       <%= render "tweets/likes", t: Tweet.find(t.retweet_id) %>
     </div>

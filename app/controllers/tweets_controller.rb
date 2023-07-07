@@ -1,22 +1,18 @@
 class TweetsController < ApplicationController
-  before_action :first_visit?, only: [:index]
-  before_action :check_refresh, only: [:new]
-  before_action :set_cache_headers, only: [:index]
+  before_action :first_visit?, :set_cache_headers, only: [:index]
+  before_action :check_refresh, :session_refresh, only: [:new]
 
   def new
+    index
     @tweet = Tweet.new
-
-    session[:retweet_id] = params[:retweet_id] if params[:retweet_id].present?
-
     @retweet = Tweet.find(session[:retweet_id]) if session[:retweet_id].present?
-
-    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
-    @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
+    @comment = Tweet.find(session[:comment]) if session[:comment].present?
   end
 
   def index
     following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
     @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
+    @show_replies = true
   end
 
   def show
@@ -26,6 +22,8 @@ class TweetsController < ApplicationController
   def create
     @tweet = if params[:retweet_id]
       current_user.created_tweets.build(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
+    elsif params[:parent_tweet_id]
+      current_user.created_tweets.build(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
     else
       current_user.created_tweets.build(tweet_params)
     end
@@ -133,5 +131,13 @@ class TweetsController < ApplicationController
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
+  def session_refresh
+    session.delete(:retweet_id) if session[:retweet_id].present?
+    session.delete(:comment) if session[:comment].present?
+
+    session[:retweet_id] = params[:retweet_id] if params[:retweet_id].present?
+    session[:comment] = params[:parent_tweet_id] if params[:parent_tweet_id].present?
   end
 end

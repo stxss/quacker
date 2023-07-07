@@ -1,5 +1,14 @@
 <%= turbo_frame_tag "tweet_#{t.id}" do %>
   <div class="tweet">
+    <% if @show_replies && t.parent_tweet_id %>
+      Replying to
+      <%= link_to "@#{User.find(Tweet.find(t.parent_tweet_id).user_id).username}", username_path(User.find(Tweet.find(t.parent_tweet_id).user_id).username), data: {turbo: false} %>
+    <% end %>
+
+    <% if !@show_replies && t.parent_tweet_id %>
+    
+    <% end %>
+
     <% if !t.body && t.retweet_id %>
       <%= render "tweets/retweet_info", t: t %>
     <% elsif t.body && t.quoted_retweet_id %>
@@ -15,6 +24,14 @@
         <%= render "tweets/retweets", t: t %>
         <%= render "tweets/likes", t: t %>
       </div>
+      <% if @show_replies && t.comments.count >= 2 %>
+        <%= link_to "Show more replies", single_tweet_url(username: t.author.username, id: t.id), data: {turbo: false} %>
+      <% end %>
+      <% t.comments.last(2).each do |tweet| %>
+        <%= render "tweets/comment_tweet_info", t: tweet %>
+      <% end %>
     <% end %>
   </div>
 <% end %>
+
+<%# check for if the user is following any of the accounts of the comments %>
