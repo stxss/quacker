@@ -13,9 +13,30 @@ class Tweet < ApplicationRecord
   has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy
   has_many :quote_tweets, class_name: "Tweet", foreign_key: :quoted_retweet_id, dependent: :destroy
 
-  default_scope { order(created_at: :desc) }
+  # default_scope { order(created_at: :desc) }
+  default_scope { order(updated_at: :desc) }
 
   def retweet?
-    !retweet_id.nil?
+    !body && retweet_id
+  end
+
+  def quote_tweet?
+    body && quoted_retweet_id
+  end
+
+  def is_comment?
+    parent_tweet_id?
+  end
+
+  def quote
+    Tweet.find(quoted_retweet_id)
+  end
+
+  def responder
+    User.find(Tweet.find(parent_tweet_id).user_id).username
+  end
+
+  def original_from_retweet
+    Tweet.find(retweet_id)
   end
 end

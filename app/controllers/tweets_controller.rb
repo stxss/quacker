@@ -23,6 +23,7 @@ class TweetsController < ApplicationController
     @tweet = if params[:retweet_id]
       current_user.created_tweets.build(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
     elsif params[:parent_tweet_id]
+      Tweet.find(params[:parent_tweet_id]).touch
       current_user.created_tweets.build(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
     else
       current_user.created_tweets.build(tweet_params)
@@ -65,6 +66,11 @@ class TweetsController < ApplicationController
 
   def destroy
     @tweet = Tweet.find(params[:id])
+    if @tweet.is_comment?
+      parent_tweet = Tweet.find(@tweet.parent_tweet_id)
+      parent_tweet.update(updated_at: parent_tweet.created_at)
+    end
+
     @tweet.destroy
 
     respond_to do |format|

@@ -1,9 +1,17 @@
-<%# <div class="tweet"> %>
-  <%= render "tweets/creator_info", t: t %>
-  <%= render "tweets/tweet_body", t: t %>
-  <div class="activity-box">
-    <%= render "tweets/comments", t: t %>
-    <%= render "tweets/retweets", t: t %>
-    <%= render "tweets/likes", t: t %>
+<%= turbo_frame_tag "tweet_#{t.id}" do %>
+  <div class="tweet">
+    <%= render "tweets/creator_info", t: t %>
+    <%= render "tweets/tweet_body", t: t %>
+    <div class="activity-box">
+      <%= render "tweets/comments", t: t %>
+      <%= render "tweets/retweets", t: t %>
+      <%= render "tweets/likes", t: t %>
+    </div>
+    <% if current_user == t.author %>
+      <%= render "tweets/delete_button", t: t %>
+    <% end %>
+    <% t.comments.each do |tweet| %>
+        <%= render "tweets/comment_tweet_info", t: tweet %>
+    <% end %>
   </div>
-<%# </div> %>
+<% end %>

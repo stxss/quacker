@@ -1,12 +1,13 @@
 <%= link_to username_path(t.author.username), class: "author" do %>
   <div class="retweet-info">
+    <% original_tweet = t.original_from_retweet %>
     <span id="display-name"><%= t.author.display_name %></span> Retweeted
-    <%= render "tweets/creator_info", t: Tweet.find(t.retweet_id) %>
-    <%= render "tweets/tweet_body", t: Tweet.find(t.retweet_id) %>
+    <%= render "tweets/creator_info", t: original_tweet %>
+    <%= render "tweets/tweet_body", t: original_tweet %>
     <div class="activity-box">
-      <%= render "tweets/comments", t: Tweet.find(t.retweet_id) %>
-      <%= render "tweets/retweets", t: Tweet.find(t.retweet_id) %>
-      <%= render "tweets/likes", t: Tweet.find(t.retweet_id) %>
+      <%= render "tweets/comments", t: original_tweet %>
+      <%= render "tweets/retweets", t: original_tweet %>
+      <%= render "tweets/likes", t: original_tweet %>
     </div>
   </div>
 <% end %>

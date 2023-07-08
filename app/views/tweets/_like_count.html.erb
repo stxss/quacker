@@ -1,4 +1,4 @@
-<% if current_user.liked_tweets.where(tweet_id: t).exists? %>
+<% if current_user.user_has_like?(t) %>
   <span id="like-count" style="color: red"><%= t.likes.count %></span>
 <% else %>
   <span id="like-count" style="color: black"><%= t.likes.count %></span>

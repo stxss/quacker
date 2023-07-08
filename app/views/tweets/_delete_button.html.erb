@@ -1,4 +1,4 @@
-<%= button_to "Delete", tweet_path(username: current_user.username, id: current_user.created_tweets.find(t.id)), params: { tweet: { tweet_id: t.id } }, method: :delete, remote: true, form: { data: {turbo_confirm: "Are you sure?"}} %>
+<%= button_to "Delete", tweet_path(id: t.id), params: { tweet: { tweet_id: t.id } }, method: :delete, remote: true, form: { data: {turbo_confirm: "Are you sure?"}} %>
 
 <dialog id="turbo-confirm">
   <form id="dialog" method="dialog">

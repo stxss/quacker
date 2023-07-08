@@ -82,4 +82,12 @@ class User < ApplicationRecord
       errors.add(:username, :invalid)
     end
   end
+
+  def user_has_rt?(tweet)
+    created_tweets.where(retweet_id: tweet).exists?
+  end
+
+  def user_has_like?(tweet)
+    liked_tweets.where(tweet_id: tweet).exists?
+  end
 end

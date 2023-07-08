@@ -5,10 +5,11 @@
     </div>
     <div data-tweet-target="area" data-action="input->tweet#verifyLength">
       <% if Tweet.find(params[:parent_tweet_id]).author == current_user %>
-        <%= f.text_area :body, placeholder: "Add another Tweet!" , :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
+        <% placeholder = "Add another Tweet!" %>
       <% else %>
-        <%= f.text_area :body, placeholder: "Tweet your reply!" , :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
+        <% placeholder = "Tweet your reply!" %>
       <% end %>
+      <%= f.text_area :body, placeholder: placeholder , :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
     </div>
     <div id="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
     <div id="submit-tweet" data-tweet-target="submit">
