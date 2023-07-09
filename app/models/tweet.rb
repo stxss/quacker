@@ -1,8 +1,6 @@
 class Tweet < ApplicationRecord
-  validates :body, length: {in: 1..280,
-    message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :retweet?
+  validates :body, length: {in: 1..280, message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :retweet?
   validates :body, format: {without: /\A\s*\z/, message: "cannot have only whitespace"}, unless: :retweet?
-  # validates :body, presence: true, unless: :retweet?
 
   belongs_to :author, class_name: "User", foreign_key: :user_id, counter_cache: true
   has_many :likes

@@ -110,7 +110,6 @@ class TweetsController < ApplicationController
           turbo_stream.update("retweet_count_#{@og.id}", partial: "tweets/retweet_count", locals: {t: @og})
         ]
       }
-
       format.html { redirect_to request.referrer }
       @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
     end
