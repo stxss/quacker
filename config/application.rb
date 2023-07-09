@@ -33,5 +33,7 @@ module OdinTwitter
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.middleware.insert_after ActionDispatch::Static, Rack::Deflater
   end
 end
