@@ -13,6 +13,11 @@ class TweetsController < ApplicationController
     following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
     @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id)
     @show_replies = true
+    if session[:new_comment]&.< 2
+      session[:new_comment] += 1
+    elsif session[:new_comment]&.>= 2
+      session.delete(:new_comment)
+    end
   end
 
   def show
@@ -24,6 +29,7 @@ class TweetsController < ApplicationController
       current_user.created_tweets.build(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
     elsif params[:parent_tweet_id]
       Tweet.find(params[:parent_tweet_id]).touch
+      session[:new_comment] = 0
       current_user.created_tweets.build(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
     else
       current_user.created_tweets.build(tweet_params)
@@ -66,7 +72,7 @@ class TweetsController < ApplicationController
 
   def destroy
     @tweet = Tweet.find(params[:id])
-    if @tweet.is_comment?
+    if @tweet.comment?
       parent_tweet = Tweet.find(@tweet.parent_tweet_id)
       parent_tweet.update(updated_at: parent_tweet.created_at)
     end

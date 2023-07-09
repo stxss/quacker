@@ -1,42 +1,41 @@
 <%= turbo_frame_tag "tweet_#{t.id}" do %>
-  <div class="tweet">
-    <% if @show_replies && t.parent_tweet_id %>
-      Replying to
-      <%= link_to "@#{t.responder}", username_path(t.responder), data: {turbo: false} %>
-    <% end %>
-
-    <% if t.is_comment? %>
-      <% return %>
-    <% else %>
-
-    <% if t.retweet? %>
-      <%= render "tweets/retweet_info", t: t %>
-    <% elsif t.quote_tweet? %>
-      <%= render "tweets/quote_tweet_info", t: t, qrt: t.quote, show_rt: true %>
-    <% else %>
-      <%= render "tweets/creator_info", t: t %>
-      <%= render "tweets/tweet_body", t: t %>
-      <% if current_user == t.author %>
-        <%= render "tweets/delete_button", t: t %>
-      <% end %>
-      <div class="activity-box">
-        <%= render "tweets/comments", t: t %>
-        <%= render "tweets/retweets", t: t %>
-        <%= render "tweets/likes", t: t %>
-      </div>
-      <% if @show_replies && t.comments.count > 2 %>
-        <%= link_to "Show more replies", single_tweet_url(username: t.author.username, id: t.id), data: {turbo: false} %>
-        <% t.comments.last(2).each do |tweet| %>
-          <%= render "tweets/comment_tweet_info", t: tweet %>
-        <% end %>
+    <div class="tweet">
+      <% if t.retweet? %>
+        <%= render "tweets/retweet_info", t: t %>
+      <% elsif t.comment? %>
+        <% return %>
+      <% elsif t.quote_tweet? %>
+        <%= render "tweets/quote_tweet_info", t: t, qrt: t.quote, show_rt: true %>
       <% else %>
-        <% t.comments.each do |tweet| %>
+        <%= render "tweets/creator_info", t: t %>
+        <%= render "tweets/tweet_body", t: t %>
+        <% if current_user == t.author %>
+          <%= render "tweets/delete_button", t: t %>
+        <% end %>
+        <div class="activity-box">
+          <%= render "tweets/comments", t: t %>
+          <%= render "tweets/retweets", t: t %>
+          <%= render "tweets/likes", t: t %>
+        </div>
+        <% if @show_replies %>
+          <% if t.comments.size >= 3 %>
+            <%= link_to "Show more replies", single_tweet_url(username: t.author.username, id: t.id), data: {turbo: false} %>
+            <% t.comments.last(2).each do |tweet| %>
+              <%= render "tweets/comment_tweet_info", t: tweet %>
+            <% end %>
+          <% elsif (!t.new_tweet?(@tweets) && t.just_updated?) %>
+          <% elsif (!t.new_tweet?(@tweets) && !t.just_updated?) %>
+            <% t.comments.each do |tweet| %>
+                <%= render "tweets/comment_tweet_info", t: tweet %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <% t.comments.each do |tweet| %>
             <%= render "tweets/comment_tweet_info", t: tweet %>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
-    <% end %>
-  </div>
+    </div>
 <% end %>
 
 <%# check for if the user is following any of the accounts of the comments %>

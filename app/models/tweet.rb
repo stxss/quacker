@@ -24,7 +24,7 @@ class Tweet < ApplicationRecord
     body && quoted_retweet_id
   end
 
-  def is_comment?
+  def comment?
     parent_tweet_id?
   end
 
@@ -38,5 +38,15 @@ class Tweet < ApplicationRecord
 
   def original_from_retweet
     Tweet.find(retweet_id)
+  end
+
+  def new_tweet?(timeline_tweets)
+    if comment?
+      timeline_tweets.none? { |tweet| (tweet.created_at >= created_at) && !tweet.comment? }
+    end
+  end
+
+  def just_updated?
+    updated_at >= Time.now - 1.seconds
   end
 end
