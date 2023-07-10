@@ -1,7 +1,6 @@
 <% @tweets.each do |t| %>
   <% if t.comment? && t.new_tweet?(@tweets) && session[:new_comment] == 1  %>
     <%= render "tweets/comment_tweet_info", t: t %>
-    <% session.delete(:new_comment) %>
   <% else %>
     <%= render "tweets/single_tweet", t: t %>
   <% end %>

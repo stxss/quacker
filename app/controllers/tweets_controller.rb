@@ -1,6 +1,7 @@
 class TweetsController < ApplicationController
   before_action :first_visit?, :set_cache_headers, only: [:index]
   before_action :check_refresh, :session_refresh, only: [:new]
+  after_action :refresh_comments, only: [:index]
 
   def new
     index
@@ -28,7 +29,6 @@ class TweetsController < ApplicationController
     @tweet = if params[:retweet_id]
       current_user.created_tweets.build(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
     elsif params[:parent_tweet_id]
-      Tweet.find(params[:parent_tweet_id]).touch
       session[:new_comment] = 0
       current_user.created_tweets.build(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
     else
@@ -39,6 +39,7 @@ class TweetsController < ApplicationController
       if @tweet.save
         format.html { redirect_to root_path }
       end
+      session[:og_comment_id] = @tweet.id
     end
   end
 
@@ -150,5 +151,18 @@ class TweetsController < ApplicationController
 
     session[:retweet_id] = params[:retweet_id] if params[:retweet_id].present?
     session[:comment] = params[:parent_tweet_id] if params[:parent_tweet_id].present?
+  end
+
+  def refresh_comments
+    return if !session[:new_comment]
+
+    # THGIS IS THE COMMENT
+    og = Tweet.find(session[:og_comment_id]) if session[:og_comment_id]
+
+    # THIS IS THE PARENT COMMENT
+    Tweet.find(og.parent_tweet_id).update(updated_at: og.created_at) if og
+
+    # Tweet.find(og.parent_tweet_id) if session[:og_comment_id]
+    session.delete(:og_comment_id)
   end
 end

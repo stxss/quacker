@@ -23,7 +23,7 @@
             <% t.comments.last(2).each do |tweet| %>
               <%= render "tweets/comment_tweet_info", t: tweet %>
             <% end %>
-          <% elsif (!t.new_tweet?(@tweets) && t.just_updated?) %>
+          <% elsif session[:new_comment] == 1 || (!t.new_tweet?(@tweets) && t.just_updated?) %>
           <% elsif (!t.new_tweet?(@tweets) && !t.just_updated?) %>
             <% t.comments.each do |tweet| %>
                 <%= render "tweets/comment_tweet_info", t: tweet %>
