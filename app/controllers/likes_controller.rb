@@ -35,18 +35,20 @@ class LikesController < ApplicationController
     @tweet = Tweet.find(like_params[:tweet_id])
     @like = current_user.liked_tweets.find_by(tweet: @tweet)
 
+    @like.destroy
+
+    @og = @like.tweet
+
     respond_to do |format|
-      if @like.destroy
-        format.turbo_stream {
-          render turbo_stream: [
-            turbo_stream.replace("tweet_#{@tweet.id}", partial: "tweets/single_tweet", locals: {t: @tweet}),
-            turbo_stream.update("like_count_#{@tweet.id}", partial: "tweets/like_count", locals: {t: @tweet}),
-            turbo_stream.update("like_#{@tweet.id}", partial: "tweets/like_button", locals: {tweet: @tweet})
-          ]
-        }
-        format.html { redirect_to request.referrer }
-        @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :like, tweet_id: @tweet.id).destroy_all
-      end
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.replace("tweet_#{@og.id}", partial: "tweets/single_tweet", locals: {t: @og}),
+          turbo_stream.update("like_count_#{@og.id}", partial: "tweets/like_count", locals: {t: @og}),
+          turbo_stream.update("like_#{@og.id}", partial: "tweets/like_button", locals: {tweet: @og})
+        ]
+      }
+      format.html { redirect_to request.referrer }
+      @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :like, tweet_id: @tweet.id).destroy_all
     end
   end
 

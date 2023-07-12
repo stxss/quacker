@@ -1,7 +1,12 @@
 <% if current_user.user_has_like?(t) %>
-  <span id="like-count" style="color: red"><%= t.likes.count %></span>
+  <span class="like-count liked">
 <% else %>
-  <span id="like-count" style="color: black"><%= t.likes.count %></span>
+  <span class="like-count">
 <% end %>
+
+<%= t.likes.size %>
+</span>
+
+
 
 
