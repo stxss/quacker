@@ -1,9 +1,9 @@
 <% if current_user.user_has_rt?(t) %>
-  <span id="retweet-count" style="color: green"><%= t.retweets.count + t.quote_tweets.count %></span>
+  <span class="retweet-count retweeted"><%= t.retweets.size + t.quote_tweets.size %></span>
 <% elsif !current_user.user_has_rt?(t) && t.author.account.private_visibility && current_user != t.author %>
-  <span id="retweet-count" style="color: black; opacity: 0.65"><%= t.retweets.count + t.quote_tweets.count %></span>
+  <span class="retweet-count"><%= t.retweets.size + t.quote_tweets.size %></span>
 <% else %>
-  <span id="retweet-count" style="color: black"><%= t.retweets.count + t.quote_tweets.count %></span>
+  <span class="retweet-count" ><%= t.retweets.size + t.quote_tweets.size %></span>
 <% end %>
 
 

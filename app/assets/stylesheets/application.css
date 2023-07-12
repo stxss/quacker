@@ -144,13 +144,22 @@
   }
 
   #like-count,
-  #retweet-count,
   #comment-count {
     margin-left: 10px;
   }
 
-  #retweet-count {
+  .retweet-count,
+  .like-count {
+    margin-left: 10px;
     color: black
+  }
+
+  .retweet-count.retweeted {
+    color: green
+  }
+
+  .like-count.liked {
+    color: red
   }
 
   .notification {
@@ -221,6 +230,4 @@
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
-.retweeted {
-  color: green
-}
+
