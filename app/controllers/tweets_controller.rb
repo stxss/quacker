@@ -27,18 +27,16 @@ class TweetsController < ApplicationController
 
   def create
     @tweet = if params[:retweet_id]
-      current_user.created_tweets.build(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
+      current_user.created_tweets.create!(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
     elsif params[:parent_tweet_id]
       session[:new_comment] = 0
-      current_user.created_tweets.build(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
+      current_user.created_tweets.create!(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
     else
-      current_user.created_tweets.build(tweet_params)
+      current_user.created_tweets.create!(tweet_params)
     end
 
     respond_to do |format|
-      if @tweet.save
-        format.html { redirect_to root_path }
-      end
+      format.html { redirect_to root_path }
       session[:og_comment_id] = @tweet.id
     end
   end
