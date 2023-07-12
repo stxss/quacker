@@ -8,7 +8,9 @@ class Tweet < ApplicationRecord
   has_many :comments, class_name: "Tweet", foreign_key: :parent_tweet_id
   belongs_to :parent, class_name: "Tweet", optional: true, counter_cache: true
 
-  has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy, counter_cache: :retweets_count
+  has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id
+  belongs_to :retweet, class_name: "Tweet", foreign_key: :retweet_id, counter_cache: :retweets_count, optional: true
+
   has_many :quote_tweets, class_name: "Tweet", foreign_key: :quoted_retweet_id, dependent: :destroy, counter_cache: :quote_tweets_count
 
   scope :ordered, -> { order(updated_at: :desc) }
