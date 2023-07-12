@@ -11,7 +11,7 @@ class Tweet < ApplicationRecord
   has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy, counter_cache: :retweets_count
   has_many :quote_tweets, class_name: "Tweet", foreign_key: :quoted_retweet_id, dependent: :destroy, counter_cache: :quote_tweets_count
 
-  default_scope { order(updated_at: :desc) }
+  scope :ordered, -> { order(updated_at: :desc) }
 
   def retweet?
     !body && retweet_id
