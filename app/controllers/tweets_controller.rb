@@ -45,9 +45,8 @@ class TweetsController < ApplicationController
   end
 
   def retweet
-    @tweet = Tweet.find(retweet_params[:retweet_id])
-
     @retweet = current_user.created_tweets.build(retweet_params)
+    @tweet = @retweet.og_tweet || Tweet.find(retweet_params[:retweet_id])
 
     respond_to do |format|
       if @retweet.save
@@ -88,17 +87,19 @@ class TweetsController < ApplicationController
         ]
       }
       format.html { redirect_to request.referrer }
+
       @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
     end
   end
 
   def destroy_retweet
     @tweet = current_user.created_tweets.find_by(retweet_id: retweet_params[:retweet_id])
-    @og = Tweet.find(@tweet.retweet_id)
 
     @tweet.destroy
 
-    @button_update = if (@og.author.account.private_visibility && current_user != @og.author)
+    @og = Tweet.find(@tweet.retweet_id)
+
+    button_update = if @og.author.account.private_visibility && current_user != @og.author
       turbo_stream.update("retweet_#{@og.id}", partial: "tweets/fake_retweet_menu", locals: {t: @og})
     else
       turbo_stream.update("retweet_#{@og.id}", partial: "tweets/drop_menu", locals: {t: @og})
@@ -108,7 +109,7 @@ class TweetsController < ApplicationController
       format.turbo_stream {
         render turbo_stream: [
           turbo_stream.remove("tweet_#{@tweet.id}"),
-          @button_update,
+          button_update,
           turbo_stream.update("retweet_count_#{@og.id}", partial: "tweets/retweet_count", locals: {t: @og})
         ]
       }
