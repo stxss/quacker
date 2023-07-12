@@ -85,3 +85,5 @@ end
 group :development do
   gem 'guard'
 end
+
+gem "rack-mini-profiler", "~> 3.1"
