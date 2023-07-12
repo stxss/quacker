@@ -7,7 +7,6 @@ class TweetsController < ApplicationController
     index
     @tweet = Tweet.new
     @retweet = Tweet.find(session[:retweet_id]) if session[:retweet_id].present?
-    p request.referrer
     @comment = Tweet.find(session[:comment]) if session[:comment].present?
   end
 
