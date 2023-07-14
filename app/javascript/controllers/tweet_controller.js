@@ -7,111 +7,116 @@ export default class extends Controller {
     connect() {
     }
 
+  //   verifyLength() {
+  //     let area = this.areaTarget
+  //     let content = area.querySelector("textarea").value
+  //     let length = content.length
+
+  //     if (content.match(/^\s*$/)) {length = 0}
+
+  //     let circleContainer = this.circleTarget
+  //     this.showCount(length)
+
+  //     if (length === 0 && circleContainer.childNodes.length > 0) {
+  //         circleContainer.innerHTML = "";
+  //       } else if (length !== 0 && circleContainer.childNodes.length === 0) {
+  //         circleContainer.innerHTML = `
+  //           <svg class="progress-ring" height="100%" width="100%" viewBox="0 0 20 20" style="transform: rotate(-90deg); overflow: visible">
+  //             <circle class="progress-ring__circle-bg" stroke-width="1.6" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
+  //             <circle class="progress-ring__circle" stroke-width="2" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
+  //             <text class="progress-ring__text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="rotate: 90deg; transform-origin: center;"></text>
+  //           </svg>
+  //         `;
+  //     }
+  //     this.progressCircle(length);
+
+  //     if (length < 1 || length > 280) {
+  //       fetch(this.areaTarget.getAttribute('data-url'), {
+  //         method: 'POST',
+  //         headers: {
+  //           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+  //           'Content-Type': 'application/json'
+  //         },
+  //         credentials: 'same-origin',
+  //         body: JSON.stringify({
+  //          valid: false
+  //         })
+  //       }).then (response => response.text())
+  //       .then(html => Turbo.renderStreamMessage(html));
+
+  //     } else if (length >= 1 && length <= 280 && !this.submitTarget.querySelector("input")) {
+
+  //       fetch(this.areaTarget.getAttribute('data-url'), {
+  //         method: 'POST',
+  //         headers: {
+  //           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+  //           'Content-Type': 'application/json'
+  //         },
+  //         credentials: 'same-origin',
+  //         body: JSON.stringify({
+  //          valid: true
+  //         })
+  //       }).then (response => response.text())
+  //       .then(html => Turbo.renderStreamMessage(html));
+  //     }
+  // }
+
+
     verifyLength() {
-      let area = this.areaTarget
-      let content = area.querySelector("textarea").value
-      let length = content.length
+        let area = this.areaTarget
+        let content = area.querySelector("textarea").value
+        let length = content.length
 
-      if (content.match(/^\s*$/)) {length = 0}
-
-      let circleContainer = this.circleTarget
-      this.showCount(length)
-
-      if (length === 0 && circleContainer.childNodes.length > 0) {
-          circleContainer.innerHTML = "";
-        } else if (length !== 0 && circleContainer.childNodes.length === 0) {
-          circleContainer.innerHTML = `
-            <svg class="progress-ring" height="100%" width="100%" viewBox="0 0 20 20" style="transform: rotate(-90deg); overflow: visible">
-              <circle class="progress-ring__circle-bg" stroke-width="1.6" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
-              <circle class="progress-ring__circle" stroke-width="2" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
-              <text class="progress-ring__text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="rotate: 90deg; transform-origin: center;"></text>
-            </svg>
-          `;
-      }
-      this.progressCircle(length);
-
-      if (length < 1 || length > 280) {
-        fetch(this.areaTarget.getAttribute('data-url'), {
-          method: 'POST',
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json'
-          },
-          credentials: 'same-origin',
-          body: JSON.stringify({
-           valid: false
-          })
-        }).then (response => response.text())
-        .then(html => Turbo.renderStreamMessage(html));
-
-      } else if (length >= 1 && length <= 280 && !this.submitTarget.querySelector("input")) {
-
-        fetch(this.areaTarget.getAttribute('data-url'), {
-          method: 'POST',
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json'
-          },
-          credentials: 'same-origin',
-          body: JSON.stringify({
-           valid: true
-          })
-        }).then (response => response.text())
-        .then(html => Turbo.renderStreamMessage(html));
-      }
-  }
+        if (content.match(/^\s*$/)) {length = 0}
 
 
-    // verifyLength() {
-    //     let area = this.areaTarget
-    //     let content = area.querySelector("textarea").value
-    //     let length = content.length
+        let circleContainer = this.circleTarget
+        this.showCount(length)
 
-    //     if (content.match(/^\s*$/)) {length = 0}
+        if (length === 0 && circleContainer.childNodes.length > 0) {
+            circleContainer.innerHTML = "";
+          } else if (length !== 0 && circleContainer.childNodes.length === 0) {
+            circleContainer.innerHTML = `
+              <svg class="progress-ring" height="100%" width="100%" viewBox="0 0 20 20" style="transform: rotate(-90deg); overflow: visible">
+                <circle class="progress-ring__circle-bg" stroke-width="1.6" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
+                <circle class="progress-ring__circle" stroke-width="2" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
+                <text class="progress-ring__text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="rotate: 90deg; transform-origin: center;"></text>
+              </svg>
+            `;
+        }
+        this.progressCircle(length);
 
-    //     if (length < 1 || length > 280) {
-    //       if (!this.submitTarget.querySelector("#fake-submit-tweet")) {
+        if (length < 1 || length > 280) {
+          if (!this.submitTarget.querySelector("#fake-submit-tweet")) {
 
-    //         if (this.submitTarget.querySelector("#real-submit-tweet")) {
-    //           this.submitTarget.querySelector("#real-submit-tweet").remove()
-    //         }
+            if (this.submitTarget.querySelector("#real-submit-tweet")) {
+              this.submitTarget.querySelector("#real-submit-tweet").remove()
+            }
 
-    //         let fakeButton = document.createElement("div")
-    //         let fakeText = document.createTextNode("Tweet")
-    //         fakeButton.appendChild(fakeText)
-    //         fakeButton.setAttribute("id", "fake-submit-tweet")
-    //         this.submitTarget.appendChild(fakeButton)
-    //       }
-    //     } else {
-    //       if (!this.submitTarget.querySelector("input")) {
-    //         this.submitTarget.querySelector("#fake-submit-tweet").remove()
+            // let fakeButton = document.createElement("div")
+            // let fakeText = document.createTextNode("Tweet")
+            // fakeButton.appendChild(fakeText)
+            // fakeButton.setAttribute("id", "fake-submit-tweet")
+            // this.submitTarget.appendChild(fakeButton)
 
-    //         let submitButton = document.createElement("input")
-    //         submitButton.setAttribute("type", "submit")
-    //         submitButton.setAttribute("name", "commit")
-    //         submitButton.setAttribute("value", "Tweet")
-    //         submitButton.setAttribute("id", "real-submit-tweet")
-    //         submitButton.setAttribute("data-disable-with", "Tweet")
-    //         this.submitTarget.appendChild(submitButton);
-    //       }
-    //     }
+            this.submitTarget.innerHTML = `<div id="fake-submit-tweet">Tweet</div>`
+          }
+        } else {
+          if (!this.submitTarget.querySelector("input")) {
+            this.submitTarget.querySelector("#fake-submit-tweet").remove()
 
-    //     let circleContainer = this.circleTarget
-    //     this.showCount(length)
+            // let submitButton = document.createElement("input")
+            // submitButton.setAttribute("type", "submit")
+            // submitButton.setAttribute("name", "commit")
+            // submitButton.setAttribute("value", "Tweet")
+            // submitButton.setAttribute("id", "real-submit-tweet")
+            // submitButton.setAttribute("data-disable-with", "Tweet")
+            // this.submitTarget.appendChild(submitButton);
 
-    //     if (length === 0 && circleContainer.childNodes.length > 0) {
-    //         circleContainer.innerHTML = "";
-    //       } else if (length !== 0 && circleContainer.childNodes.length === 0) {
-    //         circleContainer.innerHTML = `
-    //           <svg class="progress-ring" height="100%" width="100%" viewBox="0 0 20 20" style="transform: rotate(-90deg); overflow: visible">
-    //             <circle class="progress-ring__circle-bg" stroke-width="1.6" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
-    //             <circle class="progress-ring__circle" stroke-width="2" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
-    //             <text class="progress-ring__text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="rotate: 90deg; transform-origin: center;"></text>
-    //           </svg>
-    //         `;
-    //     }
-    //     this.progressCircle(length);
-    // }
+            this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Tweet" id="real-submit-tweet" data-disable-with="Tweet">`
+          }
+        }
+    }
 
     showCount(length) {
         if (!document.querySelector(".progress-ring")) {

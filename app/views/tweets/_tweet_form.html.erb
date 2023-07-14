@@ -4,12 +4,12 @@
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
     </div>
     <div id="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
-    <%= turbo_frame_tag "submit-tweet" do %>
-      <div id="submit-tweet" data-tweet-target="submit" >
+    <%# <%= turbo_frame_tag "submit-tweet" do %>
+      <div class="tweet-button" data-tweet-target="submit" >
         <div id="fake-submit-tweet">
           Tweet
         </div>
       </div>
-    <% end %>
+    <%# <% end %>
   <% end %>
 </div>
