@@ -125,34 +125,36 @@ export default class extends Controller {
 
     showCount(length) {
         if (!document.querySelector(".progress-ring")) {
-            return
+            return;
         }
 
         let text = this.counterTarget.querySelector(".progress-ring__text");
         let progressRing = document.querySelector(".progress-ring");
 
         if (length < 260) {
-            text.textContent = ""
+            text.textContent = "";
             progressRing.style.transition = "width 0.2s, height 0.2s";
             progressRing.classList.remove("over-limit");
         } else {
-            text.textContent = 280 - length
-            text.fontSize = "13px"
+            text.textContent = 280 - length;
+            text.fontSize = "13px";
             progressRing.classList.add("over-limit");
         }
 
         if (length >= 280) {
-            text.style.fill = "red"
+            text.style.fill = "red";
         } else {
-            text.style.fill = ""
+            text.style.fill = "";
         }
     }
 
     progressCircle(length) {
-        if (length === 0) {return}
-        let circles = this.circleTarget.querySelectorAll("circle")
-        let fgCircle = circles[1]
-        let bgCircle = circles[0]
+        if (length === 0) {
+            return;
+        }
+        let circles = this.circleTarget.querySelectorAll("circle");
+        let fgCircle = circles[1];
+        let bgCircle = circles[0];
         let radius = fgCircle.r.baseVal.value;
         let circumference = radius * 2 * Math.PI;
 
@@ -160,18 +162,19 @@ export default class extends Controller {
         fgCircle.style.strokeDashoffset = `${circumference} `;
 
         function setProgress(length) {
-          let offset = circumference - (length / 280) * circumference;
-          if (offset <= 0) {
-            fgCircle.style.stroke = "#F4212E"
-            bgCircle.style.stroke = "#F4212E"
-          } else if (0 < offset && offset <= 4.487989505128276) {
-            fgCircle.style.stroke = "#FFD400"
-            bgCircle.style.stroke = "#2F3336"
-          } else {
-            fgCircle.style.stroke = "#1D9BF0"
-            bgCircle.style.stroke = "#2F3336"
-          }
-          fgCircle.style.strokeDashoffset = offset;
+            let offset = circumference - (length / 280) * circumference;
+            if (offset <= 0) {
+                offset = 0
+                fgCircle.style.stroke = "#F4212E";
+                bgCircle.style.stroke = "#F4212E";
+            } else if (0 < offset && offset <= 4.487989505128276) {
+                fgCircle.style.stroke = "#FFD400";
+                bgCircle.style.stroke = "#2F3336";
+            } else {
+                fgCircle.style.stroke = "#1D9BF0";
+                bgCircle.style.stroke = "#2F3336";
+            }
+            fgCircle.style.strokeDashoffset = offset;
         }
 
         setProgress(length);
