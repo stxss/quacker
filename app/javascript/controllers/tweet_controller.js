@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the media tagging setting
 export default class extends Controller {
-    static targets = [ "area", "counter", "circle", "submit" ];
+    static targets = ["area", "counter", "circle", "submit"];
 
     connect() {
         this.verifyLength;
@@ -66,6 +66,8 @@ export default class extends Controller {
             </svg>
           `;
         }
+        this.showCount(length);
+        this.progressCircle(length);
     }
 
     // verifyLength() {
