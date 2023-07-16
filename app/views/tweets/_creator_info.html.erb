@@ -1,9 +1,9 @@
 <%= link_to username_path(t.author.username), class: "author",target: :_top  do %>
   <div class="creation-info">
-    <span id="display-name"><%= t.author.display_name %></span>
-    <span id="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>
-    <span id="display-username"><%= "@#{t.author.username}" %></span>
+    <span class="display-name"><%= t.author.display_name %></span>
+    <span class="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>
+    <span class="display-username"><%= "@#{t.author.username}" %></span>
     <span> · </span>
-    <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id), id: "created-time" %>
+    <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id), class: "created-time" %>
   </div>
 <% end %>

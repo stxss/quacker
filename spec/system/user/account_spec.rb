@@ -14,7 +14,9 @@ RSpec.describe "Update user account settings", type: :system do
     check "account_private_visibility"
     click_on "Protect"
     visit username_path(user.username)
-    expect(page).to have_css("#icon-lock")
+    within find(".display-name") do
+      expect(page).to have_css(".icon-lock")
+    end
   end
 
   it "when phototagging OFF" do

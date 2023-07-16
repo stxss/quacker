@@ -19,8 +19,7 @@
     overflow:hidden;
  }
 
- #modal,
- #compose_modal {
+ #modal {
    position: absolute;
    z-index: 2;
    right: 10px;
@@ -31,14 +30,14 @@
    background: #bad5ff;
  }
 
- #circle-counter {
+ .circle-counter {
   width: 20px;
   height: 20px;
   transition-property: width, height;
   transition-duration: 0.15s;
  }
 
- #circle-counter .over-limit {
+ .circle-counter .over-limit {
   width: 30px;
   height: 30px;
   font-size: 10px;
@@ -48,7 +47,7 @@
   margin: auto;
  }
 
- #fake-submit-tweet,
+ .fake-submit-tweet,
  input[type="submit" i] {
   display: inline-block;
   padding: 0.5em 1em;
@@ -63,12 +62,12 @@
   color: #333;
 }
 
-#fake-submit-tweet {
+.fake-submit-tweet {
   opacity: 0.6;
   cursor: default;
 }
 
-#fake-submit-tweet:focus {
+.fake-submit-tweet:focus {
   outline: none;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
@@ -87,36 +86,36 @@
   text-decoration: none;
 }
 
- #icon-lock {
+ .icon-lock {
   position: relative;
   top: 1px;
   max-width: 20px;
   max-height: 20px;
  }
 
- #icon-retweet,
- #icon-like,
- #icon-unlike,
- #icon-quote,
- #icon-comment {
+ .icon-retweet,
+ .icon-like,
+ .icon-unlike,
+ .icon-quote,
+ .icon-comment {
   max-width: 24px;
   max-height: 24px;
   transform: scale(0.7813);
 }
 
-  #display-name {
+  .display-name {
     font-weight: 700;
    }
 
-  #display-name:hover {
+  .display-name:hover {
     text-decoration: underline;
   }
 
-  #tweet-body {
+  .tweet-body {
     padding: 5px;
   }
 
-  #time-ago {
+  .time-ago {
     text-decoration: none;
   }
 
@@ -143,13 +142,9 @@
     margin-right: 10px;
   }
 
-  #like-count,
-  #comment-count {
-    margin-left: 10px;
-  }
-
   .retweet-count,
-  .like-count {
+  .like-count,
+  .comment-count {
     margin-left: 10px;
     color: black
   }
@@ -167,15 +162,15 @@
     padding: 5px;
   }
 
-  #retweet button,
-  #unretweet button,
-  #like button,
-  #unlike button,
-  #menu-retweet button,
-  #menu-unretweet button,
-  #limited-rt,
-  #quote button,
-  #comment button {
+  .retweet button,
+  .unretweet button,
+  .like button,
+  .unlike button,
+  .menu-retweet button,
+  .menu-unretweet button,
+  .limited-rt,
+  .quote button,
+  .comment button {
     background: none;
     border: none;
     padding: 0;
@@ -184,15 +179,15 @@
     text-decoration: none;
   }
 
-  #menu-retweet {
+  .menu-retweet {
     fill: black
   }
 
-  #menu-unretweet {
+  .menu-unretweet {
     fill: green
   }
 
-  #unlike button {
+  .unlike button {
     fill: red
   }
 

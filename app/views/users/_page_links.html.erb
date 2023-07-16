@@ -1,5 +1,5 @@
 <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
-  <div id="user-profile-private">
+  <div class="user-profile-private">
     <span><%= link_to "Tweets", username_path(@user.username) %></span>
     <span> "replies" </span>
     <span> media </span>

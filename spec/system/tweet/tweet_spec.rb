@@ -19,7 +19,7 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
-    expect(page).to have_css("#tweet-body", text: "First tweet!")
+    expect(page).to have_css(".tweet-body", text: "First tweet!")
   end
 
   it "can visit tweet" do
@@ -31,26 +31,26 @@ RSpec.describe "Tweet creation", type: :system do
   it "creates a tweet with a single character" do
     fill_in "tweet_body", with: "1"
     click_on "Tweet"
-    expect(page).to have_css("#tweet-body", text: "1")
+    expect(page).to have_css(".tweet-body", text: "1")
   end
 
   it "doesn't create a tweet with only whitespace characters" do
     fill_in "tweet_body", with: "     "
-    expect(page).not_to have_css("#real-submit-tweet")
-    expect(page).to have_css("#fake-submit-tweet")
+    expect(page).not_to have_css(".real-submit-tweet")
+    expect(page).to have_css(".fake-submit-tweet")
   end
 
   it "does create a tweet with exactly 280 characters" do
     exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
     fill_in "tweet_body", with: exact_limit_tweet
     click_on "Tweet"
-    expect(page).to have_css("#tweet-body", text: exact_limit_tweet)
+    expect(page).to have_css(".tweet-body", text: exact_limit_tweet)
   end
 
   it "doesn't create a tweet with more than 280 of characters" do
     fill_in "tweet_body", with: Faker::Hipster.paragraph_by_chars(characters: 281)
-    expect(page).not_to have_css("#real-submit-tweet")
-    expect(page).to have_css("#fake-submit-tweet")
+    expect(page).to have_css(".fake-submit-tweet")
+    expect(page).not_to have_css(".real-submit-tweet")
   end
 
   it "shows a tweet created minutes ago" do
@@ -58,8 +58,8 @@ RSpec.describe "Tweet creation", type: :system do
     test_tweet = user.created_tweets.create(body: content)
     test_tweet.update(created_at: 2.minutes.ago)
     visit root_path
-    expect(page).to have_css("#tweet-body", text: content)
-    expect(page).to have_css("#created-time", text: "2 min")
+    expect(page).to have_css(".tweet-body", text: content)
+    expect(page).to have_css(".created-time", text: "2 min")
   end
 
   it "shows a tweet created hours ago" do
@@ -67,8 +67,8 @@ RSpec.describe "Tweet creation", type: :system do
     test_tweet = user.created_tweets.create(body: content)
     test_tweet.update(created_at: 2.hours.ago)
     visit root_path
-    expect(page).to have_css("#tweet-body", text: content)
-    expect(page).to have_css("#created-time", text: "2 h")
+    expect(page).to have_css(".tweet-body", text: content)
+    expect(page).to have_css(".created-time", text: "2 h")
   end
 
   it "shows a tweet created this year" do
@@ -76,8 +76,8 @@ RSpec.describe "Tweet creation", type: :system do
     test_tweet = user.created_tweets.create(body: content)
     test_tweet.update(created_at: Date.new(Time.zone.now.year, 4, 7))
     visit root_path
-    expect(page).to have_css("#tweet-body", text: content)
-    expect(page).to have_css("#created-time", text: "Apr 7")
+    expect(page).to have_css(".tweet-body", text: content)
+    expect(page).to have_css(".created-time", text: "Apr 7")
   end
 
   it "shows a tweet created last year" do
@@ -85,15 +85,15 @@ RSpec.describe "Tweet creation", type: :system do
     test_tweet = user.created_tweets.create(body: content)
     test_tweet.update(created_at: Date.new(Time.zone.now.year - 1, 11, 7))
     visit root_path
-    expect(page).to have_css("#tweet-body", text: content)
-    expect(page).to have_css("#created-time", text: "Nov 7, #{Time.zone.now.year - 1}")
+    expect(page).to have_css(".tweet-body", text: content)
+    expect(page).to have_css(".created-time", text: "Nov 7, #{Time.zone.now.year - 1}")
   end
 
   it "shows the tweet when clicking on the content" do
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
-    find("#tweet-body").click
-    expect(page).to have_css("#tweet-body", text: "First tweet!")
+    find(".tweet-body").click
+    expect(page).to have_css(".tweet-body", text: "First tweet!")
   end
 
   it "when author, shows delete button" do
@@ -111,7 +111,7 @@ RSpec.describe "Tweet creation", type: :system do
     within "#turbo-confirm" do
       click_on "Delete"
     end
-    expect(page).not_to have_css("#tweet-body", text: "First tweet!")
+    expect(page).not_to have_css(".tweet-body", text: "First tweet!")
   end
 
   it "when not author doesn't show delete button" do
@@ -123,12 +123,11 @@ RSpec.describe "Tweet creation", type: :system do
     expect(page).not_to have_button("Delete")
   end
 
-
   it "tweets have like button" do
     visit root_path
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
-    expect(page).to have_css("#like")
+    expect(page).to have_css(".like")
   end
 
   it "authors can like their own tweets" do
@@ -136,8 +135,8 @@ RSpec.describe "Tweet creation", type: :system do
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
-    find("#like").click
-    expect(page).to have_css("#unlike")
+    find(".like").click
+    expect(page).to have_css(".unlike")
   end
 
   it "users can like others' tweets" do
@@ -147,8 +146,8 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    find("#like").click
-    expect(page).to have_css("#unlike")
+    find(".like").click
+    expect(page).to have_css(".unlike")
   end
 
   it "users can unlike tweets" do
@@ -158,9 +157,9 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    find("#like").click
-    find("#unlike").click
-    expect(page).to have_css("#like")
+    find(".like").click
+    find(".unlike").click
+    expect(page).to have_css(".like")
   end
 
   it "users cannot like deleted tweets" do
@@ -171,7 +170,7 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     user.created_tweets.last.destroy
-    find("#like").click
+    find(".like").click
     expect(page).to have_content("Couldn't like")
   end
 
@@ -180,13 +179,13 @@ RSpec.describe "Tweet creation", type: :system do
     fill_in "tweet_body", with: "Public tweet!"
     click_on "Tweet"
     within ".retweets .dropdown" do
-      find("#menu-retweet").click
-      find("#retweet").click
+      find(".menu-retweet").click
+      find(".retweet").click
     end
     visit root_path
     within ".retweet-info" do
-      expect(page).to have_css("#display-name", text: user.display_name).twice
-      expect(page).to have_css("#tweet-body", text: "Public tweet!")
+      expect(page).to have_css(".display-name", text: user.display_name).twice
+      expect(page).to have_css(".tweet-body", text: "Public tweet!")
     end
   end
 
@@ -198,14 +197,14 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     within ".retweets .dropdown" do
-      find("#menu-retweet").click
-      find("#retweet").click
+      find(".menu-retweet").click
+      find(".retweet").click
     end
     visit root_path
     within ".retweet-info" do
-      expect(page).to have_css("#display-name", text: other_user.display_name).once
-      expect(page).to have_css("#display-name", text: user.display_name).once
-      expect(page).to have_css("#tweet-body", text: "Public tweet!")
+      expect(page).to have_css(".display-name", text: other_user.display_name).once
+      expect(page).to have_css(".display-name", text: user.display_name).once
+      expect(page).to have_css(".tweet-body", text: "Public tweet!")
     end
   end
 
@@ -218,8 +217,8 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     user.created_tweets.last.destroy
     within ".retweets .dropdown" do
-      find("#menu-retweet").click
-      find("#retweet").click
+      find(".menu-retweet").click
+      find(".retweet").click
     end
     expect(page).to have_content("Couldn't retweet")
   end
@@ -232,17 +231,17 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     within ".retweets .dropdown" do
-      find("#menu-retweet").click
-      find("#retweet").click
+      find(".menu-retweet").click
+      find(".retweet").click
     end
     visit root_path
     within ".retweets .dropdown" do
-      find("#menu-unretweet").click
-      find("#unretweet").click
+      find(".menu-unretweet").click
+      find(".unretweet").click
     end
-    expect(page).not_to have_css("#display-name", text: other_user.display_name).once
-    expect(page).not_to have_css("#display-name", text: user.display_name).once
-    expect(page).not_to have_css("#tweet-body", text: "Public tweet!")
+    expect(page).not_to have_css(".display-name", text: other_user.display_name).once
+    expect(page).not_to have_css(".display-name", text: user.display_name).once
+    expect(page).not_to have_css(".tweet-body", text: "Public tweet!")
   end
 
   it "users cannot retweet tweets from private users" do
@@ -264,7 +263,7 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     within ".retweets" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css("#menu-retweet")
+      expect(page).not_to have_css(".menu-retweet")
     end
   end
 
@@ -276,15 +275,15 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as user
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "tweet_body", with: "Private tweet!"
     click_on "Tweet"
     visit root_path
 
     login_as other_user
     visit username_path(user.username)
     within ".retweets .dropdown" do
-      find("#menu-retweet").click
-      find("#retweet").click
+      find(".menu-retweet").click
+      find(".retweet").click
     end
 
     visit root_path
@@ -298,7 +297,7 @@ RSpec.describe "Tweet creation", type: :system do
 
     within ".retweets" do
       expect(page).to have_css(".dropdown")
-      expect(page).to have_css("#menu-retweet")
+      expect(page).to have_css(".menu-retweet")
     end
   end
 
@@ -317,20 +316,20 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     within ".retweets .dropdown" do
-      find("#menu-retweet").click
-      find("#retweet").click
+      find(".menu-retweet").click
+      find(".retweet").click
     end
 
     visit username_path(user.username)
     user.account.update(private_visibility: true)
     within ".retweets .dropdown" do
-      find("#menu-unretweet").click
-      find("#unretweet").click
+      find(".menu-unretweet").click
+      find(".unretweet").click
     end
-    
+
     within ".retweets" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css("#menu-retweet")
+      expect(page).not_to have_css(".menu-retweet")
     end
   end
 end

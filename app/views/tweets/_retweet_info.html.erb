@@ -1,7 +1,7 @@
 <%= link_to username_path(t.author.username), class: "author" do %>
   <div class="retweet-info">
     <% original_tweet = t.og_tweet %>
-    <span id="display-name"><%= t.author.display_name %></span> Retweeted
+    <span class="display-name"><%= t.author.display_name %></span> Retweeted
     <%= render "tweets/creator_info", t: original_tweet %>
     <%= render "tweets/tweet_body", t: original_tweet %>
     <div class="activity-box">

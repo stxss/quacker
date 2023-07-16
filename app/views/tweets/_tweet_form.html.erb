@@ -3,13 +3,13 @@
     <div data-tweet-target="area" data-action="input->tweet#verifyLength" data-url="turbo/tweet_button">
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
     </div>
-    <div id="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
-    <%# <%= turbo_frame_tag "submit-tweet" do %>
+    <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
+    <%= turbo_frame_tag "submit-tweet" do %>
       <div class="tweet-button" data-tweet-target="submit" >
-        <div id="fake-submit-tweet">
+        <div class="fake-submit-tweet">
           Tweet
         </div>
       </div>
-    <%# <% end %>
+    <% end %>
   <% end %>
 </div>

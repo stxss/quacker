@@ -1,4 +1,4 @@
-<span id="unretweet">
+<span class="unretweet">
   <%= button_to retweet_path(t.id), params: { retweet: { retweet_id: t.id } }, method: :delete, remote: true, data: { turbo_frame: "retweet-#{t.id}", action: "click->retweet#changeColor" }, class: "retweet-button" do %>
     <%= content_tag(:span, retweet_icon_svg) %>
     <%= content_tag(:span, "Undo Retweet", class: "retweet-text") %>

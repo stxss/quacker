@@ -1,4 +1,4 @@
-<%= turbo_frame_tag id="modal" do %>
+<%= turbo_frame_tag "modal" do %>
   <% if session[:refresh] && session[:retweet_id].present? && !params[:parent_tweet_id] %>
   <%= render "tweets/quote_form", rt: @retweet %>
   <% elsif session[:refresh] && session[:comment].present? && !params[:retweet_id] %>

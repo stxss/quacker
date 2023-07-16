@@ -1,7 +1,7 @@
 <%= button_to "Cancel", unfollow, method: :delete, form: { data: {turbo_confirm: "Are you sure?"}}, params: params %>
 
 <dialog id="turbo-confirm">
-  <form id="dialog" method="dialog">
+  <form class="dialog" method="dialog">
     <h3>Discard follow request?</h3>
     <span>This will cancel your pending request, and @<%= @user.username %> will no longer see it. </span>
     <div>

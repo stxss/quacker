@@ -27,7 +27,7 @@ RSpec.describe "Unfollow", type: :system do
     login_as other_user
     visit username_path(user.username)
     click_on "Unfollow"
-    within("#dialog") do
+    within(".dialog") do
       click_on "Confirm"
     end
     expect(page).to have_button("Follow")
