@@ -255,7 +255,7 @@ RSpec.describe "Tweet creation", type: :system do
     check "account_private_visibility"
     click_on "Protect"
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "tweet_body", with: "Private tweet!"
     click_on "Tweet"
 
     visit root_path

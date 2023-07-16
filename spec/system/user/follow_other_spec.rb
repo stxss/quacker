@@ -69,8 +69,10 @@ RSpec.describe "Follow", type: :system do
     login_as user
     visit username_path(private_user.username)
     click_on "Follow"
+    visit root_path
     logout
     login_as private_user
+    visit root_path
     click_on "Follow Requests"
     within "#follow-requester" do
       click_on "Decline"
