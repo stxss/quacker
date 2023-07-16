@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :notifications, only: %i[index]
   resources :accounts, path: "settings", only: %i[index edit update]
 
-  post "/turbo/tweet_button", to: 'tweets#tweet_btn', as: :turbo_tweet_button
+  get "/turbo/tweet_button/(:valid)", to: 'tweets#tweet_btn', as: :turbo_tweet_button
 
   get "/:username", to: "users#show", as: "username"
 

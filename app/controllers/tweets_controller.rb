@@ -118,21 +118,21 @@ class TweetsController < ApplicationController
   end
 
   # For the generation of the tweet button
-  # def tweet_btn
-  #   button = if params[:valid] == true
-  #     turbo_stream.replace("submit-tweet", partial: "tweets/tweet_btn")
-  #   else
-  #     turbo_stream.replace("submit-tweet", partial: "tweets/fake_tweet_btn")
-  #   end
+  def tweet_btn
+    button = if params[:valid] == "1"
+      turbo_stream.replace("submit-tweet", partial: "tweets/tweet_btn")
+    else
+      turbo_stream.replace("submit-tweet", partial: "tweets/fake_tweet_btn")
+    end
 
-  #   respond_to do |format|
-  #     format.turbo_stream {
-  #       render turbo_stream: [
-  #         button
-  #       ]
-  #     }
-  #   end
-  # end
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          button
+        ]
+      }
+    end
+  end
 
   private
 
