@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   resources :accounts, path: "settings", only: %i[index edit update]
 
   get "/turbo/tweet_button/(:valid)", to: 'tweets#tweet_btn', as: :turbo_tweet_button
+  get "/compose/turbo/tweet_button(:valid)", to: 'tweets#tweet_btn', as: :turbo_tweet_button_compose
+  get "/compose/null", to: 'tweets#tweet_btn', as: :turbo_tweet_button_compose_quote_comment
 
   get "/:username", to: "users#show", as: "username"
 
