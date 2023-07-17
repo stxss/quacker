@@ -1,15 +1,15 @@
-<div data-controller="tweet">
+<div data-controller="tweet" class="tweet-form">
   <%= form_with model: Tweet.new, url: tweets_url, data: { turbo: false } do |f| %>
-    <div data-tweet-target="area" data-action="input->tweet#verifyLength" data-url="turbo/tweet_button">
-      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow" } %>
+    <div class="area-box" >
+      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update", "url":"turbo/tweet_button" } %>
     </div>
     <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
-    <%= turbo_frame_tag "submit-tweet" do %>
-      <div class="tweet-button" data-tweet-target="submit" >
-        <div class="fake-submit-tweet">
-          Tweet
-        </div>
-      </div>
-    <% end %>
+    <div class="tweet-button" data-tweet-target="submit" >
+      <%= turbo_frame_tag "submit-tweet" do %>
+          <div class="fake-submit-tweet">
+            Tweet
+          </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
