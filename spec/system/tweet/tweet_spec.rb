@@ -40,17 +40,19 @@ RSpec.describe "Tweet creation", type: :system do
     expect(page).to have_css(".fake-submit-tweet")
   end
 
+  it "doesn't create a tweet with more than 280 of characters" do
+    exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
+    fill_in "tweet_body", with: exact_limit_tweet
+    find(:id, "tweet_body").send_keys "."
+    expect(page).to have_css(".fake-submit-tweet")
+    expect(page).not_to have_css(".real-submit-tweet")
+  end
+
   it "does create a tweet with exactly 280 characters" do
     exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
     fill_in "tweet_body", with: exact_limit_tweet
     click_on "Tweet"
     expect(page).to have_css(".tweet-body", text: exact_limit_tweet)
-  end
-
-  it "doesn't create a tweet with more than 280 of characters" do
-    fill_in "tweet_body", with: Faker::Hipster.paragraph_by_chars(characters: 281)
-    expect(page).to have_css(".fake-submit-tweet")
-    expect(page).not_to have_css(".real-submit-tweet")
   end
 
   it "shows a tweet created minutes ago" do
