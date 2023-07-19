@@ -13,7 +13,7 @@ Turbo.setConfirmMethod(() => {
     if (diagCheckBox) {
         diagCheckBox.checked = false
     }
-    
+
     dialog.addEventListener("click", (event) => {
         if (event.target === dialog) {
             dialog.close()

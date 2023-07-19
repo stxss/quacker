@@ -1,4 +1,4 @@
-<div class="dropdown" data-controller="retweet"  data-action="click->retweet#dropMenu" data-retweet-target="dropdown">
+<div class="dropdown" data-controller="retweet" data-action="click->retweet#dropMenu" data-retweet-target="dropdown" >
   <% if current_user.user_has_rt?(t) %>
     <span class="menu-unretweet" data-retweet-target="menuButton" >
   <% else %>
