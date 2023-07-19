@@ -1,5 +1,5 @@
-<%= turbo_frame_tag id="modal" do %>
-  <div data-controller="turbo-modal" >
+<%= turbo_frame_tag "modal" do %>
+  <div data-controller="turbo-modal" data-previous-page-url="<%= session[:previous_page_url] %>">
     <%= form_with model: current_user.account, method: :patch, id:"sensitive-media-display" do |f| %>
       <div>
         <%= f.label :hide_potentially_sensitive_content, onchange: "this.form.requestSubmit()" do %>
