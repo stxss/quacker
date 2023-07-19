@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Connects to the media tagging setting
+// Connects to the tweet form
 export default class Tweet extends Controller {
     static targets = ["area", "counter", "circle", "submit"];
 
