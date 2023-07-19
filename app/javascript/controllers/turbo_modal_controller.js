@@ -1,7 +1,23 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Connects to data-controller="turbo-modal"
+// Connects to general modals - edit profile and so on
 export default class extends Controller {
+    connect() {
+        document.addEventListener("click", (event) => {
+            let withinBoundaries = event.composedPath().includes(this.element);
+
+            if (!withinBoundaries) {
+                this.hideModal();
+            }
+        });
+
+        document.addEventListener("keyup", (event) => {
+            if (event.code === "Escape") {
+                this.hideModal();
+            }
+        });
+    }
+
     hideModal() {
         let prev_page = this.element.dataset.previousPageUrl;
         let username = this.data.get("username");
@@ -21,23 +37,23 @@ export default class extends Controller {
     }
 
     next(event) {
-      if (event.detail.success) {
-        let fetchResponse = event.detail.fetchResponse;
-        let username = fetchResponse.response.username;
+        if (event.detail.success) {
+            let fetchResponse = event.detail.fetchResponse;
+            let username = fetchResponse.response.username;
 
-        history.pushState(
-          { turbo_frame_history: true },
-          "",
-          `/${username}`
-        );
+            history.pushState(
+                { turbo_frame_history: true },
+                "",
+                `/${username}`
+            );
 
-        Turbo.visit(fetchResponse.response.url);
-      }
+            Turbo.visit(fetchResponse.response.url);
+        }
     }
 
     close(e) {
-      if (e.detail.success) {
-        this.hideModal()
-      }
+        if (e.detail.success) {
+            this.hideModal();
+        }
     }
 }
