@@ -4,32 +4,33 @@ import { Controller } from "@hotwired/stimulus";
 export default class Tweet extends Controller {
     static targets = ["area", "counter", "circle", "submit"];
 
-
     initialize() {
-        this.update()
+        this.update();
     }
 
     connect() {
-        this.update()
+        this.update();
     }
 
     update() {
-        this.verifyLength(this.length)
+        this.verifyLength(this.length);
     }
 
     verifyLength(length) {
         if (this.notATweet()) {
             if (!this.submitTarget.querySelector(".fake-submit-tweet")) {
-
                 fetch(`${this.areaTarget.getAttribute("data-url")}?valid=0`)
-                  .then((res) => res.text())
-                  .then(text => Turbo.renderStreamMessage(text))
+                    .then((res) => res.text())
+                    .then((text) => Turbo.renderStreamMessage(text));
             }
         } else if (!this.submitTarget.querySelector(".real-submit-tweet")) {
-            this.submitTarget.classList.replace("fake-submit-tweet", "temp-submit-tweet")
-                fetch(`${this.areaTarget.getAttribute("data-url")}?valid=1`)
-                    .then((res) => res.text())
-                    .then(text => Turbo.renderStreamMessage(text));
+            this.submitTarget.classList.replace(
+                "fake-submit-tweet",
+                "temp-submit-tweet"
+            );
+            fetch(`${this.areaTarget.getAttribute("data-url")}?valid=1`)
+                .then((res) => res.text())
+                .then((text) => Turbo.renderStreamMessage(text));
         }
 
         let circleContainer = this.circleTarget;
@@ -50,7 +51,7 @@ export default class Tweet extends Controller {
     }
 
     showCount(length) {
-        this.verifyLength
+        this.verifyLength;
         if (!document.querySelector(".progress-ring")) {
             return;
         }
@@ -91,7 +92,7 @@ export default class Tweet extends Controller {
         function setProgress(length) {
             let offset = circumference - (length / 280) * circumference;
             if (offset <= 0) {
-                offset = 0
+                offset = 0;
                 fgCircle.style.stroke = "#F4212E";
                 bgCircle.style.stroke = "#F4212E";
             } else if (0 < offset && offset <= 4.487989505128276) {
@@ -109,19 +110,21 @@ export default class Tweet extends Controller {
 
     submit(e) {
         if (this.notATweet()) {
-          e.preventDefault()
+            e.preventDefault();
         }
-      }
+    }
 
     notATweet() {
-        return (this.content.match(/^\s*$/) || this.length < 1 || this.length > 280)
+        return (
+            this.content.match(/^\s*$/) || this.length < 1 || this.length > 280
+        );
     }
 
     get content() {
-        return this.areaTarget.value
+        return this.areaTarget.value;
     }
 
     get length() {
-        return this.content.length
+        return this.content.length;
     }
 }

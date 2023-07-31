@@ -7,8 +7,9 @@
       <button><%= retweet_icon_svg %></button>
     </span>
 
+
     <div class="myDropdown dropdown-content" data-retweet-target="menu">
-        <div class="backdrop"></div>
+      <div class="backdrop"></div>
       <% if current_user.user_has_rt?(t) %>
         <%= render "tweets/unretweet_button", t: t %>
       <% else %>

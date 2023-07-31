@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to general modals - edit profile and so on
 export default class extends Controller {
+
     connect() {
         document.addEventListener("click", (event) => {
             let withinBoundaries = event.composedPath().includes(this.element);

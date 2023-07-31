@@ -67,17 +67,17 @@ group :development do
   gem "web-console"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
+  gem "rack-mini-profiler"
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
+  gem "spring"
 end
 
 group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "capybara"
-  gem "webdrivers"
+  gem 'selenium-webdriver', '~> 4.10'
   gem "faker"
 end
 
@@ -85,4 +85,4 @@ group :development do
   gem 'guard'
 end
 
-gem "rack-mini-profiler", "~> 3.1"
+
