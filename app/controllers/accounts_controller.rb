@@ -10,10 +10,6 @@ class AccountsController < ApplicationController
     end
   end
 
-  def edit_content_you_see
-    session[:previous_page_url] = request.referrer
-  end
-
   private
 
   def account_params
