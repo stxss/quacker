@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root to: redirect("/home", status: 302)
 
   # path "" -> removes the /users/ prefix from url, specifying username as the identifier instead of the default :id
-  resources :users, path: "", param: :username, only: [:index, :new, :create, :edit, :update, :destroy] do
+  resources :users, path: "", param: :username, only: [:index, :new, :create, :update, :destroy] do
     member do
       get :following, :followers
     end
