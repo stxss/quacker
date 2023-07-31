@@ -34,22 +34,6 @@ export default class extends Controller {
         } else {
             window.location.href = "/home";
         }
-
-    }
-
-    next(event) {
-        if (event.detail.success) {
-            let fetchResponse = event.detail.fetchResponse;
-            let username = fetchResponse.response.username;
-
-            history.pushState(
-                { turbo_frame_history: true },
-                "",
-                `/${username}`
-            );
-
-            Turbo.visit(fetchResponse.response.url);
-        }
     }
 
     close(e) {
