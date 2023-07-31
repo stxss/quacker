@@ -20,16 +20,12 @@ export default class extends Controller {
     }
 
     hideModal() {
-        let prev_page = this.element.dataset.previousPageUrl;
-        let username = this.data.get("username");
-        let prev_page_str = prev_page.slice(prev_page.lastIndexOf("/") + 1);
-
         this.element.parentElement.removeAttribute("src");
         this.element.remove();
 
-        if (prev_page_str === username) {
-            window.location.href = `/${username}`;
-        } else if (prev_page_str === "privacy_and_safety" || prev_page_str === "search" ) {
+        if (this.prevPageStr === this.username) {
+            window.location.href = `/${this.username}`;
+        } else if (this.prevPageStr === "content_you_see") {
             window.location.href = `/settings/content_you_see`;
         } else {
             window.location.href = "/home";
@@ -40,5 +36,17 @@ export default class extends Controller {
         if (e.detail.success) {
             this.hideModal();
         }
+    }
+
+    get prevPage() {
+        return this.element.dataset.previousPageUrl;
+    }
+
+    get prevPageStr() {
+        return this.prevPage.slice(this.prevPage.lastIndexOf("/") + 1);
+    }
+
+    get username() {
+        return this.data.get("username");
     }
 }
