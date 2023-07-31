@@ -70,6 +70,7 @@ RSpec.describe "Check user static pages", type: :system do
         find(".menu-unretweet").click
         expect(page).not_to have_css(".retweet")
         expect(page).to have_css(".unretweet")
+        find(".backdrop").click
       end
     end
 
@@ -79,6 +80,7 @@ RSpec.describe "Check user static pages", type: :system do
         find(".menu-retweet").click
         expect(page).to have_css(".retweet")
         expect(page).not_to have_css(".unretweet")
+        find(".backdrop").click
       end
     end
 

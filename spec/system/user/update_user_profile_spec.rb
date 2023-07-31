@@ -19,6 +19,9 @@ RSpec.describe "Update user profile fields", type: :system do
     fill_in "Display name", with: "display name for user"
     fill_in "Biography", with: "a simple biography"
     click_on "Save"
+    within ".access-buttons" do
+      click_on "Profile"
+    end
     expect(page).to have_css(".display-name", text: "display name for user")
     expect(page).to have_css(".bio", text: "a simple biography")
   end
@@ -26,23 +29,27 @@ RSpec.describe "Update user profile fields", type: :system do
   it "when visiting profile page and clicking on edit" do
     login_as user
     visit root_path
+    click_on "I'll do it later"
     click_on "Profile"
     click_on "Edit profile"
-    fill_in "Display name", with: "display name for user"
-    fill_in "Biography", with: "a simple biography"
+    fill_in "Display name", with: "2nd display name for user"
+    fill_in "Biography", with: "2nd simple biography"
     click_on "Save"
-    expect(page).to have_css(".display-name", text: "display name for user")
-    expect(page).to have_css(".bio", text: "a simple biography")
+    expect(page).to have_css(".display-name", text: "2nd display name for user")
+    expect(page).to have_css(".bio", text: "2nd simple biography")
   end
 
   it "when visiting edit profile page url" do
     login_as user
+    visit root_path
     visit "/settings/profile"
-    fill_in "Display name", with: "display name for user"
-    fill_in "Biography", with: "a simple biography"
+    fill_in "Display name", with: "3rd display name for user"
+    fill_in "Biography", with: "3rd simple biography"
     click_on "Save"
-    click_on "Profile"
-    expect(page).to have_css(".display-name", text: "display name for user")
-    expect(page).to have_css(".bio", text: "a simple biography")
+    within ".access-buttons" do
+      click_on "Profile"
+    end
+    expect(page).to have_css(".display-name", text: "3rd display name for user")
+    expect(page).to have_css(".bio", text: "3rd simple biography")
   end
 end
