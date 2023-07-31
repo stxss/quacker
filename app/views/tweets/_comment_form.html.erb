@@ -1,4 +1,4 @@
-<div data-controller="tweet" class="tweet-form">
+<div data-controller="tweet turbo-modal" class="tweet-form" data-previous-page-url="<%= session[:previous_page_url] %>">
   <%= form_with model: Tweet.new, url: tweets_url(parent_tweet_id: t), data: { turbo: false } do |f| %>
     <div class="origin_tweet">
         <%= render "tweets/quote_single_tweet", t: t %>

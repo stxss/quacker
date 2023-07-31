@@ -1,14 +1,15 @@
 <%= turbo_frame_tag "modal" do %>
+  <div class="backdrop"></div>
   <% if session[:refresh] && session[:retweet_id].present? && !params[:parent_tweet_id] %>
   <%= render "tweets/quote_form", rt: @retweet %>
   <% elsif session[:refresh] && session[:comment].present? && !params[:retweet_id] %>
   <%= render "tweets/comment_form", t: @comment %>
   <% else %>
-  <%= render "tweets/tweet_form" %>
+    <%= render "tweets/tweet_form", modal: true %>
   <% end %>
 <% end %>
 
-<div><%= render "tweets/tweet_form" %></div>
+<%= render "tweets/tweet_form", modal: false %>
 <%= render "tweets/timeline" %>
 
 

@@ -177,7 +177,15 @@
     font: inherit;
     cursor: pointer;
     text-decoration: none;
+    position: relative;
+    z-index: 1;
   }
+
+  .tweet-form {
+    position: relative;
+    z-index: 1;
+  }
+
 
   .menu-retweet {
     fill: black
