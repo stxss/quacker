@@ -24,12 +24,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update(user_params)
-        format.turbo_stream {
-          render turbo_stream: [
-            turbo_stream.replace("user-profile", partial: "users/profile_banner", locals: {user: current_user}),
-            turbo_stream.remove("modal")
-          ]
-        }
+        format.turbo_stream
         format.html { redirect_to username_url(current_user.username) }
       else
         flash.now[:alert] = "Oops, something went wrong, check your fields again"
