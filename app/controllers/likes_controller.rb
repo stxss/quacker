@@ -1,6 +1,6 @@
 class LikesController < ApplicationController
   def create
-    @like = current_user.like_tweet(like_params)
+    @like = current_user.like_tweet(like_params[:tweet_id].to_i)
     @tweet = Tweet.find(like_params[:tweet_id])
 
     respond_to do |format|
