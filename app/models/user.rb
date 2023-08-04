@@ -61,7 +61,7 @@ class User < ApplicationRecord
   end
 
   def like_tweet(tweet)
-    liked_tweets.build(tweet_id: tweet)
+    liked_tweets.create(tweet_id: tweet)
   end
 
   def login

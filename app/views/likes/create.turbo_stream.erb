@@ -1,1 +1,0 @@
-<%= turbo_stream.update_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user})%>
