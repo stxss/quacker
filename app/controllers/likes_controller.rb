@@ -1,7 +1,8 @@
 class LikesController < ApplicationController
   def create
-    @like = current_user.like_tweet(like_params[:tweet_id].to_i)
     @tweet = Tweet.find(like_params[:tweet_id])
+
+    @like = current_user.like_tweet(like_params[:tweet_id].to_i)
 
     respond_to do |format|
       if @like.save
@@ -9,9 +10,13 @@ class LikesController < ApplicationController
         format.html { redirect_to request.referrer }
         current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
       # else
-        # flash.now[:alert] = "Oops, something went wrong, check your fields again"
-        # render :edit, status: :unprocessable_entity
+      #   flash.now[:alert] = "Oops, something went wrong, check your fields again"
+      #   render :edit, status: :unprocessable_entity
       end
+    end
+  rescue ActiveRecord::RecordNotUnique
+    respond_to do |format|
+      format.turbo_stream
     end
   rescue ActiveRecord::RecordNotFound
     respond_to do |format|
@@ -26,11 +31,15 @@ class LikesController < ApplicationController
 
   def destroy
     @tweet = Tweet.find(like_params[:tweet_id])
-    @like = current_user.liked_tweets.find_by(tweet: @tweet)
 
-    @like.destroy
+    if current_user.user_has_like?(like_params[:tweet_id])
+      @like = current_user.liked_tweets.find_by(tweet: @tweet)
+      @like.destroy
 
-    @og = @like.tweet
+      @tweet.broadcast_render_later_to "public_likes",
+        partial: "likes/update_likes_count",
+        locals: {t: Tweet.find(@tweet.id)}
+    end
 
     respond_to do |format|
       format.turbo_stream

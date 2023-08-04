@@ -1,2 +1,1 @@
-<%= turbo_stream.update_all(".likes #like_count_#{@og.id}", partial: "likes/like_count", locals: {t: @og}) %>
-<%= turbo_stream.update_all(".likes #like_#{@og.id}", partial: "likes/like_button", locals: {tweet: @og}) %>
+<%= turbo_stream.update_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user}) %>
