@@ -1,3 +1,6 @@
-<span class="unlike">
-  <%= button_to unlike_icon_svg, like_path(username: current_user.username, id: current_user.liked_tweets.find_by(tweet_id: tweet.id)), params: { like: { tweet_id: tweet.id } }, method: :delete, remote: true %>
+<% user = current_user if local_assigns[:user].nil? %>
+
+<span class="unlike-btn">
+  <%= button_to unlike_icon_svg, like_path(username: user.username, id: user.liked_tweets.find_by(tweet_id: tweet.id)), params: { like: { tweet_id: tweet.id } }, method: :delete, remote: true %>
 </span>
+

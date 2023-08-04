@@ -128,7 +128,7 @@
     text-decoration: underline;
   }
 
-  .likes,
+  .like,
   .retweets,
   .comments {
     display: flex;
@@ -143,18 +143,22 @@
   }
 
   .retweet-count,
-  .like-count,
   .comment-count {
     margin-left: 10px;
     color: black
+  }
+
+  .like-count {
+    margin-left: 10px;
   }
 
   .retweet-count.retweeted {
     color: green
   }
 
-  .like-count.liked {
-    color: red
+  .liked {
+    fill: red;
+    color: red;
   }
 
   .notification {
