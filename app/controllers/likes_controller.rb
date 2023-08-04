@@ -15,7 +15,7 @@ class LikesController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
-          turbo_stream.update_all(".likes #like_#{@og.id}", partial: "likes/likes", locals: {t: @og, user: current_user})
+          turbo_stream.replace_all(".likes #like_#{@og.id}", partial: "likes/likes", locals: {t: @og, user: current_user})
         ]
       }
       format.html { redirect_to request.referrer }
@@ -27,7 +27,7 @@ class LikesController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
-          turbo_stream.update_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user})
+          turbo_stream.replace_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user})
         ]
       }
     end
@@ -58,7 +58,7 @@ class LikesController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
-          turbo_stream.update_all(".likes #like_#{@og.id}", partial: "likes/likes", locals: {t: @og, user: current_user})
+          turbo_stream.replace_all(".likes #like_#{@og.id}", partial: "likes/likes", locals: {t: @og, user: current_user})
         ]
       }
       format.html { redirect_to request.referrer }
@@ -71,7 +71,7 @@ class LikesController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
-          turbo_stream.update_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user})
+          turbo_stream.replace_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user})
         ]
       }
     end

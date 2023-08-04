@@ -1,15 +1,13 @@
 <% user = current_user if local_assigns[:user].nil? %>
 
-<span class="likes">
-  <%= turbo_frame_tag "like_#{t.id}" do %>
-    <div class="like <%= 'liked' if user.user_has_like?(t) %>">
-      <% if user.user_has_like?(t) %>
-        <%= render "likes/unlike_button", tweet: t %>
-      <% else %>
-        <%= render "likes/like_button", tweet: t %>
-      <% end %>
+<%= turbo_frame_tag "like_#{t.id}" do %>
+  <div class="like <%= 'liked' if user.has_like?(t) %>">
+    <% if user.has_like?(t) %>
+      <%= render "likes/unlike_button", tweet: t %>
+    <% else %>
+      <%= render "likes/like_button", tweet: t %>
+    <% end %>
 
-      <%= render "likes/like_count", t: t %>
-    </div>
-  <% end %>
-</span>
+    <%= render "likes/like_count", t: t %>
+  </div>
+<% end %>

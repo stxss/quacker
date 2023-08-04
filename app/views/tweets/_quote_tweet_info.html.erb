@@ -14,7 +14,10 @@
   <div class="activity-box">
     <%= render "tweets/comments", t: t %>
     <%= render "tweets/retweets", t: t %>
-    <%= render "likes/likes", t: t %>
+    <span class="likes">
+      <%= render "likes/likes", t: t %>
+    </span>
+
   </div>
   <% if @show_replies %>
           <% if t.comments.size >= 3 %>
