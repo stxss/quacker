@@ -1,9 +1,5 @@
-<% if current_user.user_has_rt?(t) %>
-  <span class="retweet-count retweeted"><%= t.retweets.size + t.quote_tweets.size %></span>
-<% elsif !current_user.user_has_rt?(t) && t.author.account.private_visibility && current_user != t.author %>
-  <span class="retweet-count"><%= t.retweets.size + t.quote_tweets.size %></span>
-<% else %>
-  <span class="retweet-count" ><%= t.retweets.size + t.quote_tweets.size %></span>
+<%= turbo_frame_tag "retweet_count_#{t.id}" do %>
+  <span class="retweet-count">
+    <%= t.retweets.size + t.quote_tweets.size %>
+  </span>
 <% end %>
-
-

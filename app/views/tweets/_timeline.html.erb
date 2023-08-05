@@ -1,4 +1,5 @@
-<%= turbo_stream_from "public_likes" %>
+<%= turbo_stream_from "likes" %>
+<%= turbo_stream_from "retweets" %>
 
 <% @tweets.each do |t| %>
   <% if t.comment? && t.new_tweet?(@tweets) && session[:new_comment] == 1  %>

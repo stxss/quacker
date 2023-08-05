@@ -1,15 +1,15 @@
-<span class="retweets">
-  <% if (t.author.account.private_visibility && current_user == t.author) || (t.author.account.private_visibility && current_user != t.author && current_user.created_tweets.where(retweet_id: t).exists?) || !t.author.account.private_visibility %>
-    <%= turbo_frame_tag "retweet_#{t.id}" do %>
-      <%= render "tweets/drop_menu", t: t %>
-    <% end %>
-  <% elsif t.author.account.private_visibility && current_user != t.author %>
-    <%= turbo_frame_tag "retweet_#{t.id}" do %>
-      <%= render "tweets/fake_retweet_menu" %>
-    <% end %>
-  <% end %>
+<% user = current_user if local_assigns[:user].nil? %>
+<% self_rt = nil if local_assigns[:self_rt].nil? %>
 
-  <%= turbo_frame_tag "retweet_count_#{t.id}" do %>
+<% if (t.author.account.private_visibility && current_user == t.author) || (t.author.account.private_visibility && current_user != t.author && current_user.has_rt?(t)) || !t.author.account.private_visibility  %>
+  <% menu = "tweets/drop_menu" %>
+<% elsif t.author.account.private_visibility && current_user != t.author %>
+  <% menu = "tweets/fake_retweet_menu" %>
+<% end %>
+
+<%= turbo_frame_tag "retweet_#{t.id}" do %>
+  <div class="retweets <%= 'retweeted' if user.has_rt?(t) %>">
+    <%= render menu, t: t, self_rt: self_rt %>
     <%= render "tweets/retweet_count", t: t %>
-  <% end %>
-</span>
+  </div>
+<% end %>
