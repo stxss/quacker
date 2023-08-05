@@ -8,7 +8,7 @@
 <% end %>
 
 <%= turbo_frame_tag "retweet_#{t.id}" do %>
-  <div class="retweets <%= 'retweeted' if user.has_rt?(t) %>">
+  <div class="retweet <%= 'retweeted' if user.has_rt?(t) %>">
     <%= render menu, t: t, self_rt: self_rt %>
     <%= render "tweets/retweet_count", t: t %>
   </div>

@@ -129,7 +129,7 @@
   }
 
   .like,
-  .retweets,
+  .retweet,
   .comments {
     display: flex;
     padding: 5px;
@@ -167,8 +167,8 @@
     padding: 5px;
   }
 
-  .retweet button,
-  .unretweet button,
+  .retweet-btn button,
+  .unretweet-btn button,
   .like-btn button,
   .unlike-btn button,
   .dropdown button,

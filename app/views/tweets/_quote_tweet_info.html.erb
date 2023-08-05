@@ -13,7 +13,11 @@
 
   <div class="activity-box">
     <%= render "tweets/comments", t: t %>
-    <%= render "tweets/retweets", t: t %>
+
+    <span class="retweets">
+      <%= render "tweets/retweets", t: t %>
+    </span>
+
     <span class="likes">
       <%= render "likes/likes", t: t %>
     </span>
