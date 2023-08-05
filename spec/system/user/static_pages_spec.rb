@@ -31,8 +31,8 @@ RSpec.describe "Check user static pages", type: :system do
     # Assert that the first three tweets are liked
     tweets[0..2].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        expect(page).not_to have_css(".like")
-        expect(page).to have_css(".unlike")
+        expect(page).not_to have_css(".like .liked")
+        expect(page).to have_css(".unlike-btn")
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe "Check user static pages", type: :system do
     tweets[3..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
         expect(page).to have_css(".like")
-        expect(page).not_to have_css(".unlike")
+        expect(page).not_to have_css(".unlike-btn")
       end
     end
 
@@ -59,17 +59,17 @@ RSpec.describe "Check user static pages", type: :system do
     # Find the first five tweets and retweet them
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        find(".menu-retweet").click
-        find(".retweet").click
+        find(".dropdown").click
+        find(".retweet-btn").click
       end
     end
 
     # Assert that the first five tweets are retweeted
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        find(".menu-unretweet").click
-        expect(page).not_to have_css(".retweet")
-        expect(page).to have_css(".unretweet")
+        find(".dropdown").click
+        expect(page).not_to have_css(".retweet-btn")
+        expect(page).to have_css(".unretweet-btn")
         find(".backdrop").click
       end
     end
@@ -77,9 +77,9 @@ RSpec.describe "Check user static pages", type: :system do
     # Assert that the remaining tweets are not retweeted
     tweets[5..9].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        find(".menu-retweet").click
-        expect(page).to have_css(".retweet")
-        expect(page).not_to have_css(".unretweet")
+        find(".dropdown").click
+        expect(page).to have_css(".retweet-btn")
+        expect(page).not_to have_css(".unretweet-btn")
         find(".backdrop").click
       end
     end

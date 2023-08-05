@@ -138,7 +138,7 @@ RSpec.describe "Tweet creation", type: :system do
     click_on "Tweet"
     visit username_path(user.username)
     find(".like").click
-    expect(page).to have_css(".unlike")
+    expect(page).to have_css(".unlike-btn")
   end
 
   it "users can like others' tweets" do
@@ -149,7 +149,7 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     find(".like").click
-    expect(page).to have_css(".unlike")
+    expect(page).to have_css(".unlike-btn")
   end
 
   it "users can unlike tweets" do
@@ -160,7 +160,7 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     find(".like").click
-    find(".unlike").click
+    find(".unlike-btn").click
     expect(page).to have_css(".like")
   end
 
@@ -180,9 +180,9 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     fill_in "tweet_body", with: "Public tweet!"
     click_on "Tweet"
-    within ".retweets .dropdown" do
-      find(".menu-retweet").click
-      find(".retweet").click
+    within ".retweets" do
+      find(".dropdown").click
+      find(".retweet-btn").click
     end
     visit root_path
     within ".retweet-info" do
@@ -198,9 +198,9 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    within ".retweets .dropdown" do
-      find(".menu-retweet").click
-      find(".retweet").click
+    within ".retweets" do
+      find(".dropdown").click
+      find(".retweet-btn").click
     end
     visit root_path
     within ".retweet-info" do
@@ -218,9 +218,9 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     user.created_tweets.last.destroy
-    within ".retweets .dropdown" do
-      find(".menu-retweet").click
-      find(".retweet").click
+    within ".retweets" do
+      find(".dropdown").click
+      find(".retweet-btn").click
     end
     expect(page).to have_content("Couldn't retweet")
   end
@@ -232,14 +232,14 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    within ".retweets .dropdown" do
-      find(".menu-retweet").click
-      find(".retweet").click
+    within ".retweets" do
+      find(".dropdown").click
+      find(".retweet-btn").click
     end
     visit root_path
-    within ".retweets .dropdown" do
-      find(".menu-unretweet").click
-      find(".unretweet").click
+    within ".retweets .retweeted" do
+      find(".dropdown").click
+      find(".unretweet-btn").click
     end
     expect(page).not_to have_css(".display-name", text: other_user.display_name).once
     expect(page).not_to have_css(".display-name", text: user.display_name).once
@@ -247,9 +247,8 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "users cannot retweet tweets from private users" do
-    login_as other_user
-    visit username_path(user.username)
-    click_on "Follow"
+    create(:follow, followed_id: other_user.id, follower_id: user.id, is_request: false)
+    create(:follow, followed_id: user.id, follower_id: other_user.id, is_request: false)
 
     visit root_path
     login_as user
@@ -257,35 +256,29 @@ RSpec.describe "Tweet creation", type: :system do
     check "account_private_visibility"
     click_on "Protect"
     visit root_path
-    fill_in "tweet_body", with: "Private tweet!"
-    click_on "Tweet"
+    create(:tweet, user_id: user.id, body: "Test tweet")
 
     visit root_path
     login_as other_user
     visit username_path(user.username)
     within ".retweets" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css(".menu-retweet")
+      expect(page).not_to have_css(".unretweet-btn")
     end
   end
 
   it "users can unretweet tweets from private users they had previously retweeted" do
-    login_as other_user
-    visit username_path(user.username)
-    click_on "Follow"
+    create(:follow, followed_id: other_user.id, follower_id: user.id, is_request: false)
+    create(:follow, followed_id: user.id, follower_id: other_user.id, is_request: false)
+    create(:tweet, user_id: user.id, body: "Test tweet")
 
-    visit root_path
-    login_as user
-    visit root_path
-    fill_in "tweet_body", with: "Private tweet!"
-    click_on "Tweet"
     visit root_path
 
     login_as other_user
     visit username_path(user.username)
-    within ".retweets .dropdown" do
-      find(".menu-retweet").click
-      find(".retweet").click
+    within ".retweets" do
+      find(".dropdown").click
+      find(".retweet-btn").click
     end
 
     visit root_path
@@ -296,17 +289,17 @@ RSpec.describe "Tweet creation", type: :system do
 
     visit root_path
     login_as other_user
+    visit username_path(user.username)
 
     within ".retweets" do
       expect(page).to have_css(".dropdown")
-      expect(page).to have_css(".menu-retweet")
+      expect(page).to have_css(".retweets .retweeted")
     end
   end
 
   it "if a user sets account to private mid-unretweet, a fake retweet button replaces the menu" do
-    login_as other_user
-    visit username_path(user.username)
-    click_on "Follow"
+    create(:follow, followed_id: other_user.id, follower_id: user.id, is_request: false)
+    create(:follow, followed_id: user.id, follower_id: other_user.id, is_request: false)
 
     visit root_path
     login_as user
@@ -317,21 +310,21 @@ RSpec.describe "Tweet creation", type: :system do
 
     login_as other_user
     visit username_path(user.username)
-    within ".retweets .dropdown" do
-      find(".menu-retweet").click
-      find(".retweet").click
+    within ".retweets" do
+      find(".dropdown").click
+      find(".retweet-btn").click
     end
 
     visit username_path(user.username)
     user.account.update(private_visibility: true)
-    within ".retweets .dropdown" do
-      find(".menu-unretweet").click
-      find(".unretweet").click
+    within ".retweets .retweeted" do
+      find(".dropdown").click
+      find(".unretweet-btn").click
     end
 
     within ".retweets" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css(".menu-retweet")
+      expect(page).not_to have_css(".unretweet-btn")
     end
   end
 end
