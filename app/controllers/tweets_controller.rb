@@ -30,18 +30,30 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @tweet = if params[:parent_tweet_id]
+    @tweet = if params[:retweet_id]
+      current_user.created_tweets.create!(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
+    elsif params[:parent_tweet_id]
       session[:new_comment] = 0
       current_user.created_tweets.create!(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
-      @og = Tweet.find(params[:parent_tweet_id])
     else
-      current_user.created_tweets.create!(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
-      @og = Tweet.find(params[:retweet_id])
+      current_user.created_tweets.create!(tweet_params)
     end
 
-    @og.broadcast_render_later_to "retweets",
-      partial: "tweets/update_retweets_count",
-      locals: {t: Tweet.find(@og.id)}
+    @og = if params[:retweet_id]
+      Tweet.find(params[:retweet_id])
+    elsif params[:parent_tweet_id]
+      Tweet.find(params[:parent_tweet_id])
+    end
+
+    if params[:parent_tweet_id]
+      @og.broadcast_render_later_to "comments",
+        partial: "tweets/update_comments_count",
+        locals: {t: Tweet.find(@og.id)}
+    elsif params[:retweet_id]
+      @og.broadcast_render_later_to "retweets",
+        partial: "tweets/update_retweets_count",
+        locals: {t: Tweet.find(@og.id)}
+    end
 
     respond_to do |format|
       format.html { redirect_to root_path }
@@ -233,11 +245,11 @@ class TweetsController < ApplicationController
   def refresh_comments
     return if !session[:new_comment]
 
-    # THGIS IS THE COMMENT
-    og = Tweet.find(session[:og_comment_id]) if session[:og_comment_id]
+    # THIS IS THE COMMENT
+    comment = Tweet.find(session[:og_comment_id]) if session[:og_comment_id]
 
     # THIS IS THE PARENT COMMENT
-    Tweet.find(og.parent_tweet_id).update(updated_at: og.created_at) if og
+    Tweet.find(comment.parent_tweet_id).update(updated_at: comment.created_at) if comment
 
     # Tweet.find(og.parent_tweet_id) if session[:og_comment_id]
     session.delete(:og_comment_id)

@@ -3,7 +3,7 @@
 <%= turbo_stream_from "likes" %>
 
 <% @tweets.each do |t| %>
-  <% if t.comment? && t.new_tweet?(@tweets) && session[:new_comment] == 1  %>
+  <% if t.comment? && t.new_tweet?(@tweets) && session[:new_comment] == 1 && t.parent.comments.last == t %>
     <%= render "tweets/comment_tweet_info", t: t %>
   <% else %>
     <%= render "tweets/single_tweet", t: t %>

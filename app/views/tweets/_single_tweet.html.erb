@@ -24,11 +24,19 @@
           </span>
         </div>
         <% if @show_replies %>
-          <% if t.comments.size >= 3 %>
+          <% if t.comments.length >= 3 %>
             <%= link_to "Show more replies", single_tweet_url(username: t.author.username, id: t.id), data: {turbo: false} %>
-            <% t.comments.last(2).each do |tweet| %>
-              <%= render "tweets/comment_tweet_info", t: tweet %>
+            <% if session[:new_comment] == 1 %>
+              <% t.comments[-3..-2].each do |tweet| %>
+                <%= render "tweets/comment_tweet_info", t: tweet %>
+              <% end %>
+            <% else %>
+              <% t.comments.last(2).each do |tweet| %>
+                <%= render "tweets/comment_tweet_info", t: tweet %>
+              <% end %>
             <% end %>
+          <% elsif t.comments.length == 2 && session[:new_comment] == 1 %>
+            <%= render "tweets/comment_tweet_info", t: t.comments.last(2).first %>
           <% elsif session[:new_comment] == 1 || (!t.new_tweet?(@tweets) && t.just_updated?) %>
           <% elsif (!t.new_tweet?(@tweets) && !t.just_updated?) %>
             <% t.comments.each do |tweet| %>
