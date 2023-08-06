@@ -30,14 +30,18 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @tweet = if params[:retweet_id]
-      current_user.created_tweets.create!(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
-    elsif params[:parent_tweet_id]
+    @tweet = if params[:parent_tweet_id]
       session[:new_comment] = 0
       current_user.created_tweets.create!(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
+      @og = Tweet.find(params[:parent_tweet_id])
     else
-      current_user.created_tweets.create!(tweet_params)
+      current_user.created_tweets.create!(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
+      @og = Tweet.find(params[:retweet_id])
     end
+
+    @og.broadcast_render_later_to "retweets",
+      partial: "tweets/update_retweets_count",
+      locals: {t: Tweet.find(@og.id)}
 
     respond_to do |format|
       format.html { redirect_to root_path }
@@ -110,8 +114,24 @@ class TweetsController < ApplicationController
 
     @tweet.destroy
 
+    @og = if @tweet.retweet?
+      @tweet.og_tweet
+    elsif @tweet.quote_tweet?
+      @tweet.quote
+    elsif @tweet.comment?
+      @tweet.parent
+    end
+
+    @og.broadcast_render_later_to "retweets",
+      partial: "tweets/update_retweets_count",
+      locals: {t: Tweet.find(@og.id)}
+
     respond_to do |format|
-      format.turbo_stream
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{@tweet.id}")
+        ]
+      }
       format.html { redirect_to request.referrer }
       @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
     end

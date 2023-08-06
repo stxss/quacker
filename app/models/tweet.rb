@@ -19,19 +19,15 @@ class Tweet < ApplicationRecord
   scope :ordered, -> { order(updated_at: :desc) }
 
   def retweet?
-    !body && retweet_id
+    !body? && retweet_id?
   end
 
   def quote_tweet?
-    body && quoted_retweet_id
+    body? && quoted_retweet_id?
   end
 
   def comment?
     parent_tweet_id?
-  end
-
-  def quote
-    Tweet.find(quoted_retweet_id)
   end
 
   def responder
