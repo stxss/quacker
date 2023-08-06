@@ -3,7 +3,5 @@
     <%= render "tweets/comment_button", t: t %>
   <% end %>
 
-  <%= turbo_frame_tag "comment_count_#{t.id}" do %>
-    <%= render "tweets/comment_count", t: t %>
-  <% end %>
+  <%= render "tweets/comment_count", t: t %>
 </span>

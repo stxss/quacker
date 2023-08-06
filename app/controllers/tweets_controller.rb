@@ -119,12 +119,18 @@ class TweetsController < ApplicationController
     elsif @tweet.quote_tweet?
       @tweet.quote
     elsif @tweet.comment?
-      @tweet.parent
+      parent_tweet
     end
 
-    @og.broadcast_render_later_to "retweets",
-      partial: "tweets/update_retweets_count",
-      locals: {t: Tweet.find(@og.id)}
+    if @tweet.retweet? || @tweet.quote_tweet?
+      @og.broadcast_render_later_to "retweets",
+        partial: "tweets/update_retweets_count",
+        locals: {t: Tweet.find(@og.id)}
+    elsif @tweet.comment?
+      @og.broadcast_render_later_to "comments",
+        partial: "tweets/update_comments_count",
+        locals: {t: Tweet.find(@og.id)}
+    end
 
     respond_to do |format|
       format.turbo_stream {
