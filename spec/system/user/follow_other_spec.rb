@@ -12,14 +12,10 @@ RSpec.describe "Follow", type: :system do
   let!(:private_user) { create(:user) }
 
   before do
-    login_as private_user
-    visit settings_audience_and_tagging_path
-    check "account_private_visibility"
-    click_on "Protect"
-    visit root_path
+    private_user.account.update(private_visibility: true)
   end
 
-  it "First doesn't follow second and second is a public account" do
+  it "first doesn't follow second and second is a public account" do
     login_as user
     visit username_path(other_user.username)
     click_on "Follow"
@@ -27,7 +23,7 @@ RSpec.describe "Follow", type: :system do
     expect(page).not_to have_button("Follow")
   end
 
-  it "Second doesn't follow first" do
+  it "second doesn't follow first" do
     login_as other_user
     visit username_path(user.username)
     click_on "Follow"
@@ -57,28 +53,34 @@ RSpec.describe "Follow", type: :system do
   it "private user has a Follow Requests button" do
     login_as user
     visit username_path(private_user.username)
-    click_on "Follow"
-    visit root_path
-    logout
+    create(:follow, followed_id: private_user.id, follower_id: user.id, is_request: true)
+
     login_as private_user
     visit root_path
-    expect(page).to have_button("Follow Requests")
+    expect(page).to have_css(".follow-requests")
   end
 
   it "private user declines follow request" do
     login_as user
     visit username_path(private_user.username)
-    click_on "Follow"
+    # click_on "Follow"
+    create(:follow, followed_id: private_user.id, follower_id: user.id, is_request: true)
+
     visit root_path
-    logout
+
     login_as private_user
     visit root_path
+
     click_on "Follow Requests"
-    within "#follow-requester" do
+    within ".follow-request" do
       click_on "Decline"
     end
     visit root_path
+    # something wrong with logging out in capybara, have to logout like this sometimes
+    # https://github.com/wardencommunity/warden/issues/163
+    login_as user
     logout
+
     login_as user
     visit username_path(private_user.username)
     expect(page).to have_button("Follow")
@@ -88,15 +90,20 @@ RSpec.describe "Follow", type: :system do
     login_as user
     visit username_path(private_user.username)
     click_on "Follow"
+    # create(:follow, followed_id: private_user.id, follower_id: user.id, is_request: true)
+
     visit root_path
-    logout
+
     login_as private_user
     visit root_path
+
     click_on "Follow Requests"
-    within "#follow-requester" do
+    within ".follow-request" do
       click_on "Accept"
     end
+
     visit root_path
+    login_as user
     logout
     login_as user
     visit username_path(private_user.username)
