@@ -1,6 +1,6 @@
-<span class="retweet-btn">
+<div class="retweet-button">
   <%= button_to retweet_path(t.id), params: { retweet: { retweet_id: t.id} }, remote: true, class: "retweet-button" do %>
     <%= content_tag(:span, retweet_icon_svg) %>
     <%= content_tag(:span, "Retweet", class: "retweet-text") %>
   <% end %>
-</span>
+</div>

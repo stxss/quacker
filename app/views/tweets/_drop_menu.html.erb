@@ -1,10 +1,10 @@
 <% user = current_user if local_assigns[:user].nil? %>
 
-<div class="dropdown" data-controller="retweet" data-action="click->retweet#dropMenu" data-retweet-target="dropdown" >
+<div class="dropdown retweet" data-controller="dropdown" data-action="click->dropdown#dropMenu">
 
     <button><%= retweet_icon_svg %></button>
 
-    <div class="myDropdown dropdown-content" data-retweet-target="menu">
+    <div class="dropdown-content" data-dropdown-target="menu">
       <div class="backdrop"></div>
       <% if current_user.has_rt?(t) %>
         <%= render "tweets/unretweet_button", t: t, self_rt: self_rt %>

@@ -1,8 +1,8 @@
 <% self_rt = nil if local_assigns[:self_rt].nil? %>
 
-<span class="unretweet-btn">
+<div class="unretweet-button">
   <%= button_to retweet_path(t.id), params: { retweet: { retweet_id: t.id, self_rt: self_rt } }, method: :delete, remote: true, data: { turbo_frame: "retweet-#{t.id}" }, class: "retweet-button" do %>
     <%= content_tag(:span, retweet_icon_svg) %>
     <%= content_tag(:span, "Undo Retweet", class: "retweet-text") %>
   <% end %>
-</span>
+</div>

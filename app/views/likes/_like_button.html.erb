@@ -1,5 +1,5 @@
 <% user = current_user if local_assigns[:user].nil? %>
 
-<span class="like-btn">
+<div class="like-btn">
   <%= button_to like_icon_svg, likes_path(username: current_user.username), params: { like: { tweet_id: tweet.id } }, method: :post, remote: true %>
-</span>
+</div>

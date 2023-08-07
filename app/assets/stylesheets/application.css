@@ -78,6 +78,8 @@
 }
 
 .creation-info {
+  display: flex;
+  justify-content: space-between;
   padding: 5px;
 }
 
@@ -97,7 +99,8 @@
  .icon-like,
  .icon-unlike,
  .icon-quote,
- .icon-comment {
+ .icon-comment,
+ .icon-more-info {
   max-width: 24px;
   max-height: 24px;
   transform: scale(0.7813);
@@ -119,12 +122,12 @@
     text-decoration: none;
   }
 
-  .creation-info > a {
+  .tweet-info > a {
     text-decoration: none;
     color: black;
   }
 
-  .creation-info > a:last-child:hover {
+  .tweet-info > a:last-child:hover {
     text-decoration: underline;
   }
 
@@ -167,14 +170,16 @@
     padding: 5px;
   }
 
-  .retweet-btn button,
-  .unretweet-btn button,
+  .retweet-button button,
+  .unretweet-button button,
   .like-btn button,
   .unlike-btn button,
   .dropdown button,
+  .more-info-btn button,
   .limited-rt,
   .quote button,
   .comment button {
+    display: flex;
     background: none;
     border: none;
     padding: 0;
@@ -183,6 +188,7 @@
     text-decoration: none;
     position: relative;
     z-index: 1;
+    width: 100%;
   }
 
   .tweet-form {
@@ -196,7 +202,7 @@
 
   .activity-box {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: center;
   }
 
@@ -210,10 +216,15 @@
 .dropdown-content {
   display: none;
   position: absolute;
+  top: -3px;
   background-color: #f1f1f1;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  z-index: 2;
+}
+
+.more-info {
+  right: 20px;
 }
 
 /* Links inside the dropdown */
@@ -229,7 +240,8 @@
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .backdrop {

@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the retweet pop up and button
 export default class extends Controller {
-    static targets = ["dropdown", "menu", "menuButton"];
+    static targets = ["menu", "menuButton"];
 
     connect() {
         document.addEventListener("click", (event) => {
