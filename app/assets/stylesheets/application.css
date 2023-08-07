@@ -19,6 +19,12 @@
     overflow:hidden;
  }
 
+ html {
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%));
+  /* https://stackoverflow.com/a/39289453/17369830 */
+}
+
  #modal {
    position: absolute;
    z-index: 2;
