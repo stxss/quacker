@@ -4,10 +4,34 @@
 
   <div class="dropdown-content more-info" data-dropdown-target="menu">
     <div class="backdrop"></div>
-    <div class="menuitem">items here</div>
-    <div class="menuitem">items here</div>
-    <div class="menuitem">items here</div>
-    <div class="menuitem">items here</div>
-    <div class="menuitem">items here</div>
+    <% if t.author == current_user %>
+        <%= render "tweets/delete_button", t: t %>
+      <div class="menuitem">
+      </div>
+      <div class="menuitem">Pin to your profile</div>
+      <div class="menuitem">Change who can reply</div>
+      <div class="menuitem">View analytics</div>
+    <% elsif t.author != current_user && current_user.following?(t.author) %>
+      <div class="menuitem">Unfollow @ author</div>
+      <div class="menuitem">Mute @ author</div>
+      <div class="menuitem">Block @author</div>
+    <% else %>
+      <div class="menuitem">Follow @ author</div>
+      <div class="menuitem">Mute @ author</div>
+      <div class="menuitem">Block @author</div>
+    <% end %>
   </div>
 </div>
+
+<dialog id="turbo-confirm">
+  <form class="dialog" method="dialog">
+    <h3>Delete Tweet?</h3>
+    <span>This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Twitter search results. </span>
+    <div>
+      <button value="confirm">Delete</button>
+    </div>
+    <div>
+      <button value="cancel">Cancel</button>
+    </div>
+  </form>
+</dialog>

@@ -10,8 +10,8 @@
       <span> · </span>
       <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id), class: "created-time" %>
     </div>
-    
-    <span class="more-info-btn">
-      <%= render "tweets/more_info_button" %>
-    </span>
+
+    <div class="more-info-btn">
+      <%= render "tweets/more_info_button", t: t %>
+    </div>
   </div>
