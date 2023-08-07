@@ -153,6 +153,15 @@ class TweetsController < ApplicationController
       format.html { redirect_to request.referrer }
       @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
     end
+  rescue ActiveRecord::RecordNotFound
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{params[:id]}"),
+          flash.now[:alert] = "Something went wrong, please try again!"
+        ]
+      }
+    end
   end
 
   def destroy_retweet
