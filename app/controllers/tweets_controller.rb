@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
   class UserGonePrivate < StandardError; end
+  class UnauthorizedElements < StandardError; end
 
   before_action :first_visit?, :set_cache_headers, only: [:index]
   before_action :check_refresh, :session_refresh, only: [:new]
@@ -123,7 +124,11 @@ class TweetsController < ApplicationController
       parent_tweet.update(updated_at: parent_tweet.created_at)
     end
 
-    @tweet.destroy
+    if current_user == @tweet.author
+      @tweet.destroy
+    else
+      raise UnauthorizedElements
+    end
 
     @og = if @tweet.retweet?
       @tweet.og_tweet
@@ -157,6 +162,15 @@ class TweetsController < ApplicationController
       format.turbo_stream {
         render turbo_stream: [
           turbo_stream.remove("tweet_#{params[:id]}"),
+          flash.now[:alert] = "Something went wrong, please try again!"
+        ]
+      }
+    end
+  rescue UnauthorizedElements
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.replace_all("tweet_#{params[:id]}", partial: "tweets/single_tweet", locals: {t: @tweet}),
           flash.now[:alert] = "Something went wrong, please try again!"
         ]
       }
