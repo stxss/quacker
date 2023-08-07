@@ -1,34 +1,28 @@
 class FollowsController < ApplicationController
-  # before_action :logged_in_user
-
   def create
-    begin
-      @user = User.find(follow_params[:followed_id])
+    @user = User.find(follow_params[:followed_id])
+    @follow = current_user.follow(follow_params)
 
-      @follow = current_user.follow(follow_params)
-
-      if @follow.save
-        current_user.notify(follow_params[:followed_id].to_i, :follow)
-        redirect_to username_url(@user.username)
-      end
-    rescue ActiveRecord::RecordNotFound
-      flash[:alert] = "Oops, something went wrong"
-      redirect_to root_path
+    if @follow.save
+      current_user.notify(follow_params[:followed_id].to_i, :follow)
+      redirect_to request.referrer
     end
+  rescue ActiveRecord::RecordNotFound
+    flash[:alert] = "Oops, something went wrong"
+    redirect_to root_path
   end
 
   def destroy
     @follow = Follow.find(params[:id])
 
-    if @follow.is_request
-      @user = @follow.follower
-      current_user.decline_follow_request(@user)
-      redirect_to request.referrer
+    if @follow.is_request && current_user == @follow.follower
+      current_user.unfollow(@follow.followed)
+    elsif @follow.is_request && current_user == @follow.followed
+      current_user.decline_follow_request(@follow.follower)
     else
-      @user = @follow.followed
-      current_user.unfollow(@user)
-      redirect_to username_url(@user.username)
+      current_user.unfollow(@follow.followed)
     end
+    redirect_to request.referrer
   end
 
   def update

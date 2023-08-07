@@ -1,4 +1,4 @@
-<%= button_to "Cancel", unfollow, method: :delete, form: { data: {turbo_confirm: "Are you sure?"}}, params: params %>
+<%= button_to "Cancel", follow_path(id: current_user.active_follows.find_by(followed_id: @user.id, is_request: true)), method: :delete, form: { data: {turbo_confirm: "Are you sure?"}}, params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility }}, remote: true %>
 
 <dialog id="turbo-confirm">
   <form class="dialog" method="dialog">

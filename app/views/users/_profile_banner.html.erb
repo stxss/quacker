@@ -7,16 +7,12 @@
         <%= button_to "Edit profile", settings_url, method: :get %>
     <% else %>
       <% if current_user.following?(@user) %>
-        <%= render "unfollow", unfollow: current_user.active_follows.find_by(followed_id: @user.id),
-                                user: @user,
-                                params: {follow: {followed_id: @user.id }} %>
+        <%= render "unfollow" %>
       <% else %>
         <% if current_user.sent_pending_request?(@user) %>
-          <%= render "cancel_request", unfollow: current_user.active_follows.find_by(followed_id: @user.id, is_request: true),
-                                      user: @user,
-                              params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility }} %>
+          <%= render "cancel_request" %>
         <% else %>
-          <%= render "follow", params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility }} %>
+          <%= render "follow" %>
         <% end %>
       <% end %>
     <% end %>

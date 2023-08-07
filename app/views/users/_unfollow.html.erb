@@ -1,8 +1,9 @@
-<%= button_to "Unfollow", unfollow, method: :delete, form: { data: {turbo_confirm: "Are you sure?"}}, params: params %>
+<%= button_to "Unfollow", follow_path(id: current_user.active_follows.find_by(followed_id: @user.id)), method: :delete, form: { data: {turbo_confirm: "Are you sure?"}}, params: {follow: {followed_id: @user.id }}, remote: true %>
+
 
 <dialog id="turbo-confirm">
   <form class="dialog" method="dialog">
-    <h3>Unfollow @<%= user.username %>?</h3>
+    <h3>Unfollow @<%= @user.username %>?</h3>
     <span>Their Tweets will no longer show up in your home timeline. You can still view their profile, unless their Tweets are protected. </span>
     <div>
       <button value="confirm">Confirm</button>

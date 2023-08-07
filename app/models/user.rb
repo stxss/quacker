@@ -32,7 +32,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { in: 4..15 }
 
   def follow(other)
-    active_follows.create(followed_id: other[:followed_id].to_i, is_request: other[:is_request])
+    active_follows.build(followed_id: other[:followed_id].to_i, is_request: other[:is_request])
   end
 
   def unfollow(other)
@@ -41,7 +41,7 @@ class User < ApplicationRecord
   end
 
   def decline_follow_request(other)
-    other.active_follows.find_by(follower_id: other.id).destroy
+    passive_follows.find_by(follower_id: other.id).destroy
   end
 
   def accept_follow_request(other)
