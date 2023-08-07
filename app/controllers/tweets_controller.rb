@@ -97,7 +97,6 @@ class TweetsController < ApplicationController
       }
     end
   rescue ActiveRecord::RecordNotFound
-    # ! LOOK THIS UP
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
