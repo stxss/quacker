@@ -1,14 +1,3 @@
-<%= button_to "Cancel", follow_path(id: current_user.active_follows.find_by(followed_id: @user.id, is_request: true)), method: :delete, form: { data: {turbo_confirm: "Are you sure?"}}, params: {follow: {followed_id: @user.id, is_request: @user.account.private_visibility }}, remote: true %>
+<%# <% user = @user if local_assigns[:user].nil? %> %>
 
-<dialog id="turbo-confirm">
-  <form class="dialog" method="dialog">
-    <h3>Discard follow request?</h3>
-    <span>This will cancel your pending request, and @<%= @user.username %> will no longer see it. </span>
-    <div>
-      <button value="confirm">Discard</button>
-    </div>
-    <div>
-      <button value="cancel">Cancel</button>
-    </div>
-  </form>
-</dialog>
+<%= button_to "Cancel", follow_path(id: current_user.active_follows.find_by(followed_id: user.id, is_request: true)), method: :delete, form: { data: {turbo_confirm: "This will cancel your pending request, and @#{user.username} will no longer see it.", header: "Discard follow request?", confirm: "Discard", cancel: "Cancel"}}, params: {follow: {followed_id: user.id, is_request: user.account.private_visibility }}, remote: true %>

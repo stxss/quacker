@@ -3,8 +3,13 @@ import "@hotwired/turbo-rails"
 import "controllers"
 
 // Modal confirmation windows
-Turbo.setConfirmMethod(() => {
+Turbo.setConfirmMethod((message, element) => {
+    console.log(message, element)
     let dialog = document.getElementById("turbo-confirm")
+    dialog.querySelector("h3").textContent = element.dataset.header
+    dialog.querySelector("p").textContent = message
+    dialog.querySelector("button[value='confirm']").textContent = element.dataset.confirm
+    dialog.querySelector("button[value='cancel']").textContent = element.dataset.cancel
     dialog.showModal()
     document.documentElement.style.overflow = "hidden"
 

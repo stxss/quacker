@@ -32,5 +32,19 @@
     <%= yield %>
 
     <%= turbo_frame_tag "modal", target: "_top" %>
+
+    <dialog id="turbo-confirm">
+      <form class="dialog" method="dialog">
+        <h3></h3>
+        <p></p>
+        <div>
+          <button value="confirm">Delete</button>
+        </div>
+        <div>
+          <button value="cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
   </body>
 </html>

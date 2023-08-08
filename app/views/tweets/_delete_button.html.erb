@@ -1,1 +1,1 @@
-<%= button_to "Delete", tweet_path(id: t.id), params: { tweet: { tweet_id: t.id } }, method: :delete, remote: true, form: { data: {turbo_confirm: "Are you sure?"}} %>
+<%= button_to "Delete", t, method: :delete, remote: true, form: { data: {turbo_confirm: "This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Twitter search results.", header: "Delete Tweet?", confirm: "Delete", cancel: "Cancel" }} %>
