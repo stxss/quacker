@@ -1,10 +1,14 @@
+<% user = User.find_by(id: notifier) %>
+
 <div class="notification" id="follow-notification">
-  <%= User.find(notifier).username %> followed you
+  <%= user.username %> followed you
   <div>
-    <% if current_user.following?(User.find_by(id: notifier)) %>
+    <% if current_user.following?(user) %>
       <%= render "users/unfollow", unfollow: current_user.active_follows.find_by(followed_id: notifier),
-                                   user: User.find_by(id: notifier),
+                                   user: user,
                                    params: {follow: {followed_id: notifier}} %>
+    <% elsif current_user.sent_pending_request?(user) %>
+      <%= render "users/cancel_request", user: user %>
     <% else %>
       <%= render "users/follow_back", notifier: notifier %>
     <% end %>
