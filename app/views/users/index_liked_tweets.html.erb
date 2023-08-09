@@ -1,3 +1,7 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "retweets" %>
+<%= turbo_stream_from "likes" %>
+
 <%= render "profile_banner" %>
 
 <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
