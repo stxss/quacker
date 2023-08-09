@@ -14,7 +14,7 @@ class TweetsController < ApplicationController
   end
 
   def index
-    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
+    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id AND is_request = false"
     @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes(:parent, :quote_tweets, :retweets, :likes, :author).ordered.load
 
     @show_replies = true

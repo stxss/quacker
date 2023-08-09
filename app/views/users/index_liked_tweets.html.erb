@@ -6,8 +6,12 @@
 
 <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
   <%= render "page_links" %>
-  <% @user.liked_tweets.order(created_at: :desc).each do |t| %>
-    <%= render "tweets/single_tweet", t: Tweet.find(t.tweet_id) %>
+  <% @user.liked_tweets.order(created_at: :desc).each do |like| %>
+    <% if current_user.following?(like.tweet.author) || current_user == like.tweet.author %>
+      <%= render "tweets/single_tweet", t: like.tweet %>
+    <% elsif !current_user.following?(like.tweet.author) %>
+      <% next %>
+    <% end %>
   <% end %>
 <% else %>
   <h3>These Tweets are protected</h3>
