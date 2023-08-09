@@ -10,12 +10,16 @@ RSpec.describe "Check user static pages", type: :system do
   let!(:other_user) { create(:user) }
 
   before do
+    Capybara.page.current_window.resize_to(2000, 2000)
+  end
+
+  before do
     login_as user
     visit root_path
   end
 
   it "displays user liked tweets" do
-    tweets = create_list(:tweet, 5, user_id: user.id, body: "Test tweet ")
+    tweets = create_list(:tweet, 5, user_id: user.id, body: "Test tweet")
 
     visit root_path
     login_as other_user
@@ -32,7 +36,7 @@ RSpec.describe "Check user static pages", type: :system do
     tweets[0..2].each do |tweet|
       within("#tweet_#{tweet.id}") do
         expect(page).not_to have_css(".like .liked")
-        expect(page).to have_css(".unlike-btn")
+        expect(page).to have_css(".unlike-button")
       end
     end
 
@@ -40,7 +44,7 @@ RSpec.describe "Check user static pages", type: :system do
     tweets[3..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
         expect(page).to have_css(".like")
-        expect(page).not_to have_css(".unlike-btn")
+        expect(page).not_to have_css(".unlike-button")
       end
     end
 
@@ -59,17 +63,19 @@ RSpec.describe "Check user static pages", type: :system do
     # Find the first five tweets and retweet them
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        find(".dropdown").click
-        find(".retweet-btn").click
+        find(".retweets .dropdown").click
+        find(".retweet-button").click
       end
     end
 
     # Assert that the first five tweets are retweeted
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        find(".dropdown").click
-        expect(page).not_to have_css(".retweet-btn")
-        expect(page).to have_css(".unretweet-btn")
+        within ".retweets" do
+          find(".dropdown").click
+        end
+        expect(page).not_to have_css(".retweet-button")
+        expect(page).to have_css(".unretweet-button")
         find(".backdrop").click
       end
     end
@@ -77,9 +83,11 @@ RSpec.describe "Check user static pages", type: :system do
     # Assert that the remaining tweets are not retweeted
     tweets[5..9].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        find(".dropdown").click
-        expect(page).to have_css(".retweet-btn")
-        expect(page).not_to have_css(".unretweet-btn")
+        within ".retweets" do
+          find(".dropdown").click
+        end
+        expect(page).to have_css(".retweet-button")
+        expect(page).not_to have_css(".unretweet-button")
         find(".backdrop").click
       end
     end

@@ -11,7 +11,7 @@
       <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id), class: "created-time" %>
     </div>
 
-    <div class="more-info-btn">
+    <div class="more-info-button">
       <%= render "tweets/more_info_button", t: t %>
     </div>
   </div>
