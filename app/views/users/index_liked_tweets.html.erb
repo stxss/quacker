@@ -7,9 +7,9 @@
 <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
   <%= render "page_links" %>
   <% @user.liked_tweets.order(created_at: :desc).each do |like| %>
-    <% if current_user.following?(like.tweet.author) || current_user == like.tweet.author %>
+    <% if current_user.following?(like.tweet.author) || current_user == like.tweet.author || (!current_user.following?(like.tweet.author) && !like.tweet.author.account.private_visibility) %>
       <%= render "tweets/single_tweet", t: like.tweet %>
-    <% elsif !current_user.following?(like.tweet.author) %>
+    <% else %>
       <% next %>
     <% end %>
   <% end %>
