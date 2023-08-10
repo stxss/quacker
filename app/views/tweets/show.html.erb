@@ -1,1 +1,5 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "retweets" %>
+<%= turbo_stream_from "likes" %>
+
 <%= render "tweets/single_tweet", t: @tweet %>

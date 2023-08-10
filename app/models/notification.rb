@@ -8,7 +8,10 @@ class Notification < ApplicationRecord
 
   belongs_to :notifier, class_name: "User", counter_cache: true
   belongs_to :notified, class_name: "User", counter_cache: true
+  belongs_to :tweet, class_name: "Tweet"
 
   validates :notifier_id, presence: true
   validates :notified_id, presence: true
+
+  scope :ordered, -> { order(updated_at: :desc) }
 end

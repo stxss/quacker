@@ -102,6 +102,7 @@ RSpec.describe "Tweet creation", type: :system do
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
+    find(".more-info-button").click
     expect(page).to have_button("Delete")
   end
 
@@ -109,6 +110,7 @@ RSpec.describe "Tweet creation", type: :system do
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
+    find(".more-info-button").click
     click_on "Delete"
     within "#turbo-confirm" do
       click_on "Delete"
@@ -138,7 +140,7 @@ RSpec.describe "Tweet creation", type: :system do
     click_on "Tweet"
     visit username_path(user.username)
     find(".like").click
-    expect(page).to have_css(".unlike-btn")
+    expect(page).to have_css(".unlike-button")
   end
 
   it "users can like others' tweets" do
@@ -149,7 +151,7 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     find(".like").click
-    expect(page).to have_css(".unlike-btn")
+    expect(page).to have_css(".unlike-button")
   end
 
   it "users can unlike tweets" do
@@ -160,7 +162,7 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     find(".like").click
-    find(".unlike-btn").click
+    find(".unlike-button").click
     expect(page).to have_css(".like")
   end
 
@@ -182,7 +184,7 @@ RSpec.describe "Tweet creation", type: :system do
     click_on "Tweet"
     within ".retweets" do
       find(".dropdown").click
-      find(".retweet-btn").click
+      find(".retweet-button").click
     end
     visit root_path
     within ".retweet-info" do
@@ -200,7 +202,7 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     within ".retweets" do
       find(".dropdown").click
-      find(".retweet-btn").click
+      find(".retweet-button").click
     end
     visit root_path
     within ".retweet-info" do
@@ -220,7 +222,7 @@ RSpec.describe "Tweet creation", type: :system do
     user.created_tweets.last.destroy
     within ".retweets" do
       find(".dropdown").click
-      find(".retweet-btn").click
+      find(".retweet-button").click
     end
     expect(page).to have_content("Couldn't retweet")
   end
@@ -234,12 +236,12 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     within ".retweets" do
       find(".dropdown").click
-      find(".retweet-btn").click
+      find(".retweet-button").click
     end
     visit root_path
     within ".retweets .retweeted" do
       find(".dropdown").click
-      find(".unretweet-btn").click
+      find(".unretweet-button").click
     end
     expect(page).not_to have_css(".display-name", text: other_user.display_name).once
     expect(page).not_to have_css(".display-name", text: user.display_name).once
@@ -263,7 +265,7 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     within ".retweets" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css(".unretweet-btn")
+      expect(page).not_to have_css(".unretweet-button")
     end
   end
 
@@ -278,7 +280,7 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     within ".retweets" do
       find(".dropdown").click
-      find(".retweet-btn").click
+      find(".retweet-button").click
     end
 
     visit root_path
@@ -312,19 +314,19 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     within ".retweets" do
       find(".dropdown").click
-      find(".retweet-btn").click
+      find(".retweet-button").click
     end
 
     visit username_path(user.username)
     user.account.update(private_visibility: true)
     within ".retweets .retweeted" do
       find(".dropdown").click
-      find(".unretweet-btn").click
+      find(".unretweet-button").click
     end
 
     within ".retweets" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css(".unretweet-btn")
+      expect(page).not_to have_css(".unretweet-button")
     end
   end
 end

@@ -1,9 +1,17 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "retweets" %>
+<%= turbo_stream_from "likes" %>
+
 <%= render "profile_banner" %>
 
 <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
   <%= render "page_links" %>
-  <% @user.liked_tweets.order(created_at: :desc).each do |t| %>
-    <%= render "tweets/single_tweet", t: Tweet.find(t.tweet_id) %>
+  <% @user.liked_tweets.order(created_at: :desc).each do |like| %>
+    <% if current_user.following?(like.tweet.author) || current_user == like.tweet.author || (!current_user.following?(like.tweet.author) && !like.tweet.author.account.private_visibility) %>
+      <%= render "tweets/single_tweet", t: like.tweet %>
+    <% else %>
+      <% next %>
+    <% end %>
   <% end %>
 <% else %>
   <h3>These Tweets are protected</h3>

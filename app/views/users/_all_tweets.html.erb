@@ -1,3 +1,7 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "retweets" %>
+<%= turbo_stream_from "likes" %>
+
 <% @user.created_tweets.each do |t| %>
   <%= render "tweets/single_tweet", t: t %>
 <% end %>

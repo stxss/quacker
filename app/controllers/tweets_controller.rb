@@ -14,7 +14,7 @@ class TweetsController < ApplicationController
   end
 
   def index
-    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id"
+    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id AND is_request = false"
     @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes(:parent, :quote_tweets, :retweets, :likes, :author).ordered.load
 
     @show_replies = true
@@ -193,7 +193,7 @@ class TweetsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to request.referrer }
-      @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
+      @og_updated.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @og_updated.id).destroy_all
     end
   rescue NoMethodError
     # If a user did already unretweet (same session on 2 different tabs for example), it would invoke a NoMethodError, as @retweet would return nil and nil can't have a #destroy method executed on it, so in that case, no data manipulation is to happen and a turbo request for a simple visual update is made with the original version - @og. @og_updated couldn't be used as it is only defined after the unretweet is made

@@ -1,12 +1,13 @@
-<% current_user.notifications_received.all.each do |n|%>
+<% @notifications.each do |n|%>
+  <% next if n.notifier_id == current_user.id %>
   <% if n.notification_type == "follow" %>
     <%= render "follow_notification", notifier: n.notifier_id %>
   <% elsif n.notification_type == "like" %>
-    <%= render "like_notification", notifier: n.notifier_id, tweet: n.tweet_id %>
+    <%= render "like_notification", notifier: n.notifier_id, tweet: n.tweet %>
   <% elsif n.notification_type == "reply" %>
-    <%= render "reply_notification", notifier: n.notifier_id %>
+    <%= render "reply_notification", notifier: n.notifier_id, tweet: n.tweet %>
   <% elsif n.notification_type == "retweet" %>
-    <%= render "retweet_notification", notifier: n.notifier_id %>
+    <%= render "retweet_notification", notifier: n.notifier_id, tweet: n.tweet %>
   <% end %>
 <% end %>
 
