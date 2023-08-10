@@ -192,6 +192,12 @@ class TweetsController < ApplicationController
       locals: {t: Tweet.find(@og_updated.id)}
 
     respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{@retweet.id}"),
+          turbo_stream.replace_all("#retweet_#{@og_updated.id}", partial: "tweets/retweets", locals: {t: @og_updated, user: current_user})
+        ]
+      }
       format.html { redirect_to request.referrer }
       @og_updated.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @og_updated.id).destroy_all
     end
