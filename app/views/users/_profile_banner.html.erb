@@ -10,7 +10,7 @@
         <%= render "unfollow" %>
       <% else %>
         <% if current_user.sent_pending_request?(@user) %>
-          <%= render "cancel_request" %>
+          <%= render "cancel_request", user: @user %>
         <% else %>
           <%= render "follow" %>
         <% end %>

@@ -1,2 +1,1 @@
-<%= button_to "Follow back" , current_user.active_follows.build, params: {follow: {followed_id: notifier, is_request: User.find(notifier).account.private_visibility}} %>
-
+<%= button_to "Follow back", follows_path, params: {follow: {followed_id: notifier, is_request: User.find(notifier).account.private_visibility}} %>
