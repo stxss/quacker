@@ -11,9 +11,6 @@ RSpec.describe "Check user static pages", type: :system do
 
   before do
     Capybara.page.current_window.resize_to(2000, 2000)
-  end
-
-  before do
     login_as user
     visit root_path
   end
