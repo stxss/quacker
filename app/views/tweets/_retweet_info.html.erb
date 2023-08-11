@@ -3,8 +3,10 @@
     <%= link_to username_path(t.author.username), class: "author" do %>
       <span class="display-name"><%= t.author.display_name %></span> Retweeted
     <% end %>
-    <%= render "tweets/creator_info", t: original_tweet %>
+
+    <%= render "tweets/creator_info", t: original_tweet, more_info: true %>
     <%= render "tweets/tweet_body", t: original_tweet %>
+
     <div class="activity-box">
       <%= render "tweets/comments", t: original_tweet %>
 

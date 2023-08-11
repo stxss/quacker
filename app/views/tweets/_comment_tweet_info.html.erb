@@ -5,7 +5,7 @@
       <%= link_to "@#{t.responder}", username_path(t.responder), data: {turbo: false} %>
     <% end %>
 
-    <%= render "tweets/creator_info", t: t %>
+    <%= render "tweets/creator_info", t: t, more_info: false %>
     <%= render "tweets/tweet_body", t: t %>
 
     <div class="activity-box">
