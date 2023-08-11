@@ -37,7 +37,7 @@ class TweetsController < ApplicationController
       current_user.created_tweets.create!(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
     elsif params[:parent_tweet_id]
       session[:new_comment] = 0
-      current_user.created_tweets.create!(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
+      current_user.created_comments.create!(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
     else
       current_user.created_tweets.create!(tweet_params)
     end
@@ -185,10 +185,10 @@ class TweetsController < ApplicationController
     return if !session[:new_comment]
 
     # THIS IS THE COMMENT
-    comment = Tweet.find(session[:og_comment_id]) if session[:og_comment_id]
+    comment = Comment.find_by(id: session[:og_comment_id])
 
     # THIS IS THE PARENT COMMENT
-    Tweet.find(comment.parent_tweet_id).update(updated_at: comment.created_at) if comment
+    comment&.parent&.update(updated_at: comment.created_at)
 
     session.delete(:og_comment_id)
   end

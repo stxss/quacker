@@ -3,7 +3,7 @@
     <div class="tweet">
       <% if t.retweet? %>
         <%= render "tweets/retweet_info", t: t %>
-      <% elsif t.comment? %>
+      <% elsif t.comment? && @show_replies %>
         <% return %>
       <% elsif t.quote_tweet? %>
         <%= render "tweets/quote_tweet_info", t: t, qrt: t.quote, show_rt: true %>
