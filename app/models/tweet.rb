@@ -5,18 +5,9 @@ class Tweet < ApplicationRecord
 
   belongs_to :author, class_name: "User", foreign_key: :user_id, counter_cache: true
 
-  has_many :retweets, class_name: "Tweet", foreign_key: :retweet_id, dependent: :destroy
-  belongs_to :og_tweet, class_name: "Tweet", foreign_key: :retweet_id, counter_cache: :retweets_count, optional: true
-
-  has_many :quote_tweets, class_name: "Tweet", foreign_key: :quoted_retweet_id
-  belongs_to :quote, class_name: "Tweet", foreign_key: :quoted_retweet_id, counter_cache: :quote_tweets_count, optional: true
-
-  # has_many :comments, class_name: "Tweet", foreign_key: :parent_tweet_id
-  # belongs_to :parent, class_name: "Tweet", foreign_key: :parent_tweet_id, counter_cache: :comments_count, optional: true
-
   has_many :comments, class_name: "Comment", foreign_key: :parent_tweet_id
-  # belongs_to :parent, class_name: "Tweet", foreign_key: :parent_tweet_id, counter_cache: :comments_count, optional: true
-
+  has_many :quote_tweets, class_name: "Quote", foreign_key: :quoted_retweet_id
+  has_many :retweets, class_name: "Retweet", foreign_key: :retweet_id, dependent: :destroy
   has_many :likes
 
   scope :ordered, -> { order(updated_at: :desc) }
