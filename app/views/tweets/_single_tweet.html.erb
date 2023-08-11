@@ -1,4 +1,5 @@
-<%= turbo_frame_tag "tweet_#{t.id}" do %>
+<% if t %>
+  <%= turbo_frame_tag "tweet_#{t.id}" do %>
     <div class="tweet">
       <% if t.retweet? %>
         <%= render "tweets/retweet_info", t: t %>
@@ -47,6 +48,10 @@
         <% end %>
       <% end %>
     </div>
+  <% end %>
+<% else %>
+  <%= render "tweets/page_not_available" %>
 <% end %>
+
 
 <%# check for if the user is following any of the accounts of the comments %>

@@ -2,15 +2,16 @@
 <%= render "tweets/tweet_body", t: t %>
 
 <% if show_rt == true %>
-  <div class="tweet">
-    <%= render "tweets/creator_info", t: qrt %>
-    <%= render "tweets/tweet_body", t: qrt %>
-  </div>
-
-  <% if current_user == t.author %>
-    <%= render "tweets/delete_button", t: t %>
+  <% if !qrt %>
+    <% render "tweets/unavailable_tweet" %>
+  <% else %>
+    <%= turbo_frame_tag "tweet_#{qrt.id}", class: "quoted" do %>
+      <div class="tweet">
+        <%= render "tweets/creator_info", t: qrt %>
+        <%= render "tweets/tweet_body", t: qrt %>
+      </div>
+    <% end %>
   <% end %>
-
   <div class="activity-box">
     <%= render "tweets/comments", t: t %>
 

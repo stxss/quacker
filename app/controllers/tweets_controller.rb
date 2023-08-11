@@ -28,6 +28,8 @@ class TweetsController < ApplicationController
 
   def show
     @tweet = Tweet.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @tweet = nil
   end
 
   def create
@@ -151,6 +153,8 @@ class TweetsController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
+          turbo_stream.replace_all("#tweet_#{@tweet.id}.quoted ", partial: "tweets/unavailable_tweet"),
+          turbo_stream.remove_all(".retweets retweets_#{@tweet.id}"),
           turbo_stream.remove("tweet_#{@tweet.id}")
         ]
       }
@@ -158,6 +162,15 @@ class TweetsController < ApplicationController
       @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
     end
   rescue ActiveRecord::RecordNotFound
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{params[:id]}"),
+          flash.now[:alert] = "Something went wrong, please try again!"
+        ]
+      }
+    end
+  rescue NoMethodError
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
