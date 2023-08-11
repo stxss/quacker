@@ -4,7 +4,6 @@ import "controllers"
 
 // Modal confirmation windows
 Turbo.setConfirmMethod((message, element) => {
-    console.log(message, element)
     let dialog = document.getElementById("turbo-confirm")
     dialog.querySelector("h3").textContent = element.dataset.header
     dialog.querySelector("p").textContent = message
