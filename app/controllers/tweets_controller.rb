@@ -292,7 +292,6 @@ class TweetsController < ApplicationController
     # THIS IS THE PARENT COMMENT
     Tweet.find(comment.parent_tweet_id).update(updated_at: comment.created_at) if comment
 
-    # Tweet.find(og.parent_tweet_id) if session[:og_comment_id]
     session.delete(:og_comment_id)
   end
 end
