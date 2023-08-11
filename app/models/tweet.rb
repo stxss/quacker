@@ -11,8 +11,11 @@ class Tweet < ApplicationRecord
   has_many :quote_tweets, class_name: "Tweet", foreign_key: :quoted_retweet_id
   belongs_to :quote, class_name: "Tweet", foreign_key: :quoted_retweet_id, counter_cache: :quote_tweets_count, optional: true
 
-  has_many :comments, class_name: "Tweet", foreign_key: :parent_tweet_id
-  belongs_to :parent, class_name: "Tweet", foreign_key: :parent_tweet_id, counter_cache: :comments_count, optional: true
+  # has_many :comments, class_name: "Tweet", foreign_key: :parent_tweet_id
+  # belongs_to :parent, class_name: "Tweet", foreign_key: :parent_tweet_id, counter_cache: :comments_count, optional: true
+
+  has_many :comments, class_name: "Comment", foreign_key: :parent_tweet_id
+  # belongs_to :parent, class_name: "Tweet", foreign_key: :parent_tweet_id, counter_cache: :comments_count, optional: true
 
   has_many :likes
 
