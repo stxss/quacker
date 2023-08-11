@@ -15,6 +15,13 @@ Rails.application.routes.draw do
 
   resources :tweets, except: [:show, :new]
 
+
+  # Actions to create and destroy a retweet
+  post "/tweets/retweet/:id", to: "retweets#create", as: "retweet"
+  delete "/tweets/retweet/:id", to: "retweets#destroy", as: "unretweet"
+
+
+
   match "/compose/tweet", to: "tweets#new", via: [:get, :post], as: "compose_tweet"
 
   resources :follows, only: %i[create destroy update]
@@ -25,11 +32,10 @@ Rails.application.routes.draw do
   get "/compose/turbo/tweet_button(:valid)", to: "tweets#tweet_btn", as: :turbo_tweet_button_compose
   get "/compose/null", to: "tweets#tweet_btn", as: :turbo_tweet_button_compose_quote_comment
 
-  get "/:username", to: "users#show", as: "username"
-
+  # Show a single tweet
   get "/:username/status/:id", to: "tweets#show", as: "single_tweet"
-  post "/tweets/retweet/:id", to: "tweets#retweet", as: "retweet"
-  delete "/tweets/retweet/:id", to: "tweets#destroy_retweet", as: "unretweet"
+
+  get "/:username", to: "users#show", as: "username"
 
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
   resources :likes, path: "/:username/likes", only: [:create, :destroy]
