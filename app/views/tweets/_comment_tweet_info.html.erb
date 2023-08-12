@@ -2,7 +2,7 @@
   <div class="tweet">
     <% if @show_replies %>
       Replying to
-      <%= link_to "@#{t.responder}", username_path(t.responder), data: {turbo: false} %>
+      <%= link_to "@#{t.original.author.username}", username_path(t.original.author.username), data: {turbo: false} %>
     <% end %>
 
     <%= render "tweets/creator_info", t: t, more_info: false %>

@@ -24,10 +24,6 @@ class Tweet < ApplicationRecord
     parent_tweet_id?
   end
 
-  def responder
-    User.find(Tweet.find(parent_tweet_id).user_id).username
-  end
-
   def new_tweet?(timeline_tweets)
     if comment?
       timeline_tweets.none? { |tweet| (tweet.created_at >= created_at) && !tweet.comment? }
