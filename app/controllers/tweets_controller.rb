@@ -10,6 +10,12 @@ class TweetsController < ApplicationController
     index
     @retweet = Tweet.find(session[:retweet_id]) if session[:retweet_id].present?
     @comment = Tweet.find(session[:comment]) if session[:comment].present?
+
+    raise UserGonePrivate if @retweet && @retweet.author.account.private_visibility && current_user != @retweet.author
+  rescue UserGonePrivate
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: "Couldn't retweet a privated tweet" }
+    end
   end
 
   def index
