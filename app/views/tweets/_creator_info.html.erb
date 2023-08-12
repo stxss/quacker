@@ -8,7 +8,7 @@
       <% end %>
 
       <span> · </span>
-      <%= link_to formatted_time_ago(t.created_at), single_tweet_url(username: t.author.username, id: t.id), class: "created-time", target: :_top %>
+      <%= link_to formatted_time_ago(t.created_at), single_tweet_path(username: t.author.username, id: t.id), class: "created-time", target: :_top %>
     </div>
 
     <% more_info = true if local_assigns[:more_info].nil? %>

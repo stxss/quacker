@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   # :id is the id of the tweet being quoted
   post "/tweets/quote/:id", to: "quotes#create", as: "quote"
+
+  # :id is the id of the quote tweet itself
   delete "/tweets/quote/:id", to: "quotes#destroy", as: "quote_destroy"
 
   # :id is the id of the tweet being commented on/replied to

@@ -1,5 +1,5 @@
 <span class="quote" data-turbo="false">
-  <%= button_to compose_tweet_url, params: { retweet_id: t.id }, class: "quote-button", remote: true do %>
+  <%= button_to compose_tweet_path, params: { retweet_id: t.id }, remote: true do %>
     <%= content_tag(:span, quote_icon_svg) %>
     <%= content_tag(:span, "Quote Tweet", class: "quote-text") %>
   <% end %>

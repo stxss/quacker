@@ -11,7 +11,7 @@
 <% end %>
 
 <div>
-  <%= link_to "Photo tagging", settings_tagging_url %>
+  <%= link_to "Photo tagging", settings_tagging_path %>
   <div id="current-tagging-setting">
     <% if current_user.account.allow_media_tagging_turned_off? %>
       <span>Off</span>

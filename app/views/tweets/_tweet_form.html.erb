@@ -3,7 +3,7 @@
 <% else %>
   <div data-controller="tweet" class="tweet-form">
 <% end %>
-  <%= form_with model: Tweet.new, url: tweets_url, data: { turbo: false } do |f| %>
+  <%= form_with model: Tweet.new, url: tweets_path, data: { turbo: false } do |f| %>
     <div class="area-box" >
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update", "url":"turbo/tweet_button" } %>
     </div>
