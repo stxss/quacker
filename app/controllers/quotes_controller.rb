@@ -1,15 +1,62 @@
 class QuotesController < TweetsController
   def create
-    @tweet = current_user.created_quotes.create!(body: quote_params[:body], quoted_retweet_id: params[:id])
+    @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_retweet_id: params[:id])
 
-    @og = Tweet.find(params[:id])
 
-    @og.broadcast_render_later_to "retweets",
+    @quote.original.broadcast_render_later_to "retweets",
       partial: "tweets/update_retweets_count",
-      locals: {t: Tweet.find(@og.id)}
+      locals: {t: @quote.original}
+
+    raise UserGonePrivate if @quote.original.author.account.private_visibility && current_user != @quote.original.author
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      if @quote.save
+        format.html { redirect_to root_path }
+      end
+    end
+  rescue UserGonePrivate
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: "Couldn't retweet a privated tweet" }
+    end
+  end
+
+  def destroy
+    @quote = Quote.find(params[:id])
+
+    (current_user == @quote.author) ? @quote.destroy : raise(UnauthorizedElements)
+
+    @quote.original.broadcast_render_later_to "retweets",
+      partial: "tweets/update_retweets_count",
+      locals: {t: @quote.original}
+
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.replace_all("#tweet_#{@quote.id}.quoted ", partial: "tweets/unavailable_tweet"),
+          turbo_stream.remove_all(".retweets retweets_#{@quote.id}"),
+          turbo_stream.remove("tweet_#{@quote.id}")
+        ]
+      }
+      format.html { redirect_to request.referrer }
+      @quote.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @quote.id).destroy_all
+    end
+  rescue ActiveRecord::RecordNotFound, NoMethodError
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.remove("tweet_#{params[:id]}"),
+          flash.now[:alert] = "Something went wrong, please try again!"
+        ]
+      }
+    end
+  rescue UnauthorizedElements
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.replace_all("tweet_#{params[:id]}", partial: "tweets/single_tweet", locals: {t: @quote}),
+          flash.now[:alert] = "Something went wrong, please try again!"
+        ]
+      }
     end
   end
 
