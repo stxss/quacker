@@ -8,7 +8,6 @@ class TweetsController < ApplicationController
 
   def new
     index
-    @tweet = Tweet.new
     @retweet = Tweet.find(session[:retweet_id]) if session[:retweet_id].present?
     @comment = Tweet.find(session[:comment]) if session[:comment].present?
   end
@@ -33,30 +32,7 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @tweet = if params[:retweet_id]
-      current_user.created_tweets.create!(body: tweet_params[:body], quoted_retweet_id: params[:retweet_id])
-    elsif params[:parent_tweet_id]
-      session[:new_comment] = 0
-      current_user.created_comments.create!(body: tweet_params[:body], parent_tweet_id: params[:parent_tweet_id])
-    else
-      current_user.created_tweets.create!(tweet_params)
-    end
-
-    @og = if params[:retweet_id]
-      Tweet.find(params[:retweet_id])
-    elsif params[:parent_tweet_id]
-      Tweet.find(params[:parent_tweet_id])
-    end
-
-    if params[:parent_tweet_id]
-      @og.broadcast_render_later_to "comments",
-        partial: "tweets/update_comments_count",
-        locals: {t: Tweet.find(@og.id)}
-    elsif params[:retweet_id]
-      @og.broadcast_render_later_to "retweets",
-        partial: "tweets/update_retweets_count",
-        locals: {t: Tweet.find(@og.id)}
-    end
+    @tweet = current_user.created_tweets.create!(tweet_params)
 
     respond_to do |format|
       format.html { redirect_to root_path }
@@ -151,7 +127,7 @@ class TweetsController < ApplicationController
   private
 
   def tweet_params
-    params.require(:tweet).permit(:body, :quoted_retweet_id)
+    params.require(:tweet).permit(:body)
   end
 
   def first_visit?
