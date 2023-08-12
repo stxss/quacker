@@ -36,40 +36,13 @@ class TweetsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to root_path }
-      session[:og_comment_id] = @tweet.id
     end
   end
 
   def destroy
     @tweet = Tweet.find(params[:id])
-    if @tweet.comment?
-      parent_tweet = Tweet.find(@tweet.parent_tweet_id)
-      parent_tweet.update(updated_at: parent_tweet.created_at)
-    end
 
-    if current_user == @tweet.author
-      @tweet.destroy
-    else
-      raise UnauthorizedElements
-    end
-
-    @og = if @tweet.retweet?
-      @tweet.og_tweet
-    elsif @tweet.quote_tweet?
-      @tweet.quote
-    elsif @tweet.comment?
-      parent_tweet
-    end
-
-    if @tweet.retweet? || @tweet.quote_tweet?
-      @og.broadcast_render_later_to "retweets",
-        partial: "tweets/update_retweets_count",
-        locals: {t: Tweet.find(@og.id)}
-    elsif @tweet.comment?
-      @og.broadcast_render_later_to "comments",
-        partial: "tweets/update_comments_count",
-        locals: {t: Tweet.find(@og.id)}
-    end
+    (current_user == @tweet.author) ? @tweet.destroy : raise(UnauthorizedElements)
 
     respond_to do |format|
       format.turbo_stream {
@@ -82,16 +55,7 @@ class TweetsController < ApplicationController
       format.html { redirect_to request.referrer }
       @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
     end
-  rescue ActiveRecord::RecordNotFound
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{params[:id]}"),
-          flash.now[:alert] = "Something went wrong, please try again!"
-        ]
-      }
-    end
-  rescue NoMethodError
+  rescue ActiveRecord::RecordNotFound, NoMethodError
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
@@ -134,6 +98,12 @@ class TweetsController < ApplicationController
     session[:first_visit] = current_user.sign_in_count == 1 && session[:first_visit].nil?
   end
 
+  def set_cache_headers
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
   def check_refresh
     if (session[:last_request] == "GET" && request.method == "POST") || request.method == "POST"
       session[:refresh] = true
@@ -141,12 +111,6 @@ class TweetsController < ApplicationController
       session[:refresh] = false
     end
     session[:last_request] = request.method
-  end
-
-  def set_cache_headers
-    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
   def session_refresh
