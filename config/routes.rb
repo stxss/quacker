@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   delete "/tweets/retweet/:id", to: "retweets#destroy", as: "unretweet"
 
 
+  # :id is the id of the tweet being commented on/replied to
+  post "/tweets/comment/:id", to: "comments#create", as: "comment"
+  delete "/tweets/comment/:id", to: "comments#destroy", as: "comment_destroy"
 
   match "/compose/tweet", to: "tweets#new", via: [:get, :post], as: "compose_tweet"
 
