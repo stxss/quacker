@@ -1,5 +1,5 @@
 <div data-controller="tweet turbo-modal" class="tweet-form" data-previous-page-url="<%= session[:previous_page_url] %>">
-  <%= form_with model: Tweet.new, url: tweets_url(retweet_id: rt), data: { turbo: false } do |f| %>
+  <%= form_with model: Quote.new, url: quote_path(id: rt), data: { turbo: false } do |f| %>
     <div class="area-box" >
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update", "url":"turbo/tweet_button" } %>
     </div>
