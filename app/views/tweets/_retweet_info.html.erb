@@ -1,5 +1,5 @@
   <div class="retweet-info">
-    <% original_tweet = t.og_tweet %>
+    <% original_tweet = t.original %>
     <%= link_to username_path(t.author.username), class: "author" do %>
       <span class="display-name"><%= t.author.display_name %></span> Retweeted
     <% end %>

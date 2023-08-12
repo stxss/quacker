@@ -6,7 +6,7 @@
       <% elsif t.comment? && @show_replies %>
         <% return %>
       <% elsif t.quote_tweet? %>
-        <%= render "tweets/quote_tweet_info", t: t, qrt: t.quote, show_rt: true %>
+        <%= render "tweets/quote_tweet_info", t: t, qrt: t.original, show_rt: true %>
       <% else %>
         <%= render "tweets/creator_info", t: t %>
         <%= render "tweets/tweet_body", t: t %>

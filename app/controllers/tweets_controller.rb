@@ -128,7 +128,7 @@ class TweetsController < ApplicationController
     comment = Comment.find_by(id: session[:og_comment_id])
 
     # THIS IS THE PARENT COMMENT
-    comment&.parent&.update(updated_at: comment.created_at)
+    comment&.original&.update(updated_at: comment.created_at)
 
     session.delete(:og_comment_id)
   end
