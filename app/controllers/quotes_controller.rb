@@ -38,7 +38,7 @@ class QuotesController < TweetsController
         ]
       }
       format.html { redirect_to request.referrer }
-      @quote.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @quote.id).destroy_all
+      @quote.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :quote, tweet_id: @quote.id).delete_all
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     respond_to do |format|

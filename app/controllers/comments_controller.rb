@@ -32,7 +32,7 @@ class CommentsController < TweetsController
         ]
       }
       format.html { redirect_to request.referrer }
-      @comment.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @comment.id).destroy_all
+      @comment.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     respond_to do |format|

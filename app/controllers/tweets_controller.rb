@@ -59,7 +59,7 @@ class TweetsController < ApplicationController
         ]
       }
       format.html { redirect_to request.referrer }
-      @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @tweet.id).destroy_all
+      Notification.where(tweet_id: @tweet.id).delete_all
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     respond_to do |format|

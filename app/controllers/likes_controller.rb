@@ -62,7 +62,7 @@ class LikesController < ApplicationController
         ]
       }
       format.html { redirect_to request.referrer }
-      @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :like, tweet_id: @tweet.id).destroy_all
+      @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :like, tweet_id: @tweet.id).delete_all
     end
   rescue NoMethodError
     # If a user did already dislike (same session on 2 different tabs for example), it would invoke a NoMethodError, as @like would return nil and nil can't have a #destroy method executed on it, so in that case, no data manipulation is to happen and a turbo request for a simple visual update is made
