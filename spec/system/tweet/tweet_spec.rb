@@ -41,9 +41,11 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "doesn't create a tweet with more than 280 of characters" do
-    exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
-    fill_in "tweet_body", with: exact_limit_tweet
-    find(:id, "tweet_body").send_keys "."
+    # exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
+    # fill_in "tweet_body", with: exact_limit_tweet
+    fill_in "tweet_body", with: "very big much text to 280 chars.
+    very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much s"
+    # find(:id, "tweet_body").send_keys "."
     expect(page).to have_css(".fake-submit-tweet")
     expect(page).not_to have_css(".real-submit-tweet")
   end

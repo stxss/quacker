@@ -36,6 +36,6 @@ class Tweet < ApplicationRecord
 
   # Ensures that client-side and server-side character count is the same by removing escape sequences and special characters
   def sanitize_body
-    self.body = body.gsub(/\\r\\n|\n|\r/, ' ').strip if body
+    self.body = body.gsub(/\\r\\n|\n|\r/, '').strip if body
   end
 end
