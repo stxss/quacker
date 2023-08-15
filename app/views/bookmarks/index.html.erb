@@ -1,0 +1,5 @@
+<%= turbo_stream_from "bookmarks_index" %>
+
+<% current_user.bookmarked_tweets.each do |t| %>
+  <%= render "tweets/single_tweet", t: t %>
+<% end %>

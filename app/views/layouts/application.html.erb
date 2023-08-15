@@ -19,9 +19,9 @@
         <div class="explore"><%= button_to "Explore" %></div>
         <div class="notifications"><%= button_to "Notifications", notifications_path, method: :get %></div>
         <div class="messages"><%= button_to "Messages" %></div>
-        <div class="bookmarks"><%= button_to "Bookmarks" %></div>
-        <div class="profile"><%= button_to "Profile", username_url(current_user.username), method: :get %></div>
-        <div class="settings"><%= button_to "Settings", settings_account_url(user_id: current_user.id), method: :get %></div><br />
+        <div class="bookmarks"><%= button_to "Bookmarks", bookmarks_path, method: :get %></div>
+        <div class="profile"><%= button_to "Profile", username_path(current_user.username), method: :get %></div>
+        <div class="settings"><%= button_to "Settings", settings_account_path(user_id: current_user.id), method: :get %></div><br />
         <% if current_user.passive_follows.exists?(is_request: true) %>
           <div class="follow-requests">
             <%= button_to "Follow Requests", notifications_follow_request_path, method: :get %>

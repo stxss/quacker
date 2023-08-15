@@ -47,6 +47,9 @@ Rails.application.routes.draw do
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
   resources :likes, path: "/:username/likes", only: [:create, :destroy]
 
+  get "/i/bookmarks", to: "bookmarks#index", as: "user_bookmarks"
+  resources :bookmarks, path: "/i/bookmarks", only: [:create, :destroy]
+
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
 

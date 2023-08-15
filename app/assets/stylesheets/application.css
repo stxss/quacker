@@ -107,7 +107,10 @@
  .icon-quote,
  .icon-comment,
  .icon-more-info,
- .icon-share {
+ .icon-share,
+ .icon-link,
+ .icon-send-via-message,
+ .icon-bookmark {
   max-width: 24px;
   max-height: 24px;
   transform: scale(0.7813);
@@ -184,6 +187,9 @@
   .dropdown button,
   .more-info-btn button,
   .share button,
+  .link button,
+  .bookmark button,
+  .send-via-message button
   .limited-rt,
   .quote button,
   .comment button {

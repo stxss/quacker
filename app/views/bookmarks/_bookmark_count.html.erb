@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "bookmark_count_#{t.id}" do %>
+  <span class="bookmark-count">
+    <%= t.bookmarks.size %> Bookmarks
+  </span>
+<% end %>

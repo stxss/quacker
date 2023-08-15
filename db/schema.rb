@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_201059) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_15_171033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_201059) do
     t.boolean "private_visibility", default: false
     t.boolean "hide_potentially_sensitive_content", default: false, null: false
     t.index ["user_id"], name: "index_accounts_on_user_id", unique: true
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.integer "tweet_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tweet_id", "user_id"], name: "index_bookmarks_on_tweet_id_and_user_id", unique: true
   end
 
   create_table "follows", force: :cascade do |t|

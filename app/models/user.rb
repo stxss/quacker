@@ -20,14 +20,15 @@ class User < ApplicationRecord
   has_many :notifications_received, class_name: "Notification", foreign_key: "notified_id", dependent: :destroy
   has_many :notifiers, through: :notifications_received
 
-  # has_many :created_tweets, class_name: "Tweet", dependent: :destroy
-
   has_many :created_tweets, class_name: "Tweet", dependent: :destroy
   has_many :created_retweets, class_name: "Retweet", dependent: :destroy
   has_many :created_comments, class_name: "Comment"
   has_many :created_quotes, class_name: "Quote"
 
   has_many :liked_tweets, class_name: "Like", dependent: :destroy
+
+  has_many :bookmarks
+  has_many :bookmarked_tweets, through: :bookmarks, dependent: :destroy, source: :tweet
 
   has_one :account, dependent: :destroy
 
@@ -95,5 +96,9 @@ class User < ApplicationRecord
 
   def has_like?(tweet)
     liked_tweets.where(tweet_id: tweet).exists?
+  end
+
+  def has_bookmark?(tweet)
+    bookmarks.where(tweet_id: tweet).exists?
   end
 end

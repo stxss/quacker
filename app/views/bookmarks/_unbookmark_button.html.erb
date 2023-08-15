@@ -1,0 +1,4 @@
+<%= button_to bookmark_path(t), class: "bookmark-button", method: :delete, remote: true do %>
+  <%= content_tag(:span, remove_bookmark_svg) %>
+  <%= content_tag(:span, "Remove post from Bookmarks", class: "bookmark-text") %>
+<% end %>
