@@ -64,6 +64,7 @@ class User < ApplicationRecord
   end
 
   def notify(other_id, type, tweet_id: nil)
+    return if id == other_id
     notifications_given.create(notifier_id: id, notified_id: other_id, notification_type: type, tweet_id: tweet_id)
   end
 

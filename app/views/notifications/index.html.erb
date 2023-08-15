@@ -1,5 +1,4 @@
 <% @notifications.each do |n|%>
-  <% next if n.notifier_id == current_user.id %>
   <% if n.notification_type == "follow" %>
     <%= render "follow_notification", notifier: n.notifier_id %>
   <% elsif n.notification_type == "like" %>
