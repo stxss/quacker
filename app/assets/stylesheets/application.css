@@ -106,7 +106,8 @@
  .icon-unlike,
  .icon-quote,
  .icon-comment,
- .icon-more-info {
+ .icon-more-info,
+ .icon-share {
   max-width: 24px;
   max-height: 24px;
   transform: scale(0.7813);
@@ -182,6 +183,7 @@
   .unlike-button button,
   .dropdown button,
   .more-info-btn button,
+  .share button,
   .limited-rt,
   .quote button,
   .comment button {
@@ -229,8 +231,10 @@
   z-index: 2;
 }
 
-.more-info {
-  right: 20px;
+.more-info,
+.share {
+  right: 5px;
+  top: 5px;
 }
 
 /* Links inside the dropdown */

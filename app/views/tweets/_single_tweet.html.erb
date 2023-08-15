@@ -20,6 +20,10 @@
           <span class="likes">
             <%= render "likes/likes", t: t %>
           </span>
+
+          <span class="share">
+            <%= render "tweets/share", t: t %>
+          </span>
         </div>
         <% if @show_replies %>
           <% if t.comments.size >= 3 %>
