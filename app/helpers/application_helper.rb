@@ -83,6 +83,11 @@ module ApplicationHelper
   #   end
   # end
 
+  # https://www.hotrails.dev/turbo-rails/flash-messages-hotwire
+  def render_flash_message
+    turbo_stream.prepend("flash", partial: "layouts/flash")
+  end
+
   def formatted_time_ago(created_at)
     seconds_ago = (Time.current - created_at).to_i
 
