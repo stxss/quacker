@@ -16,30 +16,18 @@ class BookmarksController < ApplicationController
     respond_to do |format|
       if @bookmark.save
         format.turbo_stream {
-          render turbo_stream: [
-            turbo_stream.replace_all(".menuitem #bookmark_#{@bookmark.tweet.id}", partial: "bookmarks/bookmarks", locals: {t: @bookmark.tweet})
-          ]
+          flash.now[:notice] = "Post added to bookmarks"
+          render "bookmarks/replace_bookmarks", locals: {t: @bookmark.tweet}
         }
         format.html { redirect_to request.referrer }
       end
     end
   rescue ActiveRecord::RecordNotFound
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{bookmark_params[:tweet_id]}"),
-          flash.now[:alert] = "Can't bookmark a deleted Tweet"
-        ]
-      }
-    end
+    flash.now[:alert] = "Can't bookmark a deleted Tweet"
+    render "tweets/_not_found", locals: {id: bookmark_params[:tweet_id]}
   rescue ActiveRecord::RecordNotUnique, NoMethodError
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all(".menuitem #bookmark_#{@tweet.id}", partial: "bookmarks/bookmarks", locals: {t: @tweet})
-        ]
-      }
-    end
+    flash.now[:alert] = "Can't bookmark twice"
+    render "bookmarks/replace_bookmarks", locals: {t: @tweet }
   end
 
   def destroy
@@ -56,29 +44,17 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all(".menuitem #bookmark_#{@bookmark.tweet.id}", partial: "bookmarks/bookmarks", locals: {t: @bookmark.tweet})
-        ]
+        flash.now[:notice] = "Post removed from bookmarks"
+        render "bookmarks/replace_bookmarks", locals: {t: @bookmark.tweet}
       }
       format.html { redirect_to request.referrer }
     end
   rescue ActiveRecord::RecordNotFound
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{params[:id]}"),
-          flash.now[:alert] = "Can't unbookmark a deleted Tweet"
-        ]
-      }
-    end
+    flash.now[:alert] = "Can't unbookmark a deleted Tweet"
+    render "tweets/_not_found", locals: {id: params[:id]}
   rescue NoMethodError
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all(".menuitem #bookmark_#{params[:id]}", partial: "bookmarks/bookmarks", locals: {t: Tweet.find(params[:id])})
-        ]
-      }
-    end
+    flash.now[:alert] = "Can't unbookmark twice"
+    render "bookmarks/replace_bookmarks", locals: {t: Tweet.find(params[:id])}
   end
 
   private

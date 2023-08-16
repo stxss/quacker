@@ -1,0 +1,2 @@
+<%= turbo_stream.replace_all(".menuitem #bookmark_#{t.id}", partial: "bookmarks/bookmarks", locals: {t: t})%>
+<%= render_flash_message %>
