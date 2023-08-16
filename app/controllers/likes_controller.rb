@@ -13,33 +13,17 @@ class LikesController < ApplicationController
     @og = Tweet.find(@tweet.id)
 
     respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all(".likes #like_#{@og.id}", partial: "likes/likes", locals: {t: @og, user: current_user})
-        ]
-      }
+      format.turbo_stream { render "likes/replace_likes", locals: {t: @og, user: current_user} }
       format.html { redirect_to request.referrer }
       current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
     end
   rescue ActiveRecord::RecordNotUnique
     # If a user already has a like, it would invoke a ActiveRecord::RecordNotUnique error, so in that case, no data manipulation is to happen and a turbo request for a simple visual update is made
-
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user})
-        ]
-      }
-    end
+    flash.now[:alert] = "Can't like it twice."
+    render "likes/replace_likes", locals: {t: @tweet, user: current_user}
   rescue ActiveRecord::RecordNotFound
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{like_params[:tweet_id]}"),
-          flash.now[:alert] = "Couldn't like"
-        ]
-      }
-    end
+    flash.now[:alert] = "Couldn't like a deleted tweet."
+    render "tweets/_not_found", locals: {id: like_params[:tweet_id]}
   end
 
   def destroy
@@ -56,24 +40,17 @@ class LikesController < ApplicationController
       locals: {t: Tweet.find(@tweet.id)}
 
     respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all(".likes #like_#{@og.id}", partial: "likes/likes", locals: {t: @og, user: current_user})
-        ]
-      }
+      format.turbo_stream { render "likes/replace_likes", locals: {t: @og, user: current_user} }
       format.html { redirect_to request.referrer }
       @tweet.author.notifications_received.where(notifier_id: current_user.id, notification_type: :like, tweet_id: @tweet.id).delete_all
     end
   rescue NoMethodError
     # If a user did already dislike (same session on 2 different tabs for example), it would invoke a NoMethodError, as @like would return nil and nil can't have a #destroy method executed on it, so in that case, no data manipulation is to happen and a turbo request for a simple visual update is made
-
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all(".likes #like_#{@tweet.id}", partial: "likes/likes", locals: {t: @tweet, user: current_user})
-        ]
-      }
-    end
+    flash.now[:alert] = "Can't dislike it twice."
+    render "likes/replace_likes", locals: {t: @tweet, user: current_user}
+  rescue ActiveRecord::RecordNotFound
+    flash.now[:alert] = "Couldn't dislike a deleted tweet."
+    render "tweets/_not_found", locals: {id: like_params[:tweet_id]}
   end
 
   private
