@@ -5,7 +5,7 @@ class RetweetsController < TweetsController
     @retweet = current_user.created_retweets.build(retweet_params)
 
     @retweet.original.broadcast_render_later_to "retweets",
-      partial: "tweets/update_retweets_count",
+      partial: "retweets/update_retweets_count",
       locals: {t: @retweet.original}
 
     raise UserGonePrivate if @retweet.original.author.account.private_visibility && current_user != @retweet.original.author
@@ -14,7 +14,7 @@ class RetweetsController < TweetsController
       if @retweet.save
         format.turbo_stream {
           render turbo_stream: [
-            turbo_stream.replace_all("#retweet_#{@retweet.original.id}", partial: "tweets/retweets", locals: {t: @retweet.original, user: current_user})
+            turbo_stream.replace_all("#retweet_#{@retweet.original.id}", partial: "retweets/retweets", locals: {t: @retweet.original, user: current_user})
           ]
         }
         format.html { redirect_to request.referrer }
@@ -27,7 +27,7 @@ class RetweetsController < TweetsController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
-          turbo_stream.replace_all("#retweet_#{@retweet.original.id}", partial: "tweets/retweets", locals: {t: @retweet.original, user: current_user})
+          turbo_stream.replace_all("#retweet_#{@retweet.original.id}", partial: "retweets/retweets", locals: {t: @retweet.original, user: current_user})
         ]
       }
     end
@@ -44,7 +44,7 @@ class RetweetsController < TweetsController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
-          turbo_stream.replace_all("#retweet_#{@retweet.original.id} .dropdown", partial: "tweets/fake_retweet_menu", locals: {t: @retweet.original}),
+          turbo_stream.replace_all("#retweet_#{@retweet.original.id} .dropdown", partial: "retweets/fake_retweet_menu", locals: {t: @retweet.original}),
           flash.now[:alert] = "Couldn't retweet a privated tweet"
         ]
       }
@@ -61,14 +61,14 @@ class RetweetsController < TweetsController
 
     # @retweet.original is the updated version of the tweet
     @retweet.original.broadcast_render_later_to "retweets",
-      partial: "tweets/update_retweets_count",
+      partial: "retweets/update_retweets_count",
       locals: {t: @retweet.original}
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: [
           turbo_stream.remove("tweet_#{@retweet.id}"),
-          turbo_stream.replace_all("#retweet_#{@retweet.original.id}", partial: "tweets/retweets", locals: {t: @retweet.original, user: current_user})
+          turbo_stream.replace_all("#retweet_#{@retweet.original.id}", partial: "retweets/retweets", locals: {t: @retweet.original, user: current_user})
         ]
       }
       format.html { redirect_to request.referrer }
@@ -87,7 +87,7 @@ class RetweetsController < TweetsController
       format.turbo_stream {
         render turbo_stream: [
           @to_remove,
-          turbo_stream.replace_all("#retweet_#{@original.id}", partial: "tweets/retweets", locals: {t: @original, user: current_user})
+          turbo_stream.replace_all("#retweet_#{@original.id}", partial: "retweets/retweets", locals: {t: @original, user: current_user})
         ]
       }
     end

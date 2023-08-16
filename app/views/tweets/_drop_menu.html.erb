@@ -7,9 +7,9 @@
     <div class="dropdown-content" data-dropdown-target="menu">
       <div class="backdrop"></div>
       <% if current_user.has_rt?(t) %>
-        <%= render "tweets/unretweet_button", t: t, self_rt: self_rt %>
+        <%= render "retweets/unretweet_button", t: t, self_rt: self_rt %>
       <% else %>
-        <%= render "tweets/retweet_button", t: t %>
+        <%= render "retweets/retweet_button", t: t %>
       <% end %>
       <%= render "tweets/quote_button", t: t %>
     </div>

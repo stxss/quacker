@@ -3,7 +3,7 @@
   <%= turbo_frame_tag "tweet_#{t.id}" do %>
     <div class="tweet">
       <% if t.retweet? %>
-        <%= render "tweets/retweet_info", t: t %>
+        <%= render "retweets/retweet_info", t: t %>
       <% elsif t.comment? && @show_replies %>
         <% return %>
       <% elsif t.quote_tweet? %>
@@ -14,7 +14,7 @@
           <%= render "comments/comments", t: t %>
 
           <span class="retweets">
-            <%= render "tweets/retweets", t: t %>
+            <%= render "retweets/retweets", t: t %>
           </span>
 
           <span class="likes">

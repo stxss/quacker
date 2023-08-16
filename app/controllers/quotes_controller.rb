@@ -2,9 +2,8 @@ class QuotesController < TweetsController
   def create
     @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_retweet_id: params[:id])
 
-
     @quote.original.broadcast_render_later_to "retweets",
-      partial: "tweets/update_retweets_count",
+      partial: "retweets/update_retweets_count",
       locals: {t: @quote.original}
 
     raise UserGonePrivate if @quote.original.author.account.private_visibility && current_user != @quote.original.author
@@ -26,7 +25,7 @@ class QuotesController < TweetsController
     (current_user == @quote.author) ? @quote.destroy : raise(UnauthorizedElements)
 
     @quote.original.broadcast_render_later_to "retweets",
-      partial: "tweets/update_retweets_count",
+      partial: "retweets/update_retweets_count",
       locals: {t: @quote.original}
 
     respond_to do |format|

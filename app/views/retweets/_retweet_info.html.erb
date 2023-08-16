@@ -8,10 +8,10 @@
     <%= render "tweets/tweet_body", t: original_tweet %>
 
     <div class="activity-box">
-      <%= render "tweets/comments", t: original_tweet %>
+      <%= render "comments/comments", t: original_tweet %>
 
       <span class="retweets">
-        <%= render "tweets/retweets", t: original_tweet, self_rt: t %>
+        <%= render "retweets/retweets", t: original_tweet, self_rt: t %>
       </span>
 
       <span class="likes">

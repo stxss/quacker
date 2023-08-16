@@ -4,12 +4,12 @@
 <% if (t.author.account.private_visibility && current_user == t.author) || (t.author.account.private_visibility && current_user != t.author && current_user.has_rt?(t)) || !t.author.account.private_visibility  %>
   <% menu = "tweets/drop_menu" %>
 <% elsif t.author.account.private_visibility && current_user != t.author %>
-  <% menu = "tweets/fake_retweet_menu" %>
+  <% menu = "retweets/fake_retweet_menu" %>
 <% end %>
 
 <%= turbo_frame_tag "retweet_#{t.id}" do %>
   <div class="retweet <%= 'retweeted' if user.has_rt?(t) %>">
     <%= render menu, t: t, self_rt: self_rt %>
-    <%= render "tweets/retweet_count", t: t %>
+    <%= render "retweets/retweet_count", t: t %>
   </div>
 <% end %>
