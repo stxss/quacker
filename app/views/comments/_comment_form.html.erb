@@ -1,7 +1,7 @@
 <div data-controller="tweet turbo-modal" class="tweet-form" data-previous-page-url="<%= session[:previous_page_url] %>">
   <%= form_with model: Comment.new, url: comment_path(id: t), data: { turbo: false } do |f| %>
     <div class="origin_tweet">
-        <%= render "tweets/quote_single_tweet", t: t %>
+        <%= render "quotes/quote_single_tweet", t: t %>
     </div>
     <div class="area-box" >
       <% if Tweet.find(params[:parent_tweet_id]).author == current_user %>

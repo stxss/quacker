@@ -4,7 +4,7 @@
 
 <% @tweets.each do |t| %>
   <% if t.comment? && t.new_tweet?(@tweets) && session[:new_comment] == 1 && t.original.comments.last == t %>
-    <%= render "tweets/comment_tweet_info", t: t %>
+    <%= render "comments/comment_tweet_info", t: t %>
   <% else %>
     <%= render "tweets/single_tweet", t: t %>
   <% end %>
