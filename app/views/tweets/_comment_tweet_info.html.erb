@@ -25,8 +25,12 @@
       <%= render "tweets/delete_button", t: t %>
     <% end %>
 
-    <% t.comments.each do |tweet| %>
+    <% if (t.depth % 11 == 0) %>
+      <%= link_to "Continue reading", single_tweet_path(username: t.author.username, id: t.id), target: :_top %>
+    <% else %>
+      <% t.comments.each do |tweet| %>
         <%= render "tweets/comment_tweet_info", t: tweet %>
+      <% end %>
     <% end %>
   </div>
 <% end %>

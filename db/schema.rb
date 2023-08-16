@@ -85,6 +85,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_171033) do
     t.integer "quote_tweets_count"
     t.integer "comments_count"
     t.string "type"
+    t.integer "root_id"
+    t.integer "height", default: 0
+    t.integer "depth", default: 0
     t.index ["parent_tweet_id"], name: "index_tweets_on_parent_tweet_id"
     t.index ["user_id", "retweet_id"], name: "index_tweets_on_user_id_and_retweet_id", unique: true
     t.index ["user_id"], name: "index_tweets_on_user_id"

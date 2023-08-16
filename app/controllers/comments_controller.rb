@@ -1,15 +1,21 @@
 class CommentsController < TweetsController
   def create
     session[:new_comment] = 0
-    @comment = current_user.created_comments.create!(body: comment_params[:body], parent_tweet_id: params[:id])
+    @comment = current_user.created_comments.build(body: comment_params[:body], parent_tweet_id: params[:id])
+    @comment.root_id = @comment.find_root
 
     @comment.original.broadcast_render_later_to "comments",
       partial: "tweets/update_comments_count",
       locals: {t: @comment.original}
 
     respond_to do |format|
-      format.html { redirect_to root_path }
-      session[:og_comment_id] = @comment.id
+      if @comment.save
+        format.html { redirect_to root_path }
+        current_user.notify(@comment.original.author.id, :comment, tweet_id: @comment.id)
+        @comment&.update_tree
+
+        session[:og_comment_id] = @comment.id
+      end
     end
   end
 
@@ -18,6 +24,8 @@ class CommentsController < TweetsController
     @comment.original.update(updated_at: @comment.original.created_at)
 
     (current_user == @comment.author) ? @comment.destroy : raise(UnauthorizedElements)
+
+    @comment.original&.update_tree
 
     @comment.original.broadcast_render_later_to "comments",
       partial: "tweets/update_comments_count",
@@ -32,7 +40,7 @@ class CommentsController < TweetsController
         ]
       }
       format.html { redirect_to request.referrer }
-      @comment.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete
+      @comment.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete_all
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     respond_to do |format|

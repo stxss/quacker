@@ -24,6 +24,10 @@
     </span>
 
   </div>
+
+  <% if !notifications_view %>
+    <%= render "tweets/show_comments", t: t %>
+  <% end %>
   <% if @show_replies %>
     <% if t.comments.size >= 3 %>
       <%= link_to "Show more replies", single_tweet_path(username: t.author.username, id: t.id), data: {turbo: false} %>

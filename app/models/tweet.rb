@@ -41,4 +41,23 @@ class Tweet < ApplicationRecord
   def sanitize_body
     self.body = body.gsub(/\\r\\n|\n|\r/, '').strip if body
   end
+
+  def find_root
+    comment? ? original.find_root : id
+  end
+
+  def find_depth
+    comment? ? original.find_depth + 1 : 0
+  end
+
+  def find_height
+    return 0 if comments.empty?
+    heights = comments.map { |c| c.find_height }
+    1 + heights.max
+  end
+
+  def update_tree
+    update(height: find_height, depth: find_depth)
+    original&.update_tree if respond_to?(:original)
+  end
 end
