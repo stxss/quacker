@@ -5,7 +5,7 @@
     </div>
     <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
       <div class= "origin_tweet">
-        <%= render "tweets/quote_single_tweet", t: rt %>
+        <%= render "quotes/quote_single_tweet", t: rt %>
       </div>
     <div class="tweet-button" data-tweet-target="submit" >
       <%= turbo_frame_tag "submit-tweet" do %>

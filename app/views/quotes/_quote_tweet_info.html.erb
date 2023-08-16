@@ -1,0 +1,34 @@
+<% notifications_view = false if local_assigns[:notifications_view].nil? %>
+
+<%= render "tweets/creator_info", t: t %>
+<%= render "tweets/tweet_body", t: t %>
+
+<% if show_rt == true %>
+  <% if !qrt %>
+    <% render "tweets/unavailable_tweet" %>
+  <% else %>
+    <%= turbo_frame_tag "tweet_#{qrt.id}", class: "quoted" do %>
+      <div class="tweet">
+        <%= render "tweets/creator_info", t: qrt %>
+        <%= render "tweets/tweet_body", t: qrt %>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="activity-box">
+    <%= render "comments/comments", t: t %>
+
+    <span class="retweets">
+      <%= render "retweets/retweets", t: t %>
+    </span>
+
+    <span class="likes">
+      <%= render "likes/likes", t: t %>
+    </span>
+
+  </div>
+
+  <% if !notifications_view %>
+    <%= render "comments/show_comments", t: t %>
+  <% end %>
+<% end %>
+
