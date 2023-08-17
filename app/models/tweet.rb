@@ -7,7 +7,7 @@ class Tweet < ApplicationRecord
 
   has_many :comments, class_name: "Comment", foreign_key: :parent_tweet_id
   has_many :quote_tweets, class_name: "Quote", foreign_key: :quoted_retweet_id
-  has_many :retweets, class_name: "Retweet", foreign_key: :retweet_id, dependent: :destroy
+  has_many :retweets, class_name: "Retweet", foreign_key: :retweet_original_id, dependent: :destroy
   has_many :likes
 
   has_many :bookmarks
@@ -16,7 +16,7 @@ class Tweet < ApplicationRecord
   scope :ordered, -> { order(updated_at: :desc) }
 
   def retweet?
-    !body? && retweet_id?
+    !body? && retweet_original_id?
   end
 
   def quote_tweet?

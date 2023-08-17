@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_15_171033) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_17_142448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,7 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_171033) do
     t.datetime "updated_at", null: false
     t.bigint "parent_tweet_id"
     t.integer "likes_count"
-    t.integer "retweet_id"
+    t.integer "retweet_original_id"
     t.integer "retweet_body"
     t.integer "quoted_retweet_id"
     t.integer "retweets_count"
@@ -89,7 +89,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_171033) do
     t.integer "height", default: 0
     t.integer "depth", default: 0
     t.index ["parent_tweet_id"], name: "index_tweets_on_parent_tweet_id"
-    t.index ["user_id", "retweet_id"], name: "index_tweets_on_user_id_and_retweet_id", unique: true
+    t.index ["user_id", "retweet_original_id"], name: "index_tweets_on_user_id_and_retweet_original_id", unique: true
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 

@@ -92,7 +92,8 @@ class User < ApplicationRecord
   end
 
   def has_rt?(tweet)
-    created_tweets.where(retweet_id: tweet).exists?
+    created_tweets.where(retweet_original_id: tweet).exists?
+    # created_retweets.ids.include?(tweet)
   end
 
   def has_like?(tweet)
