@@ -2,8 +2,7 @@ class RetweetsController < TweetsController
   def create
     # When user clicks retweet, it looks up the tweet, creates a retweet and then broadcasts the updated count to all the users. Finally, to update the buttons correctly for the user, a format.turbo_stream request is made with the value of the tweet as the original has been updated with a retweet count. By fetching the original tweet after the update, the most recent values are assured and errors minimized
 
-    @retweet = current_user.created_retweets.build(retweet_params)
-
+    @retweet = current_user.created_retweets.build(retweet_original_id: params[:retweet_original_id])
     @retweet.original.broadcast_render_later_to "retweets",
       partial: "retweets/update_retweets_count",
       locals: {t: @retweet.original}
@@ -69,5 +68,7 @@ class RetweetsController < TweetsController
 
   def retweet_params
     params.require(:retweet).permit(:retweet_original_id, :self_rt)
+  rescue ActionController::ParameterMissing
+    {}
   end
 end

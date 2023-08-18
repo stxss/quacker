@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :tweets, except: [:show, :new]
 
   # Actions to create and destroy a retweet
-  post "/tweets/retweet/:id", to: "retweets#create", as: "retweet"
+  post "/tweets/retweet/:retweet_original_id", to: "retweets#create", as: "retweet"
   delete "/tweets/retweet/:id", to: "retweets#destroy", as: "unretweet"
 
   # :id is the id of the tweet being quoted
