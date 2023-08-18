@@ -1,4 +1,14 @@
 class QuotesController < TweetsController
+  # before_action :authenticate_user!
+  def new
+    @original_tweet = Tweet.find(params[:original_tweet_id])
+
+    raise UserGonePrivate if @original_tweet && @original_tweet.author.account.private_visibility && current_user != @original_tweet.author
+  rescue UserGonePrivate
+    flash[:alert] = "Can't quote a protected tweet unless you're the author"
+    render json: {}, status: :forbidden
+  end
+
   def create
     @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_retweet_id: params[:id])
 
