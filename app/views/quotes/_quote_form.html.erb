@@ -1,3 +1,4 @@
+<div class="backdrop"></div>
 <div data-controller="tweet turbo-modal" class="tweet-form" data-previous-page-url="<%= session[:previous_page_url] %>">
   <%= form_with model: Quote.new, url: quote_path(id: rt), data: { turbo: false } do |f| %>
     <div class="area-box" >

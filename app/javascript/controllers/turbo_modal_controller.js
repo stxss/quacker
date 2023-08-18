@@ -30,6 +30,7 @@ export default class extends Controller {
 
     hideModal(e) {
         e.preventDefault();
+        this.element.parentElement.querySelector(".backdrop").remove();
         this.element.remove();
 
         if (this.prevPageStr === this.username) {
