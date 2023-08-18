@@ -2,14 +2,18 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the tweet form
 export default class Tweet extends Controller {
-    static targets = ["area", "counter", "circle", "submit"];
+    static targets = ["area", "counter", "circle", "submit", "new"];
 
     initialize() {
-        this.update();
+        if (this.hasAreaTarget && this.hasCounterTarget && this.hasCircleTarget && this.hasSubmitTarget) {
+            this.update();
+        }
     }
 
     connect() {
-        this.update();
+        if (this.hasAreaTarget && this.hasCounterTarget && this.hasCircleTarget && this.hasSubmitTarget) {
+            this.update();
+        }
     }
 
     update() {
@@ -19,34 +23,28 @@ export default class Tweet extends Controller {
     verifyLength(length) {
         if (this.notATweet()) {
             if (!this.submitTarget.querySelector(".fake-submit-tweet")) {
-                fetch(`${this.areaTarget.getAttribute("data-url")}?valid=0`)
-                    .then((res) => res.text())
-                    .then((text) => Turbo.renderStreamMessage(text));
+                this.submitTarget.innerHTML = `<div class="fake-submit-tweet">Tweet</div>`
             }
-        } else if (!this.submitTarget.querySelector(".real-submit-tweet")) {
-            this.submitTarget.classList.replace(
-                "fake-submit-tweet",
-                "temp-submit-tweet"
-            );
-            fetch(`${this.areaTarget.getAttribute("data-url")}?valid=1`)
-                .then((res) => res.text())
-                .then((text) => Turbo.renderStreamMessage(text));
-        }
+            } else {
+            if (!this.submitTarget.querySelector("input")) {
+                this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Tweet" id="real-submit-tweet" data-disable-with="Tweet">`
+            }
+            }
 
-        let circleContainer = this.circleTarget;
+        let circleContainer = this.circleTarget
 
         if (length === 0 && circleContainer.childNodes.length > 0) {
             circleContainer.innerHTML = "";
-        } else if (length !== 0 && circleContainer.childNodes.length === 0) {
+            } else if (length !== 0 && circleContainer.childNodes.length === 0) {
             circleContainer.innerHTML = `
-            <svg class="progress-ring" height="100%" width="100%" viewBox="0 0 20 20" style="transform: rotate(-90deg); overflow: visible">
-              <circle class="progress-ring__circle-bg" stroke-width="1.6" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
-              <circle class="progress-ring__circle" stroke-width="2" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
-              <text class="progress-ring__text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="rotate: 90deg; transform-origin: center;"></text>
-            </svg>
-          `;
+                <svg class="progress-ring" height="100%" width="100%" viewBox="0 0 20 20" style="transform: rotate(-90deg); overflow: visible">
+                <circle class="progress-ring__circle-bg" stroke-width="1.6" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
+                <circle class="progress-ring__circle" stroke-width="2" fill="transparent" r="10" cx="50%" cy="50%" stroke-linecap="round"></circle>
+                <text class="progress-ring__text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="rotate: 90deg; transform-origin: center;"></text>
+                </svg>
+            `;
         }
-        this.showCount(length);
+        this.showCount(length)
         this.progressCircle(length);
     }
 
@@ -106,6 +104,14 @@ export default class Tweet extends Controller {
         }
 
         setProgress(length);
+    }
+
+    newTweet(e) {
+        if (e.detail.success) {
+            history.pushState(null, '', '/compose/tweet');
+        } else if (!e.detail.success) {
+            window.location.href = "/home"
+        }
     }
 
     submit(e) {
