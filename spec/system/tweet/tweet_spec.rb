@@ -29,6 +29,7 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "creates a tweet with a single character" do
+    visit root_path
     fill_in "tweet_body", with: "1"
     click_on "Tweet"
     expect(page).to have_css(".tweet-body", text: "1")
@@ -51,6 +52,7 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "does create a tweet with exactly 280 characters" do
+    visit root_path
     exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
     fill_in "tweet_body", with: exact_limit_tweet
     click_on "Tweet"
@@ -94,6 +96,7 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "shows the tweet when clicking on the content" do
+    visit root_path
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
     find(".tweet-body").click
@@ -101,6 +104,7 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "when author, shows delete button" do
+    visit root_path
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
@@ -109,6 +113,7 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "when author can delete tweet" do
+    visit root_path
     fill_in "tweet_body", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
@@ -177,7 +182,7 @@ RSpec.describe "Tweet creation", type: :system do
     visit username_path(user.username)
     user.created_tweets.last.destroy
     find(".like").click
-    expect(page).to have_content("Couldn't like")
+    expect(page).to have_content("Couldn't like a deleted tweet.")
   end
 
   it "user can retweet own tweets" do
@@ -226,7 +231,7 @@ RSpec.describe "Tweet creation", type: :system do
       find(".dropdown").click
       find(".retweet-button").click
     end
-    expect(page).to have_content("Couldn't retweet")
+    expect(page).to have_content("Couldn't retweet a deleted tweet.")
   end
 
   it "user can unretweet" do
