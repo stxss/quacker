@@ -4,31 +4,40 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
 
     connect() {
-        document.addEventListener("click", (event) => {
-            let withinBoundaries = event.composedPath().includes(this.element);
-
-            if (!withinBoundaries) {
-                this.hideModal();
-            }
-        });
-
-        document.addEventListener("keyup", (event) => {
-            if (event.code === "Escape") {
-                this.hideModal();
-            }
-        });
+        this.clickOutsideHandler = (e) => this.clickOutside(e);
+        document.addEventListener("keyup", this.clickOutsideHandler)
+        document.addEventListener("click", this.clickOutsideHandler)
     }
 
-    hideModal() {
-        this.element.parentElement.removeAttribute("src");
+    disconnect() {
+        document.removeEventListener("click", this.clickOutsideHandler)
+        document.removeEventListener("keyup", this.clickOutsideHandler)
+    }
+
+    clickOutside(e) {
+        if (e.type === "click") {
+            let withinBoundaries = e.composedPath().includes(this.element);
+
+            if (!withinBoundaries) {
+                this.hideModal(e);
+            }
+        } else if (e.type === "keyup") {
+            if (e.code === "Escape") {
+                this.hideModal(e);
+            }
+        }
+    }
+
+    hideModal(e) {
+        e.preventDefault();
         this.element.remove();
 
         if (this.prevPageStr === this.username) {
-            window.location.href = `/${this.username}`;
-        } else if (this.prevPageStr === "content_you_see") {
-            window.location.href = `/settings/content_you_see`;
+            history.pushState(null, '', `/${this.username}`);
+        } else if (this.prevPageStr === "content_you_see" || this.prevPageStr === "search") {
+            history.pushState(null, '', `/settings/content_you_see`);
         } else {
-            window.location.href = "/home";
+            history.pushState(null, '', "/home");
         }
     }
 
