@@ -4,7 +4,7 @@ class LikesController < ApplicationController
 
     @tweet = Tweet.find(like_params[:tweet_id])
 
-    @like = current_user.like_tweet(like_params[:tweet_id].to_i)
+    @like = current_user.liked_tweets.create(tweet_id: @tweet.id)
 
     @like.broadcast_render_later_to "likes",
       partial: "likes/update_likes_count",

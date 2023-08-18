@@ -68,10 +68,6 @@ class User < ApplicationRecord
     notifications_given.create(notifier_id: id, notified_id: other_id, notification_type: type, tweet_id: tweet_id)
   end
 
-  def like_tweet(tweet)
-    liked_tweets.create(tweet_id: tweet)
-  end
-
   def login
     @login || username || email
   end
