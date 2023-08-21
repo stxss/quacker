@@ -12,7 +12,7 @@ class QuotesController < TweetsController
   def create
     @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_retweet_id: params[:id])
 
-    @quote.original.broadcast_render_later_to "quotes",
+    @quote.original.broadcast_render_later_to "retweets",
       partial: "retweets/update_retweets_count",
       locals: {t: @quote.original}
 
