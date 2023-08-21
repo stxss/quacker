@@ -25,33 +25,25 @@ export default class extends Controller {
             let withinBoundaries = e.composedPath().includes(this.element);
 
             if (!withinBoundaries) {
-                this.hideModal(e);
+                this.close(e);
             }
         } else if (e.type === "keyup") {
             if (e.code === "Escape") {
-                this.hideModal(e);
+                this.close(e);
             }
-        }
-    }
-
-    hideModal(e) {
-        e.preventDefault();
-        this.element.parentElement.querySelector(".backdrop").remove();
-        this.element.remove();
-
-        if (this.prevPageStr === this.username) {
-            history.pushState(null, '', `/${this.username}`);
-        } else if (this.prevPageStr === "content_you_see" || this.prevPageStr === "search") {
-            history.pushState(null, '', `/settings/content_you_see`);
-        } else {
-            history.pushState(null, '', "/home");
         }
     }
 
     close(e) {
-        if (e.detail.success) {
-            this.hideModal();
-        }
+        e.preventDefault()
+        let modal = this.element.closest("#modal")
+        let docRef = this.element.querySelector("form").dataset.previousPageUrl
+
+        modal.innerHTML = ""
+        modal.removeAttribute("src")
+        modal.removeAttribute("complete")
+
+        history.pushState(null, '', docRef);
     }
 
     get prevPage() {
