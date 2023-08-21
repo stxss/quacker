@@ -14,6 +14,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_referrer
-    session[:previous_page_url] = request.referrer
+    session[:previous_page_url] = request.original_url || request.referrer
   end
 end
