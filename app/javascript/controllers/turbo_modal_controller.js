@@ -4,6 +4,7 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
 
     connect() {
+        this.urlChange()
         this.clickOutsideHandler = (e) => this.clickOutside(e);
         document.addEventListener("keyup", this.clickOutsideHandler)
         document.addEventListener("click", this.clickOutsideHandler)
@@ -12,6 +13,11 @@ export default class extends Controller {
     disconnect() {
         document.removeEventListener("click", this.clickOutsideHandler)
         document.removeEventListener("keyup", this.clickOutsideHandler)
+    urlChange(e) {
+        let modal = this.element.closest("#modal")
+        let modalUrl = modal.querySelector("form").dataset.modalUrl
+        history.pushState(null, '', modalUrl);
+    }
     }
 
     clickOutside(e) {
