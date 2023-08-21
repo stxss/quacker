@@ -4,10 +4,10 @@ class TweetsController < ApplicationController
 
   before_action :first_visit?, :set_cache_headers, only: [:index]
   before_action :check_refresh, :session_refresh, only: [:new]
+  before_action :load_tweets, only: [:index, :new]
   after_action :refresh_comments, only: [:index]
 
   def new
-    index
     @retweet = Tweet.find(session[:retweet_id]) if session[:retweet_id].present?
     @comment = Tweet.find(session[:comment]) if session[:comment].present?
 
@@ -19,9 +19,6 @@ class TweetsController < ApplicationController
   end
 
   def index
-    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id AND is_request = false"
-    @tweets = Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes(:comments, :quote_tweets, :retweets, :likes, :author).ordered.load
-
     @show_replies = true
 
     if session[:new_comment]&.< 2
@@ -89,6 +86,11 @@ class TweetsController < ApplicationController
 
   def first_visit?
     session[:first_visit] = current_user.sign_in_count == 1 && session[:first_visit].nil?
+  end
+
+  def load_tweets
+    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id AND is_request = false"
+    @tweets ||= Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes(:comments, :quote_tweets, :retweets, :likes, :author).ordered.load
   end
 
   def set_cache_headers
