@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the tweet form
 export default class Tweet extends Controller {
-    static targets = ["area", "counter", "circle", "submit", "new"];
+    static targets = ["area", "counter", "circle", "submit"];
 
     initialize() {
         if (this.hasAreaTarget && this.hasCounterTarget && this.hasCircleTarget && this.hasSubmitTarget) {
@@ -27,7 +27,7 @@ export default class Tweet extends Controller {
             }
             } else {
             if (!this.submitTarget.querySelector("input")) {
-                this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Tweet" id="real-submit-tweet" data-disable-with="Tweet">`
+                this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Tweet" id="real-submit-tweet" data-disable-with="Tweet" data-action="click->tweet#submit">`
             }
             }
 
@@ -106,18 +106,15 @@ export default class Tweet extends Controller {
         setProgress(length);
     }
 
-    newTweet(e) {
-        if (e.detail.success) {
-            history.pushState(null, '', '/compose/tweet');
-        } else if (!e.detail.success) {
-            window.location.href = "/home"
-        }
-    }
-
     submit(e) {
         if (this.notATweet()) {
             e.preventDefault();
         }
+    }
+
+    clear(e) {
+        this.areaTarget.value = "";
+        this.update();
     }
 
     notATweet() {
