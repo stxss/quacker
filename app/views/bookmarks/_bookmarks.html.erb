@@ -1,11 +1,13 @@
 <% user = current_user if local_assigns[:user].nil? %>
 
 <%= turbo_frame_tag "bookmark_#{t.id}" do %>
-  <div class="bookmark <%= 'bookmarked' if user.has_bookmark?(t) %>">
-    <% if user.has_bookmark?(t) %>
-      <%= render "bookmarks/unbookmark_button", t: t %>
-    <% else %>
-      <%= render "bookmarks/bookmark_button", t: t %>
-    <% end %>
-  </div>
+  <span class="bookmarks">
+    <div class="bookmark <%= 'bookmarked' if user.has_bookmark?(t) %>">
+      <% if user.has_bookmark?(t) %>
+        <%= render "bookmarks/unbookmark_button", t: t %>
+      <% else %>
+        <%= render "bookmarks/bookmark_button", t: t %>
+      <% end %>
+    </div>
+  </span>
 <% end %>
