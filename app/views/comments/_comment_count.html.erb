@@ -1,3 +1,5 @@
 <%= turbo_frame_tag "comment_count_#{t.id}" do %>
-  <span class="comment-count" style="color: black"><%= t.comments.size %></span>
+  <span class="comment-count">
+    <%= t.comments.size %>
+  </span>
 <% end %>

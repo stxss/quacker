@@ -1,7 +1,6 @@
-<span class="comments">
-  <%= turbo_frame_tag "comment_#{t.id}" do %>
+<%= turbo_frame_tag "comment_#{t.id}" do %>
+  <span class="comments">
     <%= render "comments/comment_button", t: t %>
-  <% end %>
-
-  <%= render "comments/comment_count", t: t %>
-</span>
+    <%= render "comments/comment_count", t: t %>
+  </span>
+<% end %>
