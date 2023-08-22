@@ -1,0 +1,14 @@
+<%= render "tweets/creator_info", t: t %>
+<%= render "tweets/tweet_body", t: t %>
+
+<div class="activity-box">
+  <%= render "comments/comments", t: t %>
+  <%= render "retweets/retweets", t: t %>
+  <%= render "likes/likes", t: t %>
+
+  <% if show_view %>
+    <%= render "bookmarks/bookmark_count", t: t %>
+  <% end %>
+
+  <%= render "tweets/share", t: t, show_view: show_view %>
+</div>

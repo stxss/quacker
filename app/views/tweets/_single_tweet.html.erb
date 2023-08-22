@@ -1,37 +1,15 @@
+<% notifications_view = false if local_assigns[:notifications_view].nil? %>
 <% show_view = false if local_assigns[:show_view].nil? %>
+
 <% if t %>
   <%= turbo_frame_tag "tweet_#{t.id}" do %>
     <div class="tweet">
       <% if t.retweet? %>
         <%= render "retweets/retweet_info", t: t %>
-      <% elsif t.comment? && @show_replies %>
-        <% return %>
       <% elsif t.quote_tweet? %>
         <%= render "quotes/quote_tweet_info", t: t, qrt: t.original, show_rt: true, notifications_view: notifications_view %>
       <% else %>
-        <%= render "tweets/creator_info", t: t %>
-        <%= render "tweets/tweet_body", t: t %>
-        <div class="activity-box">
-          <%= render "comments/comments", t: t %>
-
-          <span class="retweets">
-            <%= render "retweets/retweets", t: t %>
-          </span>
-
-          <span class="likes">
-            <%= render "likes/likes", t: t %>
-          </span>
-
-          <% if show_view %>
-            <span class="bookmarks">
-              <%= render "bookmarks/bookmark_count", t: t %>
-            </span>
-          <% end %>
-
-          <span class="share">
-            <%= render "tweets/share", t: t, show_view: show_view %>
-          </span>
-        </div>
+        <%= render "tweets/tweet_info", t: t, show_view: show_view %>
         <% if !notifications_view %>
           <%= render "comments/show_comments", t: t %>
         <% end %>
