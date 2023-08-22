@@ -9,12 +9,9 @@
       <div data-action="click->turbo-modal#close" class="close-button">X</div>
     <% end %>
 
-    <div class="tweet-button" data-tweet-target="submit" >
-      <%= turbo_frame_tag "submit-tweet" do %>
-          <div class="fake-submit-tweet">
-            Tweet
-          </div>
-      <% end %>
+    <div class="area-box" >
+      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"} %>
     </div>
+    <%= render "shared/fake_button" %>
   <% end %>
 </div>

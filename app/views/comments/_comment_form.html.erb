@@ -13,21 +13,17 @@
     <div class="origin-tweet">
         <%= render "quotes/quote_single_tweet", t: t %>
     </div>
+
     <div class="area-box" >
       <% if Tweet.find(params[:parent_tweet_id]).author == current_user %>
         <% placeholder = "Add another Tweet!" %>
       <% else %>
         <% placeholder = "Tweet your reply!" %>
       <% end %>
-      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update", "url":"turbo/tweet_button" } %>
+      <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" } %>
     </div>
+
     <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
-      <div class="tweet-button" data-tweet-target="submit" >
-        <%= turbo_frame_tag "submit-tweet" do %>
-          <div class="fake-submit-tweet">
-            Tweet
-          </div>
-        <% end %>
-      </div>
+    <%= render "shared/fake_button" %>
   <% end %>
 </div>
