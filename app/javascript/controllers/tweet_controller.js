@@ -5,15 +5,11 @@ export default class Tweet extends Controller {
     static targets = ["area", "counter", "circle", "submit"];
 
     initialize() {
-        if (this.hasAreaTarget && this.hasCounterTarget && this.hasCircleTarget && this.hasSubmitTarget) {
-            this.update();
-        }
+        this.update();
     }
 
     connect() {
-        if (this.hasAreaTarget && this.hasCounterTarget && this.hasCircleTarget && this.hasSubmitTarget) {
-            this.update();
-        }
+        this.update();
     }
 
     update() {
