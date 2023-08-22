@@ -1,2 +1,2 @@
-<%= turbo_stream.replace_all(".likes #like_#{t.id}", partial: "likes/likes", locals: {t: t, user: user}) %>
+<%= turbo_stream.replace_all("#like_#{t.id}", partial: "likes/likes", locals: {t: t, user: user}) %>
 <%= render_flash_message %>
