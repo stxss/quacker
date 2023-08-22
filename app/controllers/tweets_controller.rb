@@ -90,7 +90,7 @@ class TweetsController < ApplicationController
 
   def load_tweets
     following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id AND is_request = false"
-    @tweets ||= Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes(:comments, :quote_tweets, :retweets, :likes, :author).ordered.load
+    @tweets ||= Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).where(type: ["Retweet", "Quote", nil]).includes(:comments, :quote_tweets, :retweets, :likes, :author).ordered.load
   end
 
   def set_cache_headers
