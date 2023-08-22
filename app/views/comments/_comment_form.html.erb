@@ -1,7 +1,16 @@
-<div class="backdrop"></div>
-<div data-controller="tweet turbo-modal" class="tweet-form" data-previous-page-url="<%= session[:previous_page_url] %>">
-  <%= form_with model: Comment.new, url: comment_path(id: t), data: { turbo: false } do |f| %>
-    <div class="origin_tweet">
+<% if modal %>
+  <div data-controller="tweet turbo-modal" class="tweet-form">
+<% else %>
+  <div data-controller="tweet" class="tweet-form">
+<% end %>
+
+  <%= form_with model: Comment.new, url: comments_path(id: t), data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
+
+    <% if modal %>
+      <div onclick="history.back()" class="close-button">X</div>
+    <% end %>
+
+    <div class="origin-tweet">
         <%= render "quotes/quote_single_tweet", t: t %>
     </div>
     <div class="area-box" >

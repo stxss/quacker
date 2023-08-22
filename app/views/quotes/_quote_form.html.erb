@@ -1,8 +1,10 @@
-<div class="backdrop"></div>
-<div data-controller="tweet turbo-modal" class="tweet-form" data-previous-page-url="<%= session[:previous_page_url] %>">
-  <%= form_with model: Quote.new, url: quote_path(id: rt), data: { turbo: false } do |f| %>
+<div data-controller="tweet turbo-modal" class="tweet-form">
+  <%= form_with model: Quote.new, url: quotes_path(id: rt), data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
+
+    <div onclick="history.back()" class="close-button">X</div>
+
     <div class="area-box" >
-      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update", "url":"turbo/tweet_button" } %>
+      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" } %>
     </div>
     <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
       <div class= "origin_tweet">

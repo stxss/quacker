@@ -1,17 +1,12 @@
 <% if modal %>
-  <div data-controller="tweet turbo-modal" class="tweet-form" data-previous-page-url="<%= session[:previous_page_url] %>"  data-action="turbo:submit-end->turbo-modal#hideModal">
-  <div class="backdrop"></div>
+  <div data-controller="tweet turbo-modal" class="tweet-form">
 <% else %>
   <div data-controller="tweet" class="tweet-form">
 <% end %>
-  <%= form_with model: Tweet.new, url: tweets_path, data: { turbo: false } do |f| %>
-    <div class="area-box" >
-      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update", "url":"turbo/tweet_button" } %>
-    </div>
-    <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
 
+  <%= form_with model: Tweet.new, url: tweets_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
     <% if modal %>
-      <button data-action="click->turbo-modal#hideModal">X</button>
+      <div data-action="click->turbo-modal#close" class="close-button">X</div>
     <% end %>
 
     <div class="tweet-button" data-tweet-target="submit" >
