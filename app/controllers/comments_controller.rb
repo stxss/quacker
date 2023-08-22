@@ -5,7 +5,7 @@ class CommentsController < TweetsController
     @comment.root_id = @comment.find_root
 
     @comment.original.broadcast_render_later_to "comments",
-      partial: "tweets/update_comments_count",
+      partial: "comments/update_comments_count",
       locals: {t: @comment.original}
 
     respond_to do |format|
@@ -28,7 +28,7 @@ class CommentsController < TweetsController
     @comment.original&.update_tree
 
     @comment.original.broadcast_render_later_to "comments",
-      partial: "tweets/update_comments_count",
+      partial: "comments/update_comments_count",
       locals: {t: @comment.original}
 
     respond_to do |format|

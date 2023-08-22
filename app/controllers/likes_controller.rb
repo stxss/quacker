@@ -6,11 +6,9 @@ class LikesController < ApplicationController
 
     @like = current_user.liked_tweets.create(tweet_id: @tweet.id)
 
-    @like.broadcast_render_later_to "likes",
+    @like.tweet.broadcast_render_later_to "likes",
       partial: "likes/update_likes_count",
-      locals: {t: Tweet.find(@tweet.id)}
-
-    @og = Tweet.find(@tweet.id)
+      locals: {t: @like.tweet}
 
     respond_to do |format|
       format.turbo_stream { render "likes/replace_likes", locals: {t: @og, user: current_user} }
