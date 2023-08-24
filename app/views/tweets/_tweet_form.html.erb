@@ -1,12 +1,12 @@
 <% if modal %>
-  <div data-controller="tweet turbo-modal" class="tweet-form">
+  <div data-controller="tweet turbo-modal" class="tweet-form" data-tweet-target="modal">
 <% else %>
   <div data-controller="tweet" class="tweet-form">
 <% end %>
 
   <%= form_with model: Tweet.new, url: tweets_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
     <% if modal %>
-      <div data-action="click->turbo-modal#close" class="close-button">X</div>
+      <div onclick="history.back()" class="close-button">X</div>
     <% end %>
 
     <div class="area-box" >

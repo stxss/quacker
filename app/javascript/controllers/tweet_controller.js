@@ -2,13 +2,17 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the tweet form
 export default class Tweet extends Controller {
-    static targets = ["area", "counter", "circle", "submit"];
+    static targets = ["area", "counter", "circle", "submit", "modal"];
 
     initialize() {
         this.update();
     }
 
     connect() {
+        this.popStateHandler = (e) => this.clear(e);
+        if (this.hasModalTarget) {
+            window.addEventListener("popstate", this.popStateHandler);
+        }
         this.update();
     }
 
@@ -51,6 +55,7 @@ export default class Tweet extends Controller {
         }
 
         let text = this.counterTarget.querySelector(".progress-ring__text");
+        if (!text) {return;}
         let progressRing = document.querySelector(".progress-ring");
 
         if (length < 260) {
@@ -109,7 +114,11 @@ export default class Tweet extends Controller {
     }
 
     clear(e) {
-        this.areaTarget.value = "";
+        if (this.areaTarget.value != "") {
+            this.areaTarget.value = "";
+        }
+        window.removeEventListener("popstate", this.popStateHandler);
+
         this.update();
     }
 

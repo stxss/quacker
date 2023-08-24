@@ -1,4 +1,4 @@
-<div data-controller="tweet turbo-modal" class="tweet-form">
+<div data-controller="tweet turbo-modal" class="tweet-form" data-tweet-target="modal">
   <%= form_with model: Quote.new, url: quotes_path(id: rt), data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
 
     <div onclick="history.back()" class="close-button">X</div>
