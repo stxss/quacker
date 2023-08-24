@@ -2,14 +2,21 @@ class TweetsController < ApplicationController
   class UserGonePrivate < StandardError; end
   class UnauthorizedElements < StandardError; end
 
+  # skip_before_action :set_referrer, only: [:new]
+
   before_action :first_visit?, :set_cache_headers, only: [:index]
-  before_action :check_refresh, :session_refresh, only: [:new]
   before_action :load_tweets, only: [:index, :new]
   after_action :refresh_comments, only: [:index]
 
   def new
-    @retweet = Tweet.find(session[:retweet_id]) if session[:retweet_id].present?
-    @comment = Tweet.find(session[:comment]) if session[:comment].present?
+    if params[:original_tweet_id].present?
+      @retweet = Tweet.find(params[:original_tweet_id])
+    elsif params[:parent_tweet_id].present?
+      @comment = Tweet.find(params[:parent_tweet_id])
+    end
+
+    # If a request if a GET, meaning it was typed into the url bar or a page refresh, basically everything that's not a click on any of the compose buttons, render the normal tweet_form and timeline
+    @render_everything = request.method == "GET"
 
     raise UserGonePrivate if @retweet && @retweet.author.account.private_visibility && current_user != @retweet.author
   rescue UserGonePrivate
@@ -97,23 +104,6 @@ class TweetsController < ApplicationController
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
-  end
-
-  def check_refresh
-    if (session[:last_request] == "GET" && request.method == "POST") || request.method == "POST"
-      session[:refresh] = true
-    elsif (session[:last_request] == "POST" && request.method == "GET") || session[:last_request] == "GET" && request.method == "GET"
-      session[:refresh] = false
-    end
-    session[:last_request] = request.method
-  end
-
-  def session_refresh
-    session.delete(:retweet_id) if session[:retweet_id].present?
-    session.delete(:comment) if session[:comment].present?
-
-    session[:retweet_id] = params[:retweet_id] if params[:retweet_id].present?
-    session[:comment] = params[:parent_tweet_id] if params[:parent_tweet_id].present?
   end
 
   def refresh_comments
