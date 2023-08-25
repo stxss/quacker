@@ -4,7 +4,7 @@ class QuotesController < TweetsController
   def create
     @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_retweet_id: params[:id])
 
-    @quote.original.broadcast_render_later_to "retweets",
+    @quote.original&.broadcast_render_later_to "retweets",
       partial: "retweets/update_retweets_count",
       locals: {t: @quote.original}
 
@@ -12,13 +12,17 @@ class QuotesController < TweetsController
 
     respond_to do |format|
       if @quote.save
+        format.turbo_stream
         format.html { redirect_to root_path }
+        current_user.notify(@quote.original.author.id, :quote, tweet_id: @quote.id) if @quote.original
       end
     end
   rescue UserGonePrivate
-    respond_to do |format|
-      format.html { redirect_to root_path, alert: "Couldn't retweet a privated tweet" }
-    end
+    flash[:alert] = "Can't quote a protected tweet unless you're the author"
+    render json: {}, status: :forbidden
+  rescue ActiveRecord::RecordNotFound, NoMethodError
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/_not_found", locals: {id: params[:id]}
   end
 
   def destroy
@@ -26,39 +30,21 @@ class QuotesController < TweetsController
 
     (current_user == @quote.author) ? @quote.destroy : raise(UnauthorizedElements)
 
-    @quote.original.broadcast_render_later_to "retweets",
+    @quote.original&.broadcast_render_later_to "retweets",
       partial: "retweets/update_retweets_count",
       locals: {t: @quote.original}
 
     respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all("#tweet_#{@quote.id}.quoted ", partial: "tweets/unavailable_tweet"),
-          turbo_stream.remove_all(".retweets retweets_#{@quote.id}"),
-          turbo_stream.remove("tweet_#{@quote.id}")
-        ]
-      }
+      format.turbo_stream { render "shared/destroy", locals: {id: @quote.id} }
       format.html { redirect_to request.referrer }
-      @quote.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :quote, tweet_id: @quote.id).delete_all
+      @quote.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :quote, tweet_id: @quote.id).delete_all if @quote.original
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{params[:id]}"),
-          flash.now[:alert] = "Something went wrong, please try again!"
-        ]
-      }
-    end
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/_not_found", locals: {id: params[:id]}
   rescue UnauthorizedElements
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all("tweet_#{params[:id]}", partial: "tweets/single_tweet", locals: {t: @quote}),
-          flash.now[:alert] = "Something went wrong, please try again!"
-        ]
-      }
-    end
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "shared/_unauthorized", locals: {id: params[:id], t: @quote}
   end
 
   private
