@@ -18,11 +18,11 @@ export default class extends Controller {
         if (e.type === "click") {
             let withinBoundaries = e.composedPath().includes(this.element);
             if (!withinBoundaries) {
-                history.back()
+                this.close(e)
             }
         } else if (e.type === "keyup") {
             if (e.code === "Escape") {
-                history.back()
+                this.close(e)
             }
         }
     }

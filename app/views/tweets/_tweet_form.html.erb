@@ -6,7 +6,7 @@
 
   <%= form_with model: Tweet.new, url: tweets_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
     <% if modal %>
-      <div onclick="history.back()" class="close-button">X</div>
+      <div data-action="click->turbo-modal#close" class="close-button">X</div>
     <% end %>
 
     <div class="area-box" >
