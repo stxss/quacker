@@ -92,4 +92,5 @@ end
 
 group :development do
   gem 'guard'
+  gem 'bullet'
 end
