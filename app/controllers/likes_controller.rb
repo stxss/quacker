@@ -4,15 +4,17 @@ class LikesController < ApplicationController
 
     @tweet = Tweet.find(like_params[:tweet_id])
 
-    @like = current_user.liked_tweets.create(tweet_id: @tweet.id)
+    @like = current_user.liked_tweets.build(tweet_id: @tweet.id)
 
     @like.tweet.broadcast_render_later_to "likes",
       partial: "likes/update_likes_count",
       locals: {t: @like.tweet}
 
     respond_to do |format|
-      format.turbo_stream { render "likes/replace_likes", locals: {t: @og, user: current_user} }
-      format.html { redirect_to request.referrer }
+      if @like.save
+        format.turbo_stream { render "likes/replace_likes", locals: {t: @like.tweet, user: current_user} }
+        format.html { redirect_to request.referrer }
+      end
       current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
     end
   rescue ActiveRecord::RecordNotUnique
