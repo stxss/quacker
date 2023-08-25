@@ -1,0 +1,3 @@
+<%= turbo_stream.replace_all("#tweet_#{@comment.id}.quoted ", partial: "tweets/unavailable_tweet") %>
+<%= turbo_stream.remove_all(".retweets retweet_#{@comment.id}") %>
+<%= turbo_stream.remove("tweet_#{@comment.id}")%>

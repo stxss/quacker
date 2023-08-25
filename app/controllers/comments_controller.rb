@@ -10,6 +10,7 @@ class CommentsController < TweetsController
 
     respond_to do |format|
       if @comment.save
+        format.turbo_stream
         format.html { redirect_to root_path }
         current_user.notify(@comment.original.author.id, :comment, tweet_id: @comment.id)
         @comment&.update_tree
@@ -32,34 +33,16 @@ class CommentsController < TweetsController
       locals: {t: @comment.original}
 
     respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all("#tweet_#{@comment.id}.quoted ", partial: "tweets/unavailable_tweet"),
-          turbo_stream.remove_all(".retweets retweets_#{@comment.id}"),
-          turbo_stream.remove("tweet_#{@comment.id}")
-        ]
-      }
+      format.turbo_stream
       format.html { redirect_to request.referrer }
       @comment.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete_all
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{params[:id]}"),
-          flash.now[:alert] = "Something went wrong, please try again!"
-        ]
-      }
-    end
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/_not_found", locals: {id: params[:id]}
   rescue UnauthorizedElements
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all("tweet_#{params[:id]}", partial: "tweets/single_tweet", locals: {t: @comment}),
-          flash.now[:alert] = "Something went wrong, please try again!"
-        ]
-      }
-    end
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "shared/_unauthorized", locals: {id: params[:id], t: @comment}
   end
 
   private
