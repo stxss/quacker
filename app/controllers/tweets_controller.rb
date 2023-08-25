@@ -36,7 +36,11 @@ class TweetsController < ApplicationController
   end
 
   def show
-    @tweet = Tweet.find(params[:id])
+    if Tweet.find(params[:id]).type.in?(["Retweet", "Quote", "Comment"])
+      @tweet = Tweet.includes({original: [author: :account]}, {comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
+    else
+      @tweet = Tweet.includes({comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
+    end
   rescue ActiveRecord::RecordNotFound
     @tweet = nil
   end
@@ -97,7 +101,14 @@ class TweetsController < ApplicationController
 
   def load_tweets
     following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id AND is_request = false"
-    @tweets ||= Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).where(type: ["Retweet", "Quote", nil]).includes(:comments, :quote_tweets, :retweets, :likes, :author).ordered.load
+
+    @retweets ||= Retweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes({original: [author: :account]}, author: :account)
+
+    @quotes ||= Quote.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes({original: [author: :account]}, {comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
+
+    @normal ||= Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).where(type: nil).includes({comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
+
+    @tweets = (@normal + @retweets + @quotes).sort_by(&:updated_at).reverse
   end
 
   def set_cache_headers
