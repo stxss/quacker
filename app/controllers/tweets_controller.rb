@@ -23,6 +23,9 @@ class TweetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to root_path, alert: "Couldn't retweet a privated tweet" }
     end
+  rescue ActiveRecord::RecordNotFound, NoMethodError
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/_not_found", locals: {id: (params[:original_tweet_id] || params[:parent_tweet_id])}
   end
 
   def index
@@ -46,10 +49,13 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @tweet = current_user.created_tweets.create!(tweet_params)
+    @tweet = current_user.created_tweets.build(tweet_params)
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      if @tweet.save
+        format.turbo_stream
+        format.html { redirect_to root_path }
+      end
     end
   end
 
@@ -59,34 +65,16 @@ class TweetsController < ApplicationController
     (current_user == @tweet.author) ? @tweet.destroy : raise(UnauthorizedElements)
 
     respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all("#tweet_#{@tweet.id}.quoted ", partial: "tweets/unavailable_tweet"),
-          turbo_stream.remove_all(".retweets retweets_#{@tweet.id}"),
-          turbo_stream.remove("tweet_#{@tweet.id}")
-        ]
-      }
+      format.turbo_stream { render "shared/destroy", locals: {id: @tweet.id}}
       format.html { redirect_to request.referrer }
       Notification.where(tweet_id: @tweet.id).delete_all
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.remove("tweet_#{params[:id]}"),
-          flash.now[:alert] = "Something went wrong, please try again!"
-        ]
-      }
-    end
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/_not_found", locals: {id: params[:id]}
   rescue UnauthorizedElements
-    respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: [
-          turbo_stream.replace_all("tweet_#{params[:id]}", partial: "tweets/single_tweet", locals: {t: @tweet}),
-          flash.now[:alert] = "Something went wrong, please try again!"
-        ]
-      }
-    end
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/replace_tweets", locals: {id: params[:id]}
   end
 
   private
