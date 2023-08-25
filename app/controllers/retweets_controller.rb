@@ -48,9 +48,7 @@ class RetweetsController < TweetsController
       locals: {t: @retweet.original}
 
     respond_to do |format|
-      format.turbo_stream {
-        render "retweets/destroy", locals: {retweet_id: @retweet.id, user: current_user}
-      }
+      format.turbo_stream
       format.html { redirect_to request.referrer }
       @retweet.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :retweet, tweet_id: @retweet.original.id).delete_all
     end
