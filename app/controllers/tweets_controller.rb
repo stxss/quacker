@@ -61,6 +61,7 @@ class TweetsController < ApplicationController
 
   def destroy
     @tweet = Tweet.find(params[:id])
+    rts = @tweet.retweets.ids
 
     if current_user == @tweet.author
       (@tweet.height > 0) ? @tweet.soft_destroy : @tweet.destroy
@@ -69,7 +70,7 @@ class TweetsController < ApplicationController
     end
 
     respond_to do |format|
-      format.turbo_stream { render "shared/destroy", locals: {id: @tweet.id}}
+      format.turbo_stream { render "shared/destroy", locals: {id: @tweet.id, rts: rts} }
       format.html { redirect_to request.referrer }
       Notification.where(tweet_id: @tweet.id).delete_all
     end

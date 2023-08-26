@@ -27,6 +27,7 @@ class QuotesController < TweetsController
 
   def destroy
     @quote = Quote.find(params[:id])
+    rts = @quote.retweets.ids
 
     if current_user == @quote.author
       (@quote.height > 0) ? @quote.soft_destroy : @quote.destroy
@@ -39,7 +40,7 @@ class QuotesController < TweetsController
       locals: {t: @quote.original}
 
     respond_to do |format|
-      format.turbo_stream { render "shared/destroy", locals: {id: @quote.id} }
+      format.turbo_stream { render "shared/destroy", locals: {id: @quote.id, rts: rts} }
       format.html { redirect_to request.referrer }
       @quote.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :quote, tweet_id: @quote.id).delete_all if @quote.original
     end
