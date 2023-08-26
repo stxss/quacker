@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
   def show
-    fetch_user
+    # fetch_user
+    @show_replies = true
+    @user = User.find_by(username: params[:username])
+    @normal = @user.created_tweets.includes(author: :account).where(type: nil)
+    @quotes = @user.created_quotes.includes(original: [author: :account], author: :account)
+    @retweets = @user.created_retweets.includes(original: [author: :account], author: :account)
+    @tweets = (@normal + @quotes + @retweets - @user.created_comments).sort_by(&:updated_at)&.reverse
+  end
   end
 
   def index_liked_tweets
