@@ -62,7 +62,11 @@ class TweetsController < ApplicationController
   def destroy
     @tweet = Tweet.find(params[:id])
 
-    (current_user == @tweet.author) ? @tweet.destroy : raise(UnauthorizedElements)
+    if current_user == @tweet.author
+      (@tweet.height > 0) ? @tweet.soft_destroy : @tweet.destroy
+    else
+      raise(UnauthorizedElements)
+    end
 
     respond_to do |format|
       format.turbo_stream { render "shared/destroy", locals: {id: @tweet.id}}

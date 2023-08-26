@@ -24,7 +24,13 @@ class CommentsController < TweetsController
     @comment = Comment.find(params[:id])
     @comment.original.update(updated_at: @comment.original.created_at)
 
-    (current_user == @comment.author) ? @comment.destroy : raise(UnauthorizedElements)
+    # (current_user == @comment.author) ? @comment.destroy : raise(UnauthorizedElements)
+
+    if current_user == @comment.author
+      (@comment.height > 0) ? @comment.soft_destroy : @comment.destroy
+    else
+      raise(UnauthorizedElements)
+    end
 
     @comment.original&.update_tree
 

@@ -28,7 +28,11 @@ class QuotesController < TweetsController
   def destroy
     @quote = Quote.find(params[:id])
 
-    (current_user == @quote.author) ? @quote.destroy : raise(UnauthorizedElements)
+    if current_user == @quote.author
+      (@quote.height > 0) ? @quote.soft_destroy : @quote.destroy
+    else
+      raise(UnauthorizedElements)
+    end
 
     @quote.original&.broadcast_render_later_to "retweets",
       partial: "retweets/update_retweets_count",

@@ -13,7 +13,9 @@ class Tweet < ApplicationRecord
   has_many :bookmarks
   has_many :bookmarking_users, through: :bookmarks, dependent: :destroy, source: :user
 
-  scope :ordered, -> { order(updated_at: :desc) }
+  # scope :ordered, -> { order(updated_at: :desc) }
+  default_scope { where(deleted_at: nil) }
+  scope :with_deleted, -> { unscope(where: :deleted_at) }
 
   def retweet?
     !body? && retweet_original_id?
@@ -59,5 +61,9 @@ class Tweet < ApplicationRecord
   def update_tree
     update(height: find_height, depth: find_depth)
     original&.update_tree if respond_to?(:original)
+  end
+
+  def soft_destroy
+    update(deleted_at: Time.now) if has_attribute?(:deleted_at)
   end
 end
