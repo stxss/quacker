@@ -21,27 +21,39 @@ class CommentsController < TweetsController
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
-    @comment.original.update(updated_at: @comment.original.created_at)
-
-    # (current_user == @comment.author) ? @comment.destroy : raise(UnauthorizedElements)
+    @comment = Comment.with_deleted.find(params[:id])
+    @original = Tweet.with_deleted.find(@comment.parent_tweet_id)
+    @original&.update(updated_at: @original.created_at, comments_count: @original.comments_count - 1)
 
     if current_user == @comment.author
-      (@comment.height > 0) ? @comment.soft_destroy : @comment.destroy
+      if @comment.height > 0
+        @flag = :soft_destroy
+        @comment.soft_destroy
+      else
+        @flag = :hard_destroy
+        @comment.destroy
+        @original&.update_tree
+        @original&.clean_up
+      end
     else
       raise(UnauthorizedElements)
     end
 
-    @comment.original&.update_tree
-
-    @comment.original.broadcast_render_later_to "comments",
+    @original.broadcast_render_later_to "comments",
       partial: "comments/update_comments_count",
-      locals: {t: @comment.original}
+      locals: {t: @original}
 
     respond_to do |format|
-      format.turbo_stream
+      if @flag == :soft_destroy
+        format.turbo_stream {
+          render turbo_stream:
+            turbo_stream.update_all("#tweet_#{@comment.id}", partial: "tweets/deleted_tweet", locals: {view: :single_post, t: Tweet.with_deleted.find(params[:id])})
+        }
+      elsif @flag == :hard_destroy
+        format.turbo_stream
+      end
       format.html { redirect_to request.referrer }
-      @comment.original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete_all
+      @original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete_all
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     flash.now[:alert] = "Something went wrong, please try again!"
