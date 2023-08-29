@@ -8,6 +8,15 @@ class UsersController < ApplicationController
     @retweets = @user.created_retweets.includes(original: [author: :account], author: :account)
     @tweets = (@normal + @quotes + @retweets - @user.created_comments).sort_by(&:updated_at)&.reverse
   end
+
+  def show_replies
+    @user = User.find_by(username: params[:username])
+
+    @query = @user.created_comments.includes(original: [author: :account], author: :account).sort_by(&:updated_at)&.reverse
+
+    @replies = @query.each do |comment|
+      @query.delete(comment.original) if comment.original.in?(@query)
+    end
   end
 
   def index_liked_tweets

@@ -1,0 +1,37 @@
+<%= turbo_frame_tag "tweet_#{root.id}" do %>
+  <div class="tweet">
+    <% if root.deleted_at %>
+      <p>This Tweet has been deleted.</p>
+    <% else %>
+      <% if root.quote_tweet? %>
+        <%= render "quotes/quote_tweet_info", t: root, original: root.original, view: :all_user_posts %>
+      <% else %>
+        <%= render "tweets/tweet_info", t: root, view: :all_user_posts %>
+      <% end %>
+    <% end %>
+
+      <% if root != original %>
+        <%= turbo_frame_tag "tweet_#{original.id}" do %>
+          <div class="tweet">
+            <% if original.deleted_at %>
+              <p>This Tweet has been deleted.</p>
+            <% else %>
+              <%= render "tweets/tweet_info", t: original, view: :all_user_posts %>
+            <% end %>
+
+            <%= turbo_frame_tag "tweet_#{t.id}" do %>
+              <div class="tweet">
+                <%= render "tweets/tweet_info", t: t, view: :all_user_posts %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <%= turbo_frame_tag "tweet_#{t.id}" do %>
+          <div class="tweet">
+            <%= render "tweets/tweet_info", t: t, view: :all_user_posts %>
+          </div>
+        <% end %>
+      <% end %>
+  </div>
+<% end %>

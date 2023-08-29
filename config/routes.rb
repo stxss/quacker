@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
   get "/:username", to: "users#show", as: "username"
 
+  get "/:username/with_replies", to: "users#show_replies", as: "username_replies"
+
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
   resources :likes, path: "/:username/likes", only: [:create, :destroy]
 
