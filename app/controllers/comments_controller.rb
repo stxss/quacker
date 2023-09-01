@@ -23,7 +23,7 @@ class CommentsController < TweetsController
   def destroy
     @comment = Comment.with_deleted.find(params[:id])
     @original = Tweet.with_deleted.find(@comment.parent_tweet_id)
-    @original&.update(updated_at: @original.created_at, comments_count: @original.comments_count - 1)
+    @original&.update(comments_count: @original.comments_count - 1)
 
     if current_user == @comment.author
       if @comment.height > 0
@@ -38,6 +38,8 @@ class CommentsController < TweetsController
     else
       raise(UnauthorizedElements)
     end
+
+    @original&.update(updated_at: @original.created_at)
 
     @original.broadcast_render_later_to "comments",
       partial: "comments/update_comments_count",
