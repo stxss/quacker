@@ -33,7 +33,6 @@ class CommentsController < TweetsController
         @flag = :hard_destroy
         @comment.destroy
         @original&.update_tree
-        @original&.clean_up
       end
     else
       raise(UnauthorizedElements)
@@ -53,6 +52,7 @@ class CommentsController < TweetsController
         }
       elsif @flag == :hard_destroy
         format.turbo_stream
+        @original&.clean_up
       end
       format.html { redirect_to request.referrer }
       @original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete_all

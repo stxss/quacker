@@ -66,4 +66,15 @@ class Tweet < ApplicationRecord
   def soft_destroy
     update(deleted_at: Time.now) if has_attribute?(:deleted_at)
   end
+
+  def clean_up(to_destroy = [])
+    return unless comment?
+    @to_destroy ||= to_destroy
+    if !deleted_at.nil?
+      @to_destroy << self
+      to_check = Tweet.with_deleted.find(parent_tweet_id)
+    end
+    to_check&.clean_up(@to_destroy)
+    @to_destroy.each { |t| t.destroy }
+  end
 end
