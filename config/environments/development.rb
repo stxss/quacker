@@ -61,10 +61,14 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   # Raise an error on page load if there are pending migrations.
-  # config.active_record.migration_error = :page_load
+  config.active_record.migration_error = :page_load
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
+
+  # Disable digesting assets with an md5 tag.
+  config.assets.digest = false
+
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
@@ -81,4 +85,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   Rack::MiniProfiler.config.show_total_sql_count = true
+
+  config.web_console.allowed_ips = ["0.0.0.0/0"]
 end
