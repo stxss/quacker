@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_26_101638) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id", null: false
     t.integer "allow_media_tagging", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean "private_visibility", default: false, null: false
     t.boolean "sensitive_media", default: false, null: false
     t.boolean "display_sensitive_media", default: false, null: false
     t.boolean "remove_blocked_and_muted_accounts", default: true, null: false
@@ -29,68 +28,76 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_26_101638) do
     t.boolean "muted_notif_no_confirm_email", default: false, null: false
     t.boolean "allow_message_request_from_everyone", default: false, null: false
     t.boolean "show_read_receipts", default: false, null: false
-    t.boolean "private_visibility", default: false
     t.boolean "hide_potentially_sensitive_content", default: false, null: false
-    t.index ["user_id"], name: "index_accounts_on_user_id", unique: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "bookmarks", force: :cascade do |t|
-    t.integer "tweet_id"
-    t.integer "user_id"
+    t.bigint "tweet_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tweet_id", "user_id"], name: "index_bookmarks_on_tweet_id_and_user_id", unique: true
+    t.index ["tweet_id"], name: "index_bookmarks_on_tweet_id"
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
   create_table "follows", force: :cascade do |t|
-    t.integer "follower_id"
-    t.integer "followed_id"
+    t.bigint "follower_id", null: false
+    t.bigint "followed_id", null: false
+    t.boolean "is_request", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_request", default: false, null: false
     t.index ["followed_id"], name: "index_follows_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "likes", force: :cascade do |t|
-    t.integer "tweet_id"
-    t.integer "user_id"
+    t.bigint "tweet_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "likes_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "likes_count", default: 0
-    t.index ["tweet_id", "user_id"], name: "index_likes_on_tweet_id_and_user_id", unique: true
+    t.index ["tweet_id"], name: "index_likes_on_tweet_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
     t.integer "notification_type"
-    t.integer "notifier_id"
-    t.integer "notified_id"
-    t.integer "tweet_id"
+    t.bigint "tweet_id"
+    t.bigint "notifier_id"
+    t.bigint "notified_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["notified_id"], name: "index_notifications_on_notified_id"
+    t.index ["notifier_id"], name: "index_notifications_on_notifier_id"
+    t.index ["tweet_id"], name: "index_notifications_on_tweet_id"
   end
 
   create_table "tweets", force: :cascade do |t|
-    t.string "body"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "parent_tweet_id"
-    t.integer "likes_count"
-    t.integer "retweet_original_id"
-    t.integer "retweet_body"
-    t.integer "quoted_retweet_id"
-    t.integer "retweets_count"
-    t.integer "quote_tweets_count"
-    t.integer "comments_count"
     t.string "type"
-    t.integer "root_id"
+    t.string "body"
+    t.bigint "user_id", null: false
+    t.bigint "parent_id"
+    t.bigint "retweet_original_id"
+    t.bigint "quoted_tweet_id"
+    t.integer "retweets_count", default: 0, null: false
+    t.integer "likes_count", default: 0, null: false
+    t.integer "comments_count", default: 0, null: false
+    t.integer "quote_tweets_count", default: 0, null: false
+    t.bigint "root_id"
     t.integer "height", default: 0
     t.integer "depth", default: 0
+    t.float "relevance", default: 1.0
     t.datetime "deleted_at"
-    t.index ["parent_tweet_id"], name: "index_tweets_on_parent_tweet_id"
-    t.index ["user_id", "retweet_original_id"], name: "index_tweets_on_user_id_and_retweet_original_id", unique: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_tweets_on_parent_id"
+    t.index ["quoted_tweet_id"], name: "index_tweets_on_quoted_tweet_id"
+    t.index ["retweet_original_id"], name: "index_tweets_on_retweet_original_id"
+    t.index ["root_id"], name: "index_tweets_on_root_id"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
@@ -100,27 +107,39 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_26_101638) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "username"
-    t.string "display_name"
-    t.string "biography"
-    t.string "location"
-    t.string "website"
-    t.date "birth_date"
-    t.integer "likes_count"
-    t.integer "follows_count"
-    t.integer "tweets_count"
-    t.integer "notifications_count"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "username", null: false
+    t.string "display_name"
+    t.string "biography"
+    t.string "location"
+    t.string "website"
+    t.date "birth_date"
+    t.integer "likes_count", default: 0, null: false
+    t.integer "follows_count", default: 0, null: false
+    t.integer "tweets_count", default: 0, null: false
+    t.integer "notifications_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "tweets", "tweets", column: "parent_tweet_id"
+  add_foreign_key "accounts", "users"
+  add_foreign_key "bookmarks", "tweets"
+  add_foreign_key "bookmarks", "users"
+  add_foreign_key "likes", "tweets"
+  add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "tweets"
+  add_foreign_key "notifications", "users", column: "notified_id"
+  add_foreign_key "notifications", "users", column: "notifier_id"
+  add_foreign_key "tweets", "tweets", column: "parent_id"
+  add_foreign_key "tweets", "tweets", column: "quoted_tweet_id"
+  add_foreign_key "tweets", "tweets", column: "retweet_original_id"
+  add_foreign_key "tweets", "tweets", column: "root_id"
+  add_foreign_key "tweets", "users"
 end
