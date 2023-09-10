@@ -58,3 +58,8 @@ docker-compose.override.yml
 
 # Ignore all log files
 *.log
+
+
+# Ignore editor specific folders
+.idea
+.vscode
