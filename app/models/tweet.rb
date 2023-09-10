@@ -1,4 +1,6 @@
 class Tweet < ApplicationRecord
+  include Relevance
+
   before_validation :sanitize_body
   validates :body, length: {in: 1..280, message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :retweet?
   validates :body, format: {without: /\A\s*\z/, message: "cannot have only whitespace"}, unless: :retweet?
