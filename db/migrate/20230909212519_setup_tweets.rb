@@ -19,7 +19,7 @@ class SetupTweets < ActiveRecord::Migration[7.0]
       t.integer :height, default: 0
       t.integer :depth, default: 0
 
-      t.float :relevance, scale: 3, default: 1.0
+      t.decimal :relevance, scale: 5, default: 0.0
 
       t.datetime :deleted_at, default: nil
       t.timestamps

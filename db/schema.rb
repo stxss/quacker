@@ -90,7 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
     t.bigint "root_id"
     t.integer "height", default: 0
     t.integer "depth", default: 0
-    t.float "relevance", default: 1.0
+    t.decimal "relevance", default: 0.0
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
