@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   attr_writer :login
 
+  before_create :set_default_display_name
   after_create :create_account
 
   # Include default devise modules. Others available are:
@@ -98,5 +99,9 @@ class User < ApplicationRecord
 
   def has_bookmark?(tweet)
     bookmarks.where(tweet_id: tweet).exists?
+  end
+
+  def set_default_display_name
+    self.display_name = self.username
   end
 end
