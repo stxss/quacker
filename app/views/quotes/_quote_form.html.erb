@@ -4,7 +4,7 @@
     <div onclick="history.back()" class="close-button">X</div>
 
     <div class="area-box" >
-      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" } %>
+      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" }, autofocus: true %>
     </div>
 
     <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>

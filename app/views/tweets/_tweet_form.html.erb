@@ -1,5 +1,6 @@
 <% if modal %>
   <div data-controller="tweet turbo-modal" class="tweet-form" data-tweet-target="modal">
+  <% autofocus = true %>
 <% else %>
   <div data-controller="tweet" class="tweet-form">
 <% end %>
@@ -9,8 +10,8 @@
       <div data-action="click->turbo-modal#close" class="close-button">X</div>
     <% end %>
 
-    <div class="area-box" >
-      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"} %>
+    <div class="area-box">
+      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"}, autofocus: autofocus %>
     </div>
     <%= render "shared/fake_button" %>
   <% end %>

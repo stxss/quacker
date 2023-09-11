@@ -1,5 +1,6 @@
 <% if modal %>
   <div data-controller="tweet turbo-modal" class="tweet-form" data-tweet-target="modal">
+  <% autofocus = true %>
 <% else %>
   <div data-controller="tweet" class="tweet-form">
 <% end %>
@@ -20,7 +21,7 @@
       <% else %>
         <% placeholder = "Tweet your reply!" %>
       <% end %>
-      <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" } %>
+      <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" }, autofocus: autofocus %>
     </div>
 
     <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
