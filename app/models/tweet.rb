@@ -7,8 +7,8 @@ class Tweet < ApplicationRecord
 
   belongs_to :author, class_name: "User", foreign_key: :user_id, counter_cache: true
 
-  has_many :comments, class_name: "Comment", foreign_key: :parent_tweet_id
-  has_many :quote_tweets, class_name: "Quote", foreign_key: :quoted_retweet_id
+  has_many :comments, class_name: "Comment", foreign_key: :parent_id
+  has_many :quote_tweets, class_name: "Quote", foreign_key: :quoted_tweet_id
   has_many :retweets, class_name: "Retweet", foreign_key: :retweet_original_id, dependent: :destroy
   has_many :likes, dependent: :destroy
 
@@ -24,11 +24,11 @@ class Tweet < ApplicationRecord
   end
 
   def quote_tweet?
-    body? && quoted_retweet_id?
+    body? && quoted_tweet_id?
   end
 
   def comment?
-    parent_tweet_id?
+    parent_id?
   end
 
   def new_tweet?(timeline_tweets)
@@ -74,7 +74,7 @@ class Tweet < ApplicationRecord
     @to_destroy ||= to_destroy
     if !deleted_at.nil?
       @to_destroy << self
-      to_check = Tweet.with_deleted.find(parent_tweet_id)
+      to_check = Tweet.with_deleted.find(parent_id)
     end
     to_check&.clean_up(@to_destroy)
     @to_destroy.each { |t| t.destroy }

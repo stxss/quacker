@@ -15,7 +15,7 @@
     </div>
 
     <div class="area-box" >
-      <% if Tweet.find(params[:parent_tweet_id]).author == current_user %>
+      <% if Tweet.find(params[:parent_id]).author == current_user %>
         <% placeholder = "Add another Tweet!" %>
       <% else %>
         <% placeholder = "Tweet your reply!" %>

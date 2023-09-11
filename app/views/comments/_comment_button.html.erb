@@ -1,5 +1,5 @@
 <div class="comment">
-  <%= button_to compose_tweet_path, params: { parent_tweet_id: t.id }, data: { turbo_frame: "modal", turbo_action: :advance} do %>
+  <%= button_to compose_tweet_path, params: { parent_id: t.id }, data: { turbo_frame: "modal", turbo_action: :advance} do %>
     <%= content_tag(:span, comment_icon_svg) %>
   <% end %>
 </div>

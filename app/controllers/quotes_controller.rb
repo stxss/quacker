@@ -2,7 +2,7 @@ class QuotesController < TweetsController
   # before_action :authenticate_user!
 
   def create
-    @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_retweet_id: params[:id])
+    @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_tweet_id: params[:id])
 
     @quote.original&.broadcast_render_later_to "retweets",
       partial: "retweets/update_retweets_count",

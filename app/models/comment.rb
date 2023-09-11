@@ -1,6 +1,8 @@
 class Comment < Tweet
   after_create -> { update_relevance(:comment, :create, original, root) }
   before_destroy -> { update_relevance(:comment, :destroy, original, root) }
+
+  belongs_to :original, class_name: "Tweet", foreign_key: :parent_id, counter_cache: :comments_count, optional: true
   belongs_to :root, class_name: "Tweet", foreign_key: :root_id, optional: true
 
   default_scope { unscope(where: :deleted_at) }

@@ -11,8 +11,8 @@ class TweetsController < ApplicationController
   def new
     if params[:original_tweet_id].present?
       @retweet = Tweet.find(params[:original_tweet_id])
-    elsif params[:parent_tweet_id].present?
-      @comment = Tweet.find(params[:parent_tweet_id])
+    elsif params[:parent_id].present?
+      @comment = Tweet.find(params[:parent_id])
     end
 
     # If a request if a GET, meaning it was typed into the url bar or a page refresh, basically everything that's not a click on any of the compose buttons, render the normal tweet_form and timeline
@@ -25,7 +25,7 @@ class TweetsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     flash.now[:alert] = "Something went wrong, please try again!"
-    render "tweets/_not_found", locals: {id: (params[:original_tweet_id] || params[:parent_tweet_id])}
+    render "tweets/_not_found", locals: {id: (params[:original_tweet_id] || params[:parent_id])}
   end
 
   def index

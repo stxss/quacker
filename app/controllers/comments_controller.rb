@@ -1,7 +1,8 @@
 class CommentsController < TweetsController
+  # before_action :authenticate_user!
   def create
     session[:new_comment] = 0
-    @comment = current_user.created_comments.build(body: comment_params[:body], parent_tweet_id: params[:id])
+    @comment = current_user.created_comments.build(body: comment_params[:body], parent_id: params[:id])
     @comment.root_id = @comment.find_root
 
     @comment.original.broadcast_render_later_to "comments",
@@ -22,7 +23,7 @@ class CommentsController < TweetsController
 
   def destroy
     @comment = Comment.with_deleted.find(params[:id])
-    @original = Tweet.with_deleted.find(@comment.parent_tweet_id)
+    @original = Tweet.with_deleted.find(@comment.parent_id)
     @original&.update(comments_count: @original.comments_count - 1)
 
     if current_user == @comment.author
