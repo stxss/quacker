@@ -9,14 +9,8 @@ class TweetsController < ApplicationController
   after_action :refresh_comments, only: [:index]
 
   def new
-    if params[:original_tweet_id].present?
-      @retweet = Tweet.find(params[:original_tweet_id])
-    elsif params[:parent_id].present?
-      @comment = Tweet.find(params[:parent_id])
-    end
-
-    # If a request if a GET, meaning it was typed into the url bar or a page refresh, basically everything that's not a click on any of the compose buttons, render the normal tweet_form and timeline
-    @render_everything = request.method == "GET"
+    # If a request there's no request referrer, meaning it was typed into the url bar or a page refresh, basically everything that's not a click on any of the compose buttons, render the normal tweet_form and timeline
+    @render_everything = request.referrer.nil?
 
     raise UserGonePrivate if @retweet && @retweet.author.account.private_visibility && current_user != @retweet.author
   rescue UserGonePrivate

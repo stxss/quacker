@@ -1,6 +1,20 @@
 class QuotesController < TweetsController
   # before_action :authenticate_user!
 
+  def new
+    @retweet = Tweet.find(params[:id])
+    @render_everything = request.referrer.nil?
+
+    raise UserGonePrivate if @retweet && @retweet.author.account.private_visibility && current_user != @retweet.author
+  rescue UserGonePrivate
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: "Couldn't retweet a privated tweet" }
+    end
+  rescue ActiveRecord::RecordNotFound, NoMethodError
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/_not_found", locals: {id: params[:id]}
+  end
+
   def create
     @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_tweet_id: params[:id])
 

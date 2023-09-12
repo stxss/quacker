@@ -20,7 +20,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tweets, except: [:show, :new]
+  resources :tweets, only: [:new, :create, :destroy]
+
+  # Create a quote or comment on a tweet
+  get "/:username/status/:id/quote", to: "quotes#new", as: "new_quote"
+  get "/:username/status/:id/comment", to: "comments#new", as: "new_comment"
 
   scope "/tweets" do
     resources :quotes, only: [:create, :destroy]
@@ -31,15 +35,9 @@ Rails.application.routes.draw do
   post "/tweets/retweet/:retweet_original_id", to: "retweets#create", as: "retweet"
   delete "/tweets/retweet/:id", to: "retweets#destroy", as: "unretweet"
 
-  match "/compose/tweet", to: "tweets#new", via: [:get, :post], as: "compose_tweet"
-
   resources :follows, only: %i[create destroy update]
   resources :notifications, only: %i[index]
   resources :accounts, path: "settings", only: %i[index edit update]
-
-  get "/turbo/tweet_button/(:valid)", to: "tweets#tweet_btn", as: :turbo_tweet_button
-  get "/compose/turbo/tweet_button(:valid)", to: "tweets#tweet_btn", as: :turbo_tweet_button_compose
-  get "/compose/null", to: "tweets#tweet_btn", as: :turbo_tweet_button_compose_quote_comment
 
   # Show a single tweet
   get "/:username/status/:id", to: "tweets#show", as: "single_tweet"

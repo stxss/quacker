@@ -1,5 +1,14 @@
 class CommentsController < TweetsController
   # before_action :authenticate_user!
+
+  def new
+    @comment = Tweet.find(params[:id])
+    @render_everything = request.referrer.nil?
+  rescue ActiveRecord::RecordNotFound, NoMethodError
+    flash.now[:alert] = "Something went wrong, please try again!"
+    render "tweets/_not_found", locals: {id: params[:id]}
+  end
+
   def create
     session[:new_comment] = 0
     @comment = current_user.created_comments.build(body: comment_params[:body], parent_id: params[:id])
