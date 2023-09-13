@@ -17,18 +17,20 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>
-  username: <%= ENV.fetch("POSTGRES_USER") { "hello" } %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
-  host: <%= ENV.fetch("POSTGRES_HOST") { "postgres" } %>
-  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+
+  # database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>
+  # username: <%= ENV.fetch("POSTGRES_USER") { "hello" } %>
+  # password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
+  # host: <%= ENV.fetch("POSTGRES_HOST") { "postgres" } %>
+  # port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  username: odin_twitter
+  # username: odin_twitter
   database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>_development
 
   # The specified database role being used to connect to postgres.
@@ -64,7 +66,8 @@ development:
 test:
   <<: *default
   database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>_test
-  host: localhost
+  # host: localhost
+
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.

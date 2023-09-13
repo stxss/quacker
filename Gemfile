@@ -27,6 +27,9 @@ gem "stimulus-rails"
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem "cssbundling-rails"
 
+# Tailwind CSS is a utility-first CSS framework [https://tailwindcss.com]
+gem "tailwindcss-rails", "~> 2.0"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
@@ -45,9 +48,6 @@ gem "devise"
 # Test code coverage analysis
 gem "simplecov", require: false, group: :test
 
-# Automating test runs on file save
-gem "guard-rspec", require: false
-
 # Standardrb
 gem "standard"
 gem "standard-rails"
@@ -61,9 +61,6 @@ gem "rubocop-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
-
-# Execute jobs in the background [https://github.com/mperham/sidekiq]
-gem "sidekiq", "~> 7.1"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -90,11 +87,10 @@ group :development, :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "faker"
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 end
 
 group :development do
   gem "bullet"
 end
 
-gem "tailwindcss-rails", "~> 2.0"

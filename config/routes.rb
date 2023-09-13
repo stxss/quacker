@@ -6,13 +6,6 @@ Rails.application.routes.draw do
   get "/home", to: "tweets#index"
   root to: redirect("/home", status: 302)
 
-  # Health check endpoint
-  get "/up/", to: "up#index", as: :up
-  get "/up/databases", to: "up#databases", as: :up_databases
-
-  # For sideqik stuff, look into
-  # https://github.com/nickjj/docker-rails-example/blob/9b74c7b9cb86ec2d5a1246cecea9f0e6a779e15a/config/routes.rb#L4
-
   # path "" -> removes the /users/ prefix from url, specifying username as the identifier instead of the default :id
   resources :users, path: "", param: :username, only: [:index, :new, :create, :update, :destroy] do
     member do
