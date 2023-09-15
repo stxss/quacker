@@ -1,0 +1,296 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ textarea {
+  resize: none;
+  overflow:hidden;
+}
+
+html {
+overflow-x: hidden;
+margin-right: calc(-1 * (100vw - 100%));
+/* https://stackoverflow.com/a/39289453/17369830 */
+}
+
+#modal {
+ position: absolute;
+ z-index: 2;
+ right: 10px;
+ top: 10px;
+ width: 400px;
+ word-break: break-word;
+ border-radius: 6px;
+ background: #bad5ff;
+}
+
+.circle-counter {
+width: 20px;
+height: 20px;
+transition-property: width, height;
+transition-duration: 0.15s;
+}
+
+.circle-counter .over-limit {
+width: 30px;
+height: 30px;
+font-size: 10px;
+transition-property: width, height;
+transition-duration: 0.15s;
+transform: translate(-50%, 0);
+margin: auto;
+}
+
+.fake-submit-tweet,
+input[type="submit" i] {
+display: inline-block;
+padding: 0.5em 1em;
+font-size: 1em;
+font-weight: bold;
+text-align: center;
+text-decoration: none;
+cursor: pointer;
+border: 1px solid #ccc;
+border-radius: 4px;
+background-color: #f0f0f0;
+color: #333;
+}
+
+.fake-submit-tweet {
+opacity: 0.6;
+cursor: default;
+}
+
+.fake-submit-tweet:focus {
+outline: none;
+box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.tweet {
+border: 1px solid grey;
+margin: 20px;
+}
+
+.creation-info {
+display: flex;
+justify-content: space-between;
+padding: 5px;
+}
+
+.author {
+color: black;
+text-decoration: none;
+}
+
+.icon-lock {
+position: relative;
+top: 1px;
+max-width: 20px;
+max-height: 20px;
+}
+
+.icon-retweet,
+.icon-like,
+.icon-unlike,
+.icon-quote,
+.icon-comment,
+.icon-more-info,
+.icon-share,
+.icon-link,
+.icon-send-via-message,
+.icon-bookmark {
+max-width: 24px;
+max-height: 24px;
+transform: scale(0.7813);
+}
+
+.display-name {
+  font-weight: 700;
+ }
+
+.display-name:hover {
+  text-decoration: underline;
+}
+
+.tweet-body {
+  padding: 5px;
+}
+
+.time-ago {
+  text-decoration: none;
+}
+
+.tweet-info > a {
+  text-decoration: none;
+  color: black;
+}
+
+.tweet-info > a:last-child:hover {
+  text-decoration: underline;
+}
+
+.like,
+.retweet,
+.comments {
+  display: flex;
+  padding: 5px;
+  align-items: center;
+}
+
+.likes > span,
+.retweets > span,
+.comments > span {
+  margin-right: 10px;
+}
+
+.comment-count {
+  margin-left: 10px;
+  color: black
+}
+
+.retweet-count,
+.like-count {
+  margin-left: 10px;
+}
+
+.retweeted {
+  fill: green;
+  color: green;
+}
+
+.liked {
+  fill: red;
+  color: red;
+}
+
+.notification {
+  border: 1px solid grey;
+  padding: 5px;
+}
+
+.retweet-button button,
+.unretweet-button button,
+.like-button button,
+.unlike-button button,
+.dropdown button,
+.more-info-btn button,
+.share button,
+.link button,
+.bookmark button,
+.send-via-message button
+.limited-rt,
+.quote button,
+.comment button {
+  display: flex;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.tweet-form {
+  position: relative;
+  z-index: 1;
+}
+
+.unlike button {
+  fill: red
+}
+
+.activity-box {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  margin-left: 2rem;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+display: none;
+position: absolute;
+top: -3px;
+background-color: #f1f1f1;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 2;
+}
+
+.more-info,
+.share {
+right: 5px;
+top: 5px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+display: flex;
+flex-direction: column;
+}
+
+.backdrop {
+z-index: 0;
+bottom: 0px;
+left: 0px;
+position: fixed;
+right: 0px;
+top: 0px;
+}
+
+dialog {
+padding: 0;
+/* border: 0; */
+}
+
+dialog form {
+/* max-width: 200px; */
+padding: 20px
+}
+
+#notice {
+border-radius: 6px;
+padding: 6px;
+color: white;
+background: green;
+}
+
+#alert {
+border-radius: 6px;
+padding: 6px;
+color: white;
+background: red;
+}
