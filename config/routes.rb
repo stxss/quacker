@@ -46,6 +46,9 @@ Rails.application.routes.draw do
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
   resources :likes, path: "/:username/likes", only: [:create, :destroy]
 
+  # get "/:username/following", to: "users#following", as: "user_following"
+  # get "/:username/followers", to: "users#followers", as: "user_followers"
+
   get "/i/bookmarks", to: "bookmarks#index", as: "user_bookmarks"
   resources :bookmarks, path: "/i/bookmarks", only: [:create, :destroy]
 
