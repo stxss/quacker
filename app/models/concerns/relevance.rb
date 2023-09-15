@@ -5,40 +5,27 @@ module Relevance
     def update_relevance(model, action, tweet, original = nil) # original == root == parent
       # The confidence sort. http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
 
-      lc = tweet.likes_count
-      rc = tweet.retweets_count
-      cc = tweet.comments_count
-      qc = tweet.quote_tweets_count
-      total = lc + rc + cc + qc
-
       # weights
-      rw = qw = 0.95
-      cw = 0.8
-      lw = 0.5
+      rw = qw = 0.0002
+      cw = 0.0001
+      lw = 0.00005
 
-      parameter = case model
+      weight = case model
       when :like
-        lc * lw
+        lw
       when :retweet
-        rc * rw
+        rw
       when :quote
-        qc * qw
+        qw
       when :comment
-        cc * cw
-      end
-
-      confidence = 1.281551565545 # 80% confidence
-      positive_ratio = parameter.to_f / total
-
-      score = ((positive_ratio + confidence**2 / (2 * total) - confidence * Math.sqrt((positive_ratio * (1 - positive_ratio) + confidence**2 / (4 * total)) / total)) / (1 + confidence**2 / total))
-
-      score = 0.0 if score.nan?
+        cw
+      end.to_d
 
       case action
       when :create
-        tweet.update_columns(relevance: tweet.relevance + score)
+        tweet.update_columns(relevance: tweet.relevance + weight)
       when :destroy
-        tweet.update_columns(relevance: tweet.relevance - score)
+        tweet.update_columns(relevance: tweet.relevance - weight)
       end
     end
   end

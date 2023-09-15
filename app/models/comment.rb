@@ -7,5 +7,5 @@ class Comment < Tweet
 
   default_scope { unscope(where: :deleted_at) }
   scope :with_deleted, -> { unscope(where: :deleted_at) }
-  scope :by_relevance, -> { order(relevance: :desc) }
+  scope :by_relevance, -> { order(relevance: :desc, created_at: :desc) }
 end
