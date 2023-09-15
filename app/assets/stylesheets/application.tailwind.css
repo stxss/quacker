@@ -73,8 +73,50 @@ textarea {
 }
 
 .tweet {
-  border: 1px solid grey;
+  border: 1px solid rgb(190, 190, 190);
+  padding: 10px;
   margin: 20px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nested-comments {
+  margin-top: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.nested-comments > .thread  {
+  display: flex;
+  flex: 1 0 100%;
+}
+
+.thread > .turbo-nested {
+  flex: 1
+}
+
+.nested-comments .tweet {
+  border: none;
+  /* margin-top: -15px; */
+  margin-top: -5px;
+}
+
+.nested-comments:nth-child(1) {
+  width: 100%
+}
+
+.collapse-line {
+  padding: 2px;
+  background-color: rgb(168, 168, 168);
+  border: 10px solid transparent;
+  background-clip: padding-box;
+}
+
+.nested-comments .collapse-line:hover {
+  background-color: rgb(56, 55, 55);
 }
 
 .creation-info {
@@ -100,7 +142,8 @@ textarea {
  .icon-unlike,
  .icon-quote,
  .icon-comment,
- .icon-more-info {
+ .icon-more-info,
+ .icon-share {
   max-width: 24px;
   max-height: 24px;
   transform: scale(0.7813);
