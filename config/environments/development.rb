@@ -87,4 +87,8 @@ Rails.application.configure do
 
   Rack::MiniProfiler.config.show_total_sql_count = true
   Rack::MiniProfiler.config.position = "top-right"
+
+  # Docker supports a bunch of ranges so let's just support everything. This
+  # isn't insecure due to only running in development.
+  config.web_console.allowed_ips = ["0.0.0.0/0"]
 end
