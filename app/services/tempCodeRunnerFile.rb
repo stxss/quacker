@@ -1,1 +1,0 @@
-Conversation.new(creator_id: @creator).save
