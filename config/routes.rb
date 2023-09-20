@@ -6,7 +6,16 @@ Rails.application.routes.draw do
   get "/home", to: "tweets#index"
   root to: redirect("/home", status: 302)
 
+  get "/messages", to: "messages#index", as: "messages"
+
+  resources :messages, only: [:new, :create, :destroy]
+  resources :conversations, only: [:new, :index, :create, :destroy]
+
+  get "/bookmarks", to: "bookmarks#index", as: "user_bookmarks"
+  resources :bookmarks, path: "/bookmarks", only: [:create, :destroy]
+
   # path "" -> removes the /users/ prefix from url, specifying username as the identifier instead of the default :id
+  # has to be placed after the other resources with names that can be mistaken for usernames, as rails reads the routes from top to bottom, so by placing the /messages, /bookmarks and such routes first, they will take precedence over the "users" route.
   resources :users, path: "", param: :username, only: [:index, :new, :create, :update, :destroy] do
     member do
       get :following, :followers
@@ -44,9 +53,6 @@ Rails.application.routes.draw do
 
   # get "/:username/following", to: "users#following", as: "user_following"
   # get "/:username/followers", to: "users#followers", as: "user_followers"
-
-  get "/i/bookmarks", to: "bookmarks#index", as: "user_bookmarks"
-  resources :bookmarks, path: "/i/bookmarks", only: [:create, :destroy]
 
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
