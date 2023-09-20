@@ -21,3 +21,6 @@ application.register("turbo-modal", TurboModalController)
 
 import TweetController from "./tweet_controller"
 application.register("tweet", TweetController)
+
+import ConversationController from "./conversation_controller"
+application.register("conversation", ConversationController)

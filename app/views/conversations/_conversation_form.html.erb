@@ -1,0 +1,13 @@
+<div data-controller="conversation turbo-modal" class="conversation-form">
+  <div data-action="click->turbo-modal#close" class="close-button">X</div>
+
+  <%= form_with model: Conversation.new, url: conversations_path, data: { action: "turbo:submit-end->turbo-modal#close", conversation_target: "form"} do |f| %>
+    <%= f.collection_check_boxes(:member_ids, current_user.following, :id, :username) do |b| %>
+      <span style="list-style-type: none;">
+          <%= b.check_box "data-action":"click->conversation#toggleName" %>
+          <%= b.label %>
+      </span>
+      <% end %><br />
+    <%= f.submit %>
+  <% end %>
+</div>
