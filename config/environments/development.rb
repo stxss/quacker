@@ -83,6 +83,10 @@ Rails.application.configure do
 
   # config.action_cable.mount_path = nil
 
+  # Delete this line if want more logging of sql and other stuff
+  # config.log_level = :info
+  config.log_level = :info
+
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   Rack::MiniProfiler.config.show_total_sql_count = true
