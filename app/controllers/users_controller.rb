@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   def show
-    # fetch_user
     @show_replies = true
     @user = User.find_by(username: params[:username])
     @normal = @user.created_tweets.includes(author: :account).where(type: nil)
@@ -20,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def index_liked_tweets
-    fetch_user
+    @user = User.find_by(username: params[:username])
   end
 
   def edit
@@ -53,9 +52,5 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:display_name, :biography, :location, :website, :birth_date)
-  end
-
-  def fetch_user
-    @user = User.find_by(username: params[:username])
   end
 end
