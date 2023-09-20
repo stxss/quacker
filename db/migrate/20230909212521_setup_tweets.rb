@@ -3,7 +3,7 @@ class SetupTweets < ActiveRecord::Migration[7.0]
     create_table :tweets do |t|
       t.string :type
 
-      t.string :body
+      t.text :body
       t.references :user, foreign_key: true, unique: true, null: false
 
       t.references :parent

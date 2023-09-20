@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_17_182839) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,6 +43,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
+  create_table "conversation_members", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_conversation_members_on_conversation_id"
+    t.index ["member_id"], name: "index_conversation_members_on_member_id"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "creator_id", null: false
+    t.text "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_conversations_on_creator_id"
+  end
+
   create_table "follows", force: :cascade do |t|
     t.bigint "follower_id", null: false
     t.bigint "followed_id", null: false
@@ -64,6 +81,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "body"
+    t.bigint "sender_id", null: false
+    t.bigint "conversation_id", null: false
+    t.boolean "read", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.integer "notification_type"
     t.bigint "tweet_id"
@@ -78,7 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
 
   create_table "tweets", force: :cascade do |t|
     t.string "type"
-    t.string "body"
+    t.text "body"
     t.bigint "user_id", null: false
     t.bigint "parent_id"
     t.bigint "retweet_original_id"
@@ -90,7 +118,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
     t.bigint "root_id"
     t.integer "height", default: 0
     t.integer "depth", default: 0
-    t.decimal "relevance", default: 0.0
+    t.decimal "relevance", default: "0.0"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -124,6 +152,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
     t.integer "follows_count", default: 0, null: false
     t.integer "tweets_count", default: 0, null: false
     t.integer "notifications_count", default: 0, null: false
+    t.index ["display_name"], name: "index_users_on_display_name", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
@@ -132,8 +161,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_231444) do
   add_foreign_key "accounts", "users"
   add_foreign_key "bookmarks", "tweets"
   add_foreign_key "bookmarks", "users"
+  add_foreign_key "conversation_members", "conversations"
+  add_foreign_key "conversation_members", "users", column: "member_id"
+  add_foreign_key "conversations", "users", column: "creator_id"
   add_foreign_key "likes", "tweets"
   add_foreign_key "likes", "users"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "notifications", "tweets"
   add_foreign_key "notifications", "users", column: "notified_id"
   add_foreign_key "notifications", "users", column: "notifier_id"
