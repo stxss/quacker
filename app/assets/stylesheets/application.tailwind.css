@@ -19,6 +19,10 @@ textarea {
   /* https://stackoverflow.com/a/39289453/17369830 */
 }
 
+body {
+  display: flex;
+}
+
  #modal {
    position: absolute;
    z-index: 2;
@@ -95,13 +99,14 @@ textarea {
 }
 
 .thread > .turbo-nested {
-  flex: 1
+  flex: 1;
 }
 
 .nested-comments .tweet {
   border: none;
   /* margin-top: -15px; */
   margin-top: -5px;
+  margin-left: 0px;
 }
 
 .nested-comments:nth-child(1) {
@@ -117,6 +122,14 @@ textarea {
 
 .nested-comments .collapse-line:hover {
   background-color: rgb(56, 55, 55);
+}
+
+.thread.hidden .collapse-line {
+  background-color: rgb(207, 207, 207);
+}
+
+.thread.hidden .collapse-line:hover {
+  background-color: rgb(240, 239, 239);
 }
 
 .creation-info {
@@ -221,7 +234,7 @@ textarea {
   .more-info-btn button,
   .limited-rt,
   .quote button,
-  .comment button {
+  .comment button{
     display: flex;
     background: none;
     border: none;
@@ -234,7 +247,8 @@ textarea {
     width: 100%;
   }
 
-  .tweet-form {
+  .tweet-form,
+  .conversation-form {
     position: relative;
     z-index: 1;
   }
@@ -304,4 +318,18 @@ dialog {
 dialog form {
   /* max-width: 200px; */
   padding: 20px
+}
+
+
+#messages {
+  display: flex;
+}
+
+.messages-list {
+  padding: 20px;
+}
+
+.individual-message {
+  padding: 20px;
+
 }
