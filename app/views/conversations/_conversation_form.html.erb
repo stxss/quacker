@@ -4,10 +4,10 @@
   <%= form_with model: Conversation.new, url: conversations_path, data: { action: "turbo:submit-end->turbo-modal#close", conversation_target: "form"} do |f| %>
     <%= f.collection_check_boxes(:member_ids, current_user.following, :id, :username) do |b| %>
       <span style="list-style-type: none;">
-          <%= b.check_box "data-action":"click->conversation#toggleName" %>
+          <%= b.check_box "data-action":"click->conversation#toggleName click->conversation#toggleSubmitButton" %>
           <%= b.label %>
       </span>
-      <% end %><br />
-    <%= f.submit %>
+      <% end %>
+    <%= f.submit "Start Chat", "data-conversation-target":"submit", class:"disabled:opacity-75", disabled: true  %>
   <% end %>
 </div>
