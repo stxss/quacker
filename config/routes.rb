@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "/messages", to: "messages#index", as: "messages"
 
   resources :messages, only: [:new, :create, :destroy]
-  resources :conversations, only: [:new, :index, :create, :destroy]
+  resources :conversations, only: [:show, :new, :index, :create, :destroy]
 
   get "/bookmarks", to: "bookmarks#index", as: "user_bookmarks"
   resources :bookmarks, path: "/bookmarks", only: [:create, :destroy]
