@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_182839) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
-  create_table "conversation_members", force: :cascade do |t|
+  create_table "conversation_members", id: false, force: :cascade do |t|
     t.bigint "conversation_id", null: false
     t.bigint "member_id", null: false
     t.datetime "created_at", null: false
