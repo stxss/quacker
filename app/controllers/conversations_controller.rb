@@ -12,7 +12,7 @@ class ConversationsController < ApplicationController
   def create
     @conversation = ConversationCreator.call(conversation_params, current_user)
 
-    redirect_to conversations_path
+    redirect_to conversation_path(id: @conversation.id)
   end
 
   def destroy

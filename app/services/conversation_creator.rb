@@ -6,12 +6,18 @@ class ConversationCreator < ApplicationService
   end
 
   def call
-    @conversation = @creator.created_conversations.create!(name: @name)
-    @conversation.members << @creator
+    existing_conversation = Conversation.find_by_members(@members)
 
-    users_to_add = User.where(id: @members)
-    @conversation.members << users_to_add
+    if existing_conversation
+      return existing_conversation
+    else
+      @conversation = @creator.created_conversations.build(name: @name)
+      @conversation.members << @creator
 
-    @conversation.save
+      users_to_add = User.where(id: @members)
+      @conversation.members << users_to_add
+
+      @conversation.save
+    end
   end
 end
