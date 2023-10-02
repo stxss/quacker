@@ -1,27 +1,23 @@
-<% show_view = @show_replies if local_assigns[:show_view].nil? %>
-
-<% if @show_replies || show_view %>
+<% if view == :single_post %>
   <% if t.comments.size >= 3  %>
     <%= link_to "Show more replies", single_tweet_path(username: t.author.username, id: t.id), data: {turbo: false} %>
     <% if session[:new_comment] == 1 %>
       <% t.comments[-3..-2].each do |tweet| %>
-        <%= render "comments/comment_tweet_info", t: tweet %>
+        <%= render "comments/comment_tweet_info", t: tweet, view: view %>
       <% end %>
     <% else %>
       <% t.comments.last(2).each do |tweet| %>
-        <%= render "comments/comment_tweet_info", t: tweet %>
+        <%= render "comments/comment_tweet_info", t: tweet, view: view %>
       <% end %>
     <% end %>
   <% elsif t.comments.size == 2 && session[:new_comment] == 1 %>
-    <%= render "comments/comment_tweet_info", t: t.comments.last(2).first %>
-  <% elsif session[:new_comment] == 1 || (!t.new_tweet?(@tweets) && t.just_updated?) %>
-  <% elsif (!t.new_tweet?(@tweets) && !t.just_updated?) %>
-    <% t.comments.each do |tweet| %>
-        <%= render "comments/comment_tweet_info", t: tweet, original: t %>
-    <% end %>
+    <%= render "comments/comment_tweet_info", t: t.comments.last(2).first, view: view %>
+  <%# <% elsif session[:new_comment] == 1 || (!t.new_tweet?(timeline_tweets) && t.just_updated?) %> %>
+  <% elsif t.comments.size == 1 %>
+    <%= render "comments/comment_tweet_info", t: t.comments.last(2).first, view: view %>
   <% end %>
 <% else %>
-  <% t.comments.each do |tweet| %>
-    <%= render "comments/comment_tweet_info", t: tweet, original: t %>
+  <% t&.comments&.by_relevance.to_a.each do |tweet| %>
+    <%= render "comments/comment_tweet_info", t: tweet, original: t, view: view %>
   <% end %>
 <% end %>

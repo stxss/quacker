@@ -1,39 +1,60 @@
 <% show_view = false if local_assigns[:show_view].nil? %>
+<% show_reply = false if local_assigns[:show_reply].nil? %>
+<% children_hidden = false if local_assigns[:children_hidden].nil? %>
 
-<%= turbo_frame_tag "tweet_#{t.id}" do %>
-  <div class="tweet">
-    <% if @show_replies %>
-      Replying to
-      <%= link_to "@#{t.original.author.username}", username_path(t.original.author.username), data: {turbo: false} %>
+<% if t.deleted_at %>
+  <div class="tweet" >
+    <p>This Tweet has been deleted.</p>
+
+    <% t.comments.each do |tweet| %>
+      <%= render "comments/comment_tweet_info", t: tweet %>
     <% end %>
-
-    <%= render "tweets/creator_info", t: t, more_info: true %>
-    <%= render "tweets/tweet_body", t: t %>
-
-    <div class="activity-box">
-      <%= render "comments/comments", t: t %>
-
-      <span class="retweets">
-        <%= render "retweets/retweets", t: t %>
-      </span>
-
-      <span class="likes">
-        <%= render "likes/likes", t: t %>
-      </span>
-
-      <span class="share">
-        <%= render "tweets/share", t: t, show_view: show_view %>
-      </span>
-    </div>
-
-    <% if (t.depth % 11 == 0) %>
-      <%= link_to "Continue reading", single_tweet_path(username: t.author.username, id: t.id), target: :_top %>
-    <% else %>
-      <% t.comments.each do |tweet| %>
-        <%= render "comments/comment_tweet_info", t: tweet %>
-      <% end %>
-    <% end %>
-    <%# <%= render t.comments %> %>
-
   </div>
+<% else %>
+    <div class="thread">
+      <button class="collapse-line" label="Hide Replies" data-controller="misc" data-action="click->misc#toggleReplies"></button>
+      <%= turbo_frame_tag "tweet_#{t.id}", class: "turbo-nested" do %>
+        <div class="tweet" >
+          <% if show_reply %>
+            Replying to
+            <%= link_to "@#{t.original.author.username}", username_path(t.original.author.username), data: {turbo: false} %>
+          <% end %>
+
+          <%= render "tweets/creator_info", t: t, more_info: true %>
+
+          <div class="tweet-info">
+
+            <%= render "tweets/tweet_body", t: t %>
+
+            <div class="activity-box">
+              <%= render "comments/comments", t: t %>
+
+              <span class="retweets">
+                <%= render "retweets/retweets", t: t %>
+              </span>
+
+              <span class="likes">
+                <%= render "likes/likes", t: t %>
+              </span>
+
+              <span class="share">
+                <%= render "tweets/share", t: t, show_view: show_view %>
+              </span>
+            </div>
+
+            <% if (t.depth % 11 == 0) %>
+              <%= link_to "Continue reading", single_tweet_path(username: t.author.username, id: t.id), target: :_top %>
+            <% else %>
+
+            <% if t.comments.size > 0 %>
+              <div class="nested-comments">
+                <%= render "comments/show_comments", t: t, view: show_view %>
+              </div>
+            <% end %>
+          </div>
+          <% end %>
+          <%#= render t.comments %>
+        </div>
+      <% end %>
+    </div>
 <% end %>
