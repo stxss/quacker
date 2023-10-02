@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="backdrop"></div>
+  <%= render "quotes/quote_form", rt: @retweet %>
+<% end %>
+
+<% if @render_everything %>
+  <%= render "tweets/timeline" %>
+<% end %>

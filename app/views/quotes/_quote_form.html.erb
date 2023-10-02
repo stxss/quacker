@@ -1,8 +1,7 @@
 <div data-controller="tweet turbo-modal" class="tweet-form" data-tweet-target="modal">
+  <div data-action="click->turbo-modal#close" class="close-button">X</div>
+
   <%= form_with model: Quote.new, url: quotes_path(id: rt), data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-
-    <div onclick="history.back()" class="close-button">X</div>
-
     <div class="area-box" >
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" }, autofocus: true %>
     </div>
