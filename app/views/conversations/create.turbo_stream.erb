@@ -1,0 +1,3 @@
+<%= turbo_stream.prepend("conversations", partial: "conversations/single_conversation_preview", locals: { conversation: @conversation }) %>
+
+<%= turbo_stream.update("messages", partial: "conversations/single_conversation_full", locals: { conversation: @conversation }) %>

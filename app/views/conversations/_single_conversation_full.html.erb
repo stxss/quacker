@@ -1,0 +1,8 @@
+<% p conversation %>
+<% conversation.messages.each do |m| %>
+  <%= m.body %>
+<% end %>
+
+<div>
+  <%= render "messages/new"%>
+</div>

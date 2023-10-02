@@ -1,0 +1,18 @@
+<%= link_to conversation_path(id: conversation.id), data: {turbo_stream: true} do %>
+  <span class="conversation-name">
+    <% if conversation.name.nil? %>
+      <div>
+        <% if current_user == conversation.members.first %>
+          <%= conversation.members.second.display_name %>
+        <% else %>
+          <%= conversation.members.first.display_name %>
+        <% end %>
+      </div>
+      <% else %>
+      <div><%= conversation.name %></div>
+    <% end %>
+  </span>
+  <span class="last-msg-preview">
+     <%= conversation.messages.last.body if conversation.messages.size > 0 %>
+  </span>
+<% end %>
