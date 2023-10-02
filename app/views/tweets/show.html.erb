@@ -3,4 +3,5 @@
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "bookmarks" %>
 
-<%= render "tweets/single_tweet", t: @tweet, show_view: true %>
+<% original = @tweet.original if @tweet.comment? || @tweet.retweet? || @tweet.quote_tweet? %>
+<%= render "tweets/single_tweet", t: @tweet, original: original, view: :single_post %>

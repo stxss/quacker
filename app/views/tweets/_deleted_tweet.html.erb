@@ -1,0 +1,10 @@
+<div class="tweet">
+  <p>This Tweet has been deleted.</p>
+
+  <% if view.in?([:single_post, :timeline]) %>
+    <div class="nested-comments">
+      <%= render "comments/show_comments", t: t, timeline_tweets: @tweets, view: view %>
+    </div>
+  <% end %>
+</div>
+

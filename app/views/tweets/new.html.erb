@@ -1,17 +1,9 @@
 <%= turbo_frame_tag "modal" do %>
   <div class="backdrop"></div>
-  <% if @retweet %>
-    <%= render "quotes/quote_form", rt: @retweet %>
-  <% elsif @comment %>
-    <%= render "comments/comment_form", t: @comment, modal: true %>
-  <% else %>
-    <%= render "tweets/tweet_form", modal: true %>
-  <% end %>
+  <%= render "tweets/tweet_form", modal: true %>
 <% end %>
 
-
 <% if @render_everything %>
-  <%= render "tweets/tweet_form", modal: false %>
   <%= render "tweets/timeline" %>
 <% end %>
 

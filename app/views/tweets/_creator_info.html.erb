@@ -1,9 +1,9 @@
   <div class="creation-info">
     <div class="tweet-info">
-      <span class="display-name"><%= t.author.display_name %></span>
-      <span class="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>
 
       <%= link_to username_path(t.author.username), class: "author", target: :_top  do %>
+        <span class="display-name"><%= t.author.display_name %></span>
+        <span class="icon-lock"><%= lock_icon_svg if t.author.account.private_visibility %></span>
         <span class="display-username"><%= "@#{t.author.username}" %></span>
       <% end %>
 

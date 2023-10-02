@@ -1,0 +1,35 @@
+<span class="share">
+  <div class="dropdown" data-controller="dropdown" data-action="click->dropdown#dropMenu">
+
+      <button><%= share_icon_svg %></button>
+
+      <div class="dropdown-content share" data-dropdown-target="menu">
+        <div class="backdrop"></div>
+          <% if !t.author.account.private_visibility %>
+            <div class="menuitem" data-controller="misc" data-url=<%= single_tweet_url(username: t.author.username, id: t.id)%> data-action="click->misc#copyLink">
+              <button>
+                <span><%= copy_link_svg %></span>
+                Copy link to Tweet
+              </button>
+            </div>
+            <div class="menuitem">
+              <button>
+                <span><%= send_via_message_svg %></span>
+                Send via Direct Message
+              </button>
+            </div>
+          <% end %>
+
+          <div class="menuitem">
+            <%= turbo_frame_tag "bookmark_#{t.id}" do %>
+              <% if current_user.has_bookmark?(t.id) %>
+                <%= render "bookmarks/unbookmark_button", t: t %>
+              <% else %>
+                <%= render "bookmarks/bookmark_button", t: t %>
+              <% end %>
+            <% end %>
+          </div>
+      </div>
+  </div>
+
+</span>

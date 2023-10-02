@@ -4,15 +4,15 @@
 <% else %>
   <div data-controller="tweet" class="tweet-form">
 <% end %>
+  <% if modal %>
+    <div data-action="click->turbo-modal#close" class="close-button">X</div>
+  <% end %>
 
   <%= form_with model: Tweet.new, url: tweets_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-    <% if modal %>
-      <div data-action="click->turbo-modal#close" class="close-button">X</div>
-    <% end %>
-
     <div class="area-box">
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"}, autofocus: autofocus %>
     </div>
+    <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
     <%= render "shared/fake_button" %>
   <% end %>
 </div>
