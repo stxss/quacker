@@ -52,14 +52,12 @@ export default class extends Controller {
 
     toggleSubmitButton() {
         let checked = this.calculateChecked();
-
-        console.log(this.submitTarget)
         let btn;
 
         // 1 checked -> able to start chat
         // 2 checked -> able to start group chat only if group name is present
         if (checked == 1) {
-            btn = `<input type="submit" data-conversation-target="submit" name="commit" value="Start Chat" data-disable-with="Create Conversation"></input>`;
+            btn = `<input type="submit" data-conversation-target="submit" data-action="click->conversation#submit" name="commit" value="Start Chat" data-disable-with="Create Conversation"></input>`;
         } else if (checked >= 2) {
             if (this.groupNamePresent()) {
                 btn = `<input type="submit" data-conversation-target="submit" name="commit" value="Start Group Chat" data-disable-with="Create Conversation"></input>`;
@@ -71,5 +69,13 @@ export default class extends Controller {
         }
 
         this.submitTarget.outerHTML = btn;
+    }
+
+    submit(e) {
+        this.element.submit;
+    }
+
+    close(e) {
+        e.preventDefault();
     }
 }

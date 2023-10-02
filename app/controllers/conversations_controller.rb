@@ -3,6 +3,10 @@ class ConversationsController < ApplicationController
     @conversations = current_user.conversations
   end
 
+  def show
+    @conversation = Conversation.find(params[:id])
+  end
+
   def new
   end
 
@@ -10,9 +14,19 @@ class ConversationsController < ApplicationController
   end
 
   def create
-    @conversation = ConversationCreator.call(conversation_params, current_user)
+    @members = conversation_params[:member_ids].reject(&:blank?)
+    existing_conversation = Conversation.find_by_members(@members)&.first
 
-    redirect_to conversation_path(id: @conversation.id)
+    if existing_conversation
+      redirect_to conversation_path(id: existing_conversation.id)
+    else
+      @conversation = ConversationCreator.call(conversation_params, current_user)
+
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to conversation_path(id: @conversation.id) }
+      end
+    end
   end
 
   def destroy
