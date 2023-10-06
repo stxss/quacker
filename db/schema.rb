@@ -55,6 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_182839) do
   create_table "conversations", force: :cascade do |t|
     t.bigint "creator_id", null: false
     t.text "name"
+    t.integer "messages_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_conversations_on_creator_id"

@@ -1,0 +1,9 @@
+<div data-controller="message" class="message-form">
+  <%= form_with model: Message.new, url: messages_path, data: { action: "turbo:submit-end->message#clear"}, params: {message: {conversation_id: conversation.id}} do |f| %>
+    <div class="area-box">
+      <%= f.hidden_field :conversation_id, value: conversation.id %>
+      <%= f.text_area :body, placeholder: "Start a new message", :rows => 2 , :cols => 50, data: {controller: "autogrow", message_target: "area"} %>
+    </div>
+    <%= f.submit %>
+  <% end %>
+</div>

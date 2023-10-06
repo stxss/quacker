@@ -24,3 +24,6 @@ application.register("tweet", TweetController)
 
 import ConversationController from "./conversation_controller"
 application.register("conversation", ConversationController)
+
+import MessageController from "./message_controller"
+application.register("message", MessageController)

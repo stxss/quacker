@@ -1,18 +1,29 @@
 class MessagesController < ApplicationController
   def new
+    @message = Message.new
   end
 
   def index
-    @messages = current_user.conversations
+    @conversations = current_user.conversations
+  end
+
+  def messages
+    @messages = conversation.messages
   end
 
   def create
-    @message = Message.build(message_params)
+    @message = current_user.sent_messages.build(body: message_params[:body], sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
+    @message.save
 
-    if @message.save
-      respond_to do |format|
-        format.turbo_stream
-      end
+    @message.broadcast_append_to "messages",
+      target: "message-list",
+      partial: "messages/message",
+      locals: {message: @message}
+
+    respond_to do |format|
+      format.turbo_stream
+      # format.html { redirect_to request.referrer }
+      # current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
     end
   end
 
@@ -22,6 +33,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:body, :sender_id, :conversation_id)
+    params.require(:message).permit(:body, :conversation_id)
   end
 end

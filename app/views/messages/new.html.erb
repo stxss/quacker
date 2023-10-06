@@ -1,8 +1,0 @@
-<div data-controller="message" class="message-form">
-  <%= form_with model: Message.new, url: messages_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-    <div class="area-box">
-      <%= f.text_area :body, placeholder: "Start a new message", :rows => 2 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"} %>
-    </div>
-    <%= f.submit %>
-  <% end %>
-</div>
