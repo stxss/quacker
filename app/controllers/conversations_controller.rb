@@ -4,7 +4,12 @@ class ConversationsController < ApplicationController
   end
 
   def show
+    @conversations = current_user.conversations
     @conversation = Conversation.find(params[:id])
+    respond_to do |format|
+      format.turbo_stream
+      format.html {}
+    end
   end
 
   def new

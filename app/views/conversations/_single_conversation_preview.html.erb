@@ -1,4 +1,4 @@
-<%= link_to conversation_path(id: conversation.id), data: {turbo_stream: true} do %>
+<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance} do %>
   <span class="conversation-name">
     <% if conversation.name.nil? %>
       <div>

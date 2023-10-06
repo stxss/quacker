@@ -3,6 +3,7 @@ class CreateConversations < ActiveRecord::Migration[7.0]
     create_table :conversations do |t|
       t.references :creator, null: false, foreign_key: {to_table: :users}, unique: true
       t.text :name, optional: true
+      t.integer :messages_count, null: false, default: 0
 
       t.timestamps
     end
