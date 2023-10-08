@@ -1,3 +1,5 @@
+<%= turbo_stream_from "#{@user&.to_gid_param}" %>
+
 <div class="grid">
   <div class="new-message flex-none w-14">
     <%= link_to "New Message", new_message_path %>
@@ -17,7 +19,7 @@
 </div>
 
 <%= turbo_frame_tag "messages", data: { turbo_permanent: true }, class: "flex-col" do %>
-  <div id="message-list">
+  <div id="message-list" class="h-96 overflow-auto">
     <%= render "conversations/single_conversation_full", conversation: @conversation %>
   </div>
   <div id="message-form">

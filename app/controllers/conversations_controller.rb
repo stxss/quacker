@@ -4,6 +4,7 @@ class ConversationsController < ApplicationController
   end
 
   def show
+    @user = current_user
     @conversations = current_user.conversations
     @conversation = Conversation.find(params[:id])
     respond_to do |format|

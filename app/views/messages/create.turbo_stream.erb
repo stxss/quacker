@@ -1,1 +1,1 @@
-<%= turbo_stream.replace("#{@message.id}", partial: "messages/creator_message", locals: { message: @message, user: current_user }) %>
+<%= turbo_stream.append("message-list", partial: "messages/creator_message", locals: { message: @message }) %>
