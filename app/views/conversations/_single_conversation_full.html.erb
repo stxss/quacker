@@ -1,11 +1,15 @@
 <% conversation.messages.ordered.each do |m| %>
   <% if current_user == m.sender %>
     <% bg_color = "bg-indigo-500" %>
+    <% sender_corner = "br" %>
+    <% justify_body = "justify-end" %>
   <% else %>
     <% bg_color = "bg-gray-500" %>
+    <% sender_corner = "bl" %>
+    <% justify_body = "justify-start" %>
   <% end %>
 
-  <div class="rounded-lg m-6 text-white <%= bg_color %> flex-1" id="<%= m.id %>">
+  <div class="flex grow-0 shrink-0 rounded-xl m-6 rounded-<%= sender_corner %>-none max-w-prose <%= justify_body %> text-white <%= bg_color %>" id="<%= m.id %>">
     <%= m.body %>
   </div>
 <% end %>

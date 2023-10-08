@@ -19,7 +19,7 @@
 </div>
 
 <%= turbo_frame_tag "messages", data: { turbo_permanent: true }, class: "flex-col" do %>
-  <div id="message-list" class="h-96 overflow-auto">
+  <div id="message-list" class="flex flex-col h-3/5 overflow-auto">
     <%= render "conversations/single_conversation_full", conversation: @conversation %>
   </div>
   <div id="message-form">
