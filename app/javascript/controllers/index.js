@@ -27,3 +27,6 @@ application.register("conversation", ConversationController)
 
 import MessageController from "./message_controller"
 application.register("message", MessageController)
+
+import ScrollerController from "./scroller_controller"
+application.register("scroller", ScrollerController)

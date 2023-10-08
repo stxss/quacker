@@ -1,5 +1,5 @@
 <% bg_color = "bg-indigo-500" %>
 
-<div class="rounded-lg m-6 text-white <%= bg_color %> flex-1" id="<%= message.id %>">
+<div class="rounded-lg m-6 text-white <%= bg_color %> flex-1" id="<%= message.id %>" data-controller="scroller">
   <%= message.body %>
 </div>
