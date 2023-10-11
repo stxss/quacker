@@ -12,7 +12,7 @@
       <div><%= conversation.name %></div>
     <% end %>
   </span>
-  <span class="last-msg-preview">
+  <span class="last-msg-preview truncate">
      <%= conversation.messages.last.body if conversation.messages.size > 0 %>
   </span>
 <% end %>

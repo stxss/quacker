@@ -1,9 +1,9 @@
 <div data-controller="message" class="message-form">
-  <%= form_with model: Message.new, url: messages_path, data: { action: "turbo:submit-end->message#clear"}, params: {message: {conversation_id: conversation.id}} do |f| %>
+  <%= form_with model: Message.new, url: messages_path, data: { action: "turbo:submit-end->message#clear"}, params: {message: {conversation_id: conversation.id}}, class:"flex" do |f| %>
     <div class="area-box">
       <%= f.hidden_field :conversation_id, value: conversation.id %>
-      <%= f.text_area :body, placeholder: "Start a new message", :rows => 2 , :cols => 50, data: {controller: "autogrow", message_target: "area"} %>
+      <%= f.text_area :body, class:"w-[calc(53vw-20px)]", placeholder: "Start a new message", :rows => 2 , :cols => 50, data: {controller: "autogrow", message_target: "area"} %>
     </div>
-    <%= f.submit %>
+    <%= f.submit class:"w-fit p-3" %>
   <% end %>
 </div>

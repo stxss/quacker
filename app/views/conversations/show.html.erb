@@ -18,11 +18,11 @@
   </div>
 </div>
 
-<%= turbo_frame_tag "messages", data: { turbo_permanent: true }, class: "flex-col" do %>
-  <div id="message-list" class="flex flex-col h-3/5 overflow-auto">
+<%= turbo_frame_tag "messages", data: { turbo_permanent: true }, class: "flex-col top-0 bottom-0 right-80" do %>
+  <div id="message-list" class="flex flex-col w-3/5 h-[89vh] overflow-auto fixed ">
     <%= render "conversations/single_conversation_full", conversation: @conversation %>
   </div>
-  <div id="message-form">
+  <div id="message-form" class="fixed bottom-0 h-[10vh] w-screen">
     <%= render "messages/new", conversation: @conversation %>
   </div>
 <% end %>

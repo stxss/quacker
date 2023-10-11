@@ -2,14 +2,14 @@
   <% if current_user == m.sender %>
     <% bg_color = "bg-indigo-500" %>
     <% sender_corner = "br" %>
-    <% justify_body = "justify-end" %>
+    <% message_align = "self-end" %>
   <% else %>
     <% bg_color = "bg-gray-500" %>
     <% sender_corner = "bl" %>
-    <% justify_body = "justify-start" %>
+    <% message_align = "self-start" %>
   <% end %>
 
-  <div class="flex grow-0 shrink-0 rounded-xl m-6 rounded-<%= sender_corner %>-none max-w-prose <%= justify_body %> text-white <%= bg_color %>" id="<%= m.id %>">
+  <div class="w-fit h-fit p-3 rounded-xl m-6 rounded-<%= sender_corner %>-none max-w-prose <%= message_align %> text-white <%= bg_color %>" id="<%= m.id %>">
     <%= m.body %>
   </div>
 <% end %>
