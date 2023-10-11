@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
     @message.conversation.members.each do |member|
       next if member == @message.sender
 
-      @message.broadcast_append_to member&.to_gid_param.to_s,
+      @message.broadcast_append_to ["#{member&.to_gid_param}:#{@message.conversation&.to_gid_param}"],
         target: "message-list",
         partial: "messages/message",
         locals: {message: @message}

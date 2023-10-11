@@ -1,3 +1,5 @@
+<%= turbo_stream_from "#{current_user&.to_gid_param}:#{conversation&.to_gid_param}" %>
+
 <% conversation.messages.ordered.each do |m| %>
   <% if current_user == m.sender %>
     <% bg_color = "bg-indigo-500" %>
