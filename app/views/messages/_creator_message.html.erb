@@ -1,5 +1,5 @@
 <% bg_color = "bg-indigo-500" %>
 
-<div class="w-fit h-fit p-3 rounded-xl rounded-br-none m-6 self-end text-white <%= bg_color %>" id="<%= message.id %>" data-controller="scroller">
+<div class="max-w-md h-fit p-3 rounded-xl rounded-br-none m-1 self-end text-white <%= bg_color %> break-words" id="<%= message.id %>" data-controller="scroller">
   <%= message.body %>
 </div>
