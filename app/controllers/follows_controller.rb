@@ -3,9 +3,12 @@ class FollowsController < ApplicationController
     @user = User.find(follow_params[:followed_id])
     @follow = current_user.follow(follow_params)
 
-    if @follow.save
-      current_user.notify(follow_params[:followed_id].to_i, :follow)
-      redirect_to request.referrer
+    respond_to do |format|
+      if @follow.save
+        format.turbo_stream
+        format.html {}
+      end
+      current_user.notify(@user.id, :follow)
     end
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Oops, something went wrong"
@@ -17,12 +20,17 @@ class FollowsController < ApplicationController
 
     if @follow.is_request && current_user == @follow.follower
       current_user.unfollow(@follow.followed)
+      redirect_to request.referrer
     elsif @follow.is_request && current_user == @follow.followed
       current_user.decline_follow_request(@follow.follower)
     else
-      current_user.unfollow(@follow.followed)
+      @user = @follow.followed
+      current_user.unfollow(@user)
+      respond_to do |format|
+        format.turbo_stream
+        format.html {}
+      end
     end
-    redirect_to request.referrer
   end
 
   def update

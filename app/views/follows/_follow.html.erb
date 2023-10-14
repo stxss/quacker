@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "follow" do %>
+  <%= button_to "Follow", follows_path, params: {follow: {followed_id: user.id, is_request: user.account.private_visibility }} %>
+<% end %>

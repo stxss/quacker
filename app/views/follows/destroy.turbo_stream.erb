@@ -1,0 +1,5 @@
+<% if @user.following?(current_user) %>
+  <%= turbo_stream.update("unfollow", partial: "follows/follow_back", locals: {user: @user}) %>
+<% else %>
+  <%= turbo_stream.update("unfollow", partial: "follows/follow", locals: {user: @user}) %>
+<% end %>

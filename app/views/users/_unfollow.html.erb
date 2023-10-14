@@ -1,4 +1,0 @@
-<%= button_to "Unfollow", follow_path(id: current_user.active_follows.find_by(followed_id: user.id)), method: :delete, form: { data: {turbo_confirm: "Their Tweets will no longer show up in your home timeline. You can still view their profile, unless their Tweets are protected.", header: "Unfollow @#{user.username}?", confirm: "Confirm", cancel: "Cancel" }}, params: {follow: {followed_id: user.id }}, remote: true %>
-
-
-
