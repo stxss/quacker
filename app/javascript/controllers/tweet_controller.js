@@ -21,7 +21,7 @@ export default class Tweet extends Controller {
     }
 
     verifyLength(length) {
-        if (this.notATweet()) {
+        if (this.notTweet()) {
             if (!this.submitTarget.querySelector(".fake-submit-tweet")) {
                 this.submitTarget.innerHTML = `<div class="fake-submit-tweet">Tweet</div>`
             }
@@ -108,7 +108,7 @@ export default class Tweet extends Controller {
     }
 
     submit(e) {
-        if (this.notATweet()) {
+        if (this.notTweet()) {
             e.preventDefault();
         }
     }
@@ -118,11 +118,10 @@ export default class Tweet extends Controller {
             this.areaTarget.value = "";
         }
         window.removeEventListener("popstate", this.popStateHandler);
-
         this.update();
     }
 
-    notATweet() {
+    notTweet() {
         return (
             this.content.match(/^\s*$/) || this.length < 1 || this.length > 280
         );
