@@ -28,7 +28,7 @@ export default class extends Controller {
     }
 
     close(e) {
-        if (history.length > 2) {
+        if (history.length > 3) {
             history.back()
         } else {
             Turbo.visit("/home", { action: "advance" })
