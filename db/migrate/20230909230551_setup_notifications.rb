@@ -3,7 +3,7 @@ class SetupNotifications < ActiveRecord::Migration[7.0]
     create_table :notifications do |t|
       t.integer :notification_type
 
-      t.references :tweet, foreign_key: true
+      t.references :tweet, foreign_key: true, optional: true
       t.references :notifier
       t.references :notified
 

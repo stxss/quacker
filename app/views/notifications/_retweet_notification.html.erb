@@ -1,4 +1,4 @@
 <div class="notification retweet-notification">
-  <span><%= render "users/display_name", user: User.find(notifier) %></span> retweeted your Tweet
+  <%= link_to "#{notifier.username}", username_path(notifier.username) %> retweeted your Tweet
   <div><%= tweet.body %></div>
 </div>

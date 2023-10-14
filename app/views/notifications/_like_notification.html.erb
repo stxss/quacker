@@ -1,4 +1,5 @@
 <div class="notification like-notification">
-  <span><%= render "users/display_name", user: User.find(notifier) %></span> liked your Tweet
+  <%= link_to "#{notifier.username}", username_path(notifier.username) %> liked your Tweet
   <div><%= tweet.body %></div>
 </div>
+
