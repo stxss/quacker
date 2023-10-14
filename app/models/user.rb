@@ -33,6 +33,13 @@ class User < ApplicationRecord
 
   has_one :account, dependent: :destroy
 
+  has_many :created_conversations, class_name: "Conversation", foreign_key: "creator_id"
+
+  has_many :conversation_members, class_name: "ConversationMember", foreign_key: "member_id", dependent: :destroy
+  has_many :conversations, through: :conversation_members
+
+  has_many :sent_messages, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
+
   # only allow letter, number, underscore and punctuation.
   validates_format_of :username, with: /^[a-zA-Z0-9_]*$/, :multiline => true
 
