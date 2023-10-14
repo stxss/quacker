@@ -11,7 +11,7 @@
     <% message_align = "self-start" %>
   <% end %>
 
-  <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-<%= sender_corner %>-none <%= message_align %> text-white <%= bg_color %> break-words" id="<%= m.id %>">
+  <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-<%= sender_corner %>-none <%= message_align %> text-white <%= bg_color %> break-words" id="<%= m.id %>" data-controller="scroller">
     <%= m.body %>
   </div>
 <% end %>

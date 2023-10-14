@@ -10,7 +10,7 @@
   </div>
 
   <div class="messages-list flex-initial w-56 truncate">
-    <%= turbo_frame_tag "conversations", data: { turbo_permanent: true }, class: "flex-auto" do %>
+    <%= turbo_frame_tag "conversations", data: { turbo_action: :advance }, class: "flex-auto" do %>
         <% @conversations.ordered.each do |c| %>
           <%= render "conversations/single_conversation_preview", conversation: c %>
         <% end %>
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<%= turbo_frame_tag "messages", data: { turbo_permanent: true }, class: "flex-col top-0 bottom-0 right-80" do %>
+<%= turbo_frame_tag "messages", data: { turbo_frame: "messages", turbo_action: :advance }, class: "flex-col top-0 bottom-0 right-80" do %>
   <div id="message-list" class="flex flex-col w-3/5 h-[89vh] overflow-auto fixed ">
     <%= render "conversations/single_conversation_full", conversation: @conversation %>
   </div>
