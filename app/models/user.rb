@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_follows
 
   has_many :notifications_given, class_name: "Notification", foreign_key: "notifier_id", dependent: :destroy
-  has_many :notifieds, through: :notifications_given, source: :notifier
+  has_many :notifieds, through: :notifications_given
 
   has_many :notifications_received, class_name: "Notification", foreign_key: "notified_id", dependent: :destroy
   has_many :notifiers, through: :notifications_received
@@ -73,7 +73,15 @@ class User < ApplicationRecord
 
   def notify(other_id, type, tweet_id: nil)
     return if id == other_id
-    notifications_given.create(notifier_id: id, notified_id: other_id, notification_type: type, tweet_id: tweet_id)
+
+    notification_params = {
+      notifier_id: id,
+      notified_id: other_id,
+      notification_type: type
+    }
+
+    notification_params[:tweet_id] = tweet_id if tweet_id
+    notifications_given.create(notification_params)
   end
 
   def login
