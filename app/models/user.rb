@@ -51,12 +51,12 @@ class User < ApplicationRecord
   end
 
   def unfollow(other)
-    active_follows.find_by(followed_id: other.id).destroy
-    other.notifications_received.where(notifier_id: id, notified_id: other.id, notification_type: :follow).destroy_all
+    active_follows.find_by(followed_id: other.id).delete
+    other.notifications_received.where(notifier_id: id, notified_id: other.id, notification_type: :follow).delete_all
   end
 
   def decline_follow_request(other)
-    passive_follows.find_by(follower_id: other.id).destroy_all
+    passive_follows.where(follower_id: other.id).delete_all
   end
 
   def accept_follow_request(other)

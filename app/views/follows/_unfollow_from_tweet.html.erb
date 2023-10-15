@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "unfollow-from-tweet-#{user.id}" do %>
+  <%= button_to "Unfollow @#{user.username}", Follow.find_by(follower_id: current_user, followed_id: user), method: :delete %>
+<% end %>

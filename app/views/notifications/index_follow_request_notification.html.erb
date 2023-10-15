@@ -6,8 +6,7 @@
       <% current_user.passive_follows.where(is_request: true).each do |request|%>
         <div>
           <%= render "user_follow_card", user: User.find(request.follower_id),
-                                         request: request,
-                                         params: {follow: {follower_id: request.follower_id }} %>
+                                         request: request %>
         <div>
       <% end %>
     <% end %>

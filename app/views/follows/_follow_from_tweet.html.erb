@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "follow-from-tweet-#{user.id}" do %>
+  <%= button_to "Follow @#{user.username}", follows_path, params: {follow: {followed_id: user.id, is_request: false }} %>
+<% end %>

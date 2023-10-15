@@ -1,5 +1,5 @@
 <% @notifications.each do |n|%>
-  <% if n.notification_type == "follow" %>
+  <% if n.notification_type == "follow" && Follow.find_by(follower_id: n.notifier, followed_id: n.notified).is_request == false %>
     <%= render "follow_notification", notifier: n.notifier %>
   <% elsif n.notification_type == "like" %>
     <%= render "like_notification", notifier: n.notifier, tweet: n.tweet %>
