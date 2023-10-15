@@ -8,7 +8,8 @@
   <%= render "page_links" %>
   <% @user.liked_tweets.order(created_at: :desc).each do |like| %>
     <% if current_user.following?(like.tweet.author) || current_user == like.tweet.author || (!current_user.following?(like.tweet.author) && !like.tweet.author.account.private_visibility) %>
-      <%= render "tweets/single_tweet", t: like.tweet %>
+      <% original = original if like.tweet.retweet? || like.tweet.quote_tweet? %>
+      <%= render "tweets/single_tweet", t: like.tweet, original: original, view: :likes %>
     <% else %>
       <% next %>
     <% end %>
