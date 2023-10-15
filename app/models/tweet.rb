@@ -49,11 +49,22 @@ class Tweet < ApplicationRecord
   end
 
   def find_root
-    comment? ? original.find_root : id
+    comment? ? if original
+                 original.find_root
+               else
+                 original.root
+               end : id
   end
 
   def find_depth
-    comment? ? original.find_depth + 1 : 0
+    return 0 unless respond_to?(:original)
+
+    to_check = if !original
+      Tweet.with_deleted.find(parent_id)
+    else
+      original
+    end
+    comment? ? to_check.find_depth + 1 : 0
   end
 
   def find_height
