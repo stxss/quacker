@@ -18,17 +18,22 @@ class FollowsController < ApplicationController
   def destroy
     @follow = Follow.find(params[:id])
 
-    if @follow.is_request && current_user == @follow.follower
-      current_user.unfollow(@follow.followed)
-      redirect_to request.referrer
-    elsif @follow.is_request && current_user == @follow.followed
-      current_user.decline_follow_request(@follow.follower)
-    else
-      @user = @follow.followed
-      current_user.unfollow(@user)
-      respond_to do |format|
+    respond_to do |format|
+      if @follow.is_request && current_user == @follow.follower
+        current_user.unfollow(@follow.followed)
+        format.html { redirect_to request.referrer }
+      elsif @follow.is_request && current_user == @follow.followed
+        @user = @follow.follower
+        current_user.decline_follow_request(@follow.follower)
+        if current_user.passive_follows == 1
+          format.turbo_stream { render turbo_stream: turbo_stream.remove(@follow.id) }
+        else
+          format.turbo_stream { render turbo_stream: turbo_stream.replace(@follow.id, partial: "follows/up_to_date_requests") }
+        end
+      else
+        @user = @follow.followed
+        current_user.unfollow(@user)
         format.turbo_stream
-        format.html {}
       end
     end
   end

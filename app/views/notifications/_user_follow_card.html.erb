@@ -1,13 +1,13 @@
-<div class="follow-request">
+<div class="follow-request" id="<%= request.id %>">
   <div>
     <%= user.display_name %>
   </div>
   <div>
-    <%= user.username %>
-  </div>
+    @<%= user.username %>
+  </div><br />
 
   <div>
-    <%= button_to "Decline", unfollow, method: :delete, params: params %>
-    <%= button_to "Accept", follow, method: :patch, params: params %>
+    <%= button_to "Decline", request, method: :delete, params: params %>
+    <%= button_to "Accept", request, method: :patch, params: params %>
   </div>
 </div>

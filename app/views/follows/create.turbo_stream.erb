@@ -1,1 +1,5 @@
-<%= turbo_stream.update("follow", partial: "follows/unfollow", locals: {user: @user}) %>
+<% if @user.account.private_visibility %>
+  <%= turbo_stream.update("follow", partial: "follows/cancel_request", locals: {user: @user}) %>
+<% else %>
+  <%= turbo_stream.update("follow", partial: "follows/unfollow", locals: {user: @user}) %>
+<% end %>

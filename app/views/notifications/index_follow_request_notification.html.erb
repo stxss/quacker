@@ -1,15 +1,13 @@
 <%= turbo_frame_tag id="modal" do %>
   <div data-controller="turbo-modal" >
     <% if !current_user.passive_follows.exists?(is_request: true) %>
-      <h3>You’re up to date</h3>
-      <span>When someone requests to follow you, it’ll show up here for you to accept or decline.</span>
+      <%= render "follows/up_to_date_requests"%>
     <% else %>
-      <% current_user.passive_follows.where(is_request: true).each do |n|%>
+      <% current_user.passive_follows.where(is_request: true).each do |request|%>
         <div>
-          <%= render "user_follow_card", user: User.find(n.follower_id),
-                                         unfollow: User.find(n.follower_id).active_follows.find_by(followed_id: n.followed_id, is_request: true),
-                                         follow: User.find(n.follower_id).active_follows.find_by(followed_id: n.followed_id, is_request: true),
-                                         params: {follow: {follower_id: n.follower_id }} %>
+          <%= render "user_follow_card", user: User.find(request.follower_id),
+                                         request: request,
+                                         params: {follow: {follower_id: request.follower_id }} %>
         <div>
       <% end %>
     <% end %>
