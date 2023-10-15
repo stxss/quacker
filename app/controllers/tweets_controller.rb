@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
   class UserGonePrivate < StandardError; end
+
   class UnauthorizedElements < StandardError; end
 
   # skip_before_action :set_referrer, only: [:new]
@@ -23,8 +24,6 @@ class TweetsController < ApplicationController
   end
 
   def index
-    @show_replies = true
-
     if session[:new_comment]&.< 2
       session[:new_comment] += 1
     elsif session[:new_comment]&.>= 2
@@ -33,10 +32,10 @@ class TweetsController < ApplicationController
   end
 
   def show
-    if Tweet.find(params[:id]).type.in?(["Retweet", "Quote", "Comment"])
-      @tweet = Tweet.includes({original: [author: :account]}, {comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
+    @tweet = if Tweet.find(params[:id]).type.in?(["Retweet", "Quote", "Comment"])
+      Tweet.includes({original: [author: :account]}, {comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
     else
-      @tweet = Tweet.includes({comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
+      Tweet.includes({comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
     end
   rescue ActiveRecord::RecordNotFound
     @tweet = nil

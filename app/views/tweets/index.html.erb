@@ -2,8 +2,4 @@
   <%= render "users/profile_form" %>
 <% end %>
 
-<div><%= render "tweets/tweet_form", modal: false %></div>
-
 <%= render "tweets/timeline" %>
-
-<%= button_to "Sign out", destroy_user_session_path, method: :delete %>

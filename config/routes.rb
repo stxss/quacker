@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   # Privacy and safety section
   get "/settings/privacy_and_safety/", to: "accounts#edit_privacy_and_safety", as: "settings_privacy"
   get "/settings/audience_and_tagging/", to: "accounts#edit_audience_and_tagging", as: "settings_audience_and_tagging"
-  get "/settings/tagging/", to: "accounts#edit_tagging", as: "settings_tagging"
+  # get "/settings/tagging/", to: "accounts#edit_tagging", as: "settings_tagging"
 
   get "/settings/your_tweets/", to: "accounts#edit_your_tweets", as: "settings_your_tweets"
 
