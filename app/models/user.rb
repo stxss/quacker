@@ -56,7 +56,7 @@ class User < ApplicationRecord
   end
 
   def decline_follow_request(other)
-    passive_follows.find_by(follower_id: other.id).destroy
+    passive_follows.find_by(follower_id: other.id).destroy_all
   end
 
   def accept_follow_request(other)
