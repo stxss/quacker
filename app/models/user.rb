@@ -116,6 +116,6 @@ class User < ApplicationRecord
   end
 
   def set_default_display_name
-    self.display_name = self.username
+    self.display_name = username
   end
 end
