@@ -12,6 +12,8 @@ class Tweet < ApplicationRecord
   has_many :retweets, class_name: "Retweet", foreign_key: :retweet_original_id, dependent: :destroy
   has_many :likes, dependent: :destroy
 
+  has_many :notifications, dependent: :delete_all
+
   has_many :bookmarks
   has_many :bookmarking_users, through: :bookmarks, dependent: :destroy, source: :user
 
