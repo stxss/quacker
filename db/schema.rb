@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_17_144601) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,7 +32,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_144601) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "muted_accounts_count", default: 0, null: false
+    t.integer "blocks_count", default: 0, null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "blocks", force: :cascade do |t|
+    t.bigint "blocker_id", null: false
+    t.bigint "blocked_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
+    t.index ["blocker_id", "blocked_id"], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
+    t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
   end
 
   create_table "bookmarks", force: :cascade do |t|

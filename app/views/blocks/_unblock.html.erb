@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "unblock-#{user.id}" do %>
+  <%= button_to "Unblock @#{user.username}", block_path(id: user.id), method: :delete %>
+<% end %>

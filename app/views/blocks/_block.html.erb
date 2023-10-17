@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "block-#{user.id}" do %>
+  <%= button_to "Block @#{user.username}", blocks_path, params: {block: {blocked_id: user.id }} %>
+<% end %>

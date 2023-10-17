@@ -1,0 +1,14 @@
+<% @muted_accounts.each do |a| %>
+  <div class="muted-account m-3" id="<%= a.id %>">
+    <%= link_to username_path(a.muted.user.username) do %>
+      <div class="display-name"><%= a.muted.user.display_name %></div>
+      <div class="icon-lock"><%= lock_icon_svg if a.muted.user.account.private_visibility %></div>
+      <div class="display-username"><%= "@#{a.muted.user.username}" %></div>
+      <div class="biography"><%= "#{a.muted.user.biography}" %></div>
+    <% end %>
+
+    <div>
+      <%= render "muted_accounts/unmute", user: a.muted.user %>
+    </div>
+  </div>
+<% end %>

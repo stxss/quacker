@@ -1,0 +1,2 @@
+<%= turbo_stream.update_all("#block-#{@user.id}", partial: "blocks/unblock", locals: {user: @user}) %>
+<%= turbo_stream.prepend "flash", partial: "layouts/flash" %>

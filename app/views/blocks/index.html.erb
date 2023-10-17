@@ -1,0 +1,14 @@
+<% @blocked_accounts.each do |a| %>
+  <div class="blocked-account m-3" id="<%= a.id %>">
+    <%= link_to username_path(a.blocked.user.username) do %>
+      <div class="display-name"><%= a.blocked.user.display_name %></div>
+      <div class="icon-lock"><%= lock_icon_svg if a.blocked.user.account.private_visibility %></div>
+      <div class="display-username"><%= "@#{a.blocked.user.username}" %></div>
+      <div class="biography"><%= "#{a.blocked.user.biography}" %></div>
+    <% end %>
+
+    <div>
+      <%= render "blocks/unblock", user: a.blocked.user %>
+    </div>
+  </div>
+<% end %>
