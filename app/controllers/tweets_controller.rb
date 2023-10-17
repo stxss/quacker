@@ -94,7 +94,10 @@ class TweetsController < ApplicationController
 
     @normal ||= Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).where(type: nil).includes({comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
 
-    @tweets = (@normal + @retweets + @quotes).sort_by(&:updated_at).reverse
+    @all_tweets = (@normal + @retweets + @quotes).sort_by(&:updated_at).reverse
+
+    # reject muted
+    @tweets = @all_tweets.reject { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) }
   end
 
   def set_cache_headers

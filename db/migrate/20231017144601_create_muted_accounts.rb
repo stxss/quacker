@@ -8,6 +8,6 @@ class CreateMutedAccounts < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_column :users, :muted_accounts_count, :integer, null: false, default: 0
+    add_column :accounts, :muted_accounts_count, :integer, null: false, default: 0
   end
 end
