@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "mute-#{user.id}" do %>
+  <%= button_to "Mute @#{user.username}", muted_accounts_path, params: {muted_account: {muted_id: user.id }} %>
+<% end %>
