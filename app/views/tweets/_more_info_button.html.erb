@@ -12,13 +12,21 @@
       <div class="menuitem">Change who can reply</div>
       <div class="menuitem">View analytics</div>
     <% elsif t.author != current_user && current_user.following?(t.author) %>
-      <div class="menuitem">Unfollow @ author</div>
-      <div class="menuitem">Mute @ author</div>
-      <div class="menuitem">Block @author</div>
+      <div class="menuitem">
+        <% if current_user.account.has_blocked?(t.author)%>
+          <%= render "blocks/unblock", user: t.author %>
+        <% else %>
+          <%= render "blocks/block", user: t.author %>
+        <% end %>
+      </div>
     <% else %>
-      <div class="menuitem">Follow @ author</div>
-      <div class="menuitem">Mute @ author</div>
-      <div class="menuitem">Block @author</div>
+      <div class="menuitem">
+        <% if current_user.account.has_blocked?(t.author)%>
+          <%= render "blocks/unblock", user: t.author %>
+        <% else %>
+          <%= render "blocks/block", user: t.author %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </div>

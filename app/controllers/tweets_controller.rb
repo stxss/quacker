@@ -96,7 +96,7 @@ class TweetsController < ApplicationController
 
     @all_tweets = (@normal + @retweets + @quotes).sort_by(&:updated_at).reverse
 
-    # reject muted
+    # reject muted. No need to filter for blocked accounts on the timeline, as the users are unfollowed from each other
     @tweets = @all_tweets.reject { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) }
   end
 

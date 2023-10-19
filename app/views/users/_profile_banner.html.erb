@@ -6,12 +6,18 @@
     <% if current_user == @user %>
         <%= link_to "Edit profile", settings_url, data: { turbo_frame: "modal" } %>
     <% else %>
-      <% if current_user.following?(@user) %>
-        <%= render "follows/unfollow", user: @user %>
-      <% elsif current_user.sent_pending_request?(@user) %>
-          <%= render "follows/cancel_request", user: @user %>
+      <% if current_user.account.has_blocked?(@user) %>
+        <%= render "blocks/unblock", user: @user %>
+      <% elsif @user.account.has_blocked?(current_user) %>
+        <%# Render nothing in this case %>
       <% else %>
-          <%= render "follows/follow", user: @user %>
+        <% if current_user.following?(@user) %>
+          <%= render "follows/unfollow", user: @user %>
+        <% elsif current_user.sent_pending_request?(@user) %>
+            <%= render "follows/cancel_request", user: @user %>
+        <% else %>
+            <%= render "follows/follow", user: @user %>
+        <% end %>
       <% end %>
     <% end %>
 

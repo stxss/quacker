@@ -4,4 +4,8 @@
 <%= turbo_stream_from "bookmarks" %>
 
 <% original = @tweet.original if @tweet.comment? || @tweet.retweet? || @tweet.quote_tweet? %>
-<%= render "tweets/single_tweet", t: @tweet, original: original, view: :single_post %>
+<% if @tweet.author.account.has_blocked?(current_user) %>
+  <%= render "tweets/unavailable_tweet" %>
+<% else %>
+  <%= render "tweets/single_tweet", t: @tweet, original: original, view: :single_post %>
+<% end %>

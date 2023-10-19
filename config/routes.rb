@@ -54,7 +54,7 @@ Rails.application.routes.draw do
   # get "/:username/following", to: "users#following", as: "user_following"
   # get "/:username/followers", to: "users#followers", as: "user_followers"
 
-  resources :muted_accounts, path: "/muted/accounts", only: [:index, :create, :destroy]
+  resources :blocks, path: "/settings/blocked/all", only: [:index, :create, :destroy]
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
 
