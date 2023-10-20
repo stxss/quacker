@@ -4,9 +4,20 @@
       <%= render "follows/up_to_date_requests"%>
     <% else %>
       <% current_user.passive_follows.where(is_request: true).each do |request|%>
-        <div>
-          <%= render "user_follow_card", user: User.find(request.follower_id),
-                                         request: request %>
+          <% user = User.find(request.follower_id) %>
+          <div class="follow-request" id="<%= request.id %>">
+            <div>
+              <%= user.display_name %>
+            </div>
+            <div>
+              @<%= user.username %>
+            </div><br />
+
+            <div>
+              <%= button_to "Decline", request, method: :delete %>
+              <%= button_to "Accept", request, method: :patch %>
+            </div>
+          </div>
         <div>
       <% end %>
     <% end %>

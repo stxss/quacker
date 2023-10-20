@@ -33,7 +33,7 @@ class FollowsController < ApplicationController
       else
         @user = @follow.followed
         current_user.unfollow(@user)
-        format.turbo_stream
+        (@user.account.private_visibility == true) ? format.html { redirect_to request.referrer } : format.turbo_stream
       end
     end
   end

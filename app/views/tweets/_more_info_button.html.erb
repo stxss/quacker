@@ -13,6 +13,9 @@
       <div class="menuitem">View analytics</div>
     <% elsif t.author != current_user && current_user.following?(t.author) %>
       <div class="menuitem">
+        <%= render "follows/unfollow_from_tweet", user: t.author %>
+      </div>
+      <div class="menuitem">
         <% if current_user.account.has_blocked?(t.author)%>
           <%= render "blocks/unblock", user: t.author %>
         <% else %>
@@ -20,6 +23,9 @@
         <% end %>
       </div>
     <% else %>
+      <div class="menuitem">
+        <%= render "follows/follow_from_tweet", user: t.author %>
+      </div>
       <div class="menuitem">
         <% if current_user.account.has_blocked?(t.author)%>
           <%= render "blocks/unblock", user: t.author %>
