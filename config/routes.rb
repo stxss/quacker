@@ -54,6 +54,8 @@ Rails.application.routes.draw do
   # get "/:username/following", to: "users#following", as: "user_following"
   # get "/:username/followers", to: "users#followers", as: "user_followers"
 
+  resources :muted_accounts, path: "/settings/muted/all", only: [:index, :create, :destroy]
+
   resources :blocks, path: "/settings/blocked/all", only: [:index, :create, :destroy]
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
@@ -76,7 +78,6 @@ Rails.application.routes.draw do
   get "/settings/mute_and_block/", to: "accounts#edit_mute_and_block", as: "settings_mute_and_block"
   get "/settings/blocked/all", to: "accounts#edit_blocked_all", as: "settings_blocked_all"
   get "/settings/blocked/imported", to: "accounts#edit_blocked_imported", as: "settings_blocked_imported"
-  get "/settings/muted/all", to: "accounts#edit_muted_all", as: "settings_muted_all"
   get "/settings/muted_keywords", to: "accounts#edit_muted_keywords", as: "settings_muted_keywords"
   get "/settings/notifications/advanced_filters", to: "accounts#edit_notifications_advanced_filters", as: "settings_notifications_advanced_filters"
 
