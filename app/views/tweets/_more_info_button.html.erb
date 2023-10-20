@@ -10,10 +10,16 @@
       </div>
       <div class="menuitem">Pin to your profile</div>
       <div class="menuitem">Change who can reply</div>
-      <div class="menuitem">View analytics</div>
     <% elsif t.author != current_user && current_user.following?(t.author) %>
       <div class="menuitem">
         <%= render "follows/unfollow_from_tweet", user: t.author %>
+      </div>
+      <div class="menuitem">
+        <% if current_user.account.has_muted?(t.author)%>
+          <%= render "muted_accounts/unmute", user: t.author %>
+        <% else %>
+          <%= render "muted_accounts/mute", user: t.author %>
+        <% end %>
       </div>
       <div class="menuitem">
         <% if current_user.account.has_blocked?(t.author)%>
@@ -25,6 +31,13 @@
     <% else %>
       <div class="menuitem">
         <%= render "follows/follow_from_tweet", user: t.author %>
+      </div>
+      <div class="menuitem">
+        <% if current_user.account.has_muted?(t.author)%>
+          <%= render "muted_accounts/unmute", user: t.author %>
+        <% else %>
+          <%= render "muted_accounts/mute", user: t.author %>
+        <% end %>
       </div>
       <div class="menuitem">
         <% if current_user.account.has_blocked?(t.author)%>
