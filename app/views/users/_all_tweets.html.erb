@@ -1,7 +1,11 @@
 <%= turbo_stream_from "comments" %>
 <%= turbo_stream_from "retweets" %>
 <%= turbo_stream_from "likes" %>
+<%= turbo_stream_from "bookmarks" %>
 
-<% @user.created_tweets.each do |t| %>
-  <%= render "tweets/single_tweet", t: t %>
+<%= render "page_links" %>
+
+<% @tweets.each do |t| %>
+  <% original = t.original if t.comment? || t.retweet? || t.quote_tweet? %>
+  <%= render "tweets/user_main_page", t: t, original: original %>
 <% end %>

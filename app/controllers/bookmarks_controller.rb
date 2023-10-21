@@ -1,6 +1,6 @@
 class BookmarksController < ApplicationController
   def index
-    @bookmarks = current_user.bookmarked_tweets
+    @bookmarks = current_user.bookmarked_tweets.reject { |tweet| tweet.author.account.has_blocked?(current_user) || current_user.account.has_blocked?(tweet.author) }
   end
 
   def create

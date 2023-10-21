@@ -41,6 +41,20 @@ class TweetsController < ApplicationController
     @tweet = nil
   end
 
+  def view_blocked_single_tweet
+    @tweet = Tweet.find(params[:id])
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace(
+          "tweet_#{params[:id]}",
+          partial: "tweets/single_tweet",
+          locals: {t: @tweet, view: :timeline}
+        )
+      }
+      format.html {}
+    end
+  end
+
   def create
     @tweet = current_user.created_tweets.build(tweet_params)
 
@@ -96,8 +110,8 @@ class TweetsController < ApplicationController
 
     @all_tweets = (@normal + @retweets + @quotes).sort_by(&:updated_at).reverse
 
-    # reject muted. No need to filter for blocked accounts on the timeline, as the users are unfollowed from each other
-    @tweets = @all_tweets.reject { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) }
+    # reject muted. blocked accounts are unfollowed, so if the blocked user has commented on something that the blocker posted, it will be hidden from the timeline or a specific message shown as a disclaimer saying that the user is blocked, with a button to fetch that specific tweet in case the user wishes to see the content of the tweet, with only retweets being filtered
+    @tweets = @all_tweets.reject { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) || (tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)) }
   end
 
   def set_cache_headers

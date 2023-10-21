@@ -1,28 +1,18 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "retweets" %>
+<%= turbo_stream_from "likes" %>
+
 <%= render "profile_banner" %>
 
-<% if current_user.account.has_blocked?(@user) %>
-  <div class="text-3xl"><%= @user.username %> is blocked</div>
-  <div class="">Are you sure you want to view these posts? Viewing won't unblock <%= @user.username %></div>
-<% elsif @user.account.has_blocked?(current_user) %>
+<% if @blocking %>
+  <%= render "users/blocked_view" %>
+<% elsif @blocked %>
   <%= @user.username %> has blocked you
 <% else %>
-
-  <%= turbo_stream_from "comments" %>
-  <%= turbo_stream_from "retweets" %>
-  <%= turbo_stream_from "likes" %>
-
   <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
-    <%= render "page_links" %>
-    <% @user.liked_tweets.order(created_at: :desc).each do |like| %>
-      <% if current_user.following?(like.tweet.author) || current_user == like.tweet.author || (!current_user.following?(like.tweet.author) && !like.tweet.author.account.private_visibility) %>
-        <% original = original if like.tweet.retweet? || like.tweet.quote_tweet? %>
-        <%= render "tweets/single_tweet", t: like.tweet, original: original, view: :likes %>
-      <% else %>
-        <% next %>
-      <% end %>
-    <% end %>
+    <%= render "users/all_likes" %>
   <% else %>
     <h3>These Tweets are protected</h3>
-    <span>Only approved followers can see @<%= @user.username %>’s Tweets. To request access, click Follow.</span>
+    <span>Only approved followers can see @<%= user.username %>’s Tweets. To request access, click Follow.</span>
   <% end %>
 <% end %>

@@ -43,10 +43,11 @@ Rails.application.routes.draw do
 
   # Show a single tweet
   get "/:username/status/:id", to: "tweets#show", as: "single_tweet"
+  get "/:id/view_blocked", to: "tweets#view_blocked_single_tweet", as: "view_blocked_single_tweet"
 
   get "/:username", to: "users#show", as: "username"
 
-  get "/:username/with_replies", to: "users#show_replies", as: "username_replies"
+  get "/:username/replies", to: "users#show_replies", as: "username_replies"
 
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
   resources :likes, path: "/:username/likes", only: [:create, :destroy]
@@ -57,6 +58,9 @@ Rails.application.routes.draw do
   resources :muted_accounts, path: "/settings/muted/all", only: [:index, :create, :destroy]
 
   resources :blocks, path: "/settings/blocked/all", only: [:index, :create, :destroy]
+  get "/:username/view_blocked_posts", to: "users#view_blocked_posts", as: "view_blocked_posts"
+  get "/:username/replies/view_blocked_replies", to: "users#view_blocked_replies", as: "view_blocked_replies"
+  get "/:username/likes/view_blocked_likes", to: "users#view_blocked_likes", as: "view_blocked_likes"
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
 

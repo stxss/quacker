@@ -1,19 +1,12 @@
 <%= render "profile_banner" %>
 
-<% if current_user.account.has_blocked?(@user) %>
-  <div class="text-3xl"><%= @user.username %> is blocked</div>
-  <div class="">Are you sure you want to view these posts? Viewing won't unblock <%= @user.username %></div>
-<% elsif @user.account.has_blocked?(current_user) %>
+<% if @blocking %>
+  <%= render "users/blocked_view" %>
+<% elsif @blocked %>
   <%= @user.username %> has blocked you
 <% else %>
-
-  <%= turbo_stream_from "comments" %>
-  <%= turbo_stream_from "retweets" %>
-  <%= turbo_stream_from "likes" %>
-
   <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
-    <%= render "page_links" %>
-    <%= render "all_tweets", user: @user %>
+    <%= render "all_tweets", user: @user, tweets: @tweets %>
   <% else %>
     <h3>These Tweets are protected</h3>
     <span>Only approved followers can see @<%= @user.username %>’s Tweets. To request access, click Follow.</span>
