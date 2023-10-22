@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "unmute_from_banner" do %>
+  <div> You have muted posts from this account. </div>
+  <%= button_to "Unmute", muted_account_path(id: user.id), method: :delete, form: { data: {turbo_confirm: "Posts from this account will now be allowed in your Home timeline.", header: "Unmute @#{user.username}?", confirm: "Unmute", cancel: "Cancel" }}, remote: true %>
+<% end %>

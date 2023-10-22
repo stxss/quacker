@@ -118,7 +118,8 @@ class UsersController < ApplicationController
     @normal = @user.created_tweets.includes(author: :account).where(type: nil)
     @quotes = @user.created_quotes.includes(original: [author: :account], author: :account)
     @retweets = @user.created_retweets.includes(original: [author: :account], author: :account)
-    @tweets = (@normal + @quotes + @retweets - @user.created_comments).reject { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) || (tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)) }.sort_by(&:updated_at)&.reverse
+
+    @tweets = (@normal + @quotes + @retweets - @user.created_comments).reject { |tweet| (tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)) }.sort_by(&:updated_at)&.reverse
   end
 
   def check_blocks

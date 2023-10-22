@@ -3,6 +3,10 @@
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "bookmarks" %>
 
+<% if current_user.account.has_muted?(user) %>
+  <%= render "muted_accounts/unmute_from_banner", user: user %>
+<% end %>
+
 <%= render "page_links" %>
 
 <% @tweets.each do |t| %>

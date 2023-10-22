@@ -9,7 +9,7 @@
 
   <div class="messages-list flex-initial w-56 truncate">
     <%= turbo_frame_tag "conversations", data: { turbo_permanent: true }, class: "flex-auto" do %>
-        <% @conversations.ordered.each do |c| %>
+        <% @conversations.each do |c| %>
           <%= render "conversations/single_conversation_preview", conversation: c %>
         <% end %>
     <% end %>
