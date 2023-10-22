@@ -23,6 +23,10 @@
     <%= render "conversations/single_conversation_full", conversation: @conversation %>
   </div>
   <div id="message-form" class="fixed bottom-0 h-[10vh] w-screen">
-    <%= render "messages/new", conversation: @conversation %>
+    <% if @other_user.account.has_blocked?(current_user) %>
+      You can no longer send messages to <%= @other_user.username %> as they have blocked you.
+    <% else %>
+      <%= render "messages/new", conversation: @conversation %>
+    <% end %>
   </div>
 <% end %>

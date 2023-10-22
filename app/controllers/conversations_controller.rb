@@ -7,6 +7,7 @@ class ConversationsController < ApplicationController
     @user = current_user
     @conversations = current_user.conversations
     @conversation = Conversation.find(params[:id])
+    @other_user = @conversation.members.excluding(current_user).first if @conversation.members.size == 2
     respond_to do |format|
       format.turbo_stream
       format.html {}

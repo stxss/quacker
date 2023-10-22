@@ -4,7 +4,15 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @conversations = current_user.conversations
+    user_conversations = current_user.conversations.ordered
+
+    @conversations = user_conversations.reject do |conversation|
+      no_messages = conversation.messages.empty?
+      two_members = conversation.members.size == 2
+      other_user = conversation.members.excluding(current_user).first
+
+      no_messages || (two_members && current_user.account.has_blocked?(other_user))
+    end
   end
 
   def messages
