@@ -182,21 +182,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
   end
 
   add_foreign_key "accounts", "users"
-  add_foreign_key "bookmarks", "tweets"
-  add_foreign_key "bookmarks", "users"
+  add_foreign_key "bookmarks", "tweets", on_delete: :cascade
+  add_foreign_key "bookmarks", "users", on_delete: :cascade
   add_foreign_key "conversation_members", "conversations"
   add_foreign_key "conversation_members", "users", column: "member_id"
   add_foreign_key "conversations", "users", column: "creator_id"
-  add_foreign_key "likes", "tweets"
-  add_foreign_key "likes", "users"
-  add_foreign_key "messages", "conversations"
+  add_foreign_key "likes", "tweets", on_delete: :cascade
+  add_foreign_key "likes", "users", on_delete: :cascade
+  add_foreign_key "messages", "conversations", on_delete: :cascade
   add_foreign_key "messages", "users", column: "sender_id"
-  add_foreign_key "notifications", "tweets"
+  add_foreign_key "notifications", "tweets", on_delete: :cascade
   add_foreign_key "notifications", "users", column: "notified_id"
   add_foreign_key "notifications", "users", column: "notifier_id"
   add_foreign_key "tweets", "tweets", column: "parent_id"
   add_foreign_key "tweets", "tweets", column: "quoted_tweet_id"
-  add_foreign_key "tweets", "tweets", column: "retweet_original_id"
+  add_foreign_key "tweets", "tweets", column: "retweet_original_id", on_delete: :cascade
   add_foreign_key "tweets", "tweets", column: "root_id"
-  add_foreign_key "tweets", "users"
+  add_foreign_key "tweets", "users", on_delete: :cascade
 end

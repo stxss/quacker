@@ -8,6 +8,8 @@
 
 u1 = User.create(email: "u1@u1.com", password: "qwerty", username: "user1")
 u2 = User.create(email: "u2@u2.com", password: "qwerty", username: "user2")
+u3 = User.create(email: "u3@u3.com", password: "qwerty", username: "user3")
+u4 = User.create(email: "u4@u4.com", password: "qwerty", username: "user4")
 
 Follow.create(follower_id: u1.id, followed_id: u2.id)
 Follow.create(follower_id: u2.id, followed_id: u1.id)

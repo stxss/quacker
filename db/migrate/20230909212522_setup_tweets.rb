@@ -25,9 +25,9 @@ class SetupTweets < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_foreign_key :tweets, :tweets, column: :parent_id
-    add_foreign_key :tweets, :tweets, column: :retweet_original_id
-    add_foreign_key :tweets, :tweets, column: :quoted_tweet_id
-    add_foreign_key :tweets, :tweets, column: :root_id
+    add_foreign_key :tweets, :tweets, column: :parent_id, on_delete: :cascade
+    add_foreign_key :tweets, :tweets, column: :retweet_original_id, on_delete: :cascade
+    add_foreign_key :tweets, :tweets, column: :quoted_tweet_id, on_delete: :cascade
+    add_foreign_key :tweets, :tweets, column: :root_id, on_delete: :cascade
   end
 end
