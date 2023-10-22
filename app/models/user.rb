@@ -84,6 +84,31 @@ class User < ApplicationRecord
     notifications_given.create(notification_params)
   end
 
+  # all tweets that are not comments and current user is passed for reference
+  def all_tweets(current)
+    @normal = created_tweets.includes(author: :account).where(type: nil)
+    @quotes = created_quotes.includes(original: [author: :account], author: :account)
+    @retweets = created_retweets.includes(original: [author: :account], author: :account)
+
+    @tweets = (@normal + @quotes + @retweets - created_comments).reject { |tweet| (tweet.type == "Retweet" && tweet.original && tweet.original.author.account.has_blocked?(current)) }.sort_by(&:updated_at)&.reverse
+  end
+
+  def all_likes(current)
+    @likes = liked_tweets.includes(tweet: {author: :account}).order(created_at: :desc).reject { |like|
+      (like.tweet.author != self && (like.tweet.author.account.has_blocked?(current) || current.account.has_blocked?(like.tweet.author))) ||
+        (!current.following?(like.tweet.author) &&
+        like.tweet.author.account.private_visibility)
+    }
+  end
+
+  def all_replies(current)
+    @query = created_comments.includes(original: [author: :account], author: :account).sort_by(&:updated_at)&.reverse
+
+    @replies = @query.each do |comment|
+      @query.delete(comment.original) if comment.original.in?(@query)
+    end
+  end
+
   def login
     @login || username || email
   end

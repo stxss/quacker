@@ -3,9 +3,9 @@
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "bookmarks" %>
 
-<%= render "page_links" %>
+<%= render "users/page_links" %>
 
-<% @replies.each do |t| %>
+<% replies.each do |t| %>
   <% original = t.original.nil? ? Tweet.with_deleted.find(t.parent_id) : t.original %>
   <% root = t.root.nil? ? Tweet.with_deleted.find(t.root_id) : t.root %>
   <%= render "tweets/user_comment_page", t: t, original: original, root: root, view: :all_user_posts %>

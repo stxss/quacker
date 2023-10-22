@@ -13,8 +13,9 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: turbo_stream.replace(
-          "all_tweets",
-          partial: "users/all_tweets"
+          "all-tweets-#{@user.id}",
+          partial: "users/all_tweets",
+          locals: {user: @user, tweets: @tweets}
         )
       }
       format.html {}
@@ -23,19 +24,14 @@ class UsersController < ApplicationController
 
   def view_blocked_likes
     @user = User.find_by(username: params[:username])
-    @likes = @user.liked_tweets.order(created_at: :desc)
-
-    @likes = @user.liked_tweets.includes(tweet: {author: :account}).order(created_at: :desc).reject { |like|
-      (like.tweet.author != @user && (like.tweet.author.account.has_blocked?(current_user) || current_user.account.has_blocked?(like.tweet.author))) ||
-        (!current_user.following?(like.tweet.author) &&
-        like.tweet.author.account.private_visibility)
-    }
+    @likes = @user.all_likes(current_user)
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: turbo_stream.replace(
-          "all_tweets",
-          partial: "users/all_likes"
+          "all-tweets-#{@user.id}",
+          partial: "users/all_likes",
+          locals: {user: @user, likes: @likes}
         )
       }
       format.html {}
@@ -44,17 +40,14 @@ class UsersController < ApplicationController
 
   def view_blocked_replies
     @user = User.find_by(username: params[:username])
-    @query = @user.created_comments.includes(original: [author: :account], author: :account).sort_by(&:updated_at)&.reverse
-
-    @replies = @query.each do |comment|
-      @query.delete(comment.original) if comment.original.in?(@query)
-    end
+    @replies = @user.all_replies(current_user)
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: turbo_stream.replace(
-          "all_tweets",
-          partial: "users/all_replies"
+          "all-tweets-#{@user.id}",
+          partial: "users/all_replies",
+          locals: {user: @user, replies: @replies}
         )
       }
       format.html {}
@@ -115,11 +108,7 @@ class UsersController < ApplicationController
 
   def fetch_tweets(username)
     @user = User.find_by(username: username)
-    @normal = @user.created_tweets.includes(author: :account).where(type: nil)
-    @quotes = @user.created_quotes.includes(original: [author: :account], author: :account)
-    @retweets = @user.created_retweets.includes(original: [author: :account], author: :account)
-
-    @tweets = (@normal + @quotes + @retweets - @user.created_comments).reject { |tweet| (tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)) }.sort_by(&:updated_at)&.reverse
+    @tweets = @user.all_tweets(current_user)
   end
 
   def check_blocks

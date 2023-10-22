@@ -5,14 +5,16 @@
 <%= render "profile_banner" %>
 
 <% if @blocking %>
-  <%= render "users/blocked_view" %>
+  <%= render "users/blocked_view", last_action: "index_liked_tweets" %>
 <% elsif @blocked %>
   <%= @user.username %> has blocked you
 <% else %>
-  <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
-    <%= render "users/all_likes" %>
-  <% else %>
-    <h3>These Tweets are protected</h3>
-    <span>Only approved followers can see @<%= user.username %>’s Tweets. To request access, click Follow.</span>
+  <%= turbo_frame_tag "all-tweets-#{@user.id}" do %>
+    <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
+      <%= render "users/all_likes", likes: @likes %>
+    <% else %>
+      <h3>These Tweets are protected</h3>
+      <span>Only approved followers can see @<%= user.username %>’s Tweets. To request access, click Follow.</span>
+    <% end %>
   <% end %>
 <% end %>

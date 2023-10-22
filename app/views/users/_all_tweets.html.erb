@@ -7,9 +7,9 @@
   <%= render "muted_accounts/unmute_from_banner", user: user %>
 <% end %>
 
-<%= render "page_links" %>
+<%= render "users/page_links" %>
 
-<% @tweets.each do |t| %>
+<% tweets.each do |t| %>
   <% original = t.original if t.comment? || t.retweet? || t.quote_tweet? %>
   <%= render "tweets/user_main_page", t: t, original: original %>
 <% end %>

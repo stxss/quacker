@@ -9,8 +9,8 @@ class Tweet < ApplicationRecord
 
   has_many :comments, class_name: "Comment", foreign_key: :parent_id
   has_many :quote_tweets, class_name: "Quote", foreign_key: :quoted_tweet_id
-  has_many :retweets, class_name: "Retweet", foreign_key: :retweet_original_id, dependent: :destroy
-  has_many :likes, dependent: :destroy
+  has_many :retweets, class_name: "Retweet", foreign_key: :retweet_original_id, dependent: :delete_all
+  has_many :likes, dependent: :delete_all
 
   has_many :notifications, dependent: :delete_all
 

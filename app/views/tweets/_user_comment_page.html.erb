@@ -2,6 +2,10 @@
   <div class="tweet">
     <% if root.deleted_at %>
       <p>This Tweet has been deleted.</p>
+    <% elsif current_user.account.has_blocked?(root.author.account) %>
+      <%= render "blocks/blocked_single_tweet", t: root %>
+    <% elsif root.author.account.has_blocked?(current_user) %>
+      <%= render "blocks/current_is_blocked_single_tweet", t: root %>
     <% else %>
       <% if root.quote_tweet? %>
         <%= render "quotes/quote_tweet_info", t: root, original: root.original, view: :all_user_posts %>
@@ -15,6 +19,10 @@
           <div class="tweet">
             <% if original.deleted_at %>
               <p>This Tweet has been deleted.</p>
+            <% elsif current_user.account.has_blocked?(original.author.account) %>
+              <%= render "blocks/blocked_single_tweet", t: original %>
+            <% elsif original.author.account.has_blocked?(current_user) %>
+              <%= render "blocks/current_is_blocked_single_tweet", t: original %>
             <% else %>
               <%= render "tweets/tweet_info", t: original, view: :all_user_posts %>
             <% end %>

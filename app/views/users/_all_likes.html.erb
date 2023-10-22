@@ -3,9 +3,9 @@
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "bookmarks" %>
 
-<%= render "page_links" %>
+<%= render "users/page_links" %>
 
-<% @likes.each do |like| %>
+<% likes.each do |like| %>
   <% if (!current_user.following?(like.tweet.author) && !like.tweet.author.account.private_visibility) %>
     <% original = original if like.tweet.retweet? || like.tweet.quote_tweet? %>
     <%= render "tweets/single_tweet", t: like.tweet, original: original, view: :likes %>

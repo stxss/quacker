@@ -1,3 +1,3 @@
 <%= turbo_frame_tag "block-#{user.id}" do %>
-  <%= button_to "Block @#{user.username}", blocks_path, params: {block: {blocked_id: user.id }} %>
+  <%= button_to "Block @#{user.username}", blocks_path, params: {block: {blocked_id: user.id }}, form: { data: {turbo_confirm: "They will not be able to follow you or view your posts, and you will not see posts or notifications from @#{user.username}.", header: "Block @#{user.username}?", confirm: "Block", cancel: "Cancel" }}, remote: true %>
 <% end %>

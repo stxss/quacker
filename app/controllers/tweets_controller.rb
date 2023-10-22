@@ -32,10 +32,10 @@ class TweetsController < ApplicationController
   end
 
   def show
-    @tweet = if Tweet.find(params[:id]).type.in?(["Retweet", "Quote", "Comment"])
-      Tweet.includes({original: [author: :account]}, {comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
+    @tweet = if Tweet.with_deleted.find(params[:id]).type.in?(["Retweet", "Quote", "Comment"])
+      Tweet.with_deleted.includes({original: [author: :account]}, {comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
     else
-      Tweet.includes({comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
+      Tweet.with_deleted.includes({comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
     end
   rescue ActiveRecord::RecordNotFound
     @tweet = nil
@@ -72,12 +72,13 @@ class TweetsController < ApplicationController
 
     if current_user == @tweet.author
       (@tweet.height > 0) ? @tweet.soft_destroy : @tweet.destroy
+      @tweet.retweets.each { |rt| rt.destroy }
     else
       raise(UnauthorizedElements)
     end
 
     respond_to do |format|
-      format.turbo_stream { render "shared/destroy", locals: {id: @tweet.id, rts: rts} }
+      format.turbo_stream { render "shared/destroy", locals: {tweet: @tweet, rts: rts} }
       format.html { redirect_to request.referrer }
       Notification.where(tweet_id: @tweet.id).delete_all
     end
@@ -116,7 +117,13 @@ class TweetsController < ApplicationController
     @muted_tweets = @all_tweets.select { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) }
 
     # This will be used for the timeline
-    @tweets = @all_tweets.reject { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) || (tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)) }
+    @tweets = @all_tweets.reject do |tweet|
+      muted_autor = current_user.account.muted_accounts.exists?(muted_id: tweet.author.id)
+
+      author_blocked_current = tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)
+
+      muted_autor || author_blocked_current
+    end
   end
 
   def set_cache_headers
