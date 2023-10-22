@@ -19,10 +19,6 @@ textarea {
   /* https://stackoverflow.com/a/39289453/17369830 */
 }
 
-body {
-  display: flex;
-}
-
  #modal {
    position: absolute;
    z-index: 2;

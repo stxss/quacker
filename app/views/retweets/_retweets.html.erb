@@ -7,11 +7,11 @@
   <% menu = "retweets/fake_retweet_menu" %>
 <% end %>
 
-  <%= turbo_frame_tag "retweet_#{t.id}" do %>
-    <span class="retweets">
-      <div class="retweet <%= 'retweeted' if user.has_rt?(t) %>">
-        <%= render menu, t: t, self_rt: self_rt %>
-        <%= render "retweets/retweet_count", t: t %>
-      </div>
-    </span>
-  <% end %>
+<%= turbo_frame_tag "retweet_#{t.id}" do %>
+  <span class="retweets">
+    <div class="retweet <%= 'retweeted' if user.has_rt?(t) %>">
+      <%= render menu, t: t, self_rt: self_rt %>
+      <%= render "retweets/retweet_count", t: t %>
+    </div>
+  </span>
+<% end %>
