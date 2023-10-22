@@ -1,12 +1,6 @@
-<% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
-  <div class="user-profile-private">
-    <span><%= link_to "Tweets", username_path(@user.username) %></span>
-    <span><%= link_to "Replies", username_replies_path(@user.username) %></span>
-    <span> media </span>
-    <span><%= link_to "Likes", user_likes_path(@user.username) %> </span>
-  </div>
-  </div>
-<% else %>
-  <h3>These Tweets are protected</h3>
-  <span>Only approved followers can see @<%= @user.username %>’s Tweets. To request access, click Follow.</span>
-<% end %>
+<div class="user-profile-private">
+  <span><%= link_to "Tweets", username_path(@user.username), target: :_top %></span>
+  <span><%= link_to "Replies", username_replies_path(@user.username), target: :_top %></span>
+  <span> media </span>
+  <span><%= link_to "Likes", user_likes_path(@user.username), target: :_top %> </span>
+</div>
