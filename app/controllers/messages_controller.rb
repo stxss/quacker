@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
     user_conversations = current_user.conversations.ordered
 
     @conversations = user_conversations.reject do |conversation|
-      no_messages = conversation.messages.empty?
+      no_messages = conversation.messages.empty? && conversation.creator != current_user
       two_members = conversation.members.size == 2
       other_user = conversation.members.excluding(current_user).first
 
