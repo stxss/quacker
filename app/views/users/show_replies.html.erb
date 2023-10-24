@@ -6,7 +6,11 @@
   <%= @user.username %> has blocked you
 <% else %>
   <%= turbo_frame_tag "all-tweets-#{@user.id}" do %>
-    <%= render "users/all_replies", replies: @user.all_replies(current_user) %>
+    <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
+      <%= render "users/all_replies", replies: @user.all_replies(current_user) %>
+    <% else %>
+      <h3>These Tweets are protected</h3>
+      <span>Only approved followers can see @<%= @user.username %>’s Tweets. To request access, click Follow.</span>
+    <% end %>
   <% end %>
 <% end %>
-
