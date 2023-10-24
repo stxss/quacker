@@ -45,7 +45,6 @@ class QuotesController < TweetsController
 
     if current_user == @quote.author
       (@quote.height > 0) ? @quote.soft_destroy : @quote.destroy
-      @quote.retweets.each { |rt| rt.destroy }
     else
       raise(UnauthorizedElements)
     end

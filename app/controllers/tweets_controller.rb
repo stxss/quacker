@@ -72,7 +72,6 @@ class TweetsController < ApplicationController
 
     if current_user == @tweet.author
       (@tweet.height > 0) ? @tweet.soft_destroy : @tweet.destroy
-      @tweet.retweets.each { |rt| rt.destroy }
     else
       raise(UnauthorizedElements)
     end

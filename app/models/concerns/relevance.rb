@@ -5,6 +5,8 @@ module Relevance
     def update_relevance(model, action, tweet, original = nil) # original == root == parent
       # The confidence sort. http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
 
+      return if tweet.nil?
+
       # weights
       rw = qw = 0.0002
       cw = 0.0001

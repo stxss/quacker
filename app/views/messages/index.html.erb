@@ -1,8 +1,4 @@
 <div class="grid">
-  <div class="new-message flex-none w-14">
-    <%= link_to "New Message", new_message_path %>
-  </div>
-
   <div class="new-message flex-initial w-48">
     <%= link_to "new conversation", new_conversation_path, data: { turbo_frame: "modal", turbo_action: :advance} %>
   </div>
