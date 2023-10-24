@@ -14,7 +14,7 @@
       <%= render "users/all_likes", likes: @likes %>
     <% else %>
       <h3>These Tweets are protected</h3>
-      <span>Only approved followers can see @<%= user.username %>’s Tweets. To request access, click Follow.</span>
+      <span>Only approved followers can see @<%= @user.username %>’s Tweets. To request access, click Follow.</span>
     <% end %>
   <% end %>
 <% end %>
