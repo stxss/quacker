@@ -58,6 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
   create_table "conversation_members", id: false, force: :cascade do |t|
     t.bigint "conversation_id", null: false
     t.bigint "member_id", null: false
+    t.boolean "left", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["conversation_id"], name: "index_conversation_members_on_conversation_id"
@@ -181,11 +182,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "accounts", "users"
+  add_foreign_key "accounts", "users", on_delete: :cascade
   add_foreign_key "bookmarks", "tweets", on_delete: :cascade
   add_foreign_key "bookmarks", "users", on_delete: :cascade
-  add_foreign_key "conversation_members", "conversations"
-  add_foreign_key "conversation_members", "users", column: "member_id"
+  add_foreign_key "conversation_members", "conversations", on_delete: :cascade
+  add_foreign_key "conversation_members", "users", column: "member_id", on_delete: :cascade
   add_foreign_key "conversations", "users", column: "creator_id"
   add_foreign_key "likes", "tweets", on_delete: :cascade
   add_foreign_key "likes", "users", on_delete: :cascade
@@ -195,7 +196,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
   add_foreign_key "notifications", "users", column: "notified_id"
   add_foreign_key "notifications", "users", column: "notifier_id"
   add_foreign_key "tweets", "tweets", column: "parent_id"
-  add_foreign_key "tweets", "tweets", column: "quoted_tweet_id"
+  add_foreign_key "tweets", "tweets", column: "quoted_tweet_id", on_delete: :nullify
   add_foreign_key "tweets", "tweets", column: "retweet_original_id", on_delete: :cascade
   add_foreign_key "tweets", "tweets", column: "root_id"
   add_foreign_key "tweets", "users", on_delete: :cascade

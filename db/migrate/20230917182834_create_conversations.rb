@@ -9,12 +9,14 @@ class CreateConversations < ActiveRecord::Migration[7.0]
     end
 
     create_table :conversation_members, id: false do |t|
-      t.references :conversation, null: false, foreign_key: true
-      t.references :member, null: false, foreign_key: {to_table: :users}
+      t.references :conversation, null: false
+      t.references :member, null: false
+      t.boolean :left, null: false, default: false
 
       t.timestamps
     end
 
-    # add_index :conversation_members, [:member_id, :conversation_id], unique: true
+    add_foreign_key :conversation_members, :conversations, on_delete: :cascade
+    add_foreign_key :conversation_members, :users, column: :member_id, on_delete: :cascade
   end
 end

@@ -1,7 +1,7 @@
 class SetupAccounts < ActiveRecord::Migration[7.0]
   def change
     create_table :accounts do |t|
-      t.references :user, foreign_key: true, unique: true, null: false
+      t.references :user, unique: true, null: false
       t.integer :allow_media_tagging, default: 0
       t.boolean :private_visibility, null: false, default: false
       t.boolean :sensitive_media, null: false, default: false
@@ -18,5 +18,7 @@ class SetupAccounts < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+
+    add_foreign_key :accounts, :users, on_delete: :cascade
   end
 end
