@@ -1,5 +1,5 @@
-<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance} do %>
-  <span class="conversation-name">
+<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance}, class: "flex" do %>
+  <div class="flex flex-col h-12 hover:bg-slate-100">
     <% if conversation.name.nil? %>
       <div>
         <% if current_user == conversation.members.first %>
@@ -11,8 +11,8 @@
       <% else %>
       <div><%= conversation.name %></div>
     <% end %>
-  </span>
-  <span class="last-msg-preview truncate">
-     <%= conversation.messages.last.body if conversation.messages.size > 0 %>
-  </span>
+    <div class="last-msg-preview truncate">
+       <%= conversation.messages.last.body if conversation.messages.size > 0 %>
+    </div>
+  </div>
 <% end %>

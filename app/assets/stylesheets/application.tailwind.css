@@ -321,10 +321,6 @@ dialog form {
   display: flex;
 }
 
-.messages-list {
-  padding: 20px;
-}
-
 .individual-message {
   padding: 20px;
 
