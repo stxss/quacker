@@ -69,9 +69,7 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
 
     # Reject likes where the author has blocked the current user, or the current user has blocked the author, or the current user is not following the author and the author is private
-    if !(@blocking || @blocked)
-      @likes = User.find_by(username: params[:username]).liked_tweets.includes(tweet: {author: :account}).order(created_at: :desc).reject { |like| like.tweet.author.account.has_blocked?(current_user) || current_user.account.has_blocked?(like.tweet.author) || (!current_user.following?(like.tweet.author) && like.tweet.author.account.private_visibility) }
-    end
+    @likes = @user.all_likes(current_user) if !(@blocking || @blocked)
   end
 
   def edit

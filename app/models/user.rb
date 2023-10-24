@@ -94,11 +94,13 @@ class User < ApplicationRecord
   end
 
   def all_likes(current)
-    @likes = liked_tweets.includes(tweet: {author: :account}).order(created_at: :desc).reject { |like|
-      (like.tweet.author != self && (like.tweet.author.account.has_blocked?(current) || current.account.has_blocked?(like.tweet.author))) ||
-        (!current.following?(like.tweet.author) &&
-        like.tweet.author.account.private_visibility)
-    }
+    @likes = liked_tweets.includes(tweet: {author: :account}).order(created_at: :desc).reject do |like|
+      author_block_current = like.tweet.author.account.has_blocked?(current)
+      current_blocked_author = current.account.has_blocked?(like.tweet.author)
+      not_following_if_private_author = like.tweet.author.account.private_visibility ? current.following?(like.tweet.author) == false : false
+
+      author_block_current || current_blocked_author || not_following_if_private_author
+    end
   end
 
   def all_replies(current)
