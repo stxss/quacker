@@ -3,18 +3,16 @@
 
   <%= render "tweets/tweet_body", t: t %>
 
-  <% if !original.deleted_at.nil? %>
+  <% if original.nil? || !original.deleted_at.nil? %>
     <%= render "tweets/deleted_tweet", t: original, view: view %>
-  <% else %>
-    <% if current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user) %>
+  <% elsif current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user) %>
       <%= render "tweets/unavailable_tweet" %>
-    <% else %>
-      <%= turbo_frame_tag "quoted_tweet_#{original.id}", class: "" do %>
-        <div class="tweet">
-          <%= render "tweets/creator_info", t: original %>
-          <%= render "tweets/tweet_body", t: original %>
-        </div>
-      <% end %>
+  <% else %>
+    <%= turbo_frame_tag "quoted_tweet_#{original.id}", class: "" do %>
+      <div class="tweet">
+        <%= render "tweets/creator_info", t: original %>
+        <%= render "tweets/tweet_body", t: original %>
+      </div>
     <% end %>
   <% end %>
 
