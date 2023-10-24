@@ -21,15 +21,25 @@ class MessagesController < ApplicationController
 
   def create
     @message = current_user.sent_messages.build(body: message_params[:body], sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
-    @message.save
+    @receiver = @message.conversation.members.excluding(current_user).first
 
-    @message.conversation.members.each do |member|
-      next if member == @message.sender
+    if @message.save
+      @message.conversation.members.each do |member|
+        next if member == @message.sender
 
-      @message.broadcast_append_to ["#{member&.to_gid_param}:#{@message.conversation&.to_gid_param}"],
-        target: "message-list",
-        partial: "messages/message",
-        locals: {message: @message}
+        @message.broadcast_append_to ["#{member&.to_gid_param}:#{@message.conversation&.to_gid_param}"],
+          target: "message-list",
+          partial: "messages/message",
+          locals: {message: @message}
+      end
+    elsif @message.errors.any?
+      respond_to do |format|
+        format.turbo_stream {
+          render turbo_stream:
+            turbo_stream.update("message-form", @message.errors.full_messages.first)
+        }
+        format.html { redirect_to conversation_path(id: @message.conversation.id) }
+      end
     end
   end
 
