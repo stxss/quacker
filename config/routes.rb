@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root to: redirect("/home", status: 302)
 
   get "/messages", to: "messages#index", as: "messages"
+  get "/messages/search/", to: "messages#search", as: "messages_search"
 
   resources :messages, only: [:new, :create, :destroy]
 

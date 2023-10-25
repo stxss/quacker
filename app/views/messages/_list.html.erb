@@ -1,0 +1,16 @@
+<% if messages_search.blank? %>
+  "Try searching for people, groups or messages"
+<% else %>
+  <% messages_search.each do |m| %>
+    <div>
+      <%= m.sender.display_name %>
+      <%= formatted_time_ago(m.created_at) %>
+    </div>
+
+    <div>
+      <%= highlight(m.body, query.split(" ")) %>
+      <%= m.body %>
+    </div>
+  <% end %>
+<% end %>
+

@@ -1,7 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
-require 'sprockets/railtie'
+require "sprockets/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -14,10 +14,9 @@ module OdinTwitter
 
     # Log to STDOUT because Docker expects all processes to log here. You could
     # then collect logs using journald, syslog or forward them somewhere else.
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
-
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
 
     ####################################
 

@@ -19,6 +19,11 @@ class MessagesController < ApplicationController
     @messages = conversation.messages
   end
 
+  def search
+    @messages_search = Message.search(params[:query]).includes(:sender).order(created_at: :desc)
+    @query = params[:query]
+  end
+
   def create
     @message = current_user.sent_messages.build(body: message_params[:body], sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
     @receiver = @message.conversation.members.excluding(current_user).first

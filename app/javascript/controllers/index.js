@@ -30,3 +30,6 @@ application.register("message", MessageController)
 
 import ScrollerController from "./scroller_controller"
 application.register("scroller", ScrollerController)
+
+import SearchController from "./search_controller"
+application.register("search", SearchController)

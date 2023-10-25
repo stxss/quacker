@@ -1,4 +1,12 @@
 class Message < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :search, against: :body, using: {
+    tsearch: {
+      dictionary: "english",
+      prefix: true
+    }
+  }
+
   validates :body, presence: true
   validates :body, length: {minimum: 1, message: "Can't send an empty message"}
   validate :sender_isnt_blocked
