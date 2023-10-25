@@ -11,6 +11,7 @@
     <% if t.comment? && t.new_tweet?(@tweets) && session[:new_comment] == 1 && t.original.comments.last == t %>
       <%= render "comments/comment_tweet_info", t: t, original: original %>
     <% else %>
+      <% next if t.retweet? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
       <%= render "tweets/single_tweet", t: t, original: original, view: :timeline %>
     <% end %>
   <% end %>

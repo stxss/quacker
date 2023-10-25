@@ -11,5 +11,6 @@
 
 <% tweets.each do |t| %>
   <% original = t.original if t.comment? || t.retweet? || t.quote_tweet? %>
+  <% next if t.retweet? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
   <%= render "tweets/user_main_page", t: t, original: original %>
 <% end %>
