@@ -1,20 +1,20 @@
-  <div class="retweet-info">
-    <%= link_to username_path(t.author.username), class: "author" do %>
-      <span class="display-name"><%= t.author.display_name %></span> Retweeted
-    <% end %>
+<div class="retweet-info">
+  <%= link_to username_path(t.author.username), class: "author" do %>
+    <span class="display-name"><%= t.author.display_name %></span> Retweeted
+  <% end %>
 
-    <%= render "tweets/creator_info", t: original, more_info: true %>
-    <%= render "tweets/tweet_body", t: original %>
+  <%= render "tweets/creator_info", t: original, more_info: true %>
+  <%= render "tweets/tweet_body", t: original %>
 
-    <div class="activity-box">
-      <%= render "comments/comments", t: original %>
+  <div class="activity-box">
+    <%= render "comments/comments", t: original %>
 
-      <span class="retweets">
-        <%= render "retweets/retweets", t: original, self_rt: t %>
-      </span>
+    <span class="retweets">
+      <%= render "retweets/retweets", t: original, self_rt: t %>
+    </span>
 
-      <span class="likes">
-        <%= render "likes/likes", t: original %>
-      </span>
-    </div>
+    <span class="likes">
+      <%= render "likes/likes", t: original %>
+    </span>
   </div>
+</div>
