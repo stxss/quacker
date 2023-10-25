@@ -22,17 +22,14 @@ class Tweet < ApplicationRecord
   scope :with_deleted, -> { unscope(where: :deleted_at) }
 
   def retweet?
-    # !body? && retweet_original_id?
     type == "Retweet"
   end
 
   def quote_tweet?
-    # body? && quoted_tweet_id?
     type == "Quote"
   end
 
   def comment?
-    # parent_id?
     type == "Comment"
   end
 
