@@ -23,14 +23,13 @@
     <div id="message-list" class="flex flex-col w-[45%] h-[89vh] overflow-auto fixed ">
       <%= render "conversations/single_conversation_full", conversation: @conversation %>
 
-    <div id="message-form" class="fixed bottom-[5vh] h-[5vh]">
-      <% if @other_user.account.has_blocked?(current_user) %>
-        You can no longer send messages to @<%= @other_user.username %> as they have blocked you.
-      <% else %>
-        <%= render "messages/new", conversation: @conversation %>
-      <% end %>
-    </div>
-
+      <div id="message-form" class="fixed bottom-[5vh] h-[5vh]">
+        <% if @other_user.account.has_blocked?(current_user) %>
+          You can no longer send messages to @<%= @other_user.username %> as they have blocked you.
+        <% else %>
+          <%= render "messages/new", conversation: @conversation %>
+        <% end %>
+      </div>
     </div>
 
   <% end %>
