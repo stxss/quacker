@@ -92,4 +92,12 @@ class Tweet < ApplicationRecord
     to_check&.clean_up(@to_destroy)
     @to_destroy.each { |t| t.destroy }
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["body"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["author"]
+  end
 end

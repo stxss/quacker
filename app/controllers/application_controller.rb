@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_referrer
 
+  before_action :set_query
+
   protected
 
   def configure_permitted_parameters
@@ -15,5 +17,9 @@ class ApplicationController < ActionController::Base
 
   def set_referrer
     session[:previous_page_url] = request.original_url || request.referrer
+  end
+
+  def set_query
+    @query = Tweet.ransack(params[:q])
   end
 end

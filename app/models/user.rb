@@ -145,4 +145,12 @@ class User < ApplicationRecord
   def set_default_display_name
     self.display_name = username
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["username", "display_name"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["created_tweets", "created_quotes", "created_comments"]
+  end
 end

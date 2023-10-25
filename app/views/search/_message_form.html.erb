@@ -1,0 +1,9 @@
+<%= form_with url: messages_search_path, method: :get, data: { turbo_frame: "search-results", turbo_action: "advance", controller: "search", action: "input->search#submit" } do |form| %>
+  <%= form.text_field :query, placeholder: "Search Messages" %>
+<% end %>
+
+<div class="bg-gray-100 p-8 col-span-5">
+  <%= turbo_frame_tag "search-results" do %>
+    <%= render "messages/list", messages_search: @messages_search, query: @query %>
+  <% end %>
+</div>

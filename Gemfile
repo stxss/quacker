@@ -96,3 +96,5 @@ end
 group :development do
   gem "bullet"
 end
+
+gem "ransack", "~> 4.1"

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get "/home", to: "tweets#index"
   root to: redirect("/home", status: 302)
 
+  get "search", to: "search#index", as: "search"
+
   get "/messages", to: "messages#index", as: "messages"
   get "/messages/search/", to: "messages#search", as: "messages_search"
 
