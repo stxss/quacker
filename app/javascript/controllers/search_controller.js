@@ -7,7 +7,25 @@ export default class extends Controller {
     this.submit = debounce(this.submit.bind(this), 300);
   }
 
-  submit(_event) {
-    this.element.requestSubmit();
+  submit(e) {
+    if (this.onlyWhitespace(e.data)) {
+      e.preventDefault();
+    } else {
+      this.element.requestSubmit();
+    }
+  }
+
+  prepare(e) {
+    let field = this.element.querySelector("input")
+    if(this.onlyWhitespace(field.value)) {
+      e.preventDefault();
+      field.value = "";
+      let resultsField = document.querySelector("#search-results")
+      resultsField.innerHTML = "Try searching for people, groups or messages";
+    }
+  }
+
+  onlyWhitespace(data) {
+    return /^\s*$/.test(data)
   }
 }

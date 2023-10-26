@@ -1,5 +1,9 @@
 <% if messages_search.blank? %>
-  "Try searching for people, groups or messages"
+  <% if query.blank? %>
+    Try searching for people, groups or messages
+  <% else %>
+    No results for "<%= query %>"
+  <% end %>
 <% else %>
   <% messages_search.each do |m| %>
     <div>

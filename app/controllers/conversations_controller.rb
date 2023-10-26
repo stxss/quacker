@@ -1,4 +1,6 @@
 class ConversationsController < ApplicationController
+  skip_before_action :set_query, only: [:index, :show]
+
   def index
     @conversations = current_user.conversations
   end

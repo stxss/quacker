@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+  skip_before_action :set_query, only: [:index, :show]
+
   def new
     @message = Message.new
   end
@@ -22,6 +24,7 @@ class MessagesController < ApplicationController
   def search
     @messages_search = Message.search(params[:query]).includes(:sender).order(created_at: :desc)
     @query = params[:query]
+    render partial: "search/message_form"
   end
 
   def create
