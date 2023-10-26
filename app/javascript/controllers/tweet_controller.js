@@ -122,9 +122,7 @@ export default class Tweet extends Controller {
     }
 
     notTweet() {
-        return (
-            this.content.match(/^\s*$/) || this.length < 1 || this.length > 280
-        );
+        return (/^\s*$/.test(this.content) || this.length < 1 || this.length > 280);
     }
 
     get content() {

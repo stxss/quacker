@@ -38,9 +38,7 @@ export default class extends Controller {
     }
 
     notMessage() {
-        return (
-            this.content.match(/^\s*$/) || this.length < 1
-        );
+        return /^\s*$/.test(this.content) || this.length < 1 ;
     }
 
     clear() {
