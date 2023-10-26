@@ -1,8 +1,10 @@
-<%= render "profile_form", user: current_user %>
+<%= turbo_frame_tag "modal" do %>
+  <%= render "profile_form", user: current_user %>
+<% end %>
 
 <% if session[:edit_profile] %>
   <%= render "tweets/timeline" %>
   <% session.delete(:edit_profile) %>
 <% else %>
-  <%= render "show_profile" %>
+  <%= render template: "users/show" %>
 <% end %>

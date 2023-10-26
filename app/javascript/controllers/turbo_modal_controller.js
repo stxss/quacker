@@ -28,19 +28,13 @@ export default class extends Controller {
     }
 
     close(e) {
-        if (history.length > 3) {
+        if (this.username) {
+            Turbo.visit(`/${this.username}`, { action: "advance" })
+        } else if (history.length > 3) {
             history.back()
         } else {
             Turbo.visit("/home", { action: "advance" })
         }
-    }
-
-    get prevPage() {
-        return this.element.dataset.previousPageUrl;
-    }
-
-    get prevPageStr() {
-        return this.prevPage.slice(this.prevPage.lastIndexOf("/") + 1);
     }
 
     get username() {

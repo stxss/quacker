@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   before_action :check_blocks, only: [:show, :show_replies, :index_liked_tweets]
 
   def show
