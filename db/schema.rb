@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
     t.bigint "user_id", null: false
     t.integer "allow_media_tagging", default: 0
     t.boolean "private_visibility", default: false, null: false
+    t.boolean "private_likes", default: false, null: false
     t.boolean "sensitive_media", default: false, null: false
     t.boolean "display_sensitive_media", default: false, null: false
     t.boolean "remove_blocked_and_muted_accounts", default: true, null: false

@@ -10,6 +10,18 @@
   </div>
 <% end %>
 
+<%= form_with model: current_user.account, method: :patch, data: ({ turbo_confirm: "This will make your likes only visible to you.", header: "Hide your Likes?", confirm: "Hide", cancel: "Cancel" } unless current_user.account.private_likes? ), id: "account-likes-visibility" do |f| %>
+  <div>
+    <%= f.label :private_likes, onchange: "this.form.requestSubmit()" do %>
+      <div>Hide your Likes</div>
+        <%= f.check_box :private_likes,{ checked: current_user.account.private_likes? } %>
+    <% end %>
+    <div>
+      When selected, your Likes are only visible to you.
+    </div>
+  </div>
+<% end %>
+
 <% if false %>
   <div>
     <%= link_to "Photo tagging", settings_tagging_path %>

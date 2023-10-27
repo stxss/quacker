@@ -4,6 +4,7 @@ class SetupAccounts < ActiveRecord::Migration[7.0]
       t.references :user, unique: true, null: false
       t.integer :allow_media_tagging, default: 0
       t.boolean :private_visibility, null: false, default: false
+      t.boolean :private_likes, null: false, default: false
       t.boolean :sensitive_media, null: false, default: false
       t.boolean :display_sensitive_media, null: false, default: false
       t.boolean :remove_blocked_and_muted_accounts, null: false, default: true

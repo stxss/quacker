@@ -67,6 +67,8 @@ class UsersController < ApplicationController
   def index_liked_tweets
     @user = User.find_by(username: params[:username])
 
+    redirect_to username_url(@user.username) if @user.account.private_likes? && @user != current_user
+
     # Reject likes where the author has blocked the current user, or the current user has blocked the author, or the current user is not following the author and the author is private
     @likes = @user.all_likes(current_user) if !(@blocking || @blocked)
   end
