@@ -1,4 +1,5 @@
 class Message < ApplicationRecord
+  include Reusable
   include PgSearch::Model
   pg_search_scope :search, against: :body, using: {
     tsearch: {

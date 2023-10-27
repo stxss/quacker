@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = current_user.sent_messages.build(body: message_params[:body], sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
+    @message = current_user.sent_messages.build(body: message_params[:body].rstrip, sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
     @receiver = @message.conversation.members.excluding(current_user).first
 
     if @message.save

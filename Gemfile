@@ -49,6 +49,9 @@ gem "devise"
 # Test code coverage analysis
 gem "simplecov", require: false, group: :test
 
+# Used for transforming urls (strings) into links
+gem 'rails_autolink'
+
 # Standardrb
 gem "standard"
 gem "standard-rails"
