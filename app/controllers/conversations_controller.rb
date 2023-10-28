@@ -1,5 +1,6 @@
 class ConversationsController < ApplicationController
   skip_before_action :set_query, only: [:index, :show]
+  before_action :verify_membership, only: [:show]
 
   def index
     @conversations = current_user.conversations
@@ -45,5 +46,10 @@ class ConversationsController < ApplicationController
 
   def conversation_params
     params.require(:conversation).permit(:name, member_ids: [])
+  end
+
+  def verify_membership
+    @conversation = Conversation.find(params[:id])
+    raise ActionController::RoutingError.new("Not Found") if !@conversation.members.include?(current_user)
   end
 end

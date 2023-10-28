@@ -11,6 +11,7 @@ class Message < ApplicationRecord
   validates :body, presence: true
   validates :body, length: {minimum: 1, message: "Can't send an empty message"}
   validate :sender_isnt_blocked
+  validate :sender_membership
 
   belongs_to :sender, class_name: "User"
   belongs_to :conversation, counter_cache: true
@@ -23,6 +24,12 @@ class Message < ApplicationRecord
       if receiver.account.has_blocked?(sender)
         errors.add(:base, "You can no longer send messages to @#{receiver.username} as they have blocked you.")
       end
+    end
+  end
+
+  def sender_membership
+    if !conversation.members.include?(sender)
+      errors.add(:base, "Something went wrong.")
     end
   end
 end
