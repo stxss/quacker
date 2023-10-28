@@ -13,7 +13,7 @@
 
 
   <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-<%= sender_corner %>-none <%= message_align %> text-white <%= bg_color %> break-words" id="<%= m.id %>" data-controller="scroller">
-    <%= auto_link(m.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub("https://", "") } %>
+    <%= auto_link(m.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "") } %>
   </div>
 <% end %>
 
