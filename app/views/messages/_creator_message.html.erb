@@ -1,11 +1,12 @@
 <% bg_color = "bg-indigo-500" %>
+<% post_bg_color = "bg-[#060728]" %>
 
-<div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-br-none self-end text-white <%= bg_color %> break-words" id="<%= message.id %>" data-controller="scroller">
-  <% internal_post = message.find_post_by_internal_url(root_url) %>
-  <% if internal_post %>
-    <%= render "messages/internal_post", post: internal_post %>
-  <% else %>
-    <%= auto_link(message.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "") } %>
-  <% end %>
-</div>
+<% internal_post = message.find_post_by_internal_url %>
+<% if !internal_post.blank? %>
+  <%= render "messages/internal_post", internal_post: internal_post , message_comment: message, post_bg_color: post_bg_color , bg_color: bg_color, sender_corner: 'br', message_align: 'self-end' %>
+<% else %>
+  <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-br-none self-end text-white <%= bg_color %> break-words" id="<%= message.id %>" data-controller="scroller">
+    <%= auto_link(message.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "").truncate(20) } %>
+  </div>
+<% end %>
 
