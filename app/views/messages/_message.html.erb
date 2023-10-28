@@ -1,5 +1,10 @@
 <% bg_color = "bg-gray-500" %>
 
 <div class="max-w-md h-fit p-3 rounded-xl rounded-bl-none m-1 self-start text-white <%= bg_color %> break-words" id="<%= message.id %>" data-controller="scroller">
-  <%= auto_link(message.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "") } %>
+  <% internal_post = message.find_post_by_internal_url(root_url) %>
+  <% if internal_post %>
+    <%= render "messages/internal_post", post: internal_post %>
+  <% else %>
+    <%= auto_link(message.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "") } %>
+  <% end %>
 </div>

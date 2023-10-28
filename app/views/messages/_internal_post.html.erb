@@ -1,0 +1,10 @@
+<%= link_to single_tweet_path(username: post.author.username, id: post.id), class: "message-tweet", target: :_top  do %>
+  <div class="tweet-info">
+    <span class="display-name"><%= post.author.display_name %></span>
+    <span class="icon-lock"><%= lock_icon_svg if post.author.account.private_visibility %></span>
+    <span class="display-username"><%= "@#{post.author.username}" %></span>
+    <span> · </span>
+    <span> <%= formatted_time_ago(post.created_at) %></span>
+  </div>
+  <div><%= post.body %></div>
+<% end %>
