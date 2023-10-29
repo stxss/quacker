@@ -8,8 +8,9 @@ Rails.application.routes.draw do
 
   get "search", to: "search#index", as: "search"
 
-  get "/messages", to: "messages#index", as: "messages"
   get "/messages/search/", to: "messages#search", as: "messages_search"
+  get "/messages", to: "messages#index", as: "messages"
+  get "/:username/status/:id/share", to: "messages#share_tweet", as: "share_tweet"
 
   resources :messages, only: [:new, :create, :destroy]
 

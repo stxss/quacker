@@ -28,8 +28,11 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = current_user.sent_messages.build(body: message_params[:body].rstrip, sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
-    @receiver = @message.conversation.members.excluding(current_user).first
+    @message = if params[:post_share]
+      MessageCreator.call(params, current_user)
+    else
+      current_user.sent_messages.build(body: message_params[:body].rstrip, sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
+    end
 
     if @message.save
       @message.conversation.members.each do |member|
@@ -49,6 +52,9 @@ class MessagesController < ApplicationController
         format.html { redirect_to conversation_path(id: @message.conversation.id) }
       end
     end
+  end
+
+  def share_tweet
   end
 
   def show

@@ -1,0 +1,7 @@
+<div class="backdrop"></div>
+<%= turbo_frame_tag "modal" do %>
+  <%= render "messages/share_form", post_share_params: {:post_share =>{username: params[:username], id: params[:id]}} %>
+<% end %>
+
+ <%# add check to only be able to send if there is at least one value checked %>
+

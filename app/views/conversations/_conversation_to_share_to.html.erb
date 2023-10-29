@@ -1,0 +1,10 @@
+<div class="flex flex-col p-3 hover:bg-blue-50 ">
+  <% if conversation.name.nil? %>
+    <div><% other_user = conversation.members.excluding(current_user).first %></div>
+    <div><%= other_user.display_name %></div>
+    <div>@<%= other_user.username %></div>
+    <div><%= "You follow each other" if current_user.following?(other_user) %></div>
+    <% else %>
+    <div><%= conversation.name %></div>
+  <% end %>
+</div>
