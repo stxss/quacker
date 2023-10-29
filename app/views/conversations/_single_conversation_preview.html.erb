@@ -2,11 +2,7 @@
   <div class="flex flex-col h-12 hover:bg-slate-100">
     <% if conversation.name.nil? %>
       <div>
-        <% if current_user == conversation.members.first %>
-          <%= conversation.members.second.display_name %>
-        <% else %>
-          <%= conversation.members.first.display_name %>
-        <% end %>
+        <%= conversation.members.excluding(current_user).first.display_name %>
       </div>
       <% else %>
       <div><%= conversation.name %></div>
