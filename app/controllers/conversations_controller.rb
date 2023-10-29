@@ -24,8 +24,9 @@ class ConversationsController < ApplicationController
   end
 
   def create
-    @members = conversation_params[:member_ids].reject(&:blank?)
-    existing_conversation = Conversation.find_by_members(@members)&.first
+    conversation_params
+    @members = (conversation_params[:member_ids].reject(&:blank?) << current_user.id).map(&:to_i)
+    existing_conversation = current_user.conversations.any? { |c| c.member_ids == @members }
 
     if existing_conversation
       redirect_to conversation_path(id: existing_conversation.id)

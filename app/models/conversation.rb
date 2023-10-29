@@ -9,8 +9,9 @@ class Conversation < ApplicationRecord
   before_create :validate_minimum_members
 
   # validates :conversation_members, uniqueness: {scope: :conversation_id}
-  scope :find_by_members, ->(member_ids) { joins(:members).where(users: {id: member_ids}).group("conversations.id").having("COUNT(conversations.id) = ?", member_ids.size) }
   scope :ordered, -> { order(updated_at: :desc) }
+  scope :members, -> { members }
+  scope :member_ids, -> { members.map(&:id) }
 
   private
 
