@@ -30,6 +30,10 @@ export default class extends Controller {
     close(e) {
         if (this.username) {
             Turbo.visit(`/${this.username}`, { action: "advance" })
+        } else if (this.postShare) {
+            this.element.parentElement.removeAttribute('src')
+            this.element.parentElement.removeAttribute('complete')
+            this.element.parentElement.innerHTML = ""
         } else if (history.length > 3) {
             history.back()
         } else {
@@ -39,5 +43,9 @@ export default class extends Controller {
 
     get username() {
         return this.data.get("username");
+    }
+
+    get postShare() {
+        return this.data.get("postShare");
     }
 }
