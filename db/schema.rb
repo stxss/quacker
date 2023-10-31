@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_31_130236) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -115,6 +115,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_191005) do
     t.index ["muted_id"], name: "index_muted_accounts_on_muted_id"
     t.index ["muter_id", "muted_id"], name: "index_muted_accounts_on_muter_id_and_muted_id", unique: true
     t.index ["muter_id"], name: "index_muted_accounts_on_muter_id"
+  end
+
+  create_table "muted_words", force: :cascade do |t|
+    t.bigint "muter_id", null: false
+    t.boolean "from_timeline", default: true, null: false
+    t.boolean "from_notifications", default: true, null: false
+    t.text "body"
+    t.datetime "expiration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["muter_id", "body"], name: "index_muted_words_on_muter_id_and_body", unique: true
+    t.index ["muter_id"], name: "index_muted_words_on_muter_id"
   end
 
   create_table "notifications", force: :cascade do |t|

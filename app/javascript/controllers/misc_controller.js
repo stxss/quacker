@@ -23,7 +23,23 @@ export default class extends Controller {
         }
     }
 
-    get prevPage() {
-        return this.element.dataset.url;
+    // used mute words save button toggling
+    prepare(e) {
+        let field = this.element.querySelector("input#muted_word_body")
+
+        if(this.onlyWhitespace(field.value)) {
+            e.preventDefault();
+            field.value = "";
+            let saveButton = this.element.querySelector(".save-wrapper")
+            saveButton.innerHTML = `<div id="fake-save-muted-word">Save</div>`
+
+        } else {
+            let saveButton = document.querySelector(".save-wrapper")
+            saveButton.innerHTML = `<input type="submit" name="commit" value="Save" id="real-submit-muted-word" data-disable-with="Saving...">`
+        }
+      }
+
+    onlyWhitespace(data) {
+        return /^\s*$/.test(data)
     }
 }

@@ -1,0 +1,12 @@
+<div>
+  <h1>Add muted words</h1>
+  When you mute words, you won’t get any new notifications for posts that include them or see posts with those words in your Home timeline.
+</div>
+
+<div>
+  <%= link_to "Add words", new_muted_word_path %>
+</div>
+
+<% @muted_words.each do |w| %>
+  <%= w.body %>
+<% end %>

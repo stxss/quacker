@@ -1,0 +1,43 @@
+<%= form_with model: MutedWord.new, url: muted_words_path, class:"flex flex-col", data: {controller: "misc"} do |f| %>
+  <div>
+    <%= f.text_field :body, placeholder: "Enter word or phrase", data: { action: "focus->misc#prepare input->misc#prepare" } %>
+  </div>
+
+  <div>
+    <h1>Mute from</h1>
+    <div>
+      <%= f.label :from_timeline, "Home Timeline" %>
+      <%= f.check_box :from_timeline %>
+    </div>
+    <div>
+      <%= f.label :from_notifications, "Notifications" %>
+      <%= f.check_box :from_notifications %>
+    </div>
+  </div>
+
+  <div>
+    <h1>Duration</h1>
+    <div>
+      <%= f.label :duration_nil, "Until I unmute the word" %>
+      <%= f.radio_button :duration, :nil, checked: true %>
+    </div>
+    <div>
+      <%= f.label :duration_day, "24 hours" %>
+      <%= f.radio_button :duration, :day %>
+    </div>
+    <div>
+      <%= f.label :duration_week, "7 days" %>
+      <%= f.radio_button :duration, :week %>
+    </div>
+    <div>
+      <%= f.label :duration_month, "30 days" %>
+      <%= f.radio_button :duration, :month %>
+    </div>
+  </div>
+
+  <div class="save-wrapper">
+    <div id="fake-save-muted-word">
+      Save
+    </div>
+  </div>
+<% end %>

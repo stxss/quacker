@@ -61,12 +61,15 @@ Rails.application.routes.draw do
   # get "/:username/following", to: "users#following", as: "user_following"
   # get "/:username/followers", to: "users#followers", as: "user_followers"
 
-  resources :muted_accounts, path: "/settings/muted/all", only: [:index, :create, :destroy]
+  resources :muted_accounts, path: "/settings/muted/accounts", only: [:index, :create, :destroy]
 
   resources :blocks, path: "/settings/blocked/all", only: [:index, :create, :destroy]
   get "/:username/view_blocked_posts", to: "users#view_blocked_posts", as: "view_blocked_posts"
   get "/:username/replies/view_blocked_replies", to: "users#view_blocked_replies", as: "view_blocked_replies"
   get "/:username/likes/view_blocked_likes", to: "users#view_blocked_likes", as: "view_blocked_likes"
+
+  resources :muted_words, path: "settings/muted/words", only: [:index, :new, :create, :destroy]
+
   # Edit profile display_name, bio, etc
   get "/settings/profile/", to: "users#edit", as: "settings"
 
@@ -88,7 +91,6 @@ Rails.application.routes.draw do
   get "/settings/mute_and_block/", to: "accounts#edit_mute_and_block", as: "settings_mute_and_block"
   get "/settings/blocked/all", to: "accounts#edit_blocked_all", as: "settings_blocked_all"
   get "/settings/blocked/imported", to: "accounts#edit_blocked_imported", as: "settings_blocked_imported"
-  get "/settings/muted_keywords", to: "accounts#edit_muted_keywords", as: "settings_muted_keywords"
   get "/settings/notifications/advanced_filters", to: "accounts#edit_notifications_advanced_filters", as: "settings_notifications_advanced_filters"
 
   get "/settings/direct_messages/", to: "accounts#edit_direct_messages", as: "settings_direct_messages"

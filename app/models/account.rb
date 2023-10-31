@@ -1,6 +1,8 @@
 class Account < ApplicationRecord
   belongs_to :user
 
+  has_many :muted_words, class_name: "MutedWord", foreign_key: "muter_id", dependent: :destroy
+
   has_many :muted_accounts, class_name: "MutedAccount", foreign_key: "muter_id", dependent: :destroy
   has_many :blocked_accounts, class_name: "Block", foreign_key: "blocker_id", dependent: :destroy
 
