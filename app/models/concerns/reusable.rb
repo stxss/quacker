@@ -1,6 +1,5 @@
 module Reusable
-  # change host to root_url later, as in development it's localhost:3000 and its tricky to use
-  # INTERNAL_HOST = ActionMailer::Base.default_url_options[:host]
+  # ! INTERNAL_HOST = ActionMailer::Base.default_url_options[:host]
   INTERNAL_HOST = "example.com"
   INTERNAL_SCHEME = "https"
   URL_REGEX = /(https?:\/\/)?\w*\.\w+(\.\w+)*(\/\w+)*(\.\w*)?/
