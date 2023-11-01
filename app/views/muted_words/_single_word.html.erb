@@ -1,0 +1,7 @@
+<div class="m-3 flex border border-stone-500">
+  <div class="flex-1">
+    <div><%= word.body %></div>
+    <div class="basis-0"><%= days_left(word.expiration) %></div>
+  </div>
+  <div class="flex-initial"><%= button_to "Unmute", muted_word_path(word.id), method: :delete %></div>
+</div>

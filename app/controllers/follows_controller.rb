@@ -8,7 +8,9 @@ class FollowsController < ApplicationController
         format.turbo_stream
         format.html {}
       end
-      current_user.notify(@user.id, :follow)
+      if !@user.account.has_muted?(current_user)
+        current_user.notify(@user.id, :follow)
+      end
     end
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Oops, something went wrong"

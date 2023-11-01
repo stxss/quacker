@@ -22,7 +22,10 @@ class CommentsController < TweetsController
       if @comment.save
         format.turbo_stream
         format.html { redirect_to root_path }
-        current_user.notify(@comment.original.author.id, :comment, tweet_id: @comment.id)
+
+        if @comment.original && !@comment.original.author.account.has_muted?(current_user) && @comment.original.author.account.muted_words.map(&:body).none? { |muted| @comment.body.include?(muted) }
+          current_user.notify(@comment.original.author.id, :comment, tweet_id: @comment.id)
+        end
         @comment&.update_tree
 
         session[:og_comment_id] = @comment.id

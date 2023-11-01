@@ -15,7 +15,9 @@ class LikesController < ApplicationController
         format.turbo_stream { render "likes/replace_likes", locals: {t: @like.tweet, user: current_user} }
         format.html { redirect_to request.referrer }
       end
-      current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
+      if !@tweet.author.account.has_muted?(current_user)
+        current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
+      end
     end
   rescue ActiveRecord::RecordNotUnique
     # If a user already has a like, it would invoke a ActiveRecord::RecordNotUnique error, so in that case, no data manipulation is to happen and a turbo request for a simple visual update is made

@@ -13,7 +13,9 @@ class RetweetsController < TweetsController
       if @retweet.save
         format.turbo_stream { render "retweets/replace_retweets", locals: {t: @retweet, user: current_user} }
         format.html { redirect_to request.referrer }
-        current_user.notify(@retweet.original.author.id, :retweet, tweet_id: @retweet.original.id)
+        if !@retweet.original.author.account.has_muted?(current_user)
+          current_user.notify(@retweet.original.author.id, :retweet, tweet_id: @retweet.original.id)
+        end
       end
     end
   rescue ActiveRecord::RecordNotUnique

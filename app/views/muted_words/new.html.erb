@@ -16,22 +16,22 @@
   </div>
 
   <div>
-    <h1>Duration</h1>
+    <h1>Expires in: </h1>
     <div>
-      <%= f.label :duration_nil, "Until I unmute the word" %>
-      <%= f.radio_button :duration, :nil, checked: true %>
+      <%= f.label :expiration_nil, "Until I unmute" %>
+      <%= f.radio_button :expiration, :nil, checked: true %>
     </div>
     <div>
-      <%= f.label :duration_day, "24 hours" %>
-      <%= f.radio_button :duration, :day %>
+      <%= f.label :expiration_1, "24 hours" %>
+      <%= f.radio_button :expiration, 1 %>
     </div>
     <div>
-      <%= f.label :duration_week, "7 days" %>
-      <%= f.radio_button :duration, :week %>
+      <%= f.label :expiration_7, "7 days" %>
+      <%= f.radio_button :expiration, 7 %>
     </div>
     <div>
-      <%= f.label :duration_month, "30 days" %>
-      <%= f.radio_button :duration, :month %>
+      <%= f.label :expiration_30, "30 days" %>
+      <%= f.radio_button :expiration, 30 %>
     </div>
   </div>
 

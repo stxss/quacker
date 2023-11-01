@@ -28,7 +28,9 @@ class QuotesController < TweetsController
       if @quote.save
         format.turbo_stream
         format.html { redirect_to root_path }
-        current_user.notify(@quote.original.author.id, :quote, tweet_id: @quote.id) if @quote.original
+        if @quote.original && !@quote.original.author.account.has_muted?(current_user) && @quote.original.author.account.muted_words.map(&:body).none? { |muted| @quote.body.include?(muted) }
+          current_user.notify(@quote.original.author.id, :quote, tweet_id: @quote.id)
+        end
       end
     end
   rescue UserGonePrivate

@@ -112,16 +112,15 @@ class TweetsController < ApplicationController
 
     # reject muted. blocked accounts are unfollowed, so if the blocked user has commented on something that the blocker posted, it will be hidden from the timeline or a specific message shown as a disclaimer saying that the user is blocked, with a button to fetch that specific tweet in case the user wishes to see the content of the tweet, with only retweets being filtered
 
-    # This will be added to @tweets in the users show page
-    @muted_tweets = @all_tweets.select { |tweet| current_user.account.muted_accounts.exists?(muted_id: tweet.author.id) }
-
     # This will be used for the timeline
     @tweets = @all_tweets.reject do |tweet|
       muted_autor = current_user.account.muted_accounts.exists?(muted_id: tweet.author.id)
 
       author_blocked_current = tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)
 
-      muted_autor || author_blocked_current
+      has_muted_word = current_user.account.muted_words.map(&:body).any? { |muted| tweet.body.include?(muted) && tweet.author != current_user }
+
+      muted_autor || author_blocked_current || has_muted_word
     end
   end
 

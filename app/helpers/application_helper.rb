@@ -106,4 +106,14 @@ module ApplicationHelper
       created_at.strftime("%b %e, %Y")
     end
   end
+
+  def days_left(expiration_date)
+    return "Muted Forever" if expiration_date.nil?
+    days_left = ((expiration_date - DateTime.now) / 1.day).to_f
+    if days_left > 1
+      "#{days_left.round}d"
+    else
+      "#{(days_left * 1.day / 1.hour).to_f.round}h"
+    end
+  end
 end
