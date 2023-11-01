@@ -25,7 +25,7 @@ export default class extends Controller {
             }
         } else {
             if (!this.submitTarget.querySelector("input")) {
-                this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Send" class="w-fit p-3" data-disable-with="Create Message" data-action="click->message#submit"></input>
+                this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Send" class="w-fit p-3" data-disable-with="Sending Message" data-action="click->message#submit"></input>
                 `;
             }
         }
