@@ -10,11 +10,10 @@
         <%= render "comments/comment_tweet_info", t: tweet, view: view %>
       <% end %>
     <% end %>
-  <% elsif t.comments.size == 2 && session[:new_comment] == 1 %>
-    <%= render "comments/comment_tweet_info", t: t.comments.last(2).first, view: view %>
-  <%# <% elsif session[:new_comment] == 1 || (!t.new_tweet?(timeline_tweets) && t.just_updated?) %> %>
-  <% elsif t.comments.size == 1 %>
-    <%= render "comments/comment_tweet_info", t: t.comments.last(2).first, view: view %>
+  <% elsif t.comments.size == 1  || t.comments.size == 2 %>
+    <% t.comments.last(10).each do |twt| %>
+      <%= render "comments/comment_tweet_info", t: twt, view: view %>
+    <% end %>
   <% end %>
 <% else %>
   <% t&.comments&.by_relevance.to_a.each do |tweet| %>
