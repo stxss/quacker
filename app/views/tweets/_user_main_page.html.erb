@@ -1,11 +1,15 @@
 <%= turbo_frame_tag "tweet_#{t.id}" do %>
   <div class="tweet">
-    <% if t.retweet? %>
-      <%= render "retweets/retweet_info", t: t, original: original %>
-    <% elsif t.quote_tweet? %>
-      <%= render "quotes/quote_tweet_info", t: t, original: original, view: :all_user_posts %>
+    <% if t.deleted_at %>
+      <%= render "tweets/deleted_tweet", t: t, view: :all_user_posts %>
     <% else %>
-      <%= render "tweets/tweet_info", t: t, view: :all_user_posts %>
+      <% if t.retweet? %>
+        <%= render "retweets/retweet_info", t: t, original: original %>
+      <% elsif t.quote_tweet? %>
+        <%= render "quotes/quote_tweet_info", t: t, original: original, view: :all_user_posts %>
+      <% else %>
+        <%= render "tweets/tweet_info", t: t, view: :all_user_posts %>
+      <% end %>
     <% end %>
   </div>
 <% end %>
