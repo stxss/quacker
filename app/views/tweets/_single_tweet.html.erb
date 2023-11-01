@@ -1,24 +1,22 @@
-<% notifications_view = false if local_assigns[:notifications_view].nil? %>
-<% show_view = false if local_assigns[:show_view].nil? %>
-
-<% if t %>
+<% if t.deleted_at.nil? %>
   <%= turbo_frame_tag "tweet_#{t.id}" do %>
     <div class="tweet">
       <% if t.retweet? %>
         <%= render "retweets/retweet_info", t: t, original: original %>
       <% elsif t.quote_tweet? %>
-        <%= render "quotes/quote_tweet_info", t: t, qrt: t.original, show_rt: true, notifications_view: notifications_view %>
-      <% else %>
-        <%= render "tweets/tweet_info", t: t, show_view: show_view %>
-        <% if !notifications_view %>
-          <%= render "comments/show_comments", t: t %>
+        <%= render "quotes/quote_tweet_info", t: t, original: original, show_rt: true, view: view %>
+      <% elsif %>
+        <%= render "tweets/tweet_info", t: t, view: view %>
+        <% if view.in?([:single_post, :timeline]) %>
+          <div class="nested-comments">
+            <%= render "comments/show_comments", t: t, view: view %>
+          </div>
         <% end %>
       <% end %>
     </div>
   <% end %>
 <% else %>
-  <%= render "tweets/page_not_available" %>
+  <%= render "tweets/deleted_tweet", t: t, view: view  %>
 <% end %>
-
 
 <%# check for if the user is following any of the accounts of the comments %>
