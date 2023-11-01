@@ -2,11 +2,9 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the media tagging setting
 export default class extends Controller {
-
     copyLink() {
         navigator.clipboard.writeText(this.element.dataset.url).then(function () {
-
-            document.querySelector(".notice").innerHTML = "Link copied!";
+            document.querySelector(".flash").innerHTML = `<div class="flash__message" id="notice">Link copied!</div>`;
         });
     }
 
