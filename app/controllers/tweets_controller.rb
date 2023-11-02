@@ -100,28 +100,36 @@ class TweetsController < ApplicationController
   end
 
   def load_tweets
-    following_ids = "SELECT followed_id FROM follows WHERE follower_id = :current_user_id AND is_request = false"
+    following_ids = current_user.active_follows.where(is_request: false).pluck(:followed_id)
+    query = "user_id = :current_user_id OR user_id IN (:following_ids)"
 
-    @retweets ||= Retweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes({original: [author: :account]}, author: :account)
-
-    @quotes ||= Quote.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).includes({original: [author: :account]}, {comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
-
-    @normal ||= Tweet.where("user_id = :current_user_id OR user_id IN (#{following_ids})", current_user_id: current_user.id).where(type: nil).includes({comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
-
-    @all_tweets = (@normal + @retweets + @quotes).sort_by(&:updated_at).reverse
+    retweets ||= Retweet.where(query, current_user_id: current_user.id, following_ids: following_ids).includes({original: [author: :account]}, author: :account)
+    quotes ||= Quote.where(query, current_user_id: current_user.id, following_ids: following_ids).includes({original: [author: :account]}, {comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
+    normal ||= Tweet.where(query, current_user_id: current_user.id, following_ids: following_ids).where(type: nil).includes({comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
 
     # reject muted. blocked accounts are unfollowed, so if the blocked user has commented on something that the blocker posted, it will be hidden from the timeline or a specific message shown as a disclaimer saying that the user is blocked, with a button to fetch that specific tweet in case the user wishes to see the content of the tweet, with only retweets being filtered
+    muted_accounts =  current_user.account.muted_accounts.pluck(:muted_id)
+    blocked_accounts = current_user.account.blocked_accounts.pluck(:blocked_id)
+    muted_words = current_user.account.muted_words.pluck(:body)
 
-    # This will be used for the timeline
-    @tweets = @all_tweets.reject do |tweet|
-      muted_autor = current_user.account.muted_accounts.exists?(muted_id: tweet.author.id)
+    @tweets = (normal + retweets + quotes).reject do |tweet|
+      author = tweet.author
+      next if author == current_user
 
-      author_blocked_current = tweet.type == "Retweet" && tweet.original.author.account.has_blocked?(current_user)
+      muted_author = muted_accounts.include?(author.id)
+      original_tweet = tweet.original if tweet.type != nil
+      parent_author = original_tweet.author if original_tweet
+      author_blocked_current = tweet.type != nil && parent_author.account.has_blocked?(current_user)
 
-      has_muted_word = current_user.account.muted_words.map(&:body).any? { |muted| tweet.body.include?(muted) && tweet.author != current_user }
+      has_muted_word = muted_words.any? do |muted_word|
+        to_check = tweet.type.nil? ? tweet.body : original_tweet.body
 
-      muted_autor || author_blocked_current || has_muted_word
-    end
+        # if the current user tweets a word they muted, show the word, because why would they mute it if they are posting about it
+        to_check.include?(muted_word) && author != current_user
+      end
+
+      muted_author || author_blocked_current || has_muted_word
+    end.sort_by(&:updated_at).reverse!
   end
 
   def set_cache_headers
