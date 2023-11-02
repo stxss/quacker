@@ -1,2 +1,4 @@
-<%= render "content_you_see_form" %>
-<%= render "search_preference_modal" %>
+<%= turbo_frame_tag "modal" do %>
+  <div class="backdrop"></div>
+  <%= render "search_preference_modal" %>
+<% end %>
