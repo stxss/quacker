@@ -1,7 +1,8 @@
 # # syntax = docker/dockerfile:1
 
 # # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-FROM ruby:3.2.0-slim as base
+# FROM ruby:3.2.0-slim as base
+FROM ruby:3.2.2-slim as base
 
 # Rails app lives here
 WORKDIR /rails
@@ -26,18 +27,11 @@ RUN apt-get update -qq && \
     mkdir /node_modules && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /var/cache/apt/archives
 
-
-RUN set -uex; \
-    apt-get update; \
-    apt-get install -y ca-certificates curl gnupg; \
-    mkdir -p /etc/apt/keyrings; \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
-     | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg; \
-    NODE_MAJOR=18; \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node$NODE_MAJOR.x nodistro main" \
-    /etc/apt/sources.list.d/nodesource.list; \
-    apt-get update; \
-    apt-get install nodejs -y;
+RUN bash -c "set -o pipefail && apt-get update \
+    && apt-get install -y ca-certificates curl gnupg \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo 'deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main' | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update && apt-get install nodejs -y"
 
 
 RUN apt-get remove -y cmdtest && \
@@ -49,7 +43,6 @@ RUN apt-get remove -y cmdtest && \
 
 RUN yarn add esbuild
 RUN yarn add tailwind
-
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -67,8 +60,8 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
+RUN if [ "${RAILS_ENV}" != "development" ]; then \
+    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile; fi
 
 # Final stage for app image
 FROM base
@@ -94,4 +87,3 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 EXPOSE 3000
 
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-# CMD ["rails", "s"]
