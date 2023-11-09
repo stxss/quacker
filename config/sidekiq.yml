@@ -1,0 +1,12 @@
+---
+
+:queues:
+  - critical
+  - default
+  - mailers
+  - low
+
+:schedule:
+  muted_words_cleanup:
+    class: MutedWordsCleanupJob
+    queue: default

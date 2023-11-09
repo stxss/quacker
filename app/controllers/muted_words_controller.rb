@@ -12,6 +12,7 @@ class MutedWordsController < ApplicationController
 
     if @muted_word.save
       redirect_to muted_words_path
+      MutedWordsCleanupJob.perform_at(@muted_word.expiration, @muted_word.id)
     end
   end
 
