@@ -1,8 +1,34 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+
+set -e
+
+# Always keep this here as it ensures your latest built assets make their way
+# into your volume persisted public directory.
+# cp -r /public /rails
+
+# Sprockets will use the first sprockets file it finds not the latest one. We
+# need to delete all of the old sprockets files except for the one that was
+# last built into the image. That's what the code below does.
+
+# shellcheck disable=SC2125
+manifest_files=/rails/public/assets/.sprockets-manifest-*.json
+
+if compgen -G "${manifest_files}" > /dev/null 2>&1; then
+  # shellcheck disable=SC2086,SC2061
+  find \
+    ${manifest_files} \
+    -type f ! -name "$(basename /rails/public/assets/.sprockets-manifest-*.json)" \
+    -delete
+fi
+
+if [ -f tmp/pids/server.pid ]; then
+  rm tmp/pids/server.pid
+fi
 
 # If running the rails server then create or migrate existing database
 if [ "${*}" == "./bin/rails server" ]; then
   ./bin/rails db:prepare
+  ./bin/rails db:seed
 fi
 
 exec "${@}"

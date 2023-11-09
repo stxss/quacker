@@ -35,7 +35,7 @@ function cmd {
 
 function rails {
   # Run any Rails commands
-  cmd rails "${@}"
+  cmd bin/rails "${@}"
 }
 
 function test {
