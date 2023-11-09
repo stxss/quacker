@@ -1,28 +1,27 @@
-version: '3'
+version: "3"
 services:
-  postgres:
-    image: postgres:16.0-bookworm
-    container_name: odin-twitter-postgres-16.0
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    command:
-      "postgres -c max_connections=500"
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
+    postgres:
+        image: postgres:16.0-bookworm
+        container_name: odin-twitter-postgres-16.0
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        command: "postgres -c max_connections=500"
+        env_file:
+            - .env
+        ports:
+            - "5432:5432"
 
-  redis:
-    image: redis:7.2.3-alpine
-    command: redis-server
-    volumes:
-      - redis:/data
-    ports:
-      - "6400:6379"
+    redis:
+        image: redis:7.2.3-alpine
+        command: redis-server
+        volumes:
+            - redis:/data
+        env_file:
+            - .env
+        ports:
+            - "6379:6379"
 
 volumes:
-  postgres-data: {}
-  app-storage: {}
-  redis: {}
+    postgres-data: {}
+    app-storage: {}
+    redis: {}
