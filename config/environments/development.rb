@@ -82,7 +82,7 @@ Rails.application.configure do
   # config.log_level = :info
   config.log_level = :debug
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = {host: "localhost", port: 3000}
 
   Rack::MiniProfiler.config.show_total_sql_count = true
   Rack::MiniProfiler.config.position = "top-right"
