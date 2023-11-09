@@ -35,6 +35,23 @@ services:
         ports:
             - "3000:3000"
 
+    sidekiq:
+        build:
+            context: .
+        env_file:
+            - .env
+        command: bundle exec sidekiq -C config/sidekiq.yml
+        entrypoint: []
+        depends_on:
+            postgres:
+                condition: "service_started"
+                required: false
+            redis:
+                condition: "service_started"
+                required: false
+        volumes:
+            - /rails/public
+        tty: true
 
 volumes:
     postgres-data: {}
