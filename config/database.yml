@@ -2,8 +2,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
 
-  # database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>
-  username: <%= ENV.fetch("POSTGRES_USER") { "hello" } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "postgres" } %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
 
   # For details on connection pooling, see Rails configuration guide
@@ -15,20 +14,11 @@ default: &default
 development:
   <<: *default
   database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>_development
-  # username: <%= ENV.fetch("POSTGRES_USER") { "hello" } %>
-  # host: <%= ENV.fetch("POSTGRES_HOST") { "postgres" } %>
-  # password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
-
 
 test:
   <<: *default
   database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>_test
-  username: <%= ENV.fetch("POSTGRES_USER") { "hello" } %>
-  host: <%= ENV.fetch("POSTGRES_HOST") { "postgres" } %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
 
 production:
   <<: *default
   database: odin_twitter_production
-  username: <%= ENV.fetch("POSTGRES_USER") { "hello" } %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
