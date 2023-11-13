@@ -46,5 +46,9 @@ export default class extends Controller {
         return /^\s*$/.test(data);
     }
 
+    postClick() {
+        let selection = window.getSelection().getRangeAt(0)
+        let selectionLength = selection.endOffset - selection.startOffset
+        if (selectionLength === 0) { this.element.querySelector("a.hidden").click() }
     }
 }

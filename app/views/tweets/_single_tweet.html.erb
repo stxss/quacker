@@ -1,20 +1,21 @@
 <% if t.deleted_at.nil? %>
-  <%= turbo_frame_tag "tweet_#{t.id}" do %>
-    <div class="tweet">
-      <% if t.retweet? %>
-        <%= render "retweets/retweet_info", t: t, original: original %>
-      <% elsif t.quote_tweet? %>
-        <%= render "quotes/quote_tweet_info", t: t, original: original, show_rt: true, view: view %>
-      <% elsif %>
-        <%= render "tweets/tweet_info", t: t, view: view %>
-        <% if view.in?([:single_post, :timeline]) %>
-          <div class="nested-comments">
-            <%= render "comments/show_comments", t: t, view: view %>
-          </div>
+    <%= turbo_frame_tag "tweet_#{t.id}", data: {controller: "misc" } do %>
+      <article class="tweet hover:bg-slate-300" data-action="click->misc#postClick">
+        <a class="hidden"onclick="window.location = '<%= single_tweet_path(username: t.author.username, id: t.id) %>'"></a>
+        <% if t.retweet? %>
+          <%= render "retweets/retweet_info", t: t, original: original %>
+        <% elsif t.quote_tweet? %>
+          <%= render "quotes/quote_tweet_info", t: t, original: original, show_rt: true, view: view %>
+        <% else %>
+          <%= render "tweets/tweet_info", t: t, view: view %>
+          <% if view.in?([:single_post, :timeline]) %>
+            <div class="nested-comments">
+              <%= render "comments/show_comments", t: t, view: view %>
+            </div>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
-  <% end %>
+      </article>
+    <% end %>
 <% else %>
   <%= render "tweets/deleted_tweet", t: t, view: view  %>
 <% end %>
