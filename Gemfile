@@ -97,3 +97,5 @@ group :development, :test do
 end
 
 gem "ransack", "~> 4.1"
+
+gem "commonmarker", ">= 1.0.0.pre"
