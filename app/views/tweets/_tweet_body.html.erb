@@ -1,5 +1,3 @@
 <div class="tweet-body">
-  <a onclick="window.location = '<%= single_tweet_path(username: t.author.username, id: t.id) %>'">
-  <div><%= t.body %></div>
-  </a>
+  <div class=""><%= markdown(t) %></div>
 </div>

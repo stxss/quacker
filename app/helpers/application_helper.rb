@@ -116,4 +116,31 @@ module ApplicationHelper
       "#{(days_left * 1.day / 1.hour).to_f.round}h"
     end
   end
+
+  def markdown(tweet)
+    options = {
+      parse: {
+        smart: true
+      },
+      render: {
+        hardbreaks: true,
+        github_pre_lang: true,
+        escape: true
+      },
+      extension: {
+        superscript: true,
+        strikethrough: true,
+        table: true
+      }
+    }
+
+    # superscript is written as n^2^
+
+    content = tweet.body
+    result = auto_link(Commonmarker.to_html(content, options: options), html: {class: "text-sky-700 font-semibold", rel: "nofollow", target: "_blank"}, link: :urls) { |url| url.gsub(/(https?:\/\/)?(www\.)?/, "").truncate(20) }
+
+    sanitize(result)
+  end
 end
+
+# finish up the detail with the messages

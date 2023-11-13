@@ -7,7 +7,7 @@
         <span class="display-username "><%= "@#{post.author.username}" %></span>
         <span> · </span>
         <span> <%= formatted_time_ago(post.created_at) %></span>
-        <div><%= post.body %></div>
+        <div><%= markdown(post) %></div>
       <% end %>
     </div>
   </div>
