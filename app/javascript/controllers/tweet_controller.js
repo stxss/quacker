@@ -63,12 +63,12 @@ export default class Tweet extends Controller {
             progressRing.style.transition = "width 0.2s, height 0.2s";
             progressRing.classList.remove("over-limit");
         } else {
-            text.textContent = 280 - length;
+            text.textContent = 7000 - length;
             text.fontSize = "13px";
             progressRing.classList.add("over-limit");
         }
 
-        if (length >= 280) {
+        if (length >= 7000) {
             text.style.fill = "red";
         } else {
             text.style.fill = "";
@@ -89,7 +89,7 @@ export default class Tweet extends Controller {
         fgCircle.style.strokeDashoffset = `${circumference} `;
 
         function setProgress(length) {
-            let offset = circumference - (length / 280) * circumference;
+            let offset = circumference - (length / 7000) * circumference;
             if (offset <= 0) {
                 offset = 0;
                 fgCircle.style.stroke = "#F4212E";
@@ -122,7 +122,7 @@ export default class Tweet extends Controller {
     }
 
     notTweet() {
-        return (/^\s*$/.test(this.content) || this.length < 1 || this.length > 280);
+        return (/^\s*$/.test(this.content) || this.length < 1 || this.length > 7000);
     }
 
     get content() {
