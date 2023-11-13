@@ -3,13 +3,19 @@ import { Controller } from "@hotwired/stimulus";
 // Connects to the media tagging setting
 export default class extends Controller {
     copyLink() {
-        navigator.clipboard.writeText(this.element.dataset.url).then(function () {
-            document.querySelector(".flash").innerHTML = `<div class="flash__message" id="notice">Link copied!</div>`;
-        });
+        navigator.clipboard
+            .writeText(this.element.dataset.url)
+            .then(function () {
+                document.querySelector(
+                    ".flash"
+                ).innerHTML = `<div class="flash__message" id="notice">Link copied!</div>`;
+            });
     }
 
     toggleReplies() {
-        let el = this.element.parentElement.querySelector(".tweet > .tweet-info")
+        let el = this.element.parentElement.querySelector(
+            ".tweet > .tweet-info"
+        );
         if (el.style.display === "none") {
             el.style.display = "block";
             this.element.textContent = "";
@@ -23,21 +29,22 @@ export default class extends Controller {
 
     // used mute words save button toggling
     prepare(e) {
-        let field = this.element.querySelector("input#muted_word_body")
+        let field = this.element.querySelector("input#muted_word_body");
 
-        if(this.onlyWhitespace(field.value)) {
+        if (this.onlyWhitespace(field.value)) {
             e.preventDefault();
             field.value = "";
-            let saveButton = this.element.querySelector(".save-wrapper")
-            saveButton.innerHTML = `<div id="fake-save-muted-word">Save</div>`
-
+            let saveButton = this.element.querySelector(".save-wrapper");
+            saveButton.innerHTML = `<div id="fake-save-muted-word">Save</div>`;
         } else {
-            let saveButton = document.querySelector(".save-wrapper")
-            saveButton.innerHTML = `<input type="submit" name="commit" value="Save" id="real-submit-muted-word" data-disable-with="Saving...">`
+            let saveButton = document.querySelector(".save-wrapper");
+            saveButton.innerHTML = `<input type="submit" name="commit" value="Save" id="real-submit-muted-word" data-disable-with="Saving...">`;
         }
-      }
+    }
 
     onlyWhitespace(data) {
-        return /^\s*$/.test(data)
+        return /^\s*$/.test(data);
+    }
+
     }
 }
