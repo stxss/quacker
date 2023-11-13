@@ -7,7 +7,7 @@ class Message < ApplicationRecord
       prefix: true
     }
   }
-
+  before_validation :validate_urls
   validates :body, presence: true
   validates :body, length: {minimum: 1, message: "Can't send an empty message"}
   validate :sender_isnt_blocked

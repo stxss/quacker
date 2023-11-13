@@ -6,6 +6,6 @@
   <%= render "messages/internal_post", internal_post: internal_post , message_comment: message, post_bg_color: post_bg_color , bg_color: bg_color, sender_corner: 'bl', message_align: 'self-start' %>
 <% else %>
   <div class="max-w-md h-fit p-3 rounded-xl rounded-bl-none m-1 self-start text-white <%= bg_color %> break-words" id="<%= message.id %>" data-controller="scroller">
-    <%= auto_link(message.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "").truncate(20) } %>
+    <%= auto_link(message.body, html: {rel: "nofollow", target: "_blank", class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "").truncate(20) } %>
   </div>
 <% end %>

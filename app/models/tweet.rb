@@ -1,5 +1,6 @@
 class Tweet < ApplicationRecord
   include Relevance
+  include Reusable
 
   before_validation :validate_urls
   validates :body, length: {in: 1..7000, message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :retweet?

@@ -17,7 +17,7 @@
       <%= render "messages/internal_post", internal_post: internal_post , message_comment: m, post_bg_color: post_bg_color , bg_color: bg_color, sender_corner: sender_corner, message_align: message_align %>
   <% else %>
     <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-<%= sender_corner %>-none <%= message_align %> text-white <%= bg_color %> break-words" id="<%= m.id %>" data-controller="scroller">
-      <%= auto_link(m.urlize, html: {class: "underline hover:decoration-2"}) { |text| text.gsub(/https?:\/\//, "").truncate(20) } %>
+      <%= auto_link(m.body, html: {class: "underline hover:decoration-2", rel: "nofollow", target: "_blank"}) { |text| text.gsub(/https?:\/\//, "").truncate(20) } %>
     </div>
   <% end %>
 <% end %>
