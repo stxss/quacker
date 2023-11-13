@@ -23,7 +23,7 @@ class RetweetsController < TweetsController
 
     flash.now[:alert] = "Can't retweet twice"
     render "retweets/replace_retweets", locals: {t: @retweet, user: current_user}
-  rescue ActiveRecord::RecordNotFound, NoMethodError
+  rescue ActiveRecord::RecordNotFound
     flash.now[:alert] = "Couldn't retweet a deleted tweet."
     render "tweets/_not_found", locals: {id: retweet_params[:retweet_original_id]}
   rescue UserGonePrivate
