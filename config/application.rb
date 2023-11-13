@@ -12,6 +12,9 @@ module OdinTwitter
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
+    config.action_view.sanitized_allowed_tags = Loofah::HTML5::SafeList::ALLOWED_ELEMENTS
+    config.action_view.sanitized_allowed_attributes = Loofah::HTML5::SafeList::ALLOWED_ATTRIBUTES
+
     # Log to STDOUT by default because Docker expects all processes to log here. You could
     # then collect logs using journald, syslog or forward them somewhere else.
     config.logger = ActiveSupport::Logger.new(STDOUT)
