@@ -3,9 +3,13 @@
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "bookmarks" %>
 
-<% original = @tweet.original if @tweet.comment? || @tweet.retweet? || @tweet.quote_tweet? %>
-<% if @tweet.author.account.has_blocked?(current_user) %>
+<% if @tweet.nil? %>
+    <%= render "tweets/unavailable_tweet" %>
+<% elsif !@tweet.deleted_at.nil? %>
+    <%= render "tweets/deleted_tweet", locals: {view: :single_post, t: Tweet.with_deleted.find(params[:id])} %>
+<% elsif @tweet.author.account.has_blocked?(current_user) %>
   <%= render "tweets/unavailable_tweet" %>
 <% else %>
+  <% original = @tweet.original if @tweet.comment? || @tweet.retweet? || @tweet.quote_tweet? %>
   <%= render "tweets/single_tweet", t: @tweet, original: original, view: :single_post %>
 <% end %>

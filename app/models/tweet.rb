@@ -43,17 +43,9 @@ class Tweet < ApplicationRecord
     updated_at >= Time.now - 1.seconds
   end
 
-  # Ensures that client-side and server-side character count is the same by removing escape sequences and special characters
-  def sanitize_body
-    self.body = body.gsub(/\\r\\n|\n|\r/, '').strip if body
-  end
-
   def find_root
-    comment? ? if original
-                 original.find_root
-               else
-                 original.root
-               end : id
+    return id if !comment?
+    original ? original.find_root : original.root
   end
 
   def find_depth

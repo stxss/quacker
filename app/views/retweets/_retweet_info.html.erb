@@ -1,5 +1,5 @@
 <div class="retweet-info">
-  <%= link_to username_path(t.author.username), class: "author" do %>
+  <%= link_to username_path(t.author.username), class: "author", target: "_top" do %>
     <span class="display-name"><%= t.author.display_name %></span> Retweeted
   <% end %>
 
