@@ -22,6 +22,11 @@
       <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" }, autofocus: autofocus %>
     </div>
 
+    <%# Counter start %>
+      <div class="flex justify-end pr-4 text-base h-6">
+        <div class="counter relative text-white" data-tweet-target="counter" data-action="input->tweet#showCount"></div>
+      </div>
+    <%# Counter end %>
 
     <%# Submit button start %>
       <div class="tweet-button relative top-6 flex justify-end" data-tweet-target="submit">

@@ -6,7 +6,11 @@
       <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" }, autofocus: true %>
     </div>
 
-    <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
+    <%# Counter start %>
+      <div class="flex justify-end pr-4 text-base h-6">
+        <div class="counter relative text-white" data-tweet-target="counter" data-action="input->tweet#showCount"></div>
+      </div>
+    <%# Counter end %>
 
     <div class= "origin-tweet">
       <%= render "quotes/quote_single_tweet", t: rt %>
