@@ -3,7 +3,7 @@ class Tweet < ApplicationRecord
   include Reusable
 
   before_validation :validate_urls
-  validates :body, length: {in: 1..7000, message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :retweet?
+  validates :body, length: {in: 1..10000, message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :retweet?
   validates :body, format: {without: /\A\s*\z/, message: "cannot have only whitespace"}, unless: :retweet?
 
   belongs_to :author, class_name: "User", foreign_key: :user_id, counter_cache: true

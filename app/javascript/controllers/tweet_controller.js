@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the tweet form
 export default class Tweet extends Controller {
-    static targets = ["area", "counter", "circle", "submit", "modal"];
+    MAXLENGTH = 10_000
 
     initialize() {
         this.update();
