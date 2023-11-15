@@ -29,23 +29,15 @@ export default class Tweet extends Controller {
 
     verifyLength(length) {
         if (this.notTweet()) {
-            if (!this.submitTarget.querySelector(".fake-submit-tweet")) {
-                this.submitTarget.innerHTML = `<div class="fake-submit-tweet">Tweet</div>`
-            }
-            } else {
-            if (!this.submitTarget.querySelector("input")) {
-                this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Tweet" id="real-submit-tweet" data-disable-with="Tweet" data-action="click->tweet#submit">`
-            }
+            this.submitTarget.querySelector("input[type=submit]").setAttribute("disabled", "")
+        } else {
+            this.submitTarget.querySelector("input[type=submit]").removeAttribute("disabled")
             }
 
         this.showCount(length)
     }
 
     showCount(length) {
-        // this.verifyLength;
-
-        console.log(this.counterTarget.parentElement)
-
         if (length > 0) {
             this.counterTarget.textContent = `${length} / ${this.MAXLENGTH}`
         } else {
@@ -67,7 +59,7 @@ export default class Tweet extends Controller {
     }
 
     notTweet() {
-        return (/^\s*$/.test(this.content) || this.length < 1 || this.length > 7000);
+        return (/^\s*$/.test(this.content) || this.length < 1 || this.length > 10000);
     }
 
 
