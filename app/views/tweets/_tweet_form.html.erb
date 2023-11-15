@@ -1,18 +1,64 @@
 <% if modal %>
-  <div data-controller="tweet turbo-modal" class="tweet-form" data-tweet-target="modal">
+  <div data-controller="tweet turbo-modal" class="tweet-form relative z-[1]" data-tweet-target="modal">
   <% autofocus = true %>
 <% else %>
-  <div data-controller="tweet" class="tweet-form">
+  <div data-controller="tweet" class="tweet-form relative z-[1]">
 <% end %>
   <% if modal %>
     <div data-action="click->turbo-modal#close" class="close-button">X</div>
   <% end %>
 
-  <%= form_with model: Tweet.new, url: tweets_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-    <div class="area-box">
-      <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"}, autofocus: autofocus %>
+  <%# dark mode %>
+  <%# take out this  class="w-96 h-72 relative group" later, or modify it when done with the textarea thing %>
+  <%# <div class="w-96 h-72 relative group"> %>
+    <%= form_with model: Tweet.new, url: tweets_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"}, id: "post-compose" do |f| %>
+      <%# Text area start %>
+        <div class="area-box">
+          <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"}, autofocus: autofocus, required: "true", class:"w-full h-52 top-12 relative bg-neutral-900  border-l border-r border-b border-zinc-500 pl-4 pr-4 pb-12 pt-14 rounded-tl-lg rounded-tr-lg focus:outline-none focus:ring focus:ring-sky0-400 text-white resize-none overflow-hidden" %>
+
+          <%# Counter start %>
+            <div class="flex justify-end pr-4 text-base h-6">
+              <div class="counter relative text-white" data-tweet-target="counter" data-action="input->tweet#showCount"></div>
+            </div>
+          <%# Counter end %>
+
+          <%# Submit button start %>
+            <div class="tweet-button relative top-6 flex justify-end" data-tweet-target="submit">
+              <%= f.submit "Quack", class:"fake-submit-tweet cursor-default focus:outline-none focus:shadow bg-orange-500 text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60", disabled: true %>
+            </div>
+          <%# Submit button end %>
+
+        </div>
+      <%# Text area end %>
+
+      <%# Toolbar start %>
+        <div class="w-full h-10  top-12 absolute bg-slate-600 bg-opacity-50 rounded-tl-lg rounded-tr-lg  border border-zinc-500"></div>
+      <%# Toolbar end %>
+
+      <%# Write button start %>
+        <button type="button" class="w-20 h-10 py-3 top-12 absolute bg-neutral-900 rounded-tl-lg rounded-tr-lg border-l border-r border-t border-zinc-500 justify-center items-center inline-flex text-stone-100 transition-[color] ease-in-out hover:text-stone-100" data-tweet-target="write" data-action="click->tweet#changeToWrite">
+          <div class="text-xs relative top-[-0.5px]">Write</div>
+        </button>
+      <%# Write button end %>
+
+      <%# Preview button start %>
+        <button type="button" class="w-20 h-10 py-3 left-20 top-12 absolute bg-slate-600 bg-opacity-0 rounded-tl-lg rounded-tr-lg border-zinc-500 justify-center items-center inline-flex text-gray-400 transition-[color] ease-in-out hover:text-stone-100" data-tweet-target="preview" data-action="click->tweet#changeToPreview">
+          <div class="text-xs">Preview</div>
+        </button>
+      <%# Preview button end %>
+    <% end %>
+
+  <%# </div> %>
+
+  <%# this is for light mode %>
+  <%# <div class="w-96 h-72 relative">
+    <div class="w-full h-52 left-[12px] top-[51px] absolute bg-white  border-l border-r border-b border-zinc-500"></div>
+    <div class="w-full h-10 left-[12px] top-[11px] absolute bg-slate-50 rounded-tl-lg rounded-tr-lg  border border-zinc-500"></div>
+    <div class="px-10 py-3 left-[139px] top-[11px] absolute bg-slate-600 bg-opacity-0 rounded-tl-lg rounded-tr-lg border-zinc-500 justify-center items-center inline-flex">
+      <div class="text-gray-500 text-xs font-normal">Preview</div>
     </div>
-    <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
-    <%= render "shared/fake_button" %>
-  <% end %>
+    <div class="w-32 h-10 py-3 left-[12px] top-[11px] absolute bg-white rounded-tl-lg rounded-tr-lg border-l border-r border-t border-zinc-500 justify-center items-center inline-flex">
+      <div class="text-neutral-800 text-xs font-normal">Write</div>
+    </div>
+  </div> %>
 </div>
