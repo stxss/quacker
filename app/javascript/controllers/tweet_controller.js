@@ -13,6 +13,11 @@ export default class Tweet extends Controller {
         if (this.hasModalTarget) {
             window.addEventListener("popstate", this.popStateHandler);
         }
+
+        document.getElementById("post-compose").addEventListener("submit", (e) => {
+            if (this.notTweet()) { e.preventDefault();}
+        });
+
         this.update();
     }
 
@@ -106,10 +111,6 @@ export default class Tweet extends Controller {
 
         setProgress(length);
     }
-
-    submit(e) {
-        if (this.notTweet()) {
-            e.preventDefault();
         }
     }
 

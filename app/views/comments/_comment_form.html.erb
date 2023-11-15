@@ -22,7 +22,11 @@
       <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" }, autofocus: autofocus %>
     </div>
 
-    <div class="circle-counter" data-tweet-target="circle counter" data-action="input->tweet#progressCircle input->tweet#showCount"></div>
-    <%= render "shared/fake_button" %>
+
+    <%# Submit button start %>
+      <div class="tweet-button relative top-6 flex justify-end" data-tweet-target="submit">
+        <%= f.submit "Quack", class:"fake-submit-tweet cursor-default focus:outline-none focus:shadow bg-orange-500 text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60", disabled: true %>
+      </div>
+    <%# Submit button end %>
   <% end %>
 </div>
