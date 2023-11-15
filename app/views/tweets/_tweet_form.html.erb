@@ -14,7 +14,7 @@
     <%= form_with model: Tweet.new, url: tweets_path, data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"}, id: "post-compose" do |f| %>
       <%# Text area start %>
         <div class="area-box">
-          <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"}, autofocus: autofocus, required: "true", class:"w-full h-52 top-12 relative bg-neutral-900  border-l border-r border-b border-zinc-500 pl-4 pr-4 pb-12 pt-14 rounded-tl-lg rounded-tr-lg focus:outline-none focus:ring focus:ring-sky0-400 text-white resize-none overflow-hidden" %>
+          <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", tweet_target: "area", action: "input->tweet#update"}, autofocus: autofocus, maxlength: 10000, required: "true", class:"w-full h-52 top-12 relative bg-neutral-900  border-l border-r border-b border-zinc-500 pl-4 pr-4 pb-12 pt-14 rounded-tl-lg rounded-tr-lg focus:outline-none focus:ring focus:ring-sky0-400 text-white resize-none overflow-hidden" %>
 
           <%# Counter start %>
             <div class="flex justify-end pr-4 text-base h-6">
