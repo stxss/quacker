@@ -66,39 +66,7 @@ export default class Tweet extends Controller {
 
     notTweet() {
         return (/^\s*$/.test(this.content) || this.length < 1 || this.length > 7000);
-
-
-    changeToWrite() {
-        this.changeButtonStyle(this.writeTarget, this.previewTarget)
     }
-
-    changeToPreview() {
-        this.changeButtonStyle(this.previewTarget, this.writeTarget)
-    }
-
-    changeButtonStyle(target, other) {
-        //  Also take care of not hardcoding the values, and instead using the light and dark variables
-
-        //  Target styling
-        //  Change the color, opacity and text brightness/color
-        target.classList.remove("bg-slate-600", "bg-opacity-0", "text-gray-400")
-        target.classList.add("bg-neutral-900", "bg-opacity-100", "text-stone-100")
-
-        //  Add the border to target
-        target.classList.add("border-l","border-r", "border-t" ,"border-zinc-500")
-
-        other.firstElementChild.classList.remove("relative","top-[-0.5px]")
-        target.firstElementChild.classList.add("relative","top-[-0.5px]")
-
-        //  Other styling
-        //  Change the color and opacity
-        other.classList.remove("bg-neutral-900", "bg-opacity-100", "text-stone-100")
-        other.classList.add("bg-slate-600", "bg-opacity-0", "text-gray-400")
-
-        //  Remove border from other
-        other.classList.remove("border-l","border-r", "border-t" ,"border-zinc-500")
-    }
-
 
     get content() {
         return this.areaTarget.value;
