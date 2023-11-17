@@ -63,6 +63,16 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN if [ "${RAILS_ENV}" != "development" ]; then \
     SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile; fi
 
+# RUN if [[ "$RAILS_ENV" == "production" ]]; then \
+#   mv config/credentials.yml.enc config/credentials.yml.enc.backup; \
+#   mv config/credentials.yml.enc.sample config/credentials.yml.enc; \
+#   mv config/master.key.sample config/master.key; \
+#   bundle exec rails assets:precompile; \
+#   mv config/credentials.yml.enc.backup config/credentials.yml.enc; \
+#   rm config/master.key; \
+# fi
+
+
 # Final stage for app image
 FROM base
 

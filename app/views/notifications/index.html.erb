@@ -1,5 +1,3 @@
-<%= render "search/form" %>
-
 <% @notifications.each do |n| %>
   <% if n.notification_type == "follow" && Follow.find_by(follower_id: n.notifier, followed_id: n.notified).is_request == false %>
     <%= render "follow_notification", notifier: n.notifier %>

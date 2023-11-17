@@ -28,6 +28,9 @@ application.register("scroller", ScrollerController)
 import SearchController from "./search_controller"
 application.register("search", SearchController)
 
+import ThemeController from "./theme_controller"
+application.register("theme", ThemeController)
+
 import TurboModalController from "./turbo_modal_controller"
 application.register("turbo-modal", TurboModalController)
 
