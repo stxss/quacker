@@ -13,15 +13,15 @@ export default class extends Controller {
       themeToggleIcon.addEventListener("click", this.clickHandler);
       this.initialThemeCheck();
 
-        // Create an empty "constructed" stylesheet
-        const sheet = new CSSStyleSheet();
-        // Apply a rule to the sheet
-        sheet.replaceSync(`* {
-          transition: 0.5s
-        }`);
+        // // Create an empty "constructed" stylesheet
+        // const sheet = new CSSStyleSheet();
+        // // Apply a rule to the sheet
+        // sheet.replaceSync(`* {
+        //   transition: 0.5s
+        // }`);
 
-        // Apply the stylesheet to a document
-        document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+        // // Apply the stylesheet to a document
+        // document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
     }
 
     connect() {

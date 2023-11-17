@@ -1,4 +1,4 @@
-# require "./lib/tlds"
+require "./lib/constants/valid_tlds"
 
 module Reusable
   # ! INTERNAL_HOST = ActionMailer::Base.default_url_options[:host]
@@ -60,7 +60,7 @@ module Reusable
       filtered_url = URI.join(scheme, "//#{parsed_uri}")
 
       tld = filtered_url.host.upcase.split(".")[-1]
-      tld_validity = Tlds.valid.include?(tld)
+      tld_validity = VALID_TLDS.include?(tld)
 
       # if tld isn't valid, basically 'return' the string as it was, without hyperlinking it, otherwise, create a valid link and prepend it with https
       if !tld_validity
