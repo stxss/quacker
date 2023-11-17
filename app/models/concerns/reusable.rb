@@ -1,4 +1,4 @@
-require "./lib/constants/valid_tlds"
+require "./lib/tlds"
 
 module Reusable
   # ! INTERNAL_HOST = ActionMailer::Base.default_url_options[:host]
