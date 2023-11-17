@@ -178,7 +178,7 @@ module Loofah
         "munderover",
         "none",
         "semantics"
-      ]) unless const_defined?(:ACCEPTABLE_ELEMENTS)
+      ])
 
       SVG_ELEMENTS = Set.new([
         "a",
@@ -227,7 +227,7 @@ module Loofah
         "tref",
         "tspan",
         "use"
-      ]) unless const_defined?(:SVG_ELEMENTS)
+      ])
 
       ACCEPTABLE_ATTRIBUTES = Set.new([
         "abbr",
@@ -310,7 +310,7 @@ module Loofah
         "vspace",
         "width",
         "xml:lang"
-      ]) unless const_defined?(:ACCEPTABLE_ATTRIBUTES)
+      ])
 
       MATHML_ATTRIBUTES = Set.new([
         "actiontype",
@@ -362,7 +362,7 @@ module Loofah
         "xlink:type",
         "xmlns",
         "xmlns:xlink"
-      ]) unless const_defined?(:MATHML_ATTRIBUTES)
+      ])
 
       SVG_ATTRIBUTES = Set.new([
         "accent-height",
@@ -521,7 +521,7 @@ module Loofah
         "y1",
         "y2",
         "zoomAndPan"
-      ]) unless const_defined?(:SVG_ATTRIBUTES)
+      ])
 
       ARIA_ATTRIBUTES = Set.new([
         "aria-activedescendant",
@@ -577,7 +577,7 @@ module Loofah
         "aria-valuenow",
         "aria-valuetext",
         "role"
-      ]) unless const_defined?(:ARIA_ATTRIBUTES)
+      ])
 
       ATTR_VAL_IS_URI = Set.new([
         "action",
@@ -589,7 +589,7 @@ module Loofah
         "src",
         "xlink:href",
         "xml:base"
-      ]) unless const_defined?(:ATTR_VAL_IS_URI)
+      ])
 
       SVG_ATTR_VAL_ALLOWS_REF = Set.new([
         "clip-path",
@@ -603,7 +603,7 @@ module Loofah
         "marker-start",
         "mask",
         "stroke"
-      ]) unless const_defined?(:SVG_ATTR_VAL_ALLOWS_REF)
+      ])
 
       SVG_ALLOW_LOCAL_HREF = Set.new([
         "altGlyph",
@@ -621,7 +621,7 @@ module Loofah
         "textpath",
         "tref",
         "use"
-      ]) unless const_defined?(:SVG_ALLOW_LOCAL_HREF)
+      ])
 
       ACCEPTABLE_CSS_PROPERTIES = Set.new([
         "azimuth",
@@ -691,7 +691,7 @@ module Loofah
         "volume",
         "white-space",
         "width"
-      ]) unless const_defined?(:ACCEPTABLE_CSS_PROPERTIES)
+      ])
 
       ACCEPTABLE_CSS_KEYWORDS = Set.new([
         "!important",
@@ -729,7 +729,7 @@ module Loofah
         "transparent",
         "underline",
         "unset"
-      ]) unless const_defined?(:ACCEPTABLE_CSS_KEYWORDS)
+      ])
 
       # https://www.w3.org/TR/css-color-3/#html4
       ACCEPTABLE_CSS_COLORS = Set.new([
@@ -749,7 +749,7 @@ module Loofah
         "teal",
         "white",
         "yellow"
-      ]) unless const_defined?(:ACCEPTABLE_CSS_COLORS)
+      ])
 
       # https://www.w3.org/TR/css-color-3/#svg-color
       ACCEPTABLE_CSS_EXTENDED_COLORS = Set.new([
@@ -900,7 +900,7 @@ module Loofah
         "whitesmoke",
         "yellow",
         "yellowgreen"
-      ]) unless const_defined?(:ACCEPTABLE_CSS_EXTENDED_COLORS)
+      ])
 
       # see https://www.quackit.com/css/functions/
       # omit `url` and `image` from that list
@@ -955,14 +955,14 @@ module Loofah
         "translateX",
         "translateY",
         "translateZ"
-      ]) unless const_defined?(:ACCEPTABLE_CSS_FUNCTIONS)
+      ])
 
       SHORTHAND_CSS_PROPERTIES = Set.new([
         "background",
         "border",
         "margin",
         "padding"
-      ]) unless const_defined?(:SHORTHAND_CSS_PROPERTIES)
+      ])
 
       ACCEPTABLE_SVG_PROPERTIES = Set.new([
         "fill",
@@ -973,7 +973,7 @@ module Loofah
         "stroke-linecap",
         "stroke-linejoin",
         "stroke-opacity"
-      ]) unless const_defined?(:ACCEPTABLE_SVG_PROPERTIES)
+      ])
 
       PROTOCOL_SEPARATOR = /:|(&#0*58)|(&#x70)|(&#x0*3a)|(%|&#37;)3A/i
 
@@ -1006,7 +1006,7 @@ module Loofah
         "urn",
         "webcal",
         "xmpp"
-      ]) unless const_defined?(:ACCEPTABLE_PROTOCOLS)
+      ])
 
       ACCEPTABLE_URI_DATA_MEDIATYPES = Set.new([
         "image/gif",
@@ -1014,7 +1014,7 @@ module Loofah
         "image/png",
         "text/css",
         "text/plain"
-      ]) unless const_defined?(:ACCEPTABLE_URI_DATA_MEDIATYPES)
+      ])
 
       # subclasses may define their own versions of these constants
       ALLOWED_ELEMENTS = ACCEPTABLE_ELEMENTS + MATHML_ELEMENTS + SVG_ELEMENTS
@@ -1034,14 +1034,14 @@ module Loofah
         "hr",
         "img",
         "input"
-      ]) unless const_defined?(:VOID_ELEMENTS)
+      ])
 
       # additional tags we should consider safe since we have libxml2 fixing up our documents.
       TAGS_SAFE_WITH_LIBXML2 = Set.new([
         "body",
         "head",
         "html"
-      ]) unless const_defined?(:TAGS_SAFE_WITH_LIBXML2)
+      ])
       ALLOWED_ELEMENTS_WITH_LIBXML2 = ALLOWED_ELEMENTS + TAGS_SAFE_WITH_LIBXML2
     end
 
