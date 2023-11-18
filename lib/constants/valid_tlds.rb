@@ -1,7 +1,9 @@
 # https://data.iana.org/TLD/tlds-alpha-by-domain.txt from https://www.icann.org/resources/pages/tlds-2012-02-25-en
 
 # Version 2023111000, Last Updated Fri Nov 10 07:07:01 2023 UTC
-VALID_TLDS = %W[AAA
+module Constants::ValidTlds
+def self.valid
+  %W[AAA
   AARP
   ABB
   ABBOTT
@@ -1459,3 +1461,4 @@ VALID_TLDS = %W[AAA
   ZONE
   ZUERICH
   ZW].to_set
+end
