@@ -21,6 +21,9 @@ set -e
 #     -delete
 # fi
 
+bundle exec rails assets:precompile
+
+
 if [ -f tmp/pids/server.pid ]; then
   rm tmp/pids/server.pid
 fi
