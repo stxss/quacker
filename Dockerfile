@@ -93,6 +93,7 @@ USER rails:rails
 COPY --chown=rails:rails bin/ ./bin
 RUN chmod 0755 bin/*
 
+RUN yarn install
 RUN bundle exec rake assets:precompile
 
 # Entrypoint prepares the database.
