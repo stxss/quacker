@@ -101,4 +101,4 @@ EXPOSE 3000
 
 # CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 # CMD ["bin/rails", "server" ]
-CMD ["bundle exec rails assets:precompile & bin/rails server"]
+CMD ["bin/dev"]
