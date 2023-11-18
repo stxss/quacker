@@ -18,7 +18,6 @@
     --accent: #E90101;
     --accent2: #ffac99;
     --theme-switch-pos: 0.15rem
-
   }
   .dark {
     --text: #fde7e7;
@@ -41,6 +40,10 @@
 /* 800: '#661300', */
 /* 900: '#330900', */
 /* 950: '#1a0500', */
+
+.preload * {
+  transition: none !important;
+}
 
 
  html {
@@ -119,8 +122,8 @@
  .icon-lock {
   position: relative;
   top: 1px;
-  max-width: 20px;
-  max-height: 20px;
+  /* max-width: 20px; */
+  /* max-height: 20px; */
  }
 
  .icon-retweet,
@@ -296,3 +299,4 @@ dialog form {
   padding: 20px;
 
 }
+
