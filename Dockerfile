@@ -93,6 +93,8 @@ USER rails:rails
 COPY --chown=rails:rails bin/ ./bin
 RUN chmod 0755 bin/*
 
+RUN bundle exec rake assets:precompile
+
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
