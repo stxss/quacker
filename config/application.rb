@@ -28,7 +28,7 @@ module OdinTwitter
 
     # Set Redis as the back-end for the cache.
     config.cache_store = :redis_cache_store, {
-      url: ENV.fetch("REDIS_URL") { "redis://redis:6379/1" },
+      url: ENV.fetch("REDIS_PRIVATE_URL") { "redis://redis:6379/1" },
       namespace: "cache"
     }
 
