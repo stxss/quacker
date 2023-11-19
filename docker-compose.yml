@@ -16,6 +16,8 @@ services:
         command: redis-server
         volumes:
             - redis:/data
+        env_file:
+            .env
         ports:
             - "6379:6379"
 
