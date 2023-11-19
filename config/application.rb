@@ -35,7 +35,7 @@ module OdinTwitter
     config.active_job.queue_adapter = :sidekiq
 
     config.action_cable.mount_path = nil
-    config.action_cable.url = ENV.fetch("REDIS_URL") { "redis://redis:6379/1" }
+    config.action_cable.url = ENV.fetch("REDIS_URL") { "ws://redis:6379/1" }
 
     # Configuration for the application, engines, and railties goes here.
     #
