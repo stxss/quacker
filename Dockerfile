@@ -12,7 +12,6 @@ ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     RAILS_MASTER_KEY="${RAILS_MASTER_KEY}" \
-    # REDIS_URL="redis://redis:6379/1" \
     RAILS_LOG_TO_STDOUT="1" \
     RAILS_SERVE_STATIC_FILES="true" \
     PATH="${PATH}:/home/ruby/.local/bin:/node_modules/.bin"
