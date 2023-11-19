@@ -32,7 +32,7 @@ if [ "${*}" == "./bin/rails server" ]; then
   bundle install
   bundle exec rails assets:precompile
   bundle exec rails assets:clean
-  bundle exec sidekiq -e production  -C config/sidekiq.yml
+
   # bundle exec rails db:migrate
 
   ./bin/rails db:prepare
@@ -40,3 +40,5 @@ if [ "${*}" == "./bin/rails server" ]; then
 fi
 
 exec "${@}"
+
+exec "bundle exec sidekiq -e production  -C config/sidekiq.yml"
