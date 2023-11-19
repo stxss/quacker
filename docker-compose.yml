@@ -56,10 +56,8 @@ services:
     cable:
         build:
             context: .
-        <<: *default-app
         command: "puma -p 28080 cable/config.ru"
         entrypoint: []
-        deploy:
         ports:
         - "${28080:-127.0.0.1:28080}:28080"
         depends_on:
