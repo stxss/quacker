@@ -42,9 +42,7 @@ RUN apt-get remove -y cmdtest && \
 RUN yarn add esbuild
 RUN yarn add tailwind
 
-# add jemalloc
-RUN apt-get update && apt-get install libjemalloc2 && rm -rf /var/lib/apt/lists/*
-ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
+
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -98,6 +96,11 @@ RUN apt-get update -qq && \
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
+
+# add jemalloc
+RUN apt-get update && apt-get install libjemalloc2 && rm -rf /var/lib/apt/lists/*
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
+
 
 # # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
