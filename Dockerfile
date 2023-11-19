@@ -68,6 +68,7 @@ RUN if [[ "$RAILS_ENV" == "production" ]]; then \
   mv config/credentials.yml.enc.sample config/credentials.yml.enc; \
   mv config/master.key.sample config/master.key; \
   bundle exec rails assets:precompile; \
+  ./bin/rails assets:precompile \
   mv config/credentials.yml.enc.backup config/creden\tials.yml.enc; \
   rm config/master.key; \
 fi
