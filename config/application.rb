@@ -34,6 +34,9 @@ module OdinTwitter
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.action_cable.mount_path = nil
+    config.action_cable.url = ENV.fetch("ACTION_CABLE_FRONTEND_URL") { "ws://localhost:28080" }
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
