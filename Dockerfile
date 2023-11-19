@@ -32,7 +32,6 @@ RUN bash -c "set -o pipefail && apt-get update \
     && echo 'deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main' | tee /etc/apt/sources.list.d/nodesource.list \
     && apt-get update && apt-get install nodejs -y"
 
-
 RUN apt-get remove -y cmdtest && \
     apt-get remove -y yarn && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
@@ -42,6 +41,10 @@ RUN apt-get remove -y cmdtest && \
 
 RUN yarn add esbuild
 RUN yarn add tailwind
+
+# add jemalloc
+RUN apt-get update && apt-get install libjemalloc2 && rm -rf /var/lib/apt/lists/*
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -81,6 +84,7 @@ RUN SECRET_KEY_BASE_DUMMY=1  bin/rails assets:precompile
 #   mv config/credentials.yml.enc.backup config/creden\tials.yml.enc; \
 #   rm config/master.key; \
 # fi
+
 
 
 # Final stage for app image
