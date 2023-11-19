@@ -40,7 +40,7 @@ services:
             context: .
         env_file:
             - .env
-        command: bundle exec sidekiq -e production -q critical -q high -q default -q low -C config/sidekiq.yml
+        command: bundle exec sidekiq -C config/sidekiq.yml
         entrypoint: []
         depends_on:
             postgres:

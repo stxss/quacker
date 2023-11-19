@@ -38,6 +38,7 @@ class LikesController < ApplicationController
     @og = @like.tweet
 
     @og.broadcast_replace_later_to "likes",
+      target: "like_count#{og.id}",
       partial: "likes/update_likes_count",
       locals: {t: Tweet.find(@tweet.id)}
 

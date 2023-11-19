@@ -6,7 +6,6 @@
 
 :queues:
   - critical
-  - odin_twitter_production_default
   - default
   - mailers
   - low
