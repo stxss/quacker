@@ -6,7 +6,8 @@ class LikesController < ApplicationController
 
     @like = current_user.liked_tweets.build(tweet_id: @tweet.id)
 
-    @like.tweet.broadcast_render_later_to "likes",
+    @like.tweet.broadcast_replace_later_to "likes",
+      target: "like_count_#{@like.tweet.id}",
       partial: "likes/update_likes_count",
       locals: {t: @like.tweet}
 
@@ -37,8 +38,7 @@ class LikesController < ApplicationController
 
     @og = @like.tweet
 
-    @og.broadcast_replace_later_to "likes",
-      target: "like_count#{og.id}",
+    @og.broadcast_render_later_to "likes",
       partial: "likes/update_likes_count",
       locals: {t: Tweet.find(@tweet.id)}
 
