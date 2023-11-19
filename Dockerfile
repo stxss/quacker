@@ -63,7 +63,15 @@ RUN bundle exec bootsnap precompile app/ lib/
 # RUN if [ "${RAILS_ENV}" != "development" ]; then \
     # SECRET_KEY_BASE_DUMMY=1 /bin/rails assets:precompile; fi
 
-RUN  /bin/rails assets:precompile
+COPY --chown=rails:rails bin/ ./bin
+RUN chmod 0755 bin/*
+
+RUN yarn
+
+RUN yarn add esbuild
+RUN yarn add tailwind
+RUN SECRET_KEY_BASE_DUMMY=1  bin/rails assets:precompile
+# RUN  ./bin/rails assets:precompile
 
 # RUN if [ "${RAILS_ENV}" != "development" ]; then \
 #   mv config/credentials.yml.enc config/credentials.yml.enc.backup; \
