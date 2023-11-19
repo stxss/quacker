@@ -61,7 +61,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN if [ "${RAILS_ENV}" != "development" ]; then \
-    ./bin/rails assets:precompile; fi
+    SECRET_KEY_BASE_DUMMY=1 /bin/rails assets:precompile; fi
 
 # RUN if [ "${RAILS_ENV}" != "development" ]; then \
 #   mv config/credentials.yml.enc config/credentials.yml.enc.backup; \
