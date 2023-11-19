@@ -6,8 +6,7 @@ class LikesController < ApplicationController
 
     @like = current_user.liked_tweets.build(tweet_id: @tweet.id)
 
-    @like.tweet.broadcast_append_to ["likes"],
-      target: "likes",
+    @like.tweet.broadcast_render_later_to "likes",
       partial: "likes/update_likes_count",
       locals: {t: @like.tweet}
 
