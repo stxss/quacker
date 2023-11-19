@@ -1,7 +1,12 @@
 ---
 
+:verbose: false
+:concurrency: 10
+:timeout: 25
+
 :queues:
   - critical
+  - odin_twitter_production_default
   - default
   - mailers
   - low
@@ -10,3 +15,8 @@
   muted_words_cleanup:
     class: MutedWordsCleanupJob
     queue: default
+
+production:
+  :concurrency: 25
+staging:
+  :concurrency: 15
