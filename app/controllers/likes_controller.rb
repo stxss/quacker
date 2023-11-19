@@ -6,14 +6,16 @@ class LikesController < ApplicationController
 
     @like = current_user.liked_tweets.build(tweet_id: @tweet.id)
 
-    @like.tweet.broadcast_render_later_to "likes",
-      partial: "likes/update_likes_count",
-      locals: {t: @like.tweet}
-
     respond_to do |format|
       if @like.save
+
         format.turbo_stream { render "likes/replace_likes", locals: {t: @like.tweet, user: current_user} }
         format.html { redirect_to request.referrer }
+
+        @like.tweet.broadcast_render_later_to "likes",
+        partial: "likes/update_likes_count",
+        locals: {t: @like.tweet}
+
       end
       if !@tweet.author.account.has_muted?(current_user)
         current_user.notify(@tweet.author.id, :like, tweet_id: @tweet.id)
