@@ -51,5 +51,7 @@ module OdinTwitter
 
     # Change the format of the cache entry.
     config.active_support.cache_format_version = 7.1
+
+    config.hosts << "odin-twitter-production.up.railway.app"
   end
 end
