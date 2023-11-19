@@ -1,1 +1,1 @@
-<%= turbo_stream.update_all("like_count_#{t.id}", partial: "likes/like_count", locals: {t: t }) %>
+<%= turbo_stream.replace_all("like_count_#{t.id}", partial: "likes/like_count", locals: {t: t }) %>
