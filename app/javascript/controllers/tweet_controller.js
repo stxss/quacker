@@ -72,28 +72,34 @@ export default class Tweet extends Controller {
     }
 
     changeButtonStyle(target, other) {
-        //  Also take care of not hardcoding the values, and instead using the light and dark variables
+        let primaryColor = "bg-primary"
+        let brightness = "brightness-50"
+        let activeBorder = ["border-l", "border-r", "border-t", "border-accent2"]
+        let transparentBorder = "border-transparent"
+        let pixelStabilization = ["relative","top-[-0.5px]"]
 
-        //  Target styling
-        //  Change the color, opacity and text brightness/color
-        target.classList.remove("bg-slate-600", "bg-opacity-0", "text-gray-400")
-        target.classList.add("bg-neutral-900", "bg-opacity-100", "text-stone-100")
+        //  Target styling, changing the color, opacity and text brightness/color
+        target.classList.remove(brightness)
+        target.classList.add(primaryColor)
 
         //  Add the border to target
-        target.classList.add("border-l","border-r", "border-t" ,"border-zinc-500")
+        target.classList.remove(transparentBorder)
+        target.classList.add(...activeBorder)
 
-        other.firstElementChild.classList.remove("relative","top-[-0.5px]")
-        target.firstElementChild.classList.add("relative","top-[-0.5px]")
+        //  Maintain the text in the same place
+        target.firstElementChild.classList.add(...pixelStabilization)
 
-        //  Other styling
-        //  Change the color and opacity
-        other.classList.remove("bg-neutral-900", "bg-opacity-100", "text-stone-100")
-        other.classList.add("bg-slate-600", "bg-opacity-0", "text-gray-400")
+        //  Other button styling, changing the color and opacity and text brightness/color
+        other.classList.remove(primaryColor)
+        other.classList.add(brightness)
 
         //  Remove border from other
-        other.classList.remove("border-l","border-r", "border-t" ,"border-zinc-500")
-    }
+        other.classList.remove(...activeBorder)
+        other.classList.add(transparentBorder)
 
+        //  Maintain the text in the same place
+        other.firstElementChild.classList.remove(...pixelStabilization)
+    }
 
     get content() {
         return this.areaTarget.value;
