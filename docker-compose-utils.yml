@@ -7,7 +7,7 @@ services:
             - postgres-data:/var/lib/postgresql/data
         command: "postgres -c max_connections=500"
         env_file:
-            - .env
+            - ".env.development"
         ports:
             - "5432:5432"
 
@@ -17,7 +17,7 @@ services:
         volumes:
             - redis:/data
         env_file:
-            - .env
+            - ".env.development"
         ports:
             - "6379:6379"
 
