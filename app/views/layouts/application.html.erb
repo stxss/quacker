@@ -46,6 +46,8 @@
 
     <%= yield %>
 
+        <%= inline_svg_tag("svg/sun.svg", class: "sun fill-text stroke-text z-10", data: { "theme-target": "sun"}) %>
+        <%= inline_svg_tag("svg/moon.svg", class: "moon fill-text stroke-text z-10", data: { "theme-target": "moon"}) %>
     <dialog id="turbo-confirm">
       <form class="dialog" method="dialog">
         <h3></h3>
