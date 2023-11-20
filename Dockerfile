@@ -1,7 +1,6 @@
 # # syntax = docker/dockerfile:1
 
 # # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-# FROM ruby:3.2.0-slim as base
 FROM ruby:3.2.2-slim as base
 
 # Rails app lives here
@@ -69,7 +68,7 @@ RUN yarn
 
 RUN yarn add esbuild
 RUN yarn add tailwind
-RUN SECRET_KEY_BASE_DUMMY=1  bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
 # RUN  ./bin/rails assets:precompile
 
 # RUN if [ "${RAILS_ENV}" != "development" ]; then \
