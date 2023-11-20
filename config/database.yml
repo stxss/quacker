@@ -2,23 +2,23 @@ default: &default
   adapter: postgresql
   encoding: unicode
 
-  username: <%= ENV.fetch("POSTGRES_USER") { "postgres" } %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
+  username: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
 
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("POSTGRES_HOST") { "postgres" } %>
-  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+  pool: <%= ENV["RAILS_MAX_THREADS"] %>
+  host: <%= ENV["POSTGRES_HOST"] %>
+  port: <%= ENV["POSTGRES_PORT"] %>
 
 development:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>_development
+  database: <%= ENV["POSTGRES_DB"] %>_development
 
 test:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB") { "hello" } %>_test
+  database: <%= ENV["POSTGRES_DB"] %>_test
 
 production:
   <<: *default
-  database: odin_twitter_production
+  database: <%= ENV["POSTGRES_DB"] %>_production

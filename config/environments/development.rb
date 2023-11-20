@@ -27,7 +27,7 @@ Rails.application.configure do
     # config.cache_store = :redis_cache_store, {url: ENV["REDIS_URL"]}
 
     config.cache_store = :redis_cache_store, {
-      url: ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" },
+      url: ENV.fetch("REDIS_URL") { "redis://redis:6379/1" },
       namespace: "cache"
     }
 
@@ -91,7 +91,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {host: "localhost", port: 3000}
 
   Rack::MiniProfiler.config.show_total_sql_count = true
-  Rack::MiniProfiler.config.position = "top-right"
+  Rack::MiniProfiler.config.position = "bottom-right"
 
   # Docker supports a bunch of ranges so let's just support everything. This
   # isn't insecure due to only running in development.
