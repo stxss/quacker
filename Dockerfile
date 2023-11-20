@@ -12,7 +12,6 @@ ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     RAILS_MASTER_KEY="${RAILS_MASTER_KEY}" \
-    REDIS_URL="redis://redis:6379/1" \
     RAILS_LOG_TO_STDOUT="1" \
     RAILS_SERVE_STATIC_FILES="true" \
     PATH="${PATH}:/home/ruby/.local/bin:/node_modules/.bin"
@@ -60,8 +59,29 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN if [ "${RAILS_ENV}" != "development" ]; then \
-    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile; fi
+# RUN if [ "${RAILS_ENV}" != "development" ]; then \
+#     SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile; fi
+
+COPY --chown=rails:rails bin/ ./bin
+RUN chmod 0755 bin/*
+
+RUN yarn
+
+RUN yarn add esbuild
+RUN yarn add tailwind
+RUN SECRET_KEY_BASE_DUMMY=1  bin/rails assets:precompile
+# RUN  ./bin/rails assets:precompile
+
+# RUN if [ "${RAILS_ENV}" != "development" ]; then \
+#   mv config/credentials.yml.enc config/credentials.yml.enc.backup; \
+#   mv config/credentials.yml.enc.sample config/credentials.yml.enc; \
+#   mv config/master.key.sample config/master.key; \
+#   bundle exec rails assets:precompile; \
+#   ./bin/rails assets:precompile \
+#   mv config/credentials.yml.enc.backup config/creden\tials.yml.enc; \
+#   rm config/master.key; \
+# fi
+
 
 # Final stage for app image
 FROM base
@@ -74,6 +94,10 @@ RUN apt-get update -qq && \
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
+
+# add jemalloc
+RUN apt-get update && apt-get install libjemalloc2 && rm -rf /var/lib/apt/lists/*
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 # # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
@@ -90,4 +114,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 EXPOSE 3000
 
 # CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-CMD ["bin/rails", "s" ]
+CMD ["bin/rails", "server" ]
