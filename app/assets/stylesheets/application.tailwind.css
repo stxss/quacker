@@ -8,6 +8,40 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+
+
+@layer base {
+  :root {
+    --text: #180202;
+    --background: #fafafa;
+    --primary: #FA7070;
+    --secondary: #e6e6e5;
+    --accent: #E90101;
+    --accent2: #ffac99;
+    --theme-switch-pos: 0.15rem
+  }
+  .dark {
+    --text: #fde7e7;
+    --background: #050505;
+    --primary: #880202;
+    --secondary: #1a1a19;
+    --accent: #FE1616;
+    --accent2: #661300;
+    --theme-switch-pos: 2.38rem
+  }
+}
+/* 50: '#ffeae5', */
+/* 100: '#ffd5cc', */
+/* 200: '#ffac99', */
+/* 300: '#ff8266', */
+/* 400: '#ff5833', */
+/* 500: '#ff2f00', */
+/* 600: '#cc2500', */
+/* 700: '#991c00', */
+/* 800: '#661300', */
+/* 900: '#330900', */
+/* 950: '#1a0500', */
+
  html {
   overflow-x: hidden;
   margin-right: calc(-1 * (100vw - 100%));
@@ -24,16 +58,6 @@
    border-radius: 6px;
    background: #bad5ff;
  }
-
-.tweet {
-  border: 1px solid rgb(190, 190, 190);
-  padding: 10px;
-  margin: 20px;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-  display: flex;
-  flex-direction: column;
-}
 
 .nested-comments {
   margin-top: 0px;
@@ -88,15 +112,12 @@
 }
 
 .author {
-  color: black;
   text-decoration: none;
 }
 
  .icon-lock {
   position: relative;
   top: 1px;
-  max-width: 20px;
-  max-height: 20px;
  }
 
  .icon-retweet,
@@ -117,10 +138,6 @@
 
   .display-name:hover {
     text-decoration: underline;
-  }
-
-  .tweet-body {
-    padding: 5px;
   }
 
   .time-ago {
@@ -151,7 +168,6 @@
 
   .comment-count {
     margin-left: 10px;
-    color: black
   }
 
   .retweet-count,

@@ -44,9 +44,9 @@ export default class Tweet extends Controller {
             this.counterTarget.textContent = ""
         }
         if (length >= 10000) {
-            this.counterTarget.style.color = "red";
+            this.counterTarget.classList.replace("text-text", "text-red-600")
         } else {
-            this.counterTarget.style.color = "white";
+            this.counterTarget.classList.replace("text-red-600", "text-text")
         }
     }
 

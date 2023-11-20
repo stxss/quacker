@@ -8,6 +8,32 @@ module.exports = {
     ],
     plugins: [
         // ...
-        require('@tailwindcss/line-clamp'),
-      ],
+        require("@tailwindcss/line-clamp"),
+    ],
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                text: "var(--text)",
+                background: "var(--background)",
+                primary: "var(--primary)",
+                secondary: "var(--secondary)",
+                accent: "var(--accent)",
+                accent2: "var(--accent2)",
+            },
+            transitionTimingFunction: {
+                DEFAULT: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+            },
+            transitionDuration: {
+                DEFAULT: "200ms",
+            },
+            boxShadow: {
+                centered: "0px 0px 75px -40px",
+                toolbar: "0px 0px 50px -15px"
+            },
+            translate: {
+                switch: ("var(--theme-switch-pos)")
+            }
+        },
+    },
 };
