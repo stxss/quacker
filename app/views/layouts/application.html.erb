@@ -49,8 +49,8 @@
 
     <div>
       <div class="theme-toggle cursor-pointer relative top-2 flex items-center bg-secondary rounded-full w-max gap-3 p-0.5 before:absolute before:w-6 before:h-6 before:bg-accent2 before:rounded-full before:left-0 before:translate-x-switch">
-        <%= inline_svg_tag("svg/sun.svg", class: "sun fill-text stroke-text z-10", data: { "theme-target": "sun"}) %>
-        <%= inline_svg_tag("svg/moon.svg", class: "moon fill-text stroke-text z-10", data: { "theme-target": "moon"}) %>
+        <%= inline_svg_tag("svg/sun.svg", class: "sun fill-text stroke-text z-10") %>
+        <%= inline_svg_tag("svg/moon.svg", class: "moon fill-text stroke-text z-10") %>
       </div>
 
       <% if %w(tweets notifications users).include?(params[:controller])  %>
