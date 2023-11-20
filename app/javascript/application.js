@@ -31,3 +31,5 @@ Turbo.setConfirmMethod((message, element) => {
         }, { once: true })
     })
 })
+    //  Prevent the transitions from being fired on page load
+    setTimeout(() => { document.documentElement.classList.remove("preload") }, 1000)

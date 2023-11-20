@@ -42,6 +42,10 @@
 /* 900: '#330900', */
 /* 950: '#1a0500', */
 
+.preload * {
+  transition: none !important;
+}
+
  html {
   overflow-x: hidden;
   margin-right: calc(-1 * (100vw - 100%));
