@@ -17,7 +17,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "creates a normal tweet" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     expect(page).to have_css(".tweet-body", text: "First tweet!")
   end
@@ -30,23 +30,23 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "creates a tweet with a single character" do
     visit root_path
-    fill_in "tweet_body", with: "1"
+    fill_in "compose-area", with: "1"
     click_on "Tweet"
     expect(page).to have_css(".tweet-body", text: "1")
   end
 
   it "doesn't create a tweet with only whitespace characters" do
-    fill_in "tweet_body", with: "     "
+    fill_in "compose-area", with: "     "
     expect(page).not_to have_css(".real-submit-tweet")
     expect(page).to have_css(".fake-submit-tweet")
   end
 
   it "doesn't create a tweet with more than 280 of characters" do
     # exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
-    # fill_in "tweet_body", with: exact_limit_tweet
-    fill_in "tweet_body", with: "very big much text to 280 chars.
+    # fill_in "compose-area", with: exact_limit_tweet
+    fill_in "compose-area", with: "very big much text to 280 chars.
     very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much text to 280 chars. very big much s"
-    # find(:id, "tweet_body").send_keys "."
+    # find(:id, "compose-area").send_keys "."
     expect(page).to have_css(".fake-submit-tweet")
     expect(page).not_to have_css(".real-submit-tweet")
   end
@@ -54,7 +54,7 @@ RSpec.describe "Tweet creation", type: :system do
   it "does create a tweet with exactly 280 characters" do
     visit root_path
     exact_limit_tweet = Faker::Hipster.paragraph_by_chars(characters: 280)
-    fill_in "tweet_body", with: exact_limit_tweet
+    fill_in "compose-area", with: exact_limit_tweet
     click_on "Tweet"
     expect(page).to have_css(".tweet-body", text: exact_limit_tweet)
   end
@@ -97,7 +97,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "shows the tweet when clicking on the content" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     find(".tweet-body").click
     expect(page).to have_css(".tweet-body", text: "First tweet!")
@@ -105,7 +105,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "when author, shows delete button" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
     find(".more-info-button").click
@@ -114,7 +114,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "when author can delete tweet" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
     find(".more-info-button").click
@@ -126,7 +126,7 @@ RSpec.describe "Tweet creation", type: :system do
   end
 
   it "when not author doesn't show delete button" do
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
@@ -136,14 +136,14 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "tweets have like button" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     expect(page).to have_css(".like")
   end
 
   it "authors can like their own tweets" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     visit username_path(user.username)
     find(".like").click
@@ -152,7 +152,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "users can like others' tweets" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
@@ -163,7 +163,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "users can unlike tweets" do
     visit root_path
-    fill_in "tweet_body", with: "First tweet!"
+    fill_in "compose-area", with: "First tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
@@ -175,7 +175,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "users cannot like deleted tweets" do
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
@@ -187,7 +187,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "user can retweet own tweets" do
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     within ".retweets" do
       find(".dropdown").click
@@ -202,7 +202,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "another user can retweet" do
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
@@ -221,7 +221,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "user can't retweet deleted tweet" do
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
@@ -236,7 +236,7 @@ RSpec.describe "Tweet creation", type: :system do
 
   it "user can unretweet" do
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
@@ -313,7 +313,7 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as user
     visit root_path
-    fill_in "tweet_body", with: "Public tweet!"
+    fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
 
