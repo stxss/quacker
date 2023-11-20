@@ -1,5 +1,9 @@
 ---
 
+:verbose: false
+:concurrency: 10
+:timeout: 25
+
 :queues:
   - critical
   - default
@@ -10,3 +14,8 @@
   muted_words_cleanup:
     class: MutedWordsCleanupJob
     queue: default
+
+production:
+  :concurrency: 25
+staging:
+  :concurrency: 15
