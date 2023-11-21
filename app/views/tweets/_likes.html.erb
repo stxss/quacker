@@ -1,0 +1,6 @@
+<%= tag.div id: dom_id(t, :likes), class: "flex gap-2 #{'text-liked' if t.liked_by?(current_user) }" do %>
+    <%= button_to like_btn_icon(t), tweet_like_path(t), method: :patch %>
+    <%= tag.div id: dom_id(t, :likes_count) do %>
+      <%= t.likes_count %>
+    <% end %>
+<% end %>

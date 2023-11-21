@@ -1,5 +1,0 @@
-<% user = current_user if local_assigns[:user].nil? %>
-
-<div class="like-button">
-  <%= button_to inline_svg_tag("svg/heart.svg", class: "fill-none z-10"), likes_path(username: current_user.username), params: { like: { tweet_id: tweet.id } }, method: :post, remote: true %>
-</div>

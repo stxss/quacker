@@ -22,6 +22,18 @@ class Tweet < ApplicationRecord
   default_scope { where(deleted_at: nil) }
   scope :with_deleted, -> { unscope(where: :deleted_at) }
 
+  def liked_by?(user)
+    likes.where(user: user).exists?
+  end
+
+  def like(user)
+    likes.where(user: user).first_or_create
+  end
+
+  def unlike(user)
+    likes.where(user: user).destroy_all
+  end
+
   def retweet?
     type == "Retweet"
   end

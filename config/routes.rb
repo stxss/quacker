@@ -35,7 +35,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tweets, only: [:new, :create, :destroy]
+  resources :tweets, only: [:new, :create, :destroy] do
+    resource :like, module: :tweets, only: [:update]
+  end
 
   # Create a quote or comment on a tweet
   get "/:username/status/:id/quote", to: "quotes#new", as: "new_quote"
@@ -63,7 +65,6 @@ Rails.application.routes.draw do
   get "/:username/replies", to: "users#show_replies", as: "username_replies"
 
   get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
-  resources :likes, path: "/:username/likes", only: [:create, :destroy]
 
   # get "/:username/following", to: "users#following", as: "user_following"
   # get "/:username/followers", to: "users#followers", as: "user_followers"

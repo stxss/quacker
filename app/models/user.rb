@@ -26,7 +26,7 @@ class User < ApplicationRecord
   has_many :created_comments, class_name: "Comment"
   has_many :created_quotes, class_name: "Quote"
 
-  has_many :liked_tweets, class_name: "Like", dependent: :destroy
+  has_many :likes, class_name: "Like", dependent: :destroy
 
   has_many :bookmarks
   has_many :bookmarked_tweets, through: :bookmarks, dependent: :destroy, source: :tweet
@@ -94,7 +94,7 @@ class User < ApplicationRecord
   end
 
   def all_likes(current)
-    @likes = liked_tweets.includes(tweet: {author: :account}).order(created_at: :desc).reject do |like|
+    @likes = likes.includes(tweet: {author: :account}).order(created_at: :desc).reject do |like|
       author_block_current = like.tweet.author.account.has_blocked?(current)
       current_blocked_author = current.account.has_blocked?(like.tweet.author)
       not_following_if_private_author = like.tweet.author.account.private_visibility ? current.following?(like.tweet.author) == false : false
@@ -132,10 +132,6 @@ class User < ApplicationRecord
 
   def has_rt?(tweet)
     created_tweets.where(retweet_original_id: tweet).exists?
-  end
-
-  def has_like?(tweet)
-    liked_tweets.where(tweet_id: tweet).exists?
   end
 
   def has_bookmark?(tweet)

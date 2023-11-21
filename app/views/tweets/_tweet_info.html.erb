@@ -5,7 +5,7 @@
   <div class="activity-box">
     <%= render "comments/comments", t: t %>
     <%= render "retweets/retweets", t: t %>
-    <%= render "likes/likes", t: t %>
+    <%= render partial: "tweets/likes", locals: {t: t} %>
 
     <% if view == :single_post %>
       <%= render "bookmarks/bookmark_count", t: t %>
