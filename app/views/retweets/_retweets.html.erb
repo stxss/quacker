@@ -9,7 +9,7 @@
 
 <%= turbo_frame_tag "retweet_#{t.id}" do %>
   <span class="retweets">
-    <div class="retweet <%= 'retweeted' if user.has_rt?(t) %>">
+    <div class="retweet <%= user.has_rt?(t) ? 'stroke-retweeted text-retweeted' : "stroke-text text-text"  %>">
       <%= render menu, t: t, self_rt: self_rt %>
       <%= render "retweets/retweet_count", t: t %>
     </div>

@@ -1,6 +1,6 @@
 <span class="quote">
   <%= button_to new_quote_path(id: t.id, username: t.author.username), data: { turbo_frame: "modal", turbo_action: :advance}, method: :get do %>
-    <%= content_tag(:span, quote_icon_svg) %>
+    <%= content_tag(:span, inline_svg_tag("svg/quote.svg", class: "fill-none z-10")) %>
     <%= content_tag(:span, "Quote Tweet", class: "quote-text") %>
   <% end %>
 </span>

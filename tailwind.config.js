@@ -20,6 +20,7 @@ module.exports = {
                 secondary: "var(--secondary)",
                 accent: "var(--accent)",
                 accent2: "var(--accent2)",
+                retweeted: "var(--retweeted)",
             },
             transitionTimingFunction: {
                 DEFAULT: "cubic-bezier(0.25, 0.1, 0.25, 1)",
