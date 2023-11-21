@@ -85,8 +85,8 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
   # Delete this line if want more logging of sql and other stuff
-  config.log_level = :info
-  # config.log_level = :debug
+  # config.log_level = :info
+  config.log_level = :debug
 
   config.action_mailer.default_url_options = {host: "localhost", port: 3000}
 
