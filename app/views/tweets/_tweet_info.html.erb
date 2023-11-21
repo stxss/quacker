@@ -2,7 +2,7 @@
 <div class="tweet-info">
   <%= render "tweets/tweet_body", t: t %>
 
-  <div class="activity-box">
+  <div class="activity-box flex p-3">
     <%= render "comments/comments", t: t %>
     <%= render "retweets/retweets", t: t %>
     <%= render partial: "tweets/likes", locals: {t: t} %>

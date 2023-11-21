@@ -126,16 +126,10 @@
   top: 1px;
  }
 
- .icon-retweet,
- .icon-like,
- .icon-unlike,
- .icon-quote,
- .icon-comment,
  .icon-more-info,
  .icon-share {
   max-width: 24px;
   max-height: 24px;
-  transform: scale(0.7813);
 }
 
   .display-name {
@@ -146,55 +140,14 @@
     text-decoration: underline;
   }
 
-  .time-ago {
-    text-decoration: none;
-  }
-
-  .tweet-info > a {
-    text-decoration: none;
-  }
-
-  .tweet-info > a:last-child:hover {
-    text-decoration: underline;
-  }
-
-  .like,
-  .retweet,
-  .comments {
-    display: flex;
-    padding: 5px;
-    align-items: center;
-  }
-
-  .likes > span,
-  .retweets > span,
-  .comments > span {
-    margin-right: 10px;
-  }
-
-  .comment-count {
-    margin-left: 10px;
-  }
-
-  .retweet-count,
-  .like-count {
-    margin-left: 10px;
-  }
-
   .notification {
     border: 1px solid grey;
     padding: 5px;
   }
 
-  .retweet-button button,
-  .unretweet-button button,
-  .like-button button,
-  .unlike-button button,
   .dropdown button,
   .more-info-btn button,
-  .limited-rt,
-  .quote button,
-  .comment button{
+  .limited-rt {
     display: flex;
     background: none;
     border: none;
@@ -213,7 +166,6 @@
   }
 
   .activity-box {
-    display: flex;
     justify-content: space-around;
     align-items: center;
   }

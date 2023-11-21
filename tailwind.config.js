@@ -22,6 +22,7 @@ module.exports = {
                 accent2: "var(--accent2)",
                 retweeted: "var(--retweeted)",
                 liked: "var(--liked)",
+                bookmarked: "var(--bookmarked)"
             },
             transitionTimingFunction: {
                 DEFAULT: "cubic-bezier(0.25, 0.1, 0.25, 1)",

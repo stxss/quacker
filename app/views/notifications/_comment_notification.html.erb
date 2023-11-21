@@ -6,7 +6,7 @@
     <%= link_to "@#{current_user.username}", username_path(current_user.username) %>
   <%= render "tweets/tweet_body", t: tweet %>
 
-    <div class="activity-box">
+    <div class="activity-box flex">
       <%= render "comments/comments", t: tweet %>
 
       <span class="retweets">
