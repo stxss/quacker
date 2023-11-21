@@ -6,8 +6,6 @@ class LikesController < ApplicationController
 
     @like = current_user.liked_tweets.build(tweet_id: @tweet.id)
 
-
-
     respond_to do |format|
       if @like.save
         format.turbo_stream { render "likes/replace_likes", locals: {t: @like.tweet, user: current_user} }
