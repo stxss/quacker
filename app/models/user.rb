@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
   has_many :likes, class_name: "Like", dependent: :destroy
 
-  has_many :bookmarks
+  has_many :bookmarks, class_name: "Bookmark", dependent: :destroy
   has_many :bookmarked_tweets, through: :bookmarks, dependent: :destroy, source: :tweet
 
   has_one :account, dependent: :destroy

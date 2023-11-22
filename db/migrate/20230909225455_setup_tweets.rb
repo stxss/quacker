@@ -14,6 +14,7 @@ class SetupTweets < ActiveRecord::Migration[7.0]
       t.integer :likes_count, null: false, default: 0
       t.integer :comments_count, null: false, default: 0
       t.integer :quote_tweets_count, null: false, default: 0
+      t.integer :bookmarks_count, null: false, default: 0
 
       t.references :root, default: nil
       t.integer :height, default: 0

@@ -15,7 +15,7 @@ class Tweet < ApplicationRecord
 
   has_many :notifications, dependent: :delete_all
 
-  has_many :bookmarks
+  has_many :bookmarks, dependent: :delete_all
   has_many :bookmarking_users, through: :bookmarks, dependent: :destroy, source: :user
 
   # scope :ordered, -> { order(updated_at: :desc) }

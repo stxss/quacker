@@ -4,8 +4,6 @@ class SetupLikes < ActiveRecord::Migration[7.0]
       t.references :tweet, unique: true, null: false
       t.references :user, unique: true, null: false
 
-      t.integer :likes_count, null: false, default: 0
-
       t.timestamps
     end
 

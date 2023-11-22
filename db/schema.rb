@@ -89,7 +89,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
   create_table "likes", force: :cascade do |t|
     t.bigint "tweet_id", null: false
     t.bigint "user_id", null: false
-    t.integer "likes_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tweet_id"], name: "index_likes_on_tweet_id"
@@ -152,6 +151,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.integer "likes_count", default: 0, null: false
     t.integer "comments_count", default: 0, null: false
     t.integer "quote_tweets_count", default: 0, null: false
+    t.integer "bookmarks_count", default: 0, null: false
     t.bigint "root_id"
     t.integer "height", default: 0
     t.integer "depth", default: 0
@@ -189,6 +189,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.integer "follows_count", default: 0, null: false
     t.integer "tweets_count", default: 0, null: false
     t.integer "notifications_count", default: 0, null: false
+    t.integer "bookmarks_count", default: 0, null: false
     t.index ["display_name"], name: "index_users_on_display_name", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
