@@ -134,10 +134,6 @@ class User < ApplicationRecord
     created_tweets.where(retweet_original_id: tweet).exists?
   end
 
-  def has_bookmark?(tweet)
-    bookmarks.where(tweet_id: tweet).exists?
-  end
-
   def set_default_display_name
     self.display_name = username
   end

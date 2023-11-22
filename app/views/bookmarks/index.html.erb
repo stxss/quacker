@@ -1,7 +1,9 @@
 <%= turbo_stream_from "bookmarks_index" %>
 
-<%= render "search/form" %>
+<div class="w-1/2 relative top-12">
+  <% @bookmarks.each do |t| %>
+    <%= render "tweets/single_tweet", t: t, view: :bookmarks %>
+  <% end %>
+</div>
 
-<% @bookmarks.each do |t| %>
-  <%= render "tweets/single_tweet", t: t, view: :bookmarks %>
-<% end %>
+<%= render "search/form" %>

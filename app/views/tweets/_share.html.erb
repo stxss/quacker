@@ -16,16 +16,6 @@
               <%= render "messages/share_in_conversation", t: t %>
             </div>
           <% end %>
-
-          <div class="menuitem">
-            <%= turbo_frame_tag "bookmark_#{t.id}" do %>
-              <% if current_user.has_bookmark?(t.id) %>
-                <%= render "bookmarks/unbookmark_button", t: t %>
-              <% else %>
-                <%= render "bookmarks/bookmark_button", t: t %>
-              <% end %>
-            <% end %>
-          </div>
       </div>
   </div>
 </span>

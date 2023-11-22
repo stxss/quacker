@@ -34,6 +34,18 @@ class Tweet < ApplicationRecord
     likes.where(user: user).destroy_all
   end
 
+  def bookmarked_by?(user)
+    bookmarks.where(user: user).exists?
+  end
+
+  def bookmark(user)
+    bookmarks.where(user: user).first_or_create
+  end
+
+  def unbookmark(user)
+    bookmarks.where(user: user).destroy_all
+  end
+
   def retweet?
     type == "Retweet"
   end

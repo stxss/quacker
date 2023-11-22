@@ -24,9 +24,6 @@ Rails.application.routes.draw do
   get "/messages/:id", to: "conversations#show", as: "conversation"
   resources :conversations, only: [:new, :index, :create, :destroy]
 
-  get "/bookmarks", to: "bookmarks#index", as: "user_bookmarks"
-  resources :bookmarks, path: "/bookmarks", only: [:create, :destroy]
-
   # path "" -> removes the /users/ prefix from url, specifying username as the identifier instead of the default :id
   # has to be placed after the other resources with names that can be mistaken for usernames, as rails reads the routes from top to bottom, so by placing the /messages, /bookmarks and such routes first, they will take precedence over the "users" route.
   resources :users, path: "", param: :username, only: [:index, :new, :create, :update, :destroy] do
@@ -35,8 +32,12 @@ Rails.application.routes.draw do
     end
   end
 
+  # get "/bookmarks", to: "bookmarks#index", as: "user_bookmarks", module: :tweets
+  get "/bookmarks", to: "tweets/bookmarks#index", as: "user_bookmarks"
+
   resources :tweets, only: [:new, :create, :destroy] do
     resource :like, module: :tweets, only: [:update]
+    resource :bookmark, module: :tweets, only: [:update]
   end
 
   # Create a quote or comment on a tweet

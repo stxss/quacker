@@ -1,4 +1,0 @@
-<%= button_to bookmarks_path, params: { bookmark: { tweet_id: t.id} }, class: "bookmark-button", remote: true do %>
-  <%= content_tag(:span, add_bookmark_svg) %>
-  <%= content_tag(:span, "Bookmark", class: "bookmark-text") %>
-<% end %>

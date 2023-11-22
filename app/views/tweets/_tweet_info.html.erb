@@ -6,10 +6,7 @@
     <%= render "comments/comments", t: t %>
     <%= render "retweets/retweets", t: t %>
     <%= render partial: "tweets/likes", locals: {t: t} %>
-
-    <% if view == :single_post %>
-      <%= render "bookmarks/bookmark_count", t: t %>
-    <% end %>
+    <%= render partial: "tweets/bookmarks", locals: {t: t} %>
 
     <%= render "tweets/share", t: t, view: view %>
   </div>
