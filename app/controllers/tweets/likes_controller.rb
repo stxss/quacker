@@ -30,7 +30,7 @@ class Tweets::LikesController < ApplicationController
   def set_post
     @post = Tweet.find(params[:tweet_id])
   rescue ActiveRecord::RecordNotFound
-    flash.now[:alert] = "Tweet was deleted."
+    flash.now[:alert] = "Tweet not found."
     render "tweets/_not_found", locals: {id: params[:tweet_id]}
   end
 end

@@ -41,10 +41,10 @@ class User < ApplicationRecord
   has_many :sent_messages, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
 
   # only allow letter, number, underscore and punctuation.
-  validates_format_of :username, with: /^[a-zA-Z0-9_]*$/, :multiline => true
+  validates_format_of :username, with: /^[a-zA-Z0-9_]*$/, multiline: true
 
   validate :validate_username
-  validates :username, presence: true, uniqueness: true, length: { in: 4..15 }
+  validates :username, presence: true, uniqueness: true, length: {in: 4..15}
 
   def follow(other)
     active_follows.build(followed_id: other[:followed_id].to_i, is_request: other[:is_request])
