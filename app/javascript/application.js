@@ -81,4 +81,4 @@ const themeSwitch = () => {
 initialThemeCheck();
 
 //  Prevent the transitions from being fired on page load
-setTimeout(() => { document.documentElement.classList.remove("preload") }, 1000)
+setTimeout(() => { document.documentElement.classList.remove("preload") }, 200)
