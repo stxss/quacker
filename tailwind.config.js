@@ -20,6 +20,7 @@ module.exports = {
                 secondary: "var(--secondary)",
                 accent: "var(--accent)",
                 accent2: "var(--accent2)",
+                comment: "var(--comment)",
                 retweeted: "var(--retweeted)",
                 liked: "var(--liked)",
                 bookmarked: "var(--bookmarked)"

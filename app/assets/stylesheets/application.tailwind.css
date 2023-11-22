@@ -15,8 +15,10 @@
     --secondary: #e6e6e5;
     --accent: #E90101;
     --accent2: #ffac99;
-    --retweeted: #65ba5a;
-    --liked: #ca5649;
+    --comment: #ff5833;
+    --retweeted: #ff2f00;
+    --liked: #cc2500;
+    --bookmarked: #991c00;
     --theme-switch-pos: 0.15rem
   }
   .dark {
@@ -26,8 +28,10 @@
     --secondary: #1a1a19;
     --accent: #FE1616;
     --accent2: #661300;
-    --liked: #b64235;
-    --retweeted: #50a545;
+    --comment: #cc2500;
+    --retweeted: #ff2f00;
+    --liked: #ff5833;
+    --bookmarked: #ff8266;
     --theme-switch-pos: 2.38rem
   }
 }
