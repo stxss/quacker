@@ -13,10 +13,10 @@ class TweetsController < ApplicationController
     # If a request there's no request referrer, meaning it was typed into the url bar or a page refresh, basically everything that's not a click on any of the compose buttons, render the normal tweet_form and timeline
     @render_everything = request.referrer.nil?
 
-    raise UserGonePrivate if @retweet && @retweet.author.account.private_visibility && current_user != @retweet.author
+    raise UserGonePrivate if @repost && @repost.author.account.private_visibility && current_user != @repost.author
   rescue UserGonePrivate
     respond_to do |format|
-      format.html { redirect_to root_path, alert: "Couldn't retweet a privated tweet" }
+      format.html { redirect_to root_path, alert: "Couldn't repost a privated tweet" }
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     flash.now[:alert] = "Something went wrong, please try again!"
@@ -32,7 +32,7 @@ class TweetsController < ApplicationController
   end
 
   def show
-    @tweet = if Tweet.with_deleted.find(params[:id]).type.in?(["Retweet", "Quote", "Comment"])
+    @tweet = if Tweet.with_deleted.find(params[:id]).type.in?(["Repost", "Quote", "Comment"])
       Tweet.with_deleted.includes({original: [author: :account]}, {comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
     else
       Tweet.with_deleted.includes({comments: [{comments: {author: :account}}, {author: :account}]}, author: :account).find(params[:id])
@@ -68,7 +68,7 @@ class TweetsController < ApplicationController
 
   def destroy
     @tweet = Tweet.find(params[:id])
-    rts = @tweet.retweets.ids
+    rts = @tweet.reposts.ids
 
     if current_user == @tweet.author
       (@tweet.height > 0) ? @tweet.soft_destroy : @tweet.destroy
@@ -103,16 +103,16 @@ class TweetsController < ApplicationController
     following_ids = current_user.active_follows.where(is_request: false).pluck(:followed_id)
     query = "user_id = :current_user_id OR user_id IN (:following_ids)"
 
-    retweets ||= Retweet.where(query, current_user_id: current_user.id, following_ids: following_ids).includes({original: [author: :account]}, author: :account)
+    reposts ||= Repost.where(query, current_user_id: current_user.id, following_ids: following_ids).includes({original: [author: :account]}, author: :account)
     quotes ||= Quote.where(query, current_user_id: current_user.id, following_ids: following_ids).includes({original: [author: :account]}, {comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
     normal ||= Tweet.where(query, current_user_id: current_user.id, following_ids: following_ids).where(type: nil).includes({comments: [{comments: {author: :account}} , {author: :account}]}, author: :account)
 
-    # reject muted. blocked accounts are unfollowed, so if the blocked user has commented on something that the blocker posted, it will be hidden from the timeline or a specific message shown as a disclaimer saying that the user is blocked, with a button to fetch that specific tweet in case the user wishes to see the content of the tweet, with only retweets being filtered
+    # reject muted. blocked accounts are unfollowed, so if the blocked user has commented on something that the blocker posted, it will be hidden from the timeline or a specific message shown as a disclaimer saying that the user is blocked, with a button to fetch that specific tweet in case the user wishes to see the content of the tweet, with only reposts being filtered
     muted_accounts =  current_user.account.muted_accounts.pluck(:muted_id)
     blocked_accounts = current_user.account.blocked_accounts.pluck(:blocked_id)
     muted_words = current_user.account.muted_words.pluck(:body)
 
-    @tweets = (normal + retweets + quotes).reject do |tweet|
+    @tweets = (normal + reposts + quotes).reject do |tweet|
       author = tweet.author
       next if author == current_user
 

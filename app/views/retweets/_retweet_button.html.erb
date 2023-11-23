@@ -1,6 +1,0 @@
-<div class="retweet-button">
-  <%= button_to retweet_path(retweet_original_id: t.id), remote: true do %>
-    <%= content_tag(:span, inline_svg_tag("svg/repost.svg", class: "fill-none z-10") ) %>
-    <%= content_tag(:span, "Retweet", class: "retweet-text") %>
-  <% end %>
-</div>

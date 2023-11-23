@@ -21,7 +21,7 @@ module.exports = {
                 accent: "var(--accent)",
                 accent2: "var(--accent2)",
                 comment: "var(--comment)",
-                retweeted: "var(--retweeted)",
+                reposted: "var(--reposted)",
                 liked: "var(--liked)",
                 bookmarked: "var(--bookmarked)"
             },

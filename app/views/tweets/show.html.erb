@@ -1,5 +1,5 @@
 <%= turbo_stream_from "comments" %>
-<%= turbo_stream_from "retweets" %>
+<%= turbo_stream_from "reposts" %>
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "bookmarks" %>
 
@@ -10,6 +10,6 @@
 <% elsif @tweet.author.account.has_blocked?(current_user) %>
   <%= render "tweets/unavailable_tweet" %>
 <% else %>
-  <% original = @tweet.original if @tweet.comment? || @tweet.retweet? || @tweet.quote_tweet? %>
+  <% original = @tweet.original if @tweet.comment? || @tweet.repost? || @tweet.quote_tweet? %>
   <%= render "tweets/single_tweet", t: @tweet, original: original, view: :single_post %>
 <% end %>

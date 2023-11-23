@@ -1,14 +1,14 @@
 class QuotesController < TweetsController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
   def new
-    @retweet = Tweet.find(params[:id])
+    @repost = Tweet.find(params[:id])
     @render_everything = request.referrer.nil?
 
-    raise UserGonePrivate if @retweet && @retweet.author.account.private_visibility && current_user != @retweet.author
+    raise UserGonePrivate if @repost && @repost.author.account.private_visibility && current_user != @repost.author
   rescue UserGonePrivate
     respond_to do |format|
-      format.html { redirect_to root_path, alert: "Couldn't retweet a privated tweet" }
+      format.html { redirect_to root_path, alert: "Couldn't repost a privated tweet" }
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     flash.now[:alert] = "Something went wrong, please try again!"
@@ -18,8 +18,8 @@ class QuotesController < TweetsController
   def create
     @quote = current_user.created_quotes.build(body: quote_params[:body], quoted_tweet_id: params[:id])
 
-    @quote.original&.broadcast_render_later_to "retweets",
-      partial: "retweets/update_retweets_count",
+    @quote.original&.broadcast_render_later_to "reposts",
+      partial: "reposts/update_reposts_count",
       locals: {t: @quote.original}
 
     raise UserGonePrivate if @quote.original.author.account.private_visibility && current_user != @quote.original.author
@@ -43,7 +43,7 @@ class QuotesController < TweetsController
 
   def destroy
     @quote = Quote.find(params[:id])
-    rts = @quote.retweets.ids
+    rts = @quote.reposts.ids
 
     if current_user == @quote.author
       (@quote.height > 0) ? @quote.soft_destroy : @quote.destroy
@@ -51,8 +51,8 @@ class QuotesController < TweetsController
       raise(UnauthorizedElements)
     end
 
-    @quote.original&.broadcast_render_later_to "retweets",
-      partial: "retweets/update_retweets_count",
+    @quote.original&.broadcast_render_later_to "reposts",
+      partial: "reposts/update_reposts_count",
       locals: {t: @quote.original}
 
     respond_to do |format|

@@ -1,0 +1,2 @@
+<%= turbo_stream.replace_all("#repost_#{t.original.id}", partial: "reposts/reposts", locals: {t: t.original, user: user}) %>
+<%= render_flash_message %>

@@ -1,0 +1,2 @@
+<%= turbo_stream.replace_all("#repost_#{t.original.id} .dropdown", partial: "reposts/fake_repost_menu", locals: {t: t.original}) %>
+<%= render_flash_message %>

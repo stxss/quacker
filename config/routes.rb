@@ -32,12 +32,12 @@ Rails.application.routes.draw do
     end
   end
 
-  # get "/bookmarks", to: "bookmarks#index", as: "user_bookmarks", module: :tweets
   get "/bookmarks", to: "tweets/bookmarks#index", as: "user_bookmarks"
 
   resources :tweets, only: [:new, :create, :destroy] do
     resource :like, module: :tweets, only: [:update]
     resource :bookmark, module: :tweets, only: [:update]
+    resource :reposts, module: :tweets, only: [:update]
   end
 
   # Create a quote or comment on a tweet
@@ -48,10 +48,6 @@ Rails.application.routes.draw do
     resources :quotes, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy]
   end
-
-  # Actions to create and destroy a retweet
-  post "/tweets/retweet/:retweet_original_id", to: "retweets#create", as: "retweet"
-  delete "/tweets/retweet/:id", to: "retweets#destroy", as: "unretweet"
 
   resources :follows, only: %i[create destroy update]
   resources :notifications, only: %i[index]

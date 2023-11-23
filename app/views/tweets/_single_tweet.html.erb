@@ -2,8 +2,8 @@
     <%= turbo_frame_tag "tweet_#{t.id}", data: {controller: "misc" } do %>
       <article class="tweet border-b border-b-accent2 m-0 bg-secondary text-text hover:brightness-125 hover:shadow-accent ease hover:shadow-centered" data-action="click->misc#postClick">
         <a class="hidden" onclick="window.location = '<%= single_tweet_path(username: t.author.username, id: t.id) %>'"></a>
-        <% if t.retweet? %>
-          <%= render "retweets/retweet_info", t: t, original: original %>
+        <% if t.repost? %>
+          <%= render "reposts/repost_info", t: t, original: original %>
         <% elsif t.quote_tweet? %>
           <%= render "quotes/quote_tweet_info", t: t, original: original, show_rt: true, view: view %>
         <% else %>

@@ -3,8 +3,8 @@
 <h1><%= pluralize(@posts.count, "Result") %> </h1>
 
 <% @posts.each do |post| %>
-  <% original = post.original if post.comment? || post.retweet? || post.quote_tweet? %>
-  <% next if post.retweet? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
+  <% original = post.original if post.comment? || post.repost? || post.quote_tweet? %>
+  <% next if post.repost? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
   <%= render "tweets/single_tweet", t: post, original: original, view: :timeline %>
 <% end %>
 

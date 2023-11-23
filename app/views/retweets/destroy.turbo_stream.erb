@@ -1,3 +1,0 @@
-<%= turbo_stream.remove("tweet_#{@retweet.id}") %>
-<%= turbo_stream.replace_all("#retweet_#{@retweet.original.id}", partial: "retweets/retweets", locals: {t: @retweet.original, user: current_user}) %>
-<%= render_flash_message %>

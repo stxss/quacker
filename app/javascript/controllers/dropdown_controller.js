@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Connects to the retweet pop up and button
+// Connects to the repost pop up and button
 export default class extends Controller {
     static targets = ["menu", "menuButton"];
 

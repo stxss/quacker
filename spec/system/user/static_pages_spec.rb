@@ -50,41 +50,41 @@ RSpec.describe "Check user static pages", type: :system do
     expect(page).to have_css(".tweet-body").thrice
   end
 
-  it "displays user tweets and retweets" do
+  it "displays user tweets and reposts" do
     tweets = create_list(:tweet, 10, user_id: user.id, body: "Test tweet ")
 
     visit root_path
     login_as other_user
     visit username_path(user.username)
 
-    # Find the first five tweets and retweet them
+    # Find the first five tweets and repost them
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        find(".retweets .dropdown").click
-        find(".retweet-button").click
+        find(".reposts .dropdown").click
+        find(".repost-button").click
       end
     end
 
-    # Assert that the first five tweets are retweeted
+    # Assert that the first five tweets are reposted
     tweets[0..4].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        within ".retweets" do
+        within ".reposts" do
           find(".dropdown").click
         end
-        expect(page).not_to have_css(".retweet-button")
-        expect(page).to have_css(".unretweet-button")
+        expect(page).not_to have_css(".repost-button")
+        expect(page).to have_css(".unrepost-button")
         find(".backdrop").click
       end
     end
 
-    # Assert that the remaining tweets are not retweeted
+    # Assert that the remaining tweets are not reposted
     tweets[5..9].each do |tweet|
       within("#tweet_#{tweet.id}") do
-        within ".retweets" do
+        within ".reposts" do
           find(".dropdown").click
         end
-        expect(page).to have_css(".retweet-button")
-        expect(page).not_to have_css(".unretweet-button")
+        expect(page).to have_css(".repost-button")
+        expect(page).not_to have_css(".unrepost-button")
         find(".backdrop").click
       end
     end

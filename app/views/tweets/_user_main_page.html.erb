@@ -3,8 +3,8 @@
     <% if t.deleted_at %>
       <%= render "tweets/deleted_tweet", t: t, view: :all_user_posts %>
     <% else %>
-      <% if t.retweet? %>
-        <%= render "retweets/retweet_info", t: t, original: original %>
+      <% if t.repost? %>
+        <%= render "reposts/repost_info", t: t, original: original %>
       <% elsif t.quote_tweet? %>
         <%= render "quotes/quote_tweet_info", t: t, original: original, view: :all_user_posts %>
       <% else %>

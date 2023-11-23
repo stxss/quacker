@@ -3,14 +3,14 @@ class Tweet < ApplicationRecord
   include Reusable
 
   before_validation :validate_urls
-  validates :body, length: {in: 1..10000, message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :retweet?
-  validates :body, format: {without: /\A\s*\z/, message: "cannot have only whitespace"}, unless: :retweet?
+  validates :body, length: {in: 1..10000, message: "The tweet has to have at least a single character and no more than 280 characters."}, unless: :repost?
+  validates :body, format: {without: /\A\s*\z/, message: "cannot have only whitespace"}, unless: :repost?
 
   belongs_to :author, class_name: "User", foreign_key: :user_id, counter_cache: true
 
   has_many :comments, class_name: "Comment", foreign_key: :parent_id
   has_many :quote_tweets, class_name: "Quote", foreign_key: :quoted_tweet_id
-  has_many :retweets, class_name: "Retweet", foreign_key: :retweet_original_id, dependent: :delete_all
+  has_many :reposts, class_name: "Repost", foreign_key: :repost_original_id, dependent: :delete_all
   has_many :likes, dependent: :delete_all
 
   has_many :notifications, dependent: :delete_all
@@ -46,8 +46,20 @@ class Tweet < ApplicationRecord
     bookmarks.where(user: user).destroy_all
   end
 
-  def retweet?
-    type == "Retweet"
+  def repost?
+    type == "Repost"
+  end
+
+  def reposted_by?(user)
+    reposts.where(user: user).exists?
+  end
+
+  def repost(user)
+    reposts.where(user: user).first_or_create
+  end
+
+  def unrepost(user)
+    reposts.where(user: user).destroy_all
   end
 
   def quote_tweet?

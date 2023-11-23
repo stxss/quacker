@@ -1,5 +1,5 @@
 <%= turbo_stream_from "comments" %>
-<%= turbo_stream_from "retweets" %>
+<%= turbo_stream_from "reposts" %>
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "tweets" %>
 
@@ -8,11 +8,11 @@
 
   <%= turbo_frame_tag "timeline", data: { turbo_permanent: true } do %>
     <% @tweets.each do |t| %>
-      <% original = t.original if t.comment? || t.retweet? || t.quote_tweet? %>
+      <% original = t.original if t.comment? || t.repost? || t.quote_tweet? %>
       <% if t.comment? && t.new_tweet?(@tweets) && session[:new_comment] == 1 && t.original.comments.last == t %>
         <%= render "comments/comment_tweet_info", t: t, original: original %>
       <% else %>
-        <% next if t.retweet? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
+        <% next if t.repost? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
         <%= render "tweets/single_tweet", t: t, original: original, view: :timeline %>
       <% end %>
     <% end %>

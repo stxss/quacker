@@ -15,7 +15,7 @@ module Relevance
       weight = case model
       when :like
         lw
-      when :retweet
+      when :repost
         rw
       when :quote
         qw

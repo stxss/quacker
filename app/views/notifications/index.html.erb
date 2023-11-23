@@ -5,8 +5,8 @@
     <%= render "like_notification", notifier: n.notifier, tweet: n.tweet %>
   <% elsif n.notification_type == "comment" %>
     <%= render "comment_notification", notifier: n.notifier, tweet: n.tweet, original: n.tweet.original, view: :notification %>
-  <% elsif n.notification_type == "retweet" %>
-    <%= render "retweet_notification", notifier: n.notifier, tweet: n.tweet %>
+  <% elsif n.notification_type == "repost" %>
+    <%= render "repost_notification", notifier: n.notifier, tweet: n.tweet %>
   <% elsif n.notification_type == "quote" %>
     <%= render "tweets/single_tweet", t: n.tweet, original: n.tweet.original, view: :notification %>
   <% end %>

@@ -185,41 +185,41 @@ RSpec.describe "Tweet creation", type: :system do
     expect(page).to have_content("Couldn't like a deleted tweet.")
   end
 
-  it "user can retweet own tweets" do
+  it "user can repost own tweets" do
     visit root_path
     fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
-    within ".retweets" do
+    within ".reposts" do
       find(".dropdown").click
-      find(".retweet-button").click
+      find(".repost-button").click
     end
     visit root_path
-    within ".retweet-info" do
+    within ".repost-info" do
       expect(page).to have_css(".display-name", text: user.display_name).twice
       expect(page).to have_css(".tweet-body", text: "Public tweet!")
     end
   end
 
-  it "another user can retweet" do
+  it "another user can repost" do
     visit root_path
     fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    within ".retweets" do
+    within ".reposts" do
       find(".dropdown").click
-      find(".retweet-button").click
+      find(".repost-button").click
     end
     visit root_path
-    within ".retweet-info" do
+    within ".repost-info" do
       expect(page).to have_css(".display-name", text: other_user.display_name).once
       expect(page).to have_css(".display-name", text: user.display_name).once
       expect(page).to have_css(".tweet-body", text: "Public tweet!")
     end
   end
 
-  it "user can't retweet deleted tweet" do
+  it "user can't repost deleted tweet" do
     visit root_path
     fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
@@ -227,35 +227,35 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
     user.created_tweets.last.destroy
-    within ".retweets" do
+    within ".reposts" do
       find(".dropdown").click
-      find(".retweet-button").click
+      find(".repost-button").click
     end
-    expect(page).to have_content("Couldn't retweet a deleted tweet.")
+    expect(page).to have_content("Couldn't repost a deleted tweet.")
   end
 
-  it "user can unretweet" do
+  it "user can unrepost" do
     visit root_path
     fill_in "compose-area", with: "Public tweet!"
     click_on "Tweet"
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    within ".retweets" do
+    within ".reposts" do
       find(".dropdown").click
-      find(".retweet-button").click
+      find(".repost-button").click
     end
     visit root_path
-    within ".retweets .retweeted" do
+    within ".reposts .reposted" do
       find(".dropdown").click
-      find(".unretweet-button").click
+      find(".unrepost-button").click
     end
     expect(page).not_to have_css(".display-name", text: other_user.display_name).once
     expect(page).not_to have_css(".display-name", text: user.display_name).once
     expect(page).not_to have_css(".tweet-body", text: "Public tweet!")
   end
 
-  it "users cannot retweet tweets from private users" do
+  it "users cannot repost tweets from private users" do
     create(:follow, followed_id: other_user.id, follower_id: user.id, is_request: false)
     create(:follow, followed_id: user.id, follower_id: other_user.id, is_request: false)
 
@@ -270,13 +270,13 @@ RSpec.describe "Tweet creation", type: :system do
     visit root_path
     login_as other_user
     visit username_path(user.username)
-    within ".retweets" do
+    within ".reposts" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css(".unretweet-button")
+      expect(page).not_to have_css(".unrepost-button")
     end
   end
 
-  it "users can unretweet tweets from private users they had previously retweeted" do
+  it "users can unrepost tweets from private users they had previously reposted" do
     create(:follow, followed_id: other_user.id, follower_id: user.id, is_request: false)
     create(:follow, followed_id: user.id, follower_id: other_user.id, is_request: false)
     create(:tweet, user_id: user.id, body: "Test tweet")
@@ -285,9 +285,9 @@ RSpec.describe "Tweet creation", type: :system do
 
     login_as other_user
     visit username_path(user.username)
-    within ".retweets" do
+    within ".reposts" do
       find(".dropdown").click
-      find(".retweet-button").click
+      find(".repost-button").click
     end
 
     visit root_path
@@ -300,13 +300,13 @@ RSpec.describe "Tweet creation", type: :system do
     login_as other_user
     visit username_path(user.username)
 
-    within ".retweets" do
+    within ".reposts" do
       expect(page).to have_css(".dropdown")
-      expect(page).to have_css(".retweets .retweeted")
+      expect(page).to have_css(".reposts .reposted")
     end
   end
 
-  it "if a user sets account to private mid-unretweet, a fake retweet button replaces the menu" do
+  it "if a user sets account to private mid-unrepost, a fake repost button replaces the menu" do
     create(:follow, followed_id: other_user.id, follower_id: user.id, is_request: false)
     create(:follow, followed_id: user.id, follower_id: other_user.id, is_request: false)
 
@@ -319,21 +319,21 @@ RSpec.describe "Tweet creation", type: :system do
 
     login_as other_user
     visit username_path(user.username)
-    within ".retweets" do
+    within ".reposts" do
       find(".dropdown").click
-      find(".retweet-button").click
+      find(".repost-button").click
     end
 
     visit username_path(user.username)
     user.account.update(private_visibility: true)
-    within ".retweets .retweeted" do
+    within ".reposts .reposted" do
       find(".dropdown").click
-      find(".unretweet-button").click
+      find(".unrepost-button").click
     end
 
-    within ".retweets" do
+    within ".reposts" do
       expect(page).not_to have_css(".dropdown")
-      expect(page).not_to have_css(".unretweet-button")
+      expect(page).not_to have_css(".unrepost-button")
     end
   end
 end

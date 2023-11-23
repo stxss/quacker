@@ -1,6 +1,6 @@
-<div class="retweet-info">
+<div class="repost-info">
   <%= link_to username_path(t.author.username), class: "author", target: "_top" do %>
-    <span class="display-name"><%= t.author.display_name %></span> Retweeted
+    <span class="display-name"><%= t.author.display_name %></span> Reposted
   <% end %>
 
   <%= render "tweets/creator_info", t: original, more_info: true %>
@@ -9,8 +9,8 @@
   <div class="activity-box flex">
     <%= render "comments/comments", t: original %>
 
-    <span class="retweets">
-      <%= render "retweets/retweets", t: original, self_rt: t %>
+    <span class="reposts">
+      <%= render "tweets/reposts", t: original, self_rt: t %>
     </span>
 
     <span class="likes">

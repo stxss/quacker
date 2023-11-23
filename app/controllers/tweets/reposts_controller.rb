@@ -1,6 +1,11 @@
-class RetweetsController < TweetsController
+class Tweets::RepostsController < TweetsController
+  include ActionView::RecordIdentifier
+
+  before_action :authenticate_user!
+  before_action :set_post
+
   def create
-    # When user clicks retweet, it looks up the tweet, creates a retweet and then broadcasts the updated count to all the users. Finally, to update the buttons correctly for the user, a format.turbo_stream request is made with the value of the tweet as the original has been updated with a retweet count. By fetching the original tweet after the update, the most recent values are assured and errors minimized
+    # When user clicks repost, it looks up the tweet, creates a repost and then broadcasts the updated count to all the users. Finally, to update the buttons correctly for the user, a format.turbo_stream request is made with the value of the tweet as the original has been updated with a retweet count. By fetching the original tweet after the update, the most recent values are assured and errors minimized
 
     @retweet = current_user.created_retweets.build(retweet_original_id: params[:retweet_original_id])
     @retweet.original.broadcast_render_later_to "retweets",
@@ -64,11 +69,39 @@ class RetweetsController < TweetsController
     render "retweets/_not_found", locals: {original_tweet_id: retweet_params[:retweet_original_id], retweet_id: retweet_params[:self_rt]}
   end
 
+  def update
+    if @post.reposted_by?(current_user)
+      @post.unrepost(current_user)
+      @post.author.notifications_received.where(notifier_id: current_user.id, notification_type: :like, tweet_id: @post.id).delete_all
+    else
+      @post.repost(current_user)
+      if !@post.author.account.has_muted?(current_user)
+        current_user.notify(@post.author.id, :like, tweet_id: @post.id)
+      end
+    end
+
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace_all("##{dom_id(@post, :reposts)}", partial: "tweets/reposts", locals: {t: @post})
+      }
+      @post.broadcast_render_later_to "reposts",
+        partial: "tweets/broadcast_reposts",
+        locals: {t: @post}
+    end
+  end
+
   private
 
   def retweet_params
     params.require(:retweet).permit(:retweet_original_id, :self_rt)
   rescue ActionController::ParameterMissing
     {}
+  end
+
+  def set_post
+    @post = Tweet.find(params[:tweet_id])
+  rescue ActiveRecord::RecordNotFound
+    flash.now[:alert] = "Tweet not found."
+    render "tweets/_not_found", locals: {id: params[:tweet_id]}
   end
 end

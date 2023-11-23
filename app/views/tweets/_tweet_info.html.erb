@@ -4,7 +4,7 @@
 
   <div class="activity-box flex p-3">
     <%= render "comments/comments", t: t %>
-    <%= render "retweets/retweets", t: t %>
+    <%= render partial: "tweets/reposts", locals: {t: t} %>
     <%= render partial: "tweets/likes", locals: {t: t} %>
     <%= render partial: "tweets/bookmarks", locals: {t: t} %>
 

@@ -3,7 +3,7 @@ class Notification < ApplicationRecord
     follow: 0,
     like: 1,
     comment: 2,
-    retweet: 3,
+    repost: 3,
     quote: 4
   }
 

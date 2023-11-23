@@ -16,7 +16,7 @@
     --accent: #E90101;
     --accent2: #ffac99;
     --comment: #ff5833;
-    --retweeted: #ff2f00;
+    --reposted: #ff2f00;
     --liked: #cc2500;
     --bookmarked: #991c00;
     --theme-switch-pos: 0.15rem
@@ -29,7 +29,7 @@
     --accent: #FE1616;
     --accent2: #661300;
     --comment: #cc2500;
-    --retweeted: #ff2f00;
+    --reposted: #ff2f00;
     --liked: #ff5833;
     --bookmarked: #ff8266;
     --theme-switch-pos: 2.38rem

@@ -1,0 +1,10 @@
+<%= tag.div id:dom_id(t, :reposts), class: "flex gap-2 #{reposted_class(t)}" do %>
+      <div class="dropdown repost" data-controller="dropdown" data-action="click->dropdown#dropMenu">
+        <%= repost_btn_icon(t, submit = false) %>
+          <div class="dropdown-content" data-dropdown-target="menu">
+            <div class="backdrop"></div>
+              <%= button_to repost_btn_icon(t, submit = true), tweet_reposts_path(t), class: "flex gap-2", method: :patch %>
+              <%= button_to quote_btn_icon(t), new_quote_path(id: t.id, username: t.author.username), data: { turbo_frame: "modal", turbo_action: :advance}, method: :get %>
+          </div>
+      </div>
+  <% end %>

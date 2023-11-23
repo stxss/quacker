@@ -7,10 +7,10 @@ class SetupTweets < ActiveRecord::Migration[7.0]
       t.references :user, unique: true, null: false
 
       t.references :parent
-      t.references :retweet_original
+      t.references :repost_original
       t.references :quoted_tweet, default: nil
 
-      t.integer :retweets_count, null: false, default: 0
+      t.integer :reposts_count, null: false, default: 0
       t.integer :likes_count, null: false, default: 0
       t.integer :comments_count, null: false, default: 0
       t.integer :quote_tweets_count, null: false, default: 0
@@ -28,7 +28,7 @@ class SetupTweets < ActiveRecord::Migration[7.0]
 
     add_foreign_key :tweets, :tweets, column: :root_id
     add_foreign_key :tweets, :tweets, column: :parent_id
-    add_foreign_key :tweets, :tweets, column: :retweet_original_id, on_delete: :cascade
+    add_foreign_key :tweets, :tweets, column: :repost_original_id, on_delete: :cascade
     add_foreign_key :tweets, :tweets, column: :quoted_tweet_id, on_delete: :nullify
     add_foreign_key :tweets, :users, on_delete: :cascade
   end

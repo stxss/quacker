@@ -145,9 +145,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.text "body"
     t.bigint "user_id", null: false
     t.bigint "parent_id"
-    t.bigint "retweet_original_id"
+    t.bigint "repost_original_id"
     t.bigint "quoted_tweet_id"
-    t.integer "retweets_count", default: 0, null: false
+    t.integer "reposts_count", default: 0, null: false
     t.integer "likes_count", default: 0, null: false
     t.integer "comments_count", default: 0, null: false
     t.integer "quote_tweets_count", default: 0, null: false
@@ -161,7 +161,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "updated_at", null: false
     t.index ["parent_id"], name: "index_tweets_on_parent_id"
     t.index ["quoted_tweet_id"], name: "index_tweets_on_quoted_tweet_id"
-    t.index ["retweet_original_id"], name: "index_tweets_on_retweet_original_id"
+    t.index ["repost_original_id"], name: "index_tweets_on_repost_original_id"
     t.index ["root_id"], name: "index_tweets_on_root_id"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
@@ -211,7 +211,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
   add_foreign_key "notifications", "users", column: "notifier_id"
   add_foreign_key "tweets", "tweets", column: "parent_id"
   add_foreign_key "tweets", "tweets", column: "quoted_tweet_id", on_delete: :nullify
-  add_foreign_key "tweets", "tweets", column: "retweet_original_id", on_delete: :cascade
+  add_foreign_key "tweets", "tweets", column: "repost_original_id", on_delete: :cascade
   add_foreign_key "tweets", "tweets", column: "root_id"
   add_foreign_key "tweets", "users", on_delete: :cascade
 end

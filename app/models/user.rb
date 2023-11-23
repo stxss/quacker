@@ -22,7 +22,7 @@ class User < ApplicationRecord
   has_many :notifiers, through: :notifications_received
 
   has_many :created_tweets, class_name: "Tweet", dependent: :destroy
-  has_many :created_retweets, class_name: "Retweet"
+  has_many :created_reposts, class_name: "Repost"
   has_many :created_comments, class_name: "Comment"
   has_many :created_quotes, class_name: "Quote"
 
@@ -88,9 +88,9 @@ class User < ApplicationRecord
   def all_tweets(current)
     @normal = created_tweets.includes(author: :account).where(type: nil)
     @quotes = created_quotes.includes(original: [author: :account], author: :account)
-    @retweets = created_retweets.includes(original: [author: :account], author: :account)
+    @reposts = created_reposts.includes(original: [author: :account], author: :account)
 
-    @tweets = (@normal + @quotes + @retweets - created_comments).reject { |tweet| (tweet.type == "Retweet" && tweet.original && tweet.original.author.account.has_blocked?(current)) }.sort_by(&:updated_at)&.reverse
+    @tweets = (@normal + @quotes + @reposts - created_comments).reject { |tweet| (tweet.type == "Repost" && tweet.original && tweet.original.author.account.has_blocked?(current)) }.sort_by(&:updated_at)&.reverse
   end
 
   def all_likes(current)
@@ -128,10 +128,6 @@ class User < ApplicationRecord
     if User.where(email: username).exists?
       errors.add(:username, :invalid)
     end
-  end
-
-  def has_rt?(tweet)
-    created_tweets.where(retweet_original_id: tweet).exists?
   end
 
   def set_default_display_name

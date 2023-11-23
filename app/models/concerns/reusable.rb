@@ -44,7 +44,7 @@ module Reusable
 
   # when creating a tweet or a message, this method validates any urls present and passes them on to the markdown method in the application helper, to create hyperlinks automatically.
   def validate_urls(text = nil)
-    return if self.instance_of?(Retweet)
+    return if self.instance_of?(Repost)
 
     content = text || body
 

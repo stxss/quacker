@@ -1,5 +1,0 @@
-<%= turbo_frame_tag "retweet_count_#{t.id}" do %>
-  <span class="retweet-count">
-    <%= t.retweets.size + t.quote_tweets.where(deleted_at: nil).size %>
-  </span>
-<% end %>
