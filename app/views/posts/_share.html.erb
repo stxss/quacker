@@ -1,0 +1,20 @@
+<div class="share">
+  <div class="dropdown" data-controller="dropdown" data-action="click->dropdown#dropMenu">
+    <button><%= share_icon_svg %></button>
+
+    <div class="dropdown-content share" data-dropdown-target="menu">
+      <div class="backdrop"></div>
+        <% unless post.author.account.private_visibility %>
+          <div class="menuitem" data-controller="misc" data-url=<%=  single_post_url(username: post.author.username, id: post.id) %> data-action="click->misc#copyLink">
+            <button>
+              <span><%=  copy_link_svg  %></span>
+              Copy link to Post
+            </button>
+          </div>
+          <div class="menuitem">
+            <%=  render partial: "messages/share_in_conversation", locals: {post: post}  %>
+          </div>
+      <%  end %>
+    </div>
+  </div>
+</div>

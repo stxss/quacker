@@ -10,14 +10,14 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  get "/home", to: "tweets#index"
+  get "/home", to: "posts#index"
   root to: redirect("/home", status: 302)
 
   get "search", to: "search#index", as: "search"
 
   get "/messages/search/", to: "messages#search", as: "messages_search"
   get "/messages", to: "messages#index", as: "messages"
-  get "/:username/status/:id/share", to: "messages#share_tweet", as: "share_tweet"
+  get "/:username/status/:id/share", to: "messages#share_post", as: "share_post"
 
   resources :messages, only: [:new, :create, :destroy]
 
@@ -32,19 +32,19 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/bookmarks", to: "tweets/bookmarks#index", as: "user_bookmarks"
+  get "/bookmarks", to: "posts/bookmarks#index", as: "user_bookmarks"
 
-  resources :tweets, only: [:new, :create, :destroy] do
-    resource :like, module: :tweets, only: [:update]
-    resource :bookmark, module: :tweets, only: [:update]
-    resource :reposts, module: :tweets, only: [:update]
+  resources :posts, only: [:new, :create, :destroy] do
+    resource :like, module: :posts, only: [:update]
+    resource :bookmark, module: :posts, only: [:update]
+    resource :reposts, module: :posts, only: [:update]
   end
 
-  # Create a quote or comment on a tweet
+  # Create a quote or comment on a post
   get "/:username/status/:id/quote", to: "quotes#new", as: "new_quote"
   get "/:username/status/:id/comment", to: "comments#new", as: "new_comment"
 
-  scope "/tweets" do
+  scope "/posts" do
     resources :quotes, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy]
   end
@@ -53,15 +53,15 @@ Rails.application.routes.draw do
   resources :notifications, only: %i[index]
   resources :accounts, path: "settings", only: %i[index edit update]
 
-  # Show a single tweet
-  get "/:username/status/:id", to: "tweets#show", as: "single_tweet"
-  get "/:id/view_blocked", to: "tweets#view_blocked_single_tweet", as: "view_blocked_single_tweet"
+  # Show a single post
+  get "/:username/status/:id", to: "posts#show", as: "single_post"
+  get "/:id/view_blocked", to: "posts#view_blocked_single_post", as: "view_blocked_single_post"
 
   get "/:username", to: "users#show", as: "username"
 
   get "/:username/replies", to: "users#show_replies", as: "username_replies"
 
-  get "/:username/likes", to: "users#index_liked_tweets", as: "user_likes"
+  get "/:username/likes", to: "users#index_liked_posts", as: "user_likes"
 
   # get "/:username/following", to: "users#following", as: "user_following"
   # get "/:username/followers", to: "users#followers", as: "user_followers"
@@ -88,7 +88,7 @@ Rails.application.routes.draw do
   get "/settings/audience_and_tagging/", to: "accounts#edit_audience_and_tagging", as: "settings_audience_and_tagging"
   # get "/settings/tagging/", to: "accounts#edit_tagging", as: "settings_tagging"
 
-  get "/settings/your_tweets/", to: "accounts#edit_your_tweets", as: "settings_your_tweets"
+  get "/settings/your_posts/", to: "accounts#edit_your_posts", as: "settings_your_posts"
 
   get "/settings/content_you_see/", to: "accounts#edit_content_you_see", as: "settings_content_you_see"
   get "/settings/search", to: "accounts#edit_search", as: "settings_search"

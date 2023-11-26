@@ -1,7 +1,0 @@
-<%= turbo_frame_tag "tweet_#{t.id}", class: "turbo-nested" do %>
-  <div class="tweet">
-    <div class="tweet-info">
-      <p>This Tweet is unavailable because @<%= t.author.username %> blocked you.</p>
-    </div>
-  </div>
-<% end %>

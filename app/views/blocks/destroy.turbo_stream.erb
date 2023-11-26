@@ -1,9 +1,9 @@
 <% if @last_action == "show" %>
-  <%= turbo_stream.replace("all-tweets-#{@user.id}", partial: "users/all_tweets", locals: {user: @user, tweets: @user.all_tweets(current_user)}) %>
-<% elsif @last_action == "index_liked_tweets" %>
-  <%= turbo_stream.replace("all-tweets-#{@user.id}", partial: "users/all_likes", locals: {user: @user, likes: @user.all_likes(current_user)}) %>
+  <%= turbo_stream.replace("all-posts-#{@user.id}", partial: "users/all_posts", locals: {user: @user, posts: @user.all_posts(current_user)}) %>
+<% elsif @last_action == "index_liked_posts" %>
+  <%= turbo_stream.replace("all-posts-#{@user.id}", partial: "users/all_likes", locals: {user: @user, likes: @user.all_likes(current_user)}) %>
 <% elsif @last_action == "show_replies" %>
-  <%= turbo_stream.replace("all-tweets-#{@user.id}", partial: "users/all_replies", locals: {user: @user, replies: @user.all_replies}) %>
+  <%= turbo_stream.replace("all-posts-#{@user.id}", partial: "users/all_replies", locals: {user: @user, replies: @user.all_replies(current_user)}) %>
 <% end %>
 
 <%= turbo_stream.update_all("#unblock-#{@user.id}", partial: "blocks/block", locals: {user: @user}) %>

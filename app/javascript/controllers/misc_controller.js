@@ -14,7 +14,7 @@ export default class extends Controller {
 
     toggleReplies() {
         let el = this.element.parentElement.querySelector(
-            ".tweet > .tweet-info"
+            ".post > .post-info"
         );
         if (el.style.display === "none") {
             el.style.display = "block";

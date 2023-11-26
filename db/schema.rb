@@ -43,16 +43,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
-    t.index ["blocker_id", "blocked_id"], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
+    t.index %w[blocker_id blocked_id], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
     t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
   end
 
   create_table "bookmarks", force: :cascade do |t|
-    t.bigint "tweet_id", null: false
+    t.bigint "post_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tweet_id"], name: "index_bookmarks_on_tweet_id"
+    t.index ["post_id"], name: "index_bookmarks_on_post_id"
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
@@ -82,16 +82,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["followed_id"], name: "index_follows_on_followed_id"
-    t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id", unique: true
+    t.index %w[follower_id followed_id], name: "index_follows_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "likes", force: :cascade do |t|
-    t.bigint "tweet_id", null: false
+    t.bigint "post_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tweet_id"], name: "index_likes_on_tweet_id"
+    t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
@@ -112,7 +112,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["muted_id"], name: "index_muted_accounts_on_muted_id"
-    t.index ["muter_id", "muted_id"], name: "index_muted_accounts_on_muter_id_and_muted_id", unique: true
+    t.index %w[muter_id muted_id], name: "index_muted_accounts_on_muter_id_and_muted_id", unique: true
     t.index ["muter_id"], name: "index_muted_accounts_on_muter_id"
   end
 
@@ -124,33 +124,33 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "expiration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["muter_id", "body"], name: "index_muted_words_on_muter_id_and_body", unique: true
+    t.index %w[muter_id body], name: "index_muted_words_on_muter_id_and_body", unique: true
     t.index ["muter_id"], name: "index_muted_words_on_muter_id"
   end
 
   create_table "notifications", force: :cascade do |t|
     t.integer "notification_type"
-    t.bigint "tweet_id"
+    t.bigint "post_id"
     t.bigint "notifier_id"
     t.bigint "notified_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["notified_id"], name: "index_notifications_on_notified_id"
     t.index ["notifier_id"], name: "index_notifications_on_notifier_id"
-    t.index ["tweet_id"], name: "index_notifications_on_tweet_id"
+    t.index ["post_id"], name: "index_notifications_on_post_id"
   end
 
-  create_table "tweets", force: :cascade do |t|
+  create_table "posts", force: :cascade do |t|
     t.string "type"
     t.text "body"
     t.bigint "user_id", null: false
     t.bigint "parent_id"
     t.bigint "repost_original_id"
-    t.bigint "quoted_tweet_id"
+    t.bigint "quoted_post_id"
     t.integer "reposts_count", default: 0, null: false
     t.integer "likes_count", default: 0, null: false
     t.integer "comments_count", default: 0, null: false
-    t.integer "quote_tweets_count", default: 0, null: false
+    t.integer "quote_posts_count", default: 0, null: false
     t.integer "bookmarks_count", default: 0, null: false
     t.bigint "root_id"
     t.integer "height", default: 0
@@ -159,11 +159,11 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["parent_id"], name: "index_tweets_on_parent_id"
-    t.index ["quoted_tweet_id"], name: "index_tweets_on_quoted_tweet_id"
-    t.index ["repost_original_id"], name: "index_tweets_on_repost_original_id"
-    t.index ["root_id"], name: "index_tweets_on_root_id"
-    t.index ["user_id"], name: "index_tweets_on_user_id"
+    t.index ["parent_id"], name: "index_posts_on_parent_id"
+    t.index ["quoted_post_id"], name: "index_posts_on_quoted_post_id"
+    t.index ["repost_original_id"], name: "index_posts_on_repost_original_id"
+    t.index ["root_id"], name: "index_posts_on_root_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -187,7 +187,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.date "birth_date"
     t.integer "likes_count", default: 0, null: false
     t.integer "follows_count", default: 0, null: false
-    t.integer "tweets_count", default: 0, null: false
+    t.integer "posts_count", default: 0, null: false
     t.integer "notifications_count", default: 0, null: false
     t.integer "bookmarks_count", default: 0, null: false
     t.index ["display_name"], name: "index_users_on_display_name", unique: true
@@ -197,21 +197,21 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
   end
 
   add_foreign_key "accounts", "users", on_delete: :cascade
-  add_foreign_key "bookmarks", "tweets", on_delete: :cascade
+  add_foreign_key "bookmarks", "posts", on_delete: :cascade
   add_foreign_key "bookmarks", "users", on_delete: :cascade
   add_foreign_key "conversation_members", "conversations", on_delete: :cascade
   add_foreign_key "conversation_members", "users", column: "member_id", on_delete: :cascade
   add_foreign_key "conversations", "users", column: "creator_id"
-  add_foreign_key "likes", "tweets", on_delete: :cascade
+  add_foreign_key "likes", "posts", on_delete: :cascade
   add_foreign_key "likes", "users", on_delete: :cascade
   add_foreign_key "messages", "conversations", on_delete: :cascade
   add_foreign_key "messages", "users", column: "sender_id"
-  add_foreign_key "notifications", "tweets", on_delete: :cascade
+  add_foreign_key "notifications", "posts", on_delete: :cascade
   add_foreign_key "notifications", "users", column: "notified_id"
   add_foreign_key "notifications", "users", column: "notifier_id"
-  add_foreign_key "tweets", "tweets", column: "parent_id"
-  add_foreign_key "tweets", "tweets", column: "quoted_tweet_id", on_delete: :nullify
-  add_foreign_key "tweets", "tweets", column: "repost_original_id", on_delete: :cascade
-  add_foreign_key "tweets", "tweets", column: "root_id"
-  add_foreign_key "tweets", "users", on_delete: :cascade
+  add_foreign_key "posts", "posts", column: "parent_id"
+  add_foreign_key "posts", "posts", column: "quoted_post_id", on_delete: :nullify
+  add_foreign_key "posts", "posts", column: "repost_original_id", on_delete: :cascade
+  add_foreign_key "posts", "posts", column: "root_id"
+  add_foreign_key "posts", "users", on_delete: :cascade
 end

@@ -1,0 +1,15 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "reposts" %>
+<%= turbo_stream_from "likes" %>
+
+<% if current_user.account.has_muted?(user) %>
+  <%= render partial: "muted_accounts/unmute_from_banner", locals: { user: user } %>
+<% end %>
+
+<%= render partial: "users/page_links" %>
+
+<% posts.each do |post| %>
+  <% original = post.original if post.comment? || post.repost? || post.quote_post? %>
+  <% next if post.repost? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
+  <%= render partial: "posts/user_main_page", locals: {post: post, original: original} %>
+<% end %>

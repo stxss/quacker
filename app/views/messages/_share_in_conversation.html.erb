@@ -1,5 +1,5 @@
 <span class="share-in-conversation">
-  <%= button_to share_tweet_path(username: t.author.username, id: t.id), data: { turbo_frame: "modal"}, method: :get do %>
+  <%= button_to share_post_path(username: post.author.username, id: post.id), data: { turbo_frame: "modal"}, method: :get do %>
     <%= content_tag(:span, send_via_message_svg) %>
     <%= content_tag(:span, "Send via Direct Message", class: "") %>
   <% end %>

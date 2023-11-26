@@ -51,6 +51,6 @@ class ConversationsController < ApplicationController
 
   def verify_membership
     @conversation = Conversation.find(params[:id])
-    raise ActionController::RoutingError.new("Not Found") if !@conversation.members.include?(current_user)
+    raise ActionController::RoutingError.new("Not Found") unless @conversation.members.include?(current_user)
   end
 end

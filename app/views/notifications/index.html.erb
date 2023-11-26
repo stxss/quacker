@@ -1,14 +1,14 @@
 <% @notifications.each do |n| %>
   <% if n.notification_type == "follow" && Follow.find_by(follower_id: n.notifier, followed_id: n.notified).is_request == false %>
-    <%= render "follow_notification", notifier: n.notifier %>
+    <%= render partial: "follow_notification", locals: { notifier: n.notifier } %>
   <% elsif n.notification_type == "like" %>
-    <%= render "like_notification", notifier: n.notifier, tweet: n.tweet %>
+    <%= render partial: "like_notification", locals: { notifier: n.notifier, post: n.post } %>
   <% elsif n.notification_type == "comment" %>
-    <%= render "comment_notification", notifier: n.notifier, tweet: n.tweet, original: n.tweet.original, view: :notification %>
+    <%= render partial: "comment_notification", locals: { notifier: n.notifier, post: n.post, original: n.post.original, view: :notification } %>
   <% elsif n.notification_type == "repost" %>
-    <%= render "repost_notification", notifier: n.notifier, tweet: n.tweet %>
+    <%= render partial: "repost_notification", locals: { notifier: n.notifier, post: n.post } %>
   <% elsif n.notification_type == "quote" %>
-    <%= render "tweets/single_tweet", t: n.tweet, original: n.tweet.original, view: :notification %>
+    <%= render partial: "posts/single_post", locals: { post: n.post, original: n.post.original, view: :notification } %>
   <% end %>
 <% end %>
 

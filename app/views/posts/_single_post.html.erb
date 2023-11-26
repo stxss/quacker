@@ -1,0 +1,23 @@
+<% if post.deleted_at.nil? %>
+    <%= turbo_frame_tag "post_#{post.id}", data: {controller: "misc" } do %>
+      <article class="post border-b border-b-accent2 m-0 bg-secondary text-text hover:brightness-125 hover:shadow-accent ease hover:shadow-centered" data-action="click->misc#postClick">
+        <a class="hidden" onclick="window.location = '<%= single_post_path(username: post.author.username, id: post.id) %>'"></a>
+        <% if post.repost? %>
+          <%= render partial: "reposts/repost_info", locals: { post: post, original: original } %>
+        <% elsif post.quote_post? %>
+          <%= render partial: "quotes/quote_post_info", locals: { post: post, original: original, show_rt: true, view: view } %>
+        <% else %>
+          <%= render partial: "posts/post_info", locals: { post: post, view: view } %>
+          <% if view.in?([:single_post, :timeline]) %>
+            <div class="nested-comments">
+              <%= render partial: "comments/show_comments", locals: { post: post, view: view } %>
+            </div>
+          <% end %>
+        <% end %>
+      </article>
+    <% end %>
+<% else %>
+  <%= render partial: "posts/deleted_post", locals: { post: post, view: view } %>
+<% end %>
+
+<%# check for if the user is following any of the accounts of the comments %>

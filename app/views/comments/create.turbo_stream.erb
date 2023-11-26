@@ -1,1 +1,1 @@
-<%= turbo_stream.prepend("timeline", partial: "comments/comment_tweet_info", locals: { t: @comment, user: current_user, show_reply: true }) %>
+<%= turbo_stream.prepend("timeline", partial: "comments/comment_post_info", locals: { post: @comment, user: current_user, show_reply: true }) %>

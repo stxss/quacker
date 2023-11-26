@@ -1,0 +1,15 @@
+<%= turbo_frame_tag "post_#{post.id}" do %>
+  <div class="post">
+    <% if post.deleted_at %>
+      <%= render partial: "posts/deleted_post", locals: { post: post, view: :all_user_posts } %>
+    <% else %>
+      <% if post.repost? %>
+        <%= render partial: "reposts/repost_info", locals: { post: post, original: original } %>
+      <% elsif post.quote_post? %>
+        <%= render partial: "quotes/quote_post_info", locals: { post: post, original: original, view: :all_user_posts } %>
+      <% else %>
+        <%= render partial: "posts/post_info", locals: { post: post, view: :all_user_posts } %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

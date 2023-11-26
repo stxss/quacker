@@ -31,5 +31,5 @@ application.register("search", SearchController)
 import TurboModalController from "./turbo_modal_controller"
 application.register("turbo-modal", TurboModalController)
 
-import TweetController from "./tweet_controller"
-application.register("tweet", TweetController)
+import PostController from "./post_controller"
+application.register("post", PostController)

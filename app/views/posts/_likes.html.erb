@@ -1,0 +1,8 @@
+<%= tag.div id: dom_id(post, :likes) do %>
+    <%= button_to post_like_path(post), class: "flex gap-2 #{liked_class(post)}", method: :patch do %>
+      <%= content_tag(:image, like_btn_icon(post))%>
+      <%= tag.div id: dom_id(post, :likes_count) do %>
+        <%= post.likes_count %>
+      <% end %>
+    <% end %>
+<% end %>

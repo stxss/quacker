@@ -1,0 +1,14 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "reposts" %>
+<%= turbo_stream_from "likes" %>
+<%= turbo_stream_from "bookmarks" %>
+
+<% if @post.nil? %>
+    <%= render "posts/unavailable_post" %>
+<% elsif !@post.deleted_at.nil? %>
+    <%= render "posts/deleted_post", locals: {view: :single_post, post: Post.with_deleted.find(params[:id])} %>
+<% elsif @post.author.account.has_blocked?(current_user) %>
+  <%= render "posts/unavailable_post" %>
+<% else %>
+  <%= render "posts/single_post", post: @post, original: (@post.original if @post.comment? || @post.repost? || @post.quote_post?), view: :single_post %>
+<% end %>

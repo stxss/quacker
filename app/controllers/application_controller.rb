@@ -20,6 +20,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_query
-    @query = Tweet.ransack(params[:q])
+    @query = Post.ransack(params[:q])
   end
 end

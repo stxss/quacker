@@ -1,11 +1,11 @@
-<%= form_with model: current_user.account, method: :patch, data: ({ turbo_confirm: "This will make them visible only to your Twitter followers.", header: "Protect your Tweets?", confirm: "Protect", cancel: "Cancel" } unless current_user.account.private_visibility? ), id: "account-visibility" do |f| %>
+<%= form_with model: current_user.account, method: :patch, data: ({ turbo_confirm: "This will make them visible only to your Quacker followers.", header: "Protect your Posts?", confirm: "Protect", cancel: "Cancel" } unless current_user.account.private_visibility? ), id: "account-visibility" do |f| %>
   <div>
     <%= f.label :private_visibility, onchange: "this.form.requestSubmit()" do %>
-      <div>Protect your Tweets</div>
+      <div>Protect your Posts</div>
         <%= f.check_box :private_visibility,{ checked: current_user.account.private_visibility? } %>
     <% end %>
     <div>
-      When selected, your Tweets and other account information are only visible to people who follow you.
+      When selected, your Posts and other account information are only visible to people who follow you.
     </div>
   </div>
 <% end %>

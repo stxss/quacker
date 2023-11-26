@@ -31,8 +31,8 @@ module Reusable
       @username, @post_id = @url.path.match(USERNAME_POST_REGEX)&.captures
 
       @user = User.find_by(username: @username) || nil
-      next if !@user
-      @post << @user.created_tweets.find_by(id: @post_id)
+      next unless @user
+      @post << @user.created_posts.find_by(id: @post_id)
     end
 
     return @post.compact unless @post.nil?
@@ -42,14 +42,14 @@ module Reusable
     false
   end
 
-  # when creating a tweet or a message, this method validates any urls present and passes them on to the markdown method in the application helper, to create hyperlinks automatically.
+  # when creating a post or a message, this method validates any urls present and passes them on to the markdown method in the application helper, to create hyperlinks automatically.
   def validate_urls(text = nil)
-    return if self.instance_of?(Repost)
+    return if instance_of?(Repost)
 
     content = text || body
 
     content.split(/[,:\s]|(\/\/)+/).each do |test_url|
-      next if !test_url.downcase.match?(URL_REGEX)
+      next unless test_url.downcase.match?(URL_REGEX)
       # force downcase as uppercase urls, 1st are invalid, 2nd break the uri parser
       downcased = test_url.downcase
 
@@ -77,7 +77,7 @@ module Reusable
         content.gsub!(cond, to_replace)
       end
     end
-    # correct the values of the links in the body, so there is no need to validate the links time and time again in the future, as this operation is made only once before saving the tweets/messages
+    # correct the values of the links in the body, so there is no need to validate the links time and time again in the future, as this operation is made only once before saving the posts/messages
     self.body = content.rstrip
   rescue URI::BadURIError, URI::InvalidURIError
     false

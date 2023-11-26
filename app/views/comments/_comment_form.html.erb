@@ -1,36 +1,29 @@
-<% if modal %>
-  <div data-controller="tweet turbo-modal" class="tweet-form" data-tweet-target="modal">
-  <% autofocus = true %>
-<% else %>
-  <div data-controller="tweet" class="tweet-form">
-<% end %>
-  <% if modal %>
-    <div data-action="click->turbo-modal#close" class="close-button">X</div>
-  <% end %>
-
-  <%= form_with model: Comment.new, url: comments_path(id: t), data: { action: "turbo:submit-end->tweet#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-    <div class="origin-tweet">
-        <%= render "quotes/quote_single_tweet", t: t %>
+<div data-controller="post <%= "turbo-modal" if modal %>" class="post-form" <%= "data-post-target='modal'" if modal %>>
+  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text z-10", data: {action: "click->turbo-modal#close"}) if modal %>
+  <%= form_with model: Comment.new, url: comments_path(id: post), data: { action: "turbo:submit-end->post#clear turbo:submit-end->turbo-modal#close"} do |f| %>
+    <div class="origin-post">
+      <%= render partial:"posts/creator_info", locals: { post: post, more_info: false } %>
+      <%= render partial:"posts/post_body", locals: { post: post } %>
     </div>
 
     <div class="area-box" >
       <% if params[:username] == current_user.username %>
-        <% placeholder = "Add another Tweet!" %>
+        <% placeholder = "Add another Post!" %>
       <% else %>
-        <% placeholder = "Tweet your reply!" %>
+        <% placeholder = "Post your reply!" %>
       <% end %>
-      <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "tweet-target": "area", "action": "input->tweet#update" }, autofocus: autofocus %>
+      <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "post-target": "area", "action": "input->post#update"}, autofocus: modal %>
     </div>
 
     <%# Counter start %>
       <div class="flex justify-end pr-4 text-base h-6">
-        <div class="counter relative text-white" data-tweet-target="counter" data-action="input->tweet#showCount"></div>
+        <div class="counter relative text-white" data-post-target="counter" data-action="input->post#showCount"></div>
       </div>
     <%# Counter end %>
 
     <%# Submit button start %>
-      <div class="tweet-button relative top-6 flex justify-end" data-tweet-target="submit">
-        <%= f.submit "Quack", class:"fake-submit-tweet cursor-default focus:outline-none focus:shadow bg-orange-500 text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60", disabled: true %>
+      <div class="post-button relative top-6 flex justify-end" data-post-target="submit">
+        <%= f.submit "Quack", disabled: true, class: "fake-submit-post cursor-default focus:outline-none focus:shadow bg-orange-500 text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60" %>
       </div>
     <%# Submit button end %>
   <% end %>

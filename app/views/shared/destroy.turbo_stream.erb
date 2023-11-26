@@ -1,7 +1,7 @@
-<%= turbo_stream.replace_all("quoted_tweet_#{tweet.id}", partial: "tweets/deleted_tweet", locals: {view: :timeline, tweet: tweet}) %>
-<%= turbo_stream.remove_all(".reposts repost_#{tweet.id}") %>
-<%= turbo_stream.remove("tweet_#{tweet.id}") %>
+<%= turbo_stream.replace_all("quoted_post_#{post.id}", partial: "posts/deleted_post", locals: {view: :timeline, post: post}) %>
+<%= turbo_stream.remove_all(".reposts repost_#{post.id}") %>
+<%= turbo_stream.remove("post_#{post.id}") %>
 
-<% rts.each do |rtid| %>
- <%= turbo_stream.remove("tweet_#{rtid}") %>
+<% reposts.each do |repost_id| %>
+ <%= turbo_stream.remove("post_#{repost_id}") %>
 <% end %>

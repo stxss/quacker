@@ -1,12 +1,12 @@
-class CommentsController < TweetsController
+class CommentsController < PostsController
   # before_action :authenticate_user!
 
   def new
-    @comment = Tweet.find(params[:id])
+    @comment = Post.find(params[:id])
     @render_everything = request.referrer.nil?
   rescue ActiveRecord::RecordNotFound, NoMethodError
     flash.now[:alert] = "Something went wrong, please try again!"
-    render "tweets/_not_found", locals: {id: params[:id]}
+    render partial: "posts/not_found", locals: {id: params[:id]}
   end
 
   def create
@@ -16,7 +16,7 @@ class CommentsController < TweetsController
 
     @comment.original.broadcast_render_later_to "comments",
       partial: "comments/update_comments_count",
-      locals: {t: @comment.original}
+      locals: {post: @comment.original}
 
     respond_to do |format|
       if @comment.save
@@ -24,7 +24,7 @@ class CommentsController < TweetsController
         format.html { redirect_to root_path }
 
         if @comment.original && !@comment.original.author.account.has_muted?(current_user) && @comment.original.author.account.muted_words.map(&:body).none? { |muted| @comment.body.include?(muted) }
-          current_user.notify(@comment.original.author.id, :comment, tweet_id: @comment.id)
+          current_user.notify(@comment.original.author.id, :comment, post_id: @comment.id)
         end
         @comment&.update_tree
 
@@ -35,7 +35,7 @@ class CommentsController < TweetsController
 
   def destroy
     @comment = Comment.with_deleted.find(params[:id])
-    @original = Tweet.with_deleted.find(@comment.parent_id)
+    @original = Post.with_deleted.find(@comment.parent_id)
     @original&.update(comments_count: @original.comments_count - 1)
 
     if current_user == @comment.author
@@ -55,27 +55,27 @@ class CommentsController < TweetsController
 
     @original.broadcast_render_later_to "comments",
       partial: "comments/update_comments_count",
-      locals: {t: @original}
+      locals: {post: @original}
 
     respond_to do |format|
       if @flag == :soft_destroy
         format.turbo_stream {
           render turbo_stream:
-            turbo_stream.update_all("#tweet_#{@comment.id}", partial: "tweets/deleted_tweet", locals: {view: :single_post, t: Tweet.with_deleted.find(params[:id])})
+            turbo_stream.update_all("#post_#{@comment.id}", partial: "posts/deleted_post", locals: {view: :single_post, post: Post.with_deleted.find(params[:id])})
         }
       elsif @flag == :hard_destroy
         format.turbo_stream
         @original&.clean_up
       end
       format.html { redirect_to request.referrer }
-      @original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, tweet_id: @comment.id).delete_all
+      @original.author.notifications_received.where(notifier_id: current_user.id, notification_type: :comment, post_id: @comment.id).delete_all
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     flash.now[:alert] = "Something went wrong, please try again!"
-    render "tweets/_not_found", locals: {id: params[:id]}
+    render partial: "posts/not_found", locals: {id: params[:id]}
   rescue UnauthorizedElements
     flash.now[:alert] = "Something went wrong, please try again!"
-    render "shared/_unauthorized", locals: {id: params[:id], t: @comment}
+    render partial: "shared/unauthorized", locals: {id: params[:id], post: @comment}
   end
 
   private

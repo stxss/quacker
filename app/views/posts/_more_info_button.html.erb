@@ -1,0 +1,51 @@
+<div class="dropdown" data-controller="dropdown" data-action="click->dropdown#dropMenu">
+
+  <button><%= more_info_svg %></button>
+
+  <div class="dropdown-content more-info" data-dropdown-target="menu">
+    <div class="backdrop"></div>
+    <% if post.author == current_user %>
+        <%= render partial: "posts/delete_button", locals: { post: post } %>
+      <div class="menuitem">
+      </div>
+      <div class="menuitem">Pin to your profile</div>
+      <div class="menuitem">Change who can reply</div>
+    <% elsif post.author != current_user && current_user.following?(post.author) %>
+      <div class="menuitem">
+        <%= render partial: "follows/unfollow_from_post", locals: { user: post.author } %>
+      </div>
+      <div class="menuitem">
+        <% if current_user.account.has_muted?(post.author)%>
+          <%= render partial: "muted_accounts/unmute", locals: { user: post.author } %>
+        <% else %>
+          <%= render partial: "muted_accounts/mute", locals: { user: post.author } %>
+        <% end %>
+      </div>
+      <div class="menuitem">
+        <% if current_user.account.has_blocked?(post.author)%>
+          <%= render partial: "blocks/unblock", locals: { user: post.author } %>
+        <% else %>
+          <%= render partial: "blocks/block", locals: { user: post.author } %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="menuitem">
+        <%= render partial: "follows/follow_from_post", locals: { user: post.author } %>
+      </div>
+      <div class="menuitem">
+        <% if current_user.account.has_muted?(post.author)%>
+          <%= render partial: "muted_accounts/unmute", locals: { user: post.author } %>
+        <% else %>
+          <%= render partial: "muted_accounts/mute", locals: { user: post.author } %>
+        <% end %>
+      </div>
+      <div class="menuitem">
+        <% if current_user.account.has_blocked?(post.author)%>
+          <%= render partial: "blocks/unblock", locals: { user: post.author } %>
+        <% else %>
+          <%= render partial: "blocks/block", locals: { user: post.author } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -7,7 +7,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :trackable
+    :recoverable, :rememberable, :validatable, :trackable
 
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   has_many :following, through: :active_follows, source: :followed
@@ -21,7 +21,7 @@ class User < ApplicationRecord
   has_many :notifications_received, class_name: "Notification", foreign_key: "notified_id", dependent: :destroy
   has_many :notifiers, through: :notifications_received
 
-  has_many :created_tweets, class_name: "Tweet", dependent: :destroy
+  has_many :created_posts, class_name: "Post", dependent: :destroy
   has_many :created_reposts, class_name: "Repost"
   has_many :created_comments, class_name: "Comment"
   has_many :created_quotes, class_name: "Quote"
@@ -29,7 +29,7 @@ class User < ApplicationRecord
   has_many :likes, class_name: "Like", dependent: :destroy
 
   has_many :bookmarks, class_name: "Bookmark", dependent: :destroy
-  has_many :bookmarked_tweets, through: :bookmarks, dependent: :destroy, source: :tweet
+  has_many :bookmarked_posts, through: :bookmarks, dependent: :destroy, source: :post
 
   has_one :account, dependent: :destroy
 
@@ -71,7 +71,7 @@ class User < ApplicationRecord
     following.include?(other) && other.passive_follows.exists?(follower_id: id, is_request: true)
   end
 
-  def notify(other_id, type, tweet_id: nil)
+  def notify(other_id, type, post_id: nil)
     return if id == other_id
 
     notification_params = {
@@ -80,24 +80,24 @@ class User < ApplicationRecord
       notification_type: type
     }
 
-    notification_params[:tweet_id] = tweet_id if tweet_id
+    notification_params[:post_id] = post_id if post_id
     notifications_given.create(notification_params)
   end
 
-  # all tweets that are not comments and current user is passed for reference
-  def all_tweets(current)
-    @normal = created_tweets.includes(author: :account).where(type: nil)
+  # all posts that are not comments and current user is passed for reference
+  def all_posts(current)
+    @normal = created_posts.includes(author: :account).where(type: nil)
     @quotes = created_quotes.includes(original: [author: :account], author: :account)
     @reposts = created_reposts.includes(original: [author: :account], author: :account)
 
-    @tweets = (@normal + @quotes + @reposts - created_comments).reject { |tweet| (tweet.type == "Repost" && tweet.original && tweet.original.author.account.has_blocked?(current)) }.sort_by(&:updated_at)&.reverse
+    @posts = (@normal + @quotes + @reposts - created_comments).reject { |post| (post.type == "Repost" && post.original && post.original.author.account.has_blocked?(current)) }.sort_by(&:updated_at)&.reverse
   end
 
   def all_likes(current)
-    @likes = likes.includes(tweet: {author: :account}).order(created_at: :desc).reject do |like|
-      author_block_current = like.tweet.author.account.has_blocked?(current)
-      current_blocked_author = current.account.has_blocked?(like.tweet.author)
-      not_following_if_private_author = like.tweet.author.account.private_visibility ? current.following?(like.tweet.author) == false : false
+    @likes = likes.includes(post: {author: :account}).order(created_at: :desc).reject do |like|
+      author_block_current = like.post.author.account.has_blocked?(current)
+      current_blocked_author = current.account.has_blocked?(like.post.author)
+      not_following_if_private_author = like.post.author.account.private_visibility ? current.following?(like.post.author) == false : false
 
       author_block_current || current_blocked_author || not_following_if_private_author
     end
@@ -135,10 +135,10 @@ class User < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["username", "display_name"]
+    %w[username display_name]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["created_tweets", "created_quotes", "created_comments"]
+    %w[created_posts created_quotes created_comments]
   end
 end

@@ -1,5 +1,5 @@
-<%= turbo_frame_tag "comment_count_#{t.id}" do %>
+<%= turbo_frame_tag "comment_count_#{post.id}" do %>
   <span class="comment-count">
-    <%= t.comments.size %>
+    <%= post.comments.size %>
   </span>
 <% end %>

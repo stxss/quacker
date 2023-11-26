@@ -28,7 +28,7 @@ class Message < ApplicationRecord
   end
 
   def sender_membership
-    if !conversation.members.include?(sender)
+    unless conversation.members.include?(sender)
       errors.add(:base, "Something went wrong.")
     end
   end

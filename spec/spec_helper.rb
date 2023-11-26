@@ -1,4 +1,4 @@
-require 'simplecov'
+require "simplecov"
 SimpleCov.start "rails"
 
 # Previous content of test helper now starts here

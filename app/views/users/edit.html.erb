@@ -3,7 +3,7 @@
 <% end %>
 
 <% if session[:edit_profile] %>
-  <%= render "tweets/timeline" %>
+  <%= render "posts/timeline" %>
   <% session.delete(:edit_profile) %>
 <% else %>
   <%= render template: "users/show" %>

@@ -1,8 +1,0 @@
-<%= turbo_frame_tag "tweet_#{t.id}", class: "turbo-nested" do %>
-  <div class="tweet">
-    <div class="tweet-info">
-      <p>This Tweet belongs to a @<%= t.author.username %>, which you blocked.</p>
-      <%= link_to "View tweet", view_blocked_single_tweet_path(id: t.id), data: {turbo_stream: true} %>
-    </div>
-  </div>
-<% end %>

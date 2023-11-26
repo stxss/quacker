@@ -5,6 +5,5 @@
 <%= render "users/page_links" %>
 
 <% likes.each do |like| %>
-  <% original = like.tweet.original if like.tweet.repost? || like.tweet.quote_tweet? %>
-  <%= render "tweets/single_tweet", t: like.tweet, original: original, view: :likes %>
+  <%= render "posts/single_post", post: like.post, original: (like.post.original if like.post.repost? || like.post.quote_post?), view: :likes %>
 <% end %>

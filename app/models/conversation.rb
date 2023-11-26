@@ -5,7 +5,7 @@ class Conversation < ApplicationRecord
   has_many :members, class_name: "User", foreign_key: :user_id, through: :conversation_members
   has_many :messages, dependent: :destroy
 
-  before_create :validate_group_name_presence_if_multiple_members
+  before_create :validate_group_name
   before_create :validate_minimum_members
 
   # validates :conversation_members, uniqueness: {scope: :conversation_id}
@@ -15,7 +15,7 @@ class Conversation < ApplicationRecord
 
   private
 
-  def validate_group_name_presence_if_multiple_members
+  def validate_group_name
     if members.size > 2 && name.blank?
       errors.add(:name, "must be present when there are 2 or more members")
     end

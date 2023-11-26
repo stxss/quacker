@@ -2,10 +2,10 @@
 <%= turbo_stream_from "reposts" %>
 <%= turbo_stream_from "likes" %>
 
-<%= render "users/page_links" %>
+<%= render partial: "users/page_links" %>
 
-<% replies.each do |t| %>
-  <% original = t.original.nil? ? Tweet.with_deleted.find(t.parent_id) : t.original %>
-  <% root = t.root.nil? ? Tweet.with_deleted.find(t.root_id) : t.root %>
-  <%= render "tweets/user_comment_page", t: t, original: original, root: root, view: :all_user_posts %>
+<% replies.each do |post| %>
+  <% original = post.original.nil? ? Post.with_deleted.find(post.parent_id) : post.original %>
+  <% root = post.root.nil? ? Post.with_deleted.find(post.root_id) : post.root %>
+  <%= render partial: "posts/user_comment_page", locals: { post: post, original: original, root: root, view: :all_user_posts } %>
 <% end %>

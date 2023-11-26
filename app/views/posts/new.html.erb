@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "modal" do %>
+  <div class="backdrop"></div>
+  <%= render "posts/post_form", modal: true %>
+<% end %>
+
+<% if @render_everything %>
+  <%= render "posts/timeline" %>
+<% end %>

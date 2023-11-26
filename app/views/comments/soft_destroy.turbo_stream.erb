@@ -1,4 +1,4 @@
-<%= turbo_stream.replace_all("#tweet_#{@comment.id}.quoted ", partial: "tweets/deleted_tweet", locals: {view: :single_post, t: @comment}) %>
+<%= turbo_stream.replace_all("#post_#{@comment.id}.quoted ", partial: "posts/deleted_post", locals: {view: :single_post, post: @comment}) %>
 <%= turbo_stream.remove_all(".reposts repost_#{@comment.id}") %>
-<%= turbo_stream.replace_all("tweet_#{@comment.id}", partial: "tweets/deleted_tweet", locals: {view: :single_post, t: @comment})%>
+<%= turbo_stream.replace_all("post_#{@comment.id}", partial: "posts/deleted_post", locals: {view: :single_post, post: @comment})%>
 

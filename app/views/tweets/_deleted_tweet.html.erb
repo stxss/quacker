@@ -1,9 +1,0 @@
-<div class="tweet">
-  <p>This Tweet has been deleted.</p>
-
-  <% if view.in?([:single_post]) %>
-    <div class="nested-comments">
-      <%= render "comments/show_comments", t: t, view: view %>
-    </div>
-  <% end %>
-</div>

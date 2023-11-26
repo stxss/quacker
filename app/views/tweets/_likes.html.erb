@@ -1,8 +1,0 @@
-<%= tag.div id: dom_id(t, :likes) do %>
-    <%= button_to tweet_like_path(t), class: "flex gap-2 #{liked_class(t)}", method: :patch do %>
-      <%= content_tag(:image, like_btn_icon(t))%>
-      <%= tag.div id: dom_id(t, :likes_count) do %>
-        <%= t.likes_count %>
-      <% end %>
-    <% end %>
-<% end %>

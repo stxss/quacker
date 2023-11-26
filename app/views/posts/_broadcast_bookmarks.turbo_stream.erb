@@ -1,0 +1,2 @@
+<%= turbo_stream.replace_all("##{dom_id(post, :bookmarks_count)}", "<div id='#{dom_id(post, :bookmarks_count)}'> #{post.bookmarks_count} </div>", locals: {post: post})%>
+<%= render_flash_message %>

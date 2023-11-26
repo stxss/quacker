@@ -1,0 +1,20 @@
+<%= turbo_stream_from "comments" %>
+<%= turbo_stream_from "reposts" %>
+<%= turbo_stream_from "likes" %>
+
+<%= render "profile_banner" %>
+
+<% if @blocking %>
+  <%= render "users/blocked_view", last_action: "index_liked_posts" %>
+<% elsif @blocked %>
+  <%= @user.username %> has blocked you
+<% else %>
+  <%= turbo_frame_tag "all-posts-#{@user.id}" do %>
+    <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
+      <%= render "users/all_likes", likes: @likes %>
+    <% else %>
+      <h3>These Posts are protected</h3>
+      <span>Only approved followers can see @<%= @user.username %>’s Posts. To request access, click Follow.</span>
+    <% end %>
+  <% end %>
+<% end %>

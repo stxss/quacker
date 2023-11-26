@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 -   A lot of changes related to `Rails 7.1.1`, take a look at [this commit](https://github.com/stxss/odin-twitter/commit/2b8fdc2fe469aea29c8f14fb3f8057510da2308c)
 -   Introduced decent `.env` variables
 -   Updated Dockerfile
+-   Changed `Retweets` to `Reposts`
+-   Changed `Tweets` to `Posts`
+-   Changed the name of the project from `Odin-Twitter` to `Quacker`
 
 #### Languages and services
 - Update `Ruby` to `3.2.2`
@@ -51,14 +54,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ### Added
 
--   Option to share link of a tweet
+-   Option to share link of a post
 -   Bookmark functionality
--   Introduce error handling when trying to interact with tweets that are deleted/protected
+-   Introduce error handling when trying to interact with posts that are deleted/protected
 -   Buttons to default page layout
 -   User replies page
 -   Setup for `Docker`
 -   `Tailwind CSS`
--   Relevance algorithm for tweets
+-   Relevance algorithm for posts
 -   Autofocus for some text input fields
 -   Conversations and Messages systems
 -   Expand/hide replies in comment threads
@@ -66,24 +69,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 -   Mute words feature
 -   Block accounts feature
 -   Search in messages feature
--   Search for tweets feature
+-   Search for posts feature
 -   Users can private only their likes while maintaining public profile
--   Share a tweet in the direct messages, with the tweet having a custom embed in the chat
+-   Share a post in the direct messages, with the post having a custom embed in the chat
 -   Placeholder host, at the moment it is `https://example.com`
 
 ### Fixed
 
 -   Users now can't send notifications to themselves
--   Clear text area when submitting tweet
+-   Clear text area when submitting post
 -   Duplicate flash message generation, now it only appears once
 -   Some N+1 queries
--   Deleting a parent tweet now doesn't cause any breaks, soft delete was introduced
+-   Deleting a parent post now doesn't cause any breaks, soft delete was introduced
 -   Record update when adding comments
 -   Routes have more purposeful naming
 -   Autoscroll to the end of the conversation when sending a new message
 -   Broadcasting to only specific users
 -   Minor notification bugs
--   User liked tweets page
+-   User liked posts page
 -   Calculations for comment root/depth
 -   Follow requests working properly
 
@@ -97,35 +100,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ### Added
 
--   Retweets system with `Turbo` functionality
--   Possibility to delete tweets
+-   Reposts system with `Turbo` functionality
+-   Possibility to delete posts
 -   Some edge cases handling, e.g:
-    -   User trying to retweet/like deleted tweet
+    -   User trying to repost/like deleted post
 -   Page links
--   Activity box for likes/retweets/comment links and counts
+-   Activity box for likes/reposts/comment links and counts
 -   Quote functionality
 -   Comment functionality
--   Compose Tweet, Quote modals
--   Styling to like and retweet buttons
+-   Compose Post, Quote modals
+-   Styling to like and repost buttons
 -   Real time updates of the counts/buttons
 -   Broadcasts
 -   Text compression for faster page loading
 -   Trap focus
 -   Backdrop when opening modals
--   Button that shows more information/actions on tweets
+-   Button that shows more information/actions on posts
 
 ### Fixed
 
--   Validation that was breaking the tweet creation feature
+-   Validation that was breaking the post creation feature
 -   Flaky tests
 -   Likes adding extra DOM elements
 
 ### Changed
 
--   Controllers from `Tweet` to:
+-   Controllers from `Post` to:
 
-    -   Tweet
-    -   Retweet
+    -   Post
+    -   Repost
     -   Quotes
     -   Comments
 
@@ -148,7 +151,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ### Removed
 
--   Retweets Controller
+-   Reposts Controller
 
 ## [0.2.0] - 2022-06-12
 
@@ -158,8 +161,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 -   User
 -   Like
--   Tweet
--   Retweet
+-   Post
+-   Repost
 -   Follow
 -   Notification
 -   Account
@@ -177,7 +180,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 -   Audience and Tagging
 -   Tagging
--   Your Tweets
+-   Your Posts
 -   Content You See
 -   Search
 -   Mute and Block
@@ -187,11 +190,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 -   Advanced Filters for Notifications
 -   Direct Messages
 
-#### Tweet creation and display:
+#### Post creation and display:
 
--   User timeline only shows tweets from people they follow
--   Stimulus controller to check tweet length and change submission button accordingly
--   Add character counter to tweet form
+-   User timeline only shows posts from people they follow
+-   Stimulus controller to check post length and change submission button accordingly
+-   Add character counter to post form
 
 #### Other features
 
@@ -205,7 +208,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 -   Following Users
 -   Logging In
 -   Accounts
--   Tweets
+-   Posts
 
 ### Changed
 
@@ -219,8 +222,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 -   Initial app setup
 
-[Unreleased]: https://github.com/stxss/odin-twitter/compare/0.4.0...HEAD
-[0.4.0]: https://github.com/stxss/odin-twitter/compare/0.3.0...0.4.0
-[0.3.0]: https://github.com/stxss/odin-twitter/compare/0.2.0...0.3.0
-[0.2.0]: https://github.com/stxss/odin-twitter/compare/0.1.0...0.2.0
-[0.1.0]: https://github.com/stxss/odin-twitter/releases/tag/0.1.0
+[Unreleased]: https://github.com/stxss/quacker/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/stxss/quacker/compare/0.3.0...0.4.0
+[0.3.0]: https://github.com/stxss/quacker/compare/0.2.0...0.3.0
+[0.2.0]: https://github.com/stxss/quacker/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/stxss/quacker/releases/tag/0.1.0

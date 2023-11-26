@@ -1,7 +1,7 @@
 module IconsHelper
   def like_btn_icon(post)
     like_status = post.liked_by?(current_user) ? "fill-liked stroke-liked" : "fill-none"
-    inline_svg_tag("svg/heart.svg", class: "#{like_status} z-10")
+    inline_svg_tag("svg/heart.svg", class: like_status.to_s)
   end
 
   def liked_class(post)
@@ -10,7 +10,7 @@ module IconsHelper
 
   def bookmark_btn_icon(post)
     bookmark_status = post.bookmarked_by?(current_user) ? "fill-bookmarked stroke-bookmarked" : "fill-none stroke-text"
-    inline_svg_tag("svg/bookmark.svg", class: "#{bookmark_status} z-10")
+    inline_svg_tag("svg/bookmark.svg", class: bookmark_status.to_s)
   end
 
   def bookmarked_class(post)

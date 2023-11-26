@@ -1,8 +1,0 @@
-<%= turbo_frame_tag "modal" do %>
-  <div class="backdrop"></div>
-  <%= render "tweets/tweet_form", modal: true %>
-<% end %>
-
-<% if @render_everything %>
-  <%= render "tweets/timeline" %>
-<% end %>

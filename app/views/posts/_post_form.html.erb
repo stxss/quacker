@@ -1,0 +1,41 @@
+<div data-controller="post <%= "turbo-modal" if modal %>" class="post-form relative z-[1] pb-4" <%= "data-post-target='modal'" if modal %>>
+  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text z-10", data: {action: "click->turbo-modal#close"}) if modal %>
+  <%= form_with model: Post.new, url: posts_path, data: { action: "turbo:submit-end->post#clear turbo:submit-end->turbo-modal#close"}, id: "post-compose" do |f| %>
+    <%# Text area start %>
+      <div class="area-box">
+        <%= f.text_area :body, placeholder: "What is happening?!", :rows => 4 , :cols => 50, data: {controller: "autogrow", post_target: "area", action: "input->post#update"}, autofocus: modal, maxlength: 10000, required: "true", id: "compose-area", class: "w-full h-min max-h-min top-12 relative bg-secondary border-l border-r border-b border-accent2 pl-4 pr-4 pb-12 pt-14 rounded-tl-lg rounded-tr-lg focus:transition focus:ease-in focus:duration-200 focus:outline-none focus:shadow-centered focus:shadow-accent focus:ring-accent2 text-text resize-none" %>
+
+        <div class="flex relative top-8 my-6 justify-end text-base items-center gap-x-2.5">
+            <%# Counter start %>
+              <div class="">
+                <div class="counter relative text-text" data-post-target="counter" data-action="input->post#showCount"></div>
+              </div>
+            <%# Counter end %>
+
+            <%# Submit button start %>
+              <div class="post-button " data-post-target="submit">
+                <%= f.submit "Quack", disabled: true, class: "fake-submit-post cursor-default focus:outline-none focus:shadow bg-primary text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60" %>
+              </div>
+            <%# Submit button end %>
+          </div>
+      </div>
+      <%# Text area end %>
+
+    <%# Toolbar start %>
+      <div class="w-full h-10  top-12 absolute bg-secondary rounded-tl-lg rounded-tr-lg border border-accent2" id="toolbar"></div>
+    <%# Toolbar end %>
+
+    <%# Write button start %>
+      <button type="button" id="write-btn" class="w-20 h-10 py-3 top-12 absolute bg-primary rounded-tl-lg rounded-tr-lg border-l border-r border-t border-accent2 justify-center items-center inline-flex !outline-none hover:brightness-125 hover:transition hover:ease-in hover:duration-200" data-post-target="write" data-action="click->post#changeToWrite">
+        <span class="relative top-[-0.5px] text-xs text-text">Write</span>
+      </button>
+    <%# Write button end %>
+
+
+    <%# Preview button start %>
+      <button type="button" id="preview-btn" class="w-20 h-10 py-3 left-20 top-12 absolute  rounded-tl-lg rounded-tr-lg border-transparent justify-center items-center inline-flex text-text brightness-50 !outline-0 hover:brightness-125 hover:transition hover:ease-in hover:duration-200" data-post-target="preview" data-action="click->post#changeToPreview">
+        <span class=" text-xs">Preview</span>
+      </button>
+    <%# Preview button end %>
+  <% end %>
+</div>

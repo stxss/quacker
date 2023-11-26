@@ -1,33 +1,31 @@
 <div class="notification comment-notification">
-  <span><%= render "tweets/creator_info", t: tweet %></span>
+  <span><%= render partial: "posts/creator_info", locals: {post: post} %></span>
 
-  <div class="tweet-info">
+  <div class="post-info">
     Replying to
     <%= link_to "@#{current_user.username}", username_path(current_user.username) %>
-  <%= render "tweets/tweet_body", t: tweet %>
+    <%= render partial: "posts/post_body", locals: {post: post} %>
 
     <div class="activity-box flex">
-      <%= render "comments/comments", t: tweet %>
+      <%= render partial: "comments/comments", locals: { post: post } %>
 
       <span class="reposts">
-        <%= render "reposts/reposts", t: tweet %>
+        <%= render partial: "posts/reposts", locals: { post: post } %>
       </span>
 
       <span class="likes">
-        <%= render "tweets/likes", t: tweet %>
+        <%= render partial: "posts/likes", locals: { post: post } %>
       </span>
 
       <span class="bookmarks">
-        <%= render "tweets/bookmarks", t: t %>
+        <%= render partial: "posts/bookmarks", locals: { post: post } %>
       </span>
 
       <span class="share">
-        <%= render "tweets/share", t: tweet, show_view: false %>
+        <%= render partial: "posts/share", locals: { post: post, show_view: false } %>
       </span>
     </div>
   </div>
-
-
 </div>
 
 

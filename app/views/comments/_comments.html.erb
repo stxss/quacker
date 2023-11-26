@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "comment_#{t.id}" do %>
+<%= turbo_frame_tag "comment_#{post.id}", class: "flex gap-2" do %>
   <span class="comments">
     <%= render "comments/comment_button", t: t %>
     <%= render "comments/comment_count", t: t %>

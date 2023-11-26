@@ -1,0 +1,13 @@
+<%= form_with model: current_user.account, method: :patch, id:"media-sensitivity" do |f| %>
+  <div>
+    <%= f.label :sensitive_media, onchange: "this.form.requestSubmit()" do %>
+    <div>Mark media you Post as having material that may be sensitive</div>
+      <%= f.check_box :sensitive_media, { checked: current_user.account.sensitive_media? }  %>
+    <% end %>
+    <div>
+      When enabled, pictures and videos you Post will be marked as sensitive for people who don’t want to see sensitive content.
+    </div>
+  </div>
+<% end %>
+
+<%# Add location info?? %>

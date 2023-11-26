@@ -1,8 +1,8 @@
 <%= turbo_frame_tag "modal" do %>
   <div class="backdrop"></div>
-  <%= render "comments/comment_form", t: @comment, modal: true %>
+  <%= render partial: "comments/comment_form", locals: {post: @comment , modal: true} %>
 <% end %>
 
 <% if @render_everything %>
-  <%= render "tweets/timeline" %>
+  <%= render partial: "posts/timeline" %>
 <% end %>

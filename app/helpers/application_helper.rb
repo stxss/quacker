@@ -117,7 +117,7 @@ module ApplicationHelper
     end
   end
 
-  def markdown(tweet)
+  def markdown(post)
     options = {
       parse: {
         smart: true
@@ -136,7 +136,7 @@ module ApplicationHelper
 
     # superscript is written as n^2^
 
-    content = tweet.body
+    content = post.body
     result = auto_link(Commonmarker.to_html(content, options: options), html: {class: "text-sky-700 font-semibold", rel: "nofollow", target: "_blank"}, link: :urls) { |url| url.gsub(/(https?:\/\/)?(www\.)?/, "").truncate(20) }
 
     sanitize(result)

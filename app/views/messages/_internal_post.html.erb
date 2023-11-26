@@ -1,7 +1,7 @@
 <% internal_post.each do |post|%>
   <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-<%= sender_corner %>-none <%= message_align %> text-white <%= post_bg_color %> break-words" data-controller="scroller" id="<%= message_comment.id %>">
     <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-<%= sender_corner %>-none <%= message_align %> text-white <%= post_bg_color %> break-words" data-controller="scroller">
-      <%= link_to single_tweet_path(username: post.author.username, id: post.id), class: "message-tweet text-white", target: :_top  do %>
+      <%= link_to single_post_path(username: post.author.username, id: post.id), class: "message-post text-white", target: :_top  do %>
         <span class="display-name "><%= post.author.display_name %></span>
         <span class="icon-lock "><%= lock_icon_svg if post.author.account.private_visibility %></span>
         <span class="display-username "><%= "@#{post.author.username}" %></span>

@@ -1,0 +1,20 @@
+<div class="creation-info">
+  <div class="post-info p-3">
+
+    <%= link_to username_path(post.author.username), class: "author no-underline", target: "_top"  do %>
+      <span class="display-name"><%= post.author.display_name %></span>
+      <span class="icon-lock"><%=  inline_svg_tag("svg/lock.svg") if post.author.account.private_visibility %></span>
+      <span class="display-username"><%= "@#{post.author.username}" %></span>
+    <% end %>
+
+    <span> · </span>
+    <%= link_to formatted_time_ago(post.created_at), single_post_path(username: post.author.username, id: post.id), class: "created-time hover:underline", target: "_top" %>
+  </div>
+
+  <% more_info = true if local_assigns[:more_info].nil? %>
+  <% if more_info %>
+    <div class="more-info-button">
+      <%= render partial: "posts/more_info_button", locals: {post: post} %>
+    </div>
+  <% end %>
+</div>

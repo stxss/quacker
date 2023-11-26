@@ -1,22 +1,22 @@
 <% if view == :single_post %>
-  <% if t.comments.size >= 3  %>
-    <%= link_to "Show more replies", single_tweet_path(username: t.author.username, id: t.id), data: {turbo: false} %>
+  <% if post.comments.size >= 3  %>
+    <%= link_to "Show more replies", single_post_path(username: post.author.username, id: post.id), data: {turbo: false} %>
     <% if session[:new_comment] == 1 %>
-      <% t.comments[-3..-2].each do |tweet| %>
-        <%= render "comments/comment_tweet_info", t: tweet, view: view %>
+      <% post.comments[-3..-2].each do |comment| %>
+        <%= render partial: "comments/comment_post_info", locals: { post: comment, view: view } %>
       <% end %>
     <% else %>
-      <% t.comments.last(2).each do |tweet| %>
-        <%= render "comments/comment_tweet_info", t: tweet, view: view %>
+      <% post.comments.last(2).each do |comment| %>
+        <%= render partial: "comments/comment_post_info", locals: { post: comment, view: view } %>
       <% end %>
     <% end %>
-  <% elsif t.comments.size == 1  || t.comments.size == 2 %>
-    <% t.comments.last(10).each do |twt| %>
-      <%= render "comments/comment_tweet_info", t: twt, view: view %>
+  <% elsif post.comments.size == 1  || post.comments.size == 2 %>
+    <% post.comments.last(10).each do |comment| %>
+      <%= render partial: "comments/comment_post_info", locals: { post: comment, view: view } %>
     <% end %>
   <% end %>
 <% else %>
-  <% t&.comments&.by_relevance.to_a.each do |tweet| %>
-    <%= render "comments/comment_tweet_info", t: tweet, original: t, view: view %>
+  <% post&.comments&.by_relevance.to_a.each do |comment| %>
+    <%= render partial: "comments/comment_post_info", locals: { post: comment, original: post, view: view } %>
   <% end %>
 <% end %>

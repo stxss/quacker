@@ -8,7 +8,7 @@ class FollowsController < ApplicationController
         format.turbo_stream
         format.html {}
       end
-      if !@user.account.has_muted?(current_user)
+      unless @user.account.has_muted?(current_user)
         current_user.notify(@user.id, :follow)
       end
     end

@@ -9,7 +9,7 @@ class Notification < ApplicationRecord
 
   belongs_to :notifier, class_name: "User", counter_cache: true
   belongs_to :notified, class_name: "User", counter_cache: true
-  belongs_to :tweet, class_name: "Tweet", optional: true
+  belongs_to :post, class_name: "Post", optional: true
 
   scope :ordered, -> { order(updated_at: :desc) }
 end

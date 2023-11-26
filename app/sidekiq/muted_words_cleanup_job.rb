@@ -8,7 +8,7 @@ class MutedWordsCleanupJob
       MutedWord.find(word_id).delete
     else
       queue = Sidekiq::Queue.new("default")
-      queue.each { |job| job.delete if job.jid == self.jid }
+      queue.each { |job| job.delete if job.jid == jid }
     end
   end
 end

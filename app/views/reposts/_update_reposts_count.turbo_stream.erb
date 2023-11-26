@@ -1,1 +1,1 @@
-<%= turbo_stream.replace_all("#repost_count_#{t.id}", partial: "reposts/repost_count", locals: {t: t}) %>
+<%= turbo_stream.replace_all("#repost_count_#{post.id}", partial: "reposts/repost_count", locals: {post: post}) %>

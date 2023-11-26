@@ -1,4 +1,4 @@
-<%= turbo_stream.replace("all-tweets-#{@user.id}", partial: "users/blocked_view", locals: {user: @user, last_action: @last_action}) %>
+<%= turbo_stream.replace("all-posts-#{@user.id}", partial: "users/blocked_view", locals: {user: @user, last_action: @last_action}) %>
 <%= turbo_stream.replace("follow", partial: "blocks/unblock", locals: {user: @user}) %>
 <%= turbo_stream.update_all("#block-#{@user.id}", partial: "blocks/unblock", locals: {user: @user}) %>
 

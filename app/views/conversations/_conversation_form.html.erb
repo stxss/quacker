@@ -7,7 +7,7 @@
           <%= b.check_box "data-action":"click->conversation#toggleName click->conversation#toggleSubmitButton" %>
           <%= b.label %>
       </span>
-      <% end %>
-    <%= f.submit "Start Chat", "data-conversation-target":"submit", class:"disabled:opacity-75", disabled: true %>
+    <% end %>
+    <%= f.submit "Start Chat", "data-conversation-target": "submit", class: "disabled disabled:opacity-75" %>
   <% end %>
 </div>

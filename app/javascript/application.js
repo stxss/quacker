@@ -12,7 +12,7 @@ Turbo.setConfirmMethod((message, element) => {
     dialog.showModal()
     document.documentElement.style.overflow = "hidden"
 
-    // Specifically for the checkbox when setting the protected tweets setting on
+    // Specifically for the checkbox when setting the protected posts setting on
     let diagCheckBox = document.getElementById("account_private_visibility")
     if (diagCheckBox) {
         diagCheckBox.checked = false
@@ -39,13 +39,13 @@ const themeToggleIcon = document.querySelector(".theme-toggle")
 const userTheme = localStorage.getItem("theme")
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
 
-clickHandler = (e) => themeSwitch(e);
+let clickHandler = (e) => themeSwitch(e);
 themeToggleIcon.addEventListener("click", clickHandler);
 
 const initialThemeCheck = () => {
     if (userTheme === "dark" || (!userTheme && systemTheme)) {
         document.documentElement.classList.add("dark")
-        return
+
     }
 }
 

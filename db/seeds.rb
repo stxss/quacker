@@ -13,3 +13,5 @@ u4 = User.create(email: "u4@u4.com", password: "qwerty", username: "user4")
 
 Follow.create(follower_id: u1.id, followed_id: u2.id)
 Follow.create(follower_id: u2.id, followed_id: u1.id)
+Follow.create(follower_id: u3.id, followed_id: u1.id)
+Follow.create(follower_id: u4.id, followed_id: u1.id)

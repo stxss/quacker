@@ -2,7 +2,7 @@ version: "3"
 services:
     postgres:
         image: postgres:16.0-bookworm
-        container_name: odin-twitter-postgres-16.0
+        container_name: odin-quacker-postgres-16.0
         volumes:
             - postgres-data:/var/lib/postgresql/data
         command: "postgres -c max_connections=500"

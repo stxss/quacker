@@ -1,4 +1,4 @@
-<%= form_with model: MutedWord.new, url: muted_words_path, class:"flex flex-col", data: {controller: "misc"} do |f| %>
+<%= form_with model: MutedWord.new, url: muted_words_path, class: "flex flex-col", data: {controller: "misc"} do |f| %>
   <div>
     <%= f.text_field :body, placeholder: "Enter word or phrase", data: { action: "focus->misc#prepare input->misc#prepare" } %>
   </div>

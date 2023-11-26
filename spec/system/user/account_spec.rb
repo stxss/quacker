@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Update user account settings", type: :system do
   before do
@@ -8,7 +8,7 @@ RSpec.describe "Update user account settings", type: :system do
 
   let!(:user) { create(:user) }
 
-  it "changes the protect tweets setting" do
+  it "changes the protect posts setting" do
     login_as user
     visit settings_audience_and_tagging_path
     check "account_private_visibility"

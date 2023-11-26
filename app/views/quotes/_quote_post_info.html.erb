@@ -1,0 +1,41 @@
+<%= render partial: "posts/creator_info", locals: { post: post } %>
+<div class="post-info">
+
+  <%= render partial: "posts/post_body", locals: { post: post } %>
+
+  <% if original.nil? || !original.deleted_at.nil? %>
+    <%= render partial: "posts/deleted_post", locals: { post: original, view: view } %>
+  <% elsif current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user) %>
+      <%= render partial: "posts/unavailable_post" %>
+  <% else %>
+    <%= turbo_frame_tag "quoted_post_#{original.id}", class: "" do %>
+      <div class="post">
+        <%= render partial: "posts/creator_info", locals: { post: original } %>
+        <%= render partial: "posts/post_body", locals: { post: original } %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="activity-box flex">
+    <%= render partial: "comments/comments", locals: { post: post } %>
+
+    <span class="reposts">
+      <%= render partial: "posts/reposts", locals: { post: post } %>
+    </span>
+
+    <span class="likes">
+      <%= render partial: "posts/likes", locals: { post: post } %>
+    </span>
+
+    <span class="bookmarks">
+      <%= render partial: "posts/bookmarks", locals: { post: post } %>
+    </span>
+
+  </div>
+
+  <% if view.in?([:single_post, :timeline]) %>
+    <div class="nested-comments">
+      <%= render partial: "comments/show_comments", locals: { post: post, view: view } %>
+    </div>
+  <% end %>
+</div>

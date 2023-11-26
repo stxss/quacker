@@ -1,13 +1,13 @@
 <div data-controller="message turbo-modal" data-turbo-modal-post-share="true" class="message-form">
   <div data-action="click->turbo-modal#close" class="close-button">X</div>
-  <%= form_with model: Message.new, url: messages_path(post_share_params), data: { action: "turbo:submit-end->message#clear turbo:submit-end->turbo-modal#close"}, class:"flex flex-col" do |f| %>
+  <%= form_with model: Message.new, url: messages_path(post_share_params), data: { action: "turbo:submit-end->message#clear turbo:submit-end->turbo-modal#close"}, class: "flex flex-col" do |f| %>
 
     <%= f.collection_check_boxes(:conversation_id, current_user.conversations, :id, :itself, include_hidden: false ) do |b| %>
       <div class="list-none flex">
           <%= b.label class: "flex-1" do %>
-            <%= render "conversations/conversation_to_share_to", conversation: b.object %>
+            <%= render partial: "conversations/conversation_to_share_to", locals: { conversation: b.object } %>
           <% end %>
-          <%= b.check_box "data-action":"click->conversation#toggleName click->conversation#toggleSubmitButton" %>
+          <%= b.check_box "data-action": "click->conversation#toggleName click->conversation#toggleSubmitButton" %>
       </div>
     <% end %>
 

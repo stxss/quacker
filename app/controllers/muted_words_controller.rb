@@ -6,7 +6,7 @@ class MutedWordsController < ApplicationController
   def create
     @muted_word = current_user.account.muted_words.build(muted_words_params)
 
-    @muted_word.expiration = if muted_words_params[:expiration].in? ["1", "7", "30"]
+    @muted_word.expiration = if muted_words_params[:expiration].in? %w[1 7 30]
       muted_words_params[:expiration].to_i.days.from_now
     end
 

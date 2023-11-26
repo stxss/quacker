@@ -1,0 +1,9 @@
+<div class="post">
+  <p>This Post has been deleted.</p>
+
+  <% if view.in?([:single_post]) %>
+    <div class="nested-comments">
+      <%= render partial: "comments/show_comments", locals: { post: post, view: view } %>
+    </div>
+  <% end %>
+</div>

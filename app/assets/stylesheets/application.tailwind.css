@@ -85,7 +85,7 @@
   flex: 1;
 }
 
-.nested-comments .tweet {
+.nested-comments .post {
   border: none;
   /* margin-top: -15px; */
   margin-top: -5px;
@@ -151,7 +151,7 @@
 
   .dropdown button,
   .more-info-btn button,
-  .limited-rt {
+  .limited-repost {
     display: flex;
     background: none;
     border: none;

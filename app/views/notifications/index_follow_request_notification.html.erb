@@ -1,5 +1,5 @@
 <%= turbo_frame_tag id="modal" do %>
-  <div data-controller="turbo-modal" >
+  <div data-controller="turbo-modal">
     <% if !current_user.passive_follows.exists?(is_request: true) %>
       <%= render "follows/up_to_date_requests"%>
     <% else %>
@@ -18,7 +18,6 @@
               <%= button_to "Accept", request, method: :patch %>
             </div>
           </div>
-        <div>
       <% end %>
     <% end %>
     <button data-action="click->turbo-modal#hideModal">X</button>

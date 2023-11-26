@@ -49,7 +49,7 @@
           <% end %>
 
           <%= turbo_frame_tag "button", data: { turbo_permanent: true } do %>
-            <div class="compose bg-primary hover:bg-brightness-125 text-white font-bold py-2 px-4 rounded-full text-center"><%= link_to "Compose", new_tweet_path, data: {turbo_frame: "modal", turbo_action: :advance} %></div>
+            <div class="compose bg-primary hover:bg-brightness-125 text-white font-bold py-2 px-4 rounded-full text-center"><%= link_to "Compose", new_post_path, data: {turbo_frame: "modal", turbo_action: :advance} %></div>
           <% end %>
       </div>
 
@@ -72,7 +72,7 @@
         <%= inline_svg_tag("svg/moon.svg", class: "moon fill-text stroke-text z-10") %>
       </div>
 
-      <% if %w(tweets notifications users).include?(params[:controller])  %>
+      <% if %w(posts notifications users).include?(params[:controller])  %>
         <%= render "search/form" %>
       <% end %>
     </div>

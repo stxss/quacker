@@ -1,1 +1,1 @@
-<%= turbo_stream.prepend("timeline", partial: "tweets/single_tweet", locals: { t: @quote, original: @quote.original, user: current_user, view: :timeline }) %>
+<%= turbo_stream.prepend("timeline", partial: "posts/single_post", locals: { post: @quote, original: @quote.original, user: current_user, view: :timeline }) %>

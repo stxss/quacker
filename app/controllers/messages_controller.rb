@@ -54,7 +54,7 @@ class MessagesController < ApplicationController
     end
   end
 
-  def share_tweet
+  def share_post
   end
 
   def show

@@ -1,9 +1,9 @@
-<%= turbo_frame_tag "all-tweets-#{@user.id}" do %>
+<%= turbo_frame_tag "all-posts-#{@user.id}" do %>
   <div class="text-3xl">@<%= @user.username %> is blocked</div>
   <div class="">Are you sure you want to view these posts? Viewing won't unblock @<%= @user.username %></div>
   <% if params[:action] == "show" || last_action == "show" %>
     <%= link_to "View posts", view_blocked_posts_path(@user.username), data: {turbo_stream: true}  %>
-  <% elsif params[:action] == "index_liked_tweets" || last_action == "index_liked_tweets" %>
+  <% elsif params[:action] == "index_liked_posts" || last_action == "index_liked_posts" %>
     <%= link_to "View likes", view_blocked_likes_path(@user.username), data: {turbo_stream: true} %>
   <% elsif params[:action] == "show_replies" || last_action == "show_replies" %>
     <%= link_to "View replies", view_blocked_replies_path(@user.username), data: {turbo_stream: true} %>

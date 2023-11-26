@@ -1,0 +1,72 @@
+<% show_view = false if local_assigns[:show_view].nil? %>
+<% show_reply = false if local_assigns[:show_reply].nil? %>
+
+<% if post.deleted_at %>
+  <div class="post" >
+    <p>This Post has been deleted.</p>
+
+    <% post.comments.each do |comment| %>
+      <%= render partial: "comments/comment_post_info", locals: { post: comment } %>
+    <% end %>
+  </div>
+<% elsif post.author.account.has_blocked?(current_user) %>
+  <div class="thread">
+    <button class="collapse-line" data-controller="misc" data-action="click->misc#toggleReplies"></button>
+    <%= render partial: "blocks/current_is_blocked_single_post", locals: { post: post } %>
+  </div>
+<% elsif current_user.account.has_blocked?(post.author) %>
+  <div class="thread">
+    <button class="collapse-line" data-controller="misc" data-action="click->misc#toggleReplies"></button>
+    <%= render partial: "blocks/blocked_single_post", locals: { post: post } %>
+  </div>
+<% else %>
+    <div class="thread">
+      <button class="collapse-line" data-controller="misc" data-action="click->misc#toggleReplies"></button>
+      <%= turbo_frame_tag "post_#{post.id}", class: "turbo-nested" do %>
+        <div class="post" >
+          <% if show_reply %>
+            Replying to
+            <%= link_to "@#{post.original.author.username}", username_path(post.original.author.username), data: {turbo: false} %>
+          <% end %>
+
+          <%= render partial: "posts/creator_info", locals: { post: post, more_info: true } %>
+
+          <div class="post-info">
+
+            <%= render partial: "posts/post_body", locals: { post: post } %>
+
+            <div class="activity-box flex">
+              <%= render partial: "comments/comments", locals: { post: post } %>
+
+              <span class="reposts">
+                <%= render partial: "posts/reposts", locals: { post: post } %>
+              </span>
+
+              <span class="likes">
+                <%= render partial: "posts/likes", locals: { post: post } %>
+              </span>
+
+              <span class="bookmarks">
+                <%= render partial: "posts/bookmarks", locals: { post: post } %>
+              </span>
+
+              <span class="share">
+                <%= render partial: "posts/share", locals: { post: post, show_view: show_view } %>
+              </span>
+            </div>
+
+            <% if post.depth % 11 == 0 %>
+              <%= link_to "Continue reading", single_post_path(username: post.author.username, id: post.id), target: "_top" %>
+            <% else %>
+
+            <% if post.comments.size > 0 %>
+              <div class="nested-comments">
+                <%= render partial: "comments/show_comments", locals: { post: post, view: show_view } %>
+              </div>
+            <% end %>
+          </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+<% end %>
