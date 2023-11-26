@@ -1,5 +1,0 @@
-<div class="comment">
-  <%= button_to new_comment_path(id: t.id, username: t.author.username), data: { turbo_frame: "modal", turbo_action: :advance}, method: :get do %>
-    <%= content_tag(:span, comment_icon_svg) %>
-  <% end %>
-</div>

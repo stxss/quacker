@@ -1,6 +1,8 @@
 <%= turbo_frame_tag "comment_#{post.id}", class: "flex gap-2" do %>
   <span class="comments">
-    <%= render "comments/comment_button", t: t %>
-    <%= render "comments/comment_count", t: t %>
+    <%= button_to new_comment_path(id: post.id, username: post.author.username), data: { turbo_frame: "modal", turbo_action: :advance}, method: :get do %>
+      <%= content_tag(:span, inline_svg_tag("svg/comment.svg", class: "fill-none stroke-comment z-10")) %>
+    <% end %>
   </span>
+    <%= render partial: "comments/comment_count", locals: {post: post} %>
 <% end %>

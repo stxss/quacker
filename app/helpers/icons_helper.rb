@@ -18,11 +18,18 @@ module IconsHelper
   end
 
   def repost_btn_icon(post, submit = false)
-    repost_status = post.reposted_by?(current_user) ? "stroke-reposted" : "stroke-text"
+    if post.reposted_by?(current_user)
+      repost_status = "stroke-reposted"
+      submit_content = "Undo Repost"
+    else
+      repost_status = "stroke-text"
+      submit_content = "Repost"
+    end
+
     repost_status += " opacity-50" if post.author.account.private_visibility && current_user != post.author
     svg = inline_svg_tag("svg/repost.svg", class: "#{repost_status} z-20")
     if submit
-      text_submit = content_tag(:p, "Repost")
+      text_submit = content_tag(:p, submit_content)
       content = content_tag(:div, svg + text_submit, class: "flex gap-2")
       type = "submit"
     else
@@ -37,4 +44,14 @@ module IconsHelper
     "text-reposted" if post.reposted_by?(current_user)
   end
 
+  def quote_btn_icon(post)
+    repost_status = post.reposted_by?(current_user) ? "stroke-reposted" : "stroke-text"
+    svg = inline_svg_tag("svg/quote.svg", class: "fill-none #{repost_status} z-20")
+    text_submit = content_tag(:p, "Quote")
+    content_tag(:div, svg + text_submit, class: "flex gap-2")
+  end
+
+  def comment_btn_icon
+    inline_svg_tag("svg/comment.svg", class: "")
+  end
 end
