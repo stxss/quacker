@@ -9,7 +9,7 @@ module IconsHelper
   end
 
   def bookmark_btn_icon(post)
-    bookmark_status = post.bookmarked_by?(current_user) ? "fill-bookmarked stroke-bookmarked" : "fill-none stroke-text"
+    bookmark_status = post.bookmarked_by?(current_user) ? "fill-bookmarked stroke-bookmarked" : "fill-none"
     inline_svg_tag("svg/bookmark.svg", class: bookmark_status.to_s)
   end
 

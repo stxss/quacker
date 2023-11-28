@@ -1,6 +1,6 @@
 <%= tag.div id: dom_id(post, :bookmarks) do %>
     <%= button_to post_bookmark_path(post), class: "flex gap-2 #{bookmarked_class(post)}", method: :patch do  %>
-      <%= content_tag(:image,  bookmark_btn_icon(post)) %>
+      <%= bookmark_btn_icon(post) %>
       <%= tag.div id: dom_id(post, :bookmarks_count) do %>
         <%= post.bookmarks_count %>
       <% end %>
