@@ -70,6 +70,10 @@ class Post < ApplicationRecord
     type == "Comment"
   end
 
+  def commented_by?(user)
+    comments.where(author: user).exists?
+  end
+
   def new_post?(timeline_posts)
     if comment?
       timeline_posts.none? { |post| (post.created_at >= created_at) && !post.comment? }

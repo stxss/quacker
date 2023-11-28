@@ -1,5 +1,5 @@
-<div data-controller="post <%= "turbo-modal" if modal %>" class="post-form" <%= "data-post-target='modal'" if modal %>>
-  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text z-10", data: {action: "click->turbo-modal#close"}) if modal %>
+<div data-controller="post <%= "turbo-modal" if modal %>" class="post-form <%= "z-20" if modal %>" <%= "data-post-target='modal'" if modal %>>
+  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text", data: {action: "click->turbo-modal#close"}) if modal %>
   <%= form_with model: Comment.new, url: comments_path(id: post), data: { action: "turbo:submit-end->post#clear turbo:submit-end->turbo-modal#close"} do |f| %>
     <div class="origin-post">
       <%= render partial:"posts/creator_info", locals: { post: post, more_info: false } %>
