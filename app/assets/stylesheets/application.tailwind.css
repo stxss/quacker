@@ -149,21 +149,6 @@
     padding: 5px;
   }
 
-  .dropdown button,
-  .more-info-btn button,
-  .limited-repost {
-    display: flex;
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: none;
-    position: relative;
-    z-index: 1;
-    width: 100%;
-  }
-
   .conversation-form {
     position: relative;
     z-index: 1;
@@ -174,21 +159,9 @@
     align-items: center;
   }
 
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-  display: none;
-  position: absolute;
-  top: -3px;
-  background-color: #f1f1f1;
-  min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 2;
 }
 
 .more-info {
@@ -197,7 +170,6 @@
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -207,27 +179,12 @@
 .dropdown-content a:hover {background-color: #ddd;}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {
-  display: flex;
-  flex-direction: column;
-}
-
-.backdrop {
-  z-index: 0;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
-  right: 0px;
-  top: 0px;
-}
 
 dialog {
   padding: 0;
-  /* border: 0; */
 }
 
 dialog form {
-  /* max-width: 200px; */
   padding: 20px
 }
 
