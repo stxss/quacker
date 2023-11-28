@@ -57,30 +57,16 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-# RUN if [ "${RAILS_ENV}" != "development" ]; then \
-#     SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile; fi
-
 COPY --chown=rails:rails bin/ ./bin
 RUN chmod 0755 bin/*
 
 RUN yarn
-
 RUN yarn add esbuild
 RUN yarn add tailwind
-RUN SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
-# RUN  ./bin/rails assets:precompile
 
-# RUN if [ "${RAILS_ENV}" != "development" ]; then \
-#   mv config/credentials.yml.enc config/credentials.yml.enc.backup; \
-#   mv config/credentials.yml.enc.sample config/credentials.yml.enc; \
-#   mv config/master.key.sample config/master.key; \
-#   bundle exec rails assets:precompile; \
-#   ./bin/rails assets:precompile \
-#   mv config/credentials.yml.enc.backup config/creden\tials.yml.enc; \
-#   rm config/master.key; \
-# fi
-
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+ RUN if [ "${RAILS_ENV}" != "development" ]; then \
+     SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile; fi
 
 # Final stage for app image
 FROM base
@@ -112,5 +98,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
 
-# CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 CMD ["bin/rails", "server" ]
