@@ -46,12 +46,11 @@ module IconsHelper
 
   def quote_btn_icon(post)
     repost_status = post.reposted_by?(current_user) ? "stroke-reposted" : "stroke-text"
-    svg = inline_svg_tag("svg/quote.svg", class: "fill-none #{repost_status} z-20")
     text_submit = content_tag(:p, "Quote")
-    content_tag(:div, svg + text_submit, class: "flex gap-2")
   end
 
-  def comment_btn_icon
-    inline_svg_tag("svg/comment.svg", class: "")
+  def delete_btn_icon
+    content_tag(:div, inline_svg_tag("svg/trash.svg", class: "text-red-600") + "Delete", class: "flex gap-2 align-middle")
+  end
   end
 end

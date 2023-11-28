@@ -5,8 +5,9 @@
   <div class="dropdown-content more-info" data-dropdown-target="menu">
     <div class="backdrop"></div>
     <% if post.author == current_user %>
-        <%= render partial: "posts/delete_button", locals: { post: post } %>
       <div class="menuitem">
+        <%= button_to delete_btn_icon, post, method: :delete, remote: true, form: { data: {turbo_confirm: "This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Quacker search results.", header: "Delete Post?", confirm: "Delete", cancel: "Cancel" }} %>
+      </div>
       </div>
       <div class="menuitem">Pin to your profile</div>
       <div class="menuitem">Change who can reply</div>
