@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
-    t.index %w[blocker_id blocked_id], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
+    t.index ["blocker_id", "blocked_id"], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
     t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
   end
 
@@ -82,7 +82,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["followed_id"], name: "index_follows_on_followed_id"
-    t.index %w[follower_id followed_id], name: "index_follows_on_follower_id_and_followed_id", unique: true
+    t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
@@ -112,7 +112,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["muted_id"], name: "index_muted_accounts_on_muted_id"
-    t.index %w[muter_id muted_id], name: "index_muted_accounts_on_muter_id_and_muted_id", unique: true
+    t.index ["muter_id", "muted_id"], name: "index_muted_accounts_on_muter_id_and_muted_id", unique: true
     t.index ["muter_id"], name: "index_muted_accounts_on_muter_id"
   end
 
@@ -124,7 +124,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_04_172357) do
     t.datetime "expiration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index %w[muter_id body], name: "index_muted_words_on_muter_id_and_body", unique: true
+    t.index ["muter_id", "body"], name: "index_muted_words_on_muter_id_and_body", unique: true
     t.index ["muter_id"], name: "index_muted_words_on_muter_id"
   end
 
