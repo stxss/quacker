@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 -   Changed `Retweets` to `Reposts`
 -   Changed `Tweets` to `Posts`
 -   Changed the name of the project from `Odin-Twitter` to `Quacker`
+-   Updated README
 
 #### Languages and services
 - Update `Ruby` to `3.2.2`
