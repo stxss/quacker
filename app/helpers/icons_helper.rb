@@ -26,16 +26,19 @@ module IconsHelper
       submit_content = "Repost"
     end
 
-    repost_status += " opacity-50" if post.author.account.private_visibility && current_user != post.author
+    opacity = (post.author.account.private_visibility && current_user != post.author) ? "opacity-50" : ""
+    repost_status += opacity
     svg = inline_svg_tag("svg/repost.svg", class: repost_status)
     if submit
       text_submit = content_tag(:p, submit_content)
-      content = content_tag(:div, svg + text_submit, class: "flex gap-2 w-full whitespace-nowrap")
+      content = content_tag(:div, svg + text_submit, class: "flex gap-2 w-full whitespace-nowrap #{repost_status}")
+      type = "submit"
     else
       counter = content_tag(:div, post.reposts_count, id: dom_id(post, :reposts_count))
-      content = content_tag(:div, svg + counter, class: "flex gap-2")
+      content = content_tag(:div, svg + counter, class: "flex gap-2 #{repost_status}")
+      type = "button"
     end
-    ((!post.reposted_by?(current_user) || current_user == post.author || !post.author.account.private_visibility) && submit) ? content_tag(:div, content, class: "flex") : button_tag(type: "button", class: "flex") { content }
+    ((!post.reposted_by?(current_user) || current_user == post.author || !post.author.account.private_visibility) && submit) ? content_tag(:div, content, class: "flex") : button_tag(type: type, class: "flex") { content }
   end
 
   def reposted_class(post)

@@ -1,2 +1,2 @@
-<%= turbo_stream.replace_all("#repost_#{post.original.id} .dropdown", repost_btn_icon(post.original), locals: {post: post.original}) %>
+<%= turbo_stream.replace_all("##{dom_id(post, :reposts)}", partial: "posts/reposts", locals: {post: post}) %>
 <%= render_flash_message %>

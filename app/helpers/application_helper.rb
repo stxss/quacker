@@ -3,6 +3,14 @@ module ApplicationHelper
     content_tag(:div, "", id: "backdrop", class: "hidden fixed top-0 left-0 z-10 w-screen h-full scale-[2]")
   end
 
+  def reposts_private_validation(post)
+    !post.author.account.private_visibility || (post.author.account.private_visibility && (current_user == post.author || post.reposted_by?(current_user)))
+  end
+
+  def quote_button_validation(post)
+    !post.author.account.private_visibility || (post.author.account.private_visibility && (current_user == post.author))
+  end
+
   # https://www.hotrails.dev/turbo-rails/flash-messages-hotwire
   def render_flash_message
     turbo_stream.prepend("flash", partial: "layouts/flash")

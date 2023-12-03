@@ -7,6 +7,9 @@ export default class extends Controller {
     connect() {}
 
     dropMenu(e) {
+        if (!this.hasMenuTarget) {
+            return
+        }
         if (e.target.id === "backdrop") {
             e.target.classList.add("hidden");
             this.menuTarget.closest("article").classList.remove("z-10")
@@ -31,8 +34,6 @@ export default class extends Controller {
                 this.menuTarget.parentElement.querySelector("#backdrop").classList.add("hidden")
             }
         });
-
-
         this.menuTarget.classList.remove("hidden");
         this.menuTarget.classList.add("flex", "flex-col");
         this.menuTarget.closest("article").classList.add("z-10")
