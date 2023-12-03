@@ -60,7 +60,7 @@ class User < ApplicationRecord
   end
 
   def accept_follow_request(other)
-    passive_follows.update(followed_id: id, is_request: false)
+    passive_follows.where(follower_id: other.id).update(is_request: false)
   end
 
   def following?(other)

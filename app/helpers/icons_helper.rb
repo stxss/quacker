@@ -94,4 +94,8 @@ module IconsHelper
   def limited_repost_btn_icon
     inline_svg_tag("svg/repost.svg", class: "fill-none stroke-text opacity-50")
   end
+
+  def lock_icon
+    inline_svg_tag("svg/lock.svg", class: "")
+  end
 end

@@ -27,10 +27,12 @@ class FollowsController < ApplicationController
       elsif @follow.is_request && current_user == @follow.followed
         @user = @follow.follower
         current_user.decline_follow_request(@follow.follower)
-        if current_user.passive_follows == 1
+        if current_user.passive_follows.size >= 1
           format.turbo_stream { render turbo_stream: turbo_stream.remove(@follow.id) }
         else
-          format.turbo_stream { render turbo_stream: turbo_stream.replace(@follow.id, partial: "follows/up_to_date_requests") }
+          format.turbo_stream {
+            render turbo_stream: turbo_stream.replace(@follow.id, "<h3>You’re up to date</h3>
+          <span>When someone requests to follow you, it’ll show up here for you to accept or decline.</span>")}
         end
       else
         @user = @follow.followed
@@ -42,10 +44,8 @@ class FollowsController < ApplicationController
 
   def update
     @follow = Follow.find(params[:id])
-
     if @follow.is_request
-      @user = @follow.follower
-      current_user.accept_follow_request(@user)
+      current_user.accept_follow_request(@follow.follower)
     end
     redirect_to request.referrer
   end

@@ -1,9 +1,9 @@
 <%= render "search/form" %>
 
-<%= render "profile_banner" %>
+<%= render partial: "users/profile_banner", locals: {user: @user} %>
 
 <% if @blocking %>
-  <%= render "users/blocked_view", last_action: "show" %>
+  <%= render partial: "users/blocked_view", locals: {last_action: "show"} %>
 <% elsif @blocked %>
   <%= @user.username %> has blocked you
 <% else %>
