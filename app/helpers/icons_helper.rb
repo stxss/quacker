@@ -51,8 +51,8 @@ module IconsHelper
   end
 
   def comment_btn_icon(post)
-    comment_status = post.commented_by?(current_user) ? "stroke-comment" : "stroke-text"
-    svg = inline_svg_tag("svg/comment.svg", class: "fill-none #{comment_status}")
+    comment_status = post.commented_by?(current_user) ? "stroke-comment" : ""
+    svg = inline_svg_tag("svg/comment.svg", class: "#{comment_status}")
     content_tag(:div, svg)
   end
 
@@ -61,12 +61,11 @@ module IconsHelper
   end
 
   def more_info_btn_icon
-    # flex gap-2 z-10 w-full whitespace-nowrap
-    button_tag(type: "button") { inline_svg_tag("svg/ellipsis.svg", class: "stroke-text") }
+    button_tag(type: "button") { inline_svg_tag("svg/ellipsis.svg", class: "") }
   end
 
   def share_btn_icon
-    button_tag(type: "button") { inline_svg_tag("svg/share.svg", class: "stroke-text") }
+    button_tag(type: "button") { inline_svg_tag("svg/share.svg", class: "") }
   end
 
   def copy_link_btn_icon
@@ -87,5 +86,9 @@ module IconsHelper
 
   def change_who_can_reply_btn_icon
     content_tag(:div, inline_svg_tag("svg/change_replies.svg", class: "stroke-text") + "Change who can reply", class: "flex gap-2 align-middle")
+  end
+
+  def limited_repost_btn_icon
+    inline_svg_tag("svg/repost.svg", class: "fill-none stroke-text opacity-50")
   end
 end

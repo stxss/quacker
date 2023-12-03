@@ -1,10 +1,10 @@
-<%= tag.div id:dom_id(post, :reposts), class: "flex gap-2 #{reposted_class(post)}" do %>
-      <div class="dropdown repost" data-controller="dropdown" data-action="click->dropdown#dropMenu">
-        <%= repost_btn_icon(post, submit = false) %>
-          <div class="dropdown-content" data-dropdown-target="menu">
-            <div class="backdrop"></div>
-              <%= button_to repost_btn_icon(post, submit = true), post_reposts_path(post), class: "flex gap-2", method: :patch %>
-              <%= button_to quote_btn_icon(post), new_quote_path(id: post.id, username: post.author.username), data: { turbo_frame: "modal", turbo_action: :advance}, method: :get %>
-          </div>
-      </div>
+<%= tag.div id: dom_id(post, :reposts), class: reposted_class(post) do %>
+  <%= tag.div class: "dropdown repost relative", data: {controller: :dropdown, action: "click->dropdown#dropMenu" } do %>
+    <%= repost_btn_icon(post, submit = false) %>
+    <%= backdrop %>
+    <%= tag.div class: "dropdown-content hidden absolute left-[-10px] top-[-10px] bg-secondary p-2 gap-2 z-20 border-2 border-primary rounded-md", data: {dropdown_target: :menu} do %>
+      <%= button_to repost_btn_icon(post, submit = true), post_reposts_path(post), class: "flex", method: :patch %>
+      <%= button_to quote_btn_icon(post), new_quote_path(id: post.id, username: post.author.username), data: { turbo_frame: "modal", turbo_action: :advance}, class: "flex", method: :get %>
+    <% end %>
   <% end %>
+<% end %>

@@ -1,0 +1,2 @@
+<%= turbo_stream.replace_all("#repost_#{post.original.id} .dropdown", repost_btn_icon(post.original), locals: {post: post.original}) %>
+<%= render_flash_message %>

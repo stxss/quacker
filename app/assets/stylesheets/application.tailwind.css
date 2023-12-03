@@ -62,7 +62,7 @@
 
  #modal {
    position: absolute;
-   z-index: 2;
+   z-index: 20;
    right: 10px;
    top: 10px;
    width: 400px;
@@ -117,12 +117,6 @@
   background-color: rgb(240, 239, 239);
 }
 
-.creation-info {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-}
-
 .author {
   text-decoration: none;
 }
@@ -132,11 +126,6 @@
   top: 1px;
  }
 
- .icon-more-info,
- .icon-share {
-  max-width: 24px;
-  max-height: 24px;
-}
 
   .display-name {
     font-weight: 700;
@@ -166,13 +155,8 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
-.more-info {
-  right: 20px;
-}
-
 /* Links inside the dropdown */
 .dropdown-content a {
-  padding: 12px 16px;
   text-decoration: none;
   display: block;
 }

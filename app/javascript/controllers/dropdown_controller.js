@@ -2,26 +2,41 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to the repost pop up and button
 export default class extends Controller {
-    static targets = ["menu", "menuButton"];
+    static targets = ["menu"];
 
-    connect() {
-        document.addEventListener("click", (event) => {
+    connect() {}
+
+    dropMenu(e) {
+        if (e.target.id === "backdrop") {
+            e.target.classList.add("hidden");
+            this.menuTarget.closest("article").classList.remove("z-10")
+            this.menuTarget.classList.add("hidden")
+            return
+        }
+        document.addEventListener("mousedown", (event) => {
             let withinBoundaries = event.composedPath().includes(this.element);
 
             if (!withinBoundaries) {
-                this.menuTarget.classList.remove("show");
+                this.menuTarget.classList.add("hidden");
+                if (this.menuTarget.closest("article")) {
+                    this.menuTarget.closest("article").classList.remove("z-10")
+                }
             }
         });
 
         this.element.addEventListener("keydown", (event) => {
             if (event.code === "Escape") {
-                this.menuTarget.classList.remove("show");
+                this.menuTarget.classList.add("hidden");
+                this.menuTarget.closest("article").classList.remove("z-10")
+                this.menuTarget.parentElement.querySelector("#backdrop").classList.add("hidden")
             }
         });
-    }
 
-    dropMenu() {
-        this.menuTarget.classList.toggle("show");
+
+        this.menuTarget.classList.remove("hidden");
+        this.menuTarget.classList.add("flex", "flex-col");
+        this.menuTarget.closest("article").classList.add("z-10")
+        this.menuTarget.parentElement.querySelector("#backdrop").classList.remove("hidden")
         this.trapFocus(this.element);
     }
 

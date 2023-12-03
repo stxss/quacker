@@ -1,8 +1,9 @@
-<%= render partial: "posts/creator_info", locals: { post: post } %>
-<div class="post-info">
+<div class="post-info p-4">
+  <%= render partial: "posts/creator_info", locals: { post: post } %>
+
   <%= render partial: "posts/post_body", locals: { post: post } %>
 
-  <div class="activity-box flex p-3">
+  <div class="activity-box flex px-2 pb-2">
     <%= render partial: "comments/comments", locals: { post: post } %>
     <%= render partial: "posts/reposts", locals: { post: post } %>
     <%= render partial: "posts/likes", locals: { post: post } %>

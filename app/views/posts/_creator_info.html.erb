@@ -1,5 +1,5 @@
-<div class="creation-info">
-  <div class="post-info p-3">
+<div class="creation-info flex justify-between items-center">
+  <div class="post-info">
 
     <%= link_to username_path(post.author.username), class: "author no-underline", target: "_top"  do %>
       <span class="display-name"><%= post.author.display_name %></span>
@@ -13,8 +13,6 @@
 
   <% more_info = true if local_assigns[:more_info].nil? %>
   <% if more_info %>
-    <div class="more-info-button">
-      <%= render partial: "posts/more_info_button", locals: {post: post} %>
-    </div>
+    <%= render partial: "posts/more_info_button", locals: {post: post} %>
   <% end %>
 </div>

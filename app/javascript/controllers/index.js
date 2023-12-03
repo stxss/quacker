@@ -22,14 +22,17 @@ application.register("message", MessageController)
 import MiscController from "./misc_controller"
 application.register("misc", MiscController)
 
+import PostController from "./post_controller"
+application.register("post", PostController)
+
 import ScrollerController from "./scroller_controller"
 application.register("scroller", ScrollerController)
 
 import SearchController from "./search_controller"
 application.register("search", SearchController)
 
+import ThemeController from "./theme_controller"
+application.register("theme", ThemeController)
+
 import TurboModalController from "./turbo_modal_controller"
 application.register("turbo-modal", TurboModalController)
-
-import PostController from "./post_controller"
-application.register("post", PostController)

@@ -1,4 +1,4 @@
-<%= search_form_for(@query, url: search_path, method: :get, class: "justify-start relative top-16", required: true) do |f| %>
+<%= search_form_for(@query, url: search_path, method: :get, class: "justify-start relative top-16 duration-500", required: true) do |f| %>
   <%= f.search_field :author_username_or_author_display_name_or_body_i_cont_any, placeholder: "Search..." %>
 <% end %>
 

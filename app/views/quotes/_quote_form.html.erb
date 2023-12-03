@@ -1,5 +1,5 @@
-<div data-controller="post turbo-modal" class="post-form" data-post-target="modal">
-  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text z-10", data: {action: "click->turbo-modal#close"}) %>
+<div data-controller="post turbo-modal" class="post-form z-20" data-post-target="modal">
+  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text", data: {action: "click->turbo-modal#close"}) %>
 
   <%= form_with model: Quote.new, url: quotes_path(id: repost), data: {action: "turbo:submit-end->post#clear turbo:submit-end->turbo-modal#close"} do |f| %>
     <div class="area-box" >

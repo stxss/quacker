@@ -1,9 +1,8 @@
-<div class="dropdown" data-controller="dropdown" data-action="click->dropdown#dropMenu">
+<%= tag.div class: "dropdown more-info-button flex", data: {controller: :dropdown, action: "click->dropdown#dropMenu"} do %>
+  <%= more_info_btn_icon %>
+  <%= backdrop %>
 
-  <button><%= more_info_svg %></button>
-
-  <div class="dropdown-content more-info" data-dropdown-target="menu">
-    <div class="backdrop"></div>
+  <%= tag.div class: "dropdown-content hidden absolute top-0 right-0 bg-secondary p-2 gap-2 z-20 border-2 border-primary rounded-md whitespace-nowrap", data: {dropdown_target: :menu} do %>
     <% if post.author == current_user %>
       <div class="menuitem">
         <%= button_to delete_btn_icon, post, method: :delete, remote: true, form: { data: {turbo_confirm: "This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Quacker search results.", header: "Delete Post?", confirm: "Delete", cancel: "Cancel" }} %>

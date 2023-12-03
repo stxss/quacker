@@ -2,6 +2,6 @@
 <%= turbo_stream.remove_all(".reposts repost_#{post.id}") %>
 <%= turbo_stream.remove("post_#{post.id}") %>
 
-<% reposts.each do |repost_id| %>
+<% repost_ids.each do |repost_id| %>
  <%= turbo_stream.remove("post_#{repost_id}") %>
 <% end %>
