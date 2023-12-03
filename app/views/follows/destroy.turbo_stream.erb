@@ -1,6 +1,6 @@
-<% if @user.following?(current_user) %>
-  <%= turbo_stream.update("unfollow", partial: "follows/follow_back", locals: {user: @user}) %>
+<% if follower.following?(followed) %>
+  <%= turbo_stream.update("unfollow", partial: "follows/follow_back", locals: {user: follower}) %>
 <% else %>
-  <%= turbo_stream.update("unfollow", partial: "follows/follow", locals: {user: @user}) %>
-  <%= turbo_stream.update_all("#unfollow-from-post-#{@user.id}", partial: "follows/follow_from_post", locals: {user: @user}) %>
+  <%= turbo_stream.update("unfollow", partial: "follows/follow", locals: {user: follower}) %>
+  <%= turbo_stream.update_all("#unfollow-from-post-#{follower.id}", partial: "follows/follow_from_post", locals: {user: follower}) %>
 <% end %>

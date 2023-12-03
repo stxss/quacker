@@ -1,5 +1,3 @@
 <%= turbo_frame_tag "unfollow" do %>
-  <%= button_to "Unfollow", follow_path(id: current_user.active_follows.find_by(followed_id: user.id)), method: :delete, form: { data: {turbo_confirm: "Their Posts will no longer show up in your home timeline. You can still view their profile, unless their Posts are protected.", header: "Unfollow @#{user.username}?", confirm: "Confirm", cancel: "Cancel" }}, remote: true %>
+  <%= button_to "Unfollow", follow_path(id: current_user.active_follows.find_by(followed_id: user.id)), method: :delete, form: { data: { turbo_frame: "_top", turbo_confirm: "Their Posts will no longer show up in your home timeline. You can still view their profile, unless their Posts are protected.", header: "Unfollow @#{user.username}?", confirm: "Confirm", cancel: "Cancel" }} %>
 <% end %>
-
-

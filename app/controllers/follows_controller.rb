@@ -21,24 +21,25 @@ class FollowsController < ApplicationController
     @follow = Follow.find(params[:id])
 
     respond_to do |format|
-      if @follow.is_request && current_user == @follow.follower
-        current_user.unfollow(@follow.followed)
-        format.html { redirect_to request.referrer }
-      elsif @follow.is_request && current_user == @follow.followed
-        @user = @follow.follower
+      if @follow.is_request && current_user == @follow.followed
         current_user.decline_follow_request(@follow.follower)
         if current_user.passive_follows.size >= 1
           format.turbo_stream { render turbo_stream: turbo_stream.remove(@follow.id) }
         else
           format.turbo_stream {
             render turbo_stream: turbo_stream.replace(@follow.id, "<h3>You’re up to date</h3>
-          <span>When someone requests to follow you, it’ll show up here for you to accept or decline.</span>")}
+          <span>When someone requests to follow you, it’ll show up here for you to accept or decline.</span>")
+          }
         end
       else
-        @user = @follow.followed
-        current_user.unfollow(@user)
-        (@user.account.private_visibility == true) ? format.html { redirect_to request.referrer } : format.turbo_stream
+        current_user.unfollow(@follow.followed)
+        format.html { redirect_to request.referrer }
+        format.turbo_stream {
+          # render template: "follows/destroy", locals: {follower: @follow.follower, followed: @follow.followed}
+          redirect_to request.referrer
+        }
       end
+      @follow.followed.notifications_received.where(notifier_id: @follow.follower.id, notification_type: :follow).delete_all
     end
   end
 

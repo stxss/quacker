@@ -1,5 +1,5 @@
 <% @notifications.each do |n| %>
-  <% if n.notification_type == "follow" && Follow.find_by(follower_id: n.notifier, followed_id: n.notified).is_request == false %>
+  <% if n.notification_type == "follow" && n.notifier.following?(n.notified) %>
     <%= render partial: "follow_notification", locals: { notifier: n.notifier } %>
   <% elsif n.notification_type == "like" %>
     <%= render partial: "like_notification", locals: { notifier: n.notifier, post: n.post } %>
