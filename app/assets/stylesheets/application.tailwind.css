@@ -10,6 +10,7 @@
 @layer base {
   :root {
     --text: #180202;
+    --text-dimmed: #6e6e6e;
     --background: #fafafa;
     --primary: #FA7070;
     --secondary: #e6e6e5;
@@ -23,6 +24,7 @@
   }
   .dark {
     --text: #fde7e7;
+    --text-dimmed: #706666;
     --background: #050505;
     --primary: #880202;
     --secondary: #1a1a19;

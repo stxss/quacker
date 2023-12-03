@@ -74,13 +74,15 @@ export default class Post extends Controller {
     changeButtonStyle(target, other) {
         let primaryColor = "bg-primary"
         let brightness = "brightness-50"
+        let textColor = "text-text"
+        let textDimmed = "text-text-dimmed"
         let activeBorder = ["border-l", "border-r", "border-t", "border-accent2"]
         let transparentBorder = "border-transparent"
         let pixelStabilization = ["relative","top-[-0.5px]"]
 
         //  Target styling, changing the color, opacity and text brightness/color
-        target.classList.remove(brightness)
-        target.classList.add(primaryColor)
+        target.classList.remove(brightness, textDimmed)
+        target.classList.add(primaryColor, textColor)
 
         //  Add the border to target
         target.classList.remove(transparentBorder)
@@ -90,8 +92,8 @@ export default class Post extends Controller {
         target.firstElementChild.classList.add(...pixelStabilization)
 
         //  Other button styling, changing the color and opacity and text brightness/color
-        other.classList.remove(primaryColor)
-        other.classList.add(brightness)
+        other.classList.remove(primaryColor, textColor)
+        other.classList.add(brightness, textDimmed)
 
         //  Remove border from other
         other.classList.remove(...activeBorder)
