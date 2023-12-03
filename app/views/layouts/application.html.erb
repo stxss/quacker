@@ -69,10 +69,6 @@
         <%= inline_svg_tag("svg/sun.svg", class: "sun fill-text stroke-text z-[5] duration-500") %>
         <%= inline_svg_tag("svg/moon.svg", class: "moon fill-text stroke-text z-[5] duration-500") %>
       </div>
-
-      <% if %w(posts notifications users).include?(params[:controller])  %>
-        <%= render "search/form" %>
-      <% end %>
     </div>
 
     <dialog id="turbo-confirm">
