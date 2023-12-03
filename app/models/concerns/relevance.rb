@@ -11,15 +11,18 @@ module Relevance
         comment: 0.0001,
         like: 0.00005,
         quote: 0.0002,
-        repost: 0.0002
+        repost: 0.0002,
+        bookmark: 0.000005
       }
       weight = weights[model].to_d
 
       case action
       when :create
         post.update_columns(relevance: post.relevance + weight)
+        original&.update_columns(relevance: post.relevance + weight)
       when :destroy
         post.update_columns(relevance: post.relevance - weight)
+        original&.update_columns(relevance: post.relevance - weight)
       else
         raise StandardError.new("Invalid action")
       end
