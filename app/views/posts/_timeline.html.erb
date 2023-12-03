@@ -3,7 +3,7 @@
 <%= turbo_stream_from "likes" %>
 <%= turbo_stream_from "posts" %>
 
-<div class="w-1/2">
+<div>
   <%= render partial: "posts/post_form", locals: { modal: false } %>
 
   <%= turbo_frame_tag "timeline", data: { turbo_permanent: true } do %>
