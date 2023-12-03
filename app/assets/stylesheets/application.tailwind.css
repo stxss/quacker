@@ -38,18 +38,6 @@
   }
 }
 
-/* 50: '#ffeae5', */
-/* 100: '#ffd5cc', */
-/* 200: '#ffac99', */
-/* 300: '#ff8266', */
-/* 400: '#ff5833', */
-/* 500: '#ff2f00', */
-/* 600: '#cc2500', */
-/* 700: '#991c00', */
-/* 800: '#661300', */
-/* 900: '#330900', */
-/* 950: '#1a0500', */
-
 .preload * {
   transition: none !important;
 }
@@ -160,20 +148,6 @@
   text-decoration: none;
   display: block;
 }
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-
-dialog {
-  padding: 0;
-}
-
-dialog form {
-  padding: 20px
-}
-
 
 #messages {
   display: flex;

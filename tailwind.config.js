@@ -34,7 +34,8 @@ module.exports = {
             },
             boxShadow: {
                 centered: "0px 0px 75px -40px",
-                toolbar: "0px 0px 50px -15px"
+                toolbar: "0px 0px 50px -15px",
+                dialog: "0px 0px 200px -40px",
             },
             translate: {
                 switch: ("var(--theme-switch-pos)")
