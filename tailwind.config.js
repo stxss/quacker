@@ -39,6 +39,40 @@ module.exports = {
             },
             translate: {
                 switch: ("var(--theme-switch-pos)")
+            },
+            keyframes: {
+                jump: {
+                    "0%": {
+                        transform: 'scale(50%)',
+                    },
+                    '30%': {
+                        transform: 'scale(120%)',
+                    },
+                    '60%': {
+                        transform: 'scale(85%)',
+                    },
+                    "100%": {
+                        transform: 'scale(100%)',
+                    },
+                },
+                "jump-out": {
+                    '0%': {
+                        transform: 'scale(100%)',
+                    },
+                    '20%': {
+                        transform: 'scale(120%)',
+                    },
+                    '70%, 100%': {
+                        transform: 'scale(0%)',
+                    },
+                }
+            },
+            animation: {
+                jump: "jump .5s both",
+                "jump-out": "jump-out .5s both"
+            },
+            animationDuration: {
+                200: "200ms"
             }
         },
     },

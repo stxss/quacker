@@ -57,4 +57,15 @@ export default class extends Controller {
         } else {
         }
     }
+
+    removeFlash() {
+        setTimeout(() => {
+            this.element.classList.remove("animate-jump")
+            this.element.classList.add("animate-jump-out")
+
+            setTimeout(() => {
+                this.element.parentElement.innerHTML = ""
+            }, 500)
+        }, 3000);
+    }
 }

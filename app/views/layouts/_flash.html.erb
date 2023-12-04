@@ -1,5 +1,5 @@
 <% flash.each do |flash_type, message| %>
-  <div class="flash__message" id="<%= flash_type %>">
+  <div class="flash__message z-20 animate-jump animate-duration-200 animation-ease-in-out bg-primary py-2 px-4 rounded-md text-center text-white duration-500" data-controller="misc" data-action="animationend->misc#removeFlash" id="<%= flash_type %>">
     <%= message %>
   </div>
 <% end %>
