@@ -10,14 +10,14 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body class="h-screen bg-background text-text flex justify-center gap-4 duration-500">
+  <body class="h-screen bg-background text-text flex justify-around gap-4 duration-500">
     <%= turbo_frame_tag "modal" %>
 
-    <div id="flash" class="flash fixed bottom-20">
+    <div id="flash" class="flash fixed z-20 bottom-20">
       <%= render "layouts/flash" %>
     </div>
 
-    <div class="access-buttons relative top-24 flex flex-col gap-64 w-56">
+    <div class="access-buttons relative top-24 flex flex-col items-end gap-64 w-1/5">
       <% if current_user %>
         <div class="access-buttons fixed flex flex-col gap-4 text-xl">
           <%= link_to root_path, class: "group" do %>
@@ -62,11 +62,11 @@
       <% end %>
     </div>
 
-    <div class="w-1/2">
+    <div class="w-3/5">
       <%= yield %>
     </div>
 
-    <div>
+    <div class="w-1/12">
       <div class="theme-toggle cursor-pointer fixed top-12 flex items-center bg-secondary rounded-full w-max gap-3 p-0.5 before:absolute before:w-6 before:h-6 before:bg-accent2 before:rounded-full before:left-0 before:translate-x-switch duration-500" data-controller="theme">
         <%= inline_svg_tag("svg/sun.svg", class: "sun fill-text stroke-text z-[5] duration-500") %>
         <%= inline_svg_tag("svg/moon.svg", class: "moon fill-text stroke-text z-[5] duration-500") %>

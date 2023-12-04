@@ -4,6 +4,12 @@ class UsersController < ApplicationController
   def show
     @show_replies = true
     fetch_posts(params[:username]) unless @blocking || @blocked
+
+    respond_to do |format|
+      format.html {
+        render template: "users/show", locals: {user: @user, posts: @posts, blocked: @blocked, blocking: @blocking}
+      }
+    end
   end
 
   def view_blocked_posts
@@ -23,7 +29,7 @@ class UsersController < ApplicationController
 
   def view_blocked_likes
     @user = User.find_by(username: params[:username])
-    @likes = @user.all_likes(current_user)
+    @likes = @user.all_likes(current_user, bypass=true)
 
     respond_to do |format|
       format.turbo_stream {
@@ -60,6 +66,11 @@ class UsersController < ApplicationController
 
       @replies = @query.each { |comment| @query.delete(comment.original) if comment.original.in?(@query) }
     end
+    respond_to do |format|
+      format.html {
+        render template: "users/show_replies", locals: {user: @user, replies: @replies, blocking: @blocking, blocked: @blocked}
+      }
+    end
   end
 
   def index_liked_posts
@@ -69,6 +80,12 @@ class UsersController < ApplicationController
 
     # Reject likes where the author has blocked the current user, or the current user has blocked the author, or the current user is not following the author and the author is private
     @likes = @user.all_likes(current_user) unless @blocking || @blocked
+
+    respond_to do |format|
+      format.html {
+        render template: "users/index_liked_posts", locals: {user: @user, likes: @likes, blocked: @blocked, blocking: @blocking}
+      }
+    end
   end
 
   def edit

@@ -8,22 +8,10 @@
 
     <div class="activity-box flex">
       <%= render partial: "comments/comments", locals: { post: post } %>
-
-      <span class="reposts">
-        <%= render partial: "posts/reposts", locals: { post: post } %>
-      </span>
-
-      <span class="likes">
-        <%= render partial: "posts/likes", locals: { post: post } %>
-      </span>
-
-      <span class="bookmarks">
-        <%= render partial: "posts/bookmarks", locals: { post: post } %>
-      </span>
-
-      <span class="share">
-        <%= render partial: "posts/share", locals: { post: post, show_view: false } %>
-      </span>
+      <%= render partial: "posts/reposts", locals: { post: post } %>
+      <%= render partial: "posts/likes", locals: { post: post } %>
+      <%= render partial: "posts/bookmarks", locals: { post: post } %>
+      <%= render partial: "posts/share", locals: { post: post, show_view: false } %>
     </div>
   </div>
 </div>

@@ -1,8 +1,0 @@
-<%= turbo_frame_tag "post_#{post.id}", class: "turbo-nested" do %>
-  <div class="post">
-    <div class="post-info">
-      <p>This Post belongs to a @<%= post.author.username %>, which you blocked.</p>
-      <%= link_to "View Post", view_blocked_single_post_path(id: post.id), data: {turbo_stream: true} %>
-    </div>
-  </div>
-<% end %>

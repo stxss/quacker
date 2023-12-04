@@ -93,22 +93,18 @@ class User < ApplicationRecord
     @posts = (@normal + @quotes + @reposts - created_comments).reject { |post| (post.type == "Repost" && post.original && post.original.author.account.has_blocked?(current)) }.sort_by(&:updated_at)&.reverse
   end
 
-  def all_likes(current)
-    @likes = likes.includes(post: {author: :account}).order(created_at: :desc).reject do |like|
+  def all_likes(current, bypass=false)
+    likes.includes(post: {author: :account}).order(created_at: :desc).reject do |like|
       author_block_current = like.post.author.account.has_blocked?(current)
-      current_blocked_author = current.account.has_blocked?(like.post.author)
-      not_following_if_private_author = like.post.author.account.private_visibility ? current.following?(like.post.author) == false : false
+      current_blocked_author = bypass ? false : current.account.has_blocked?(like.post.author)
+      not_follow_private_author = like.post.author.account.private_visibility ? current.following?(like.post.author) == false : false
 
-      author_block_current || current_blocked_author || not_following_if_private_author
+      author_block_current || current_blocked_author || not_follow_private_author
     end
   end
 
   def all_replies(current)
-    @query = created_comments.includes(original: [author: :account], author: :account).sort_by(&:updated_at)&.reverse
-
-    @replies = @query.each do |comment|
-      @query.delete(comment.original) if comment.original.in?(@query)
-    end
+    created_comments.includes(original: [author: :account], author: :account).sort_by(&:updated_at)
   end
 
   def login

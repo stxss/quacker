@@ -98,4 +98,8 @@ module IconsHelper
   def lock_icon
     inline_svg_tag("svg/lock.svg", class: "")
   end
+
+  def expand_replies_icon
+    inline_svg_tag("svg/double_arrow.svg", class: "hidden")
+  end
 end

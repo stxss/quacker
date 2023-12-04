@@ -2,7 +2,7 @@
 <%= turbo_stream_from "reposts" %>
 <%= turbo_stream_from "likes" %>
 
-<%= render partial: "users/page_links" %>
+<%= render partial: "users/page_links", locals: {user: user} %>
 
 <% replies.each do |post| %>
   <% original = post.original.nil? ? Post.with_deleted.find(post.parent_id) : post.original %>

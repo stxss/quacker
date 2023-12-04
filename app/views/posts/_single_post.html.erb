@@ -1,14 +1,14 @@
 <% if post.deleted_at.nil? %>
-    <%= turbo_frame_tag "post_#{post.id}", data: {controller: "misc", action: "mouseup->misc#postClick"} do %>
-      <article class="relative post border border-accent2 m-0 mb-3 bg-secondary text-text hover:brightness-125 hover:shadow-accent ease hover:shadow-centered hover:cursor-pointer hover:transition hover:duration-500 duration-500">
+    <%= turbo_frame_tag "post_#{post.id}", data: {controller: "misc", action: "mouseup->misc#postClick"}, class: "flex-auto" do %>
+      <article class="relative post <%= post.comment? ? "border-0 pt-2 mt-2" : "border border-accent2 hover:brightness-125 hover:transition hover:duration-500 hover:shadow-centered mb-3" %> m-0 bg-secondary text-text hover:shadow-accent ease hover:cursor-pointer duration-500">
         <a class="hidden" onclick="window.location = '<%= single_post_path(username: post.author.username, id: post.id) %>'"></a>
         <% if post.repost? %>
-          <%= render partial: "reposts/repost_info", locals: { post: post, original: original } %>
+          <%= render partial: "reposts/repost_info", locals: { post: post, original: (post.original if post.respond_to?(:original)) } %>
         <% elsif post.quote_post? %>
-          <%= render partial: "quotes/quote_post_info", locals: { post: post, original: original, show_rt: true, view: view } %>
+          <%= render partial: "quotes/quote_post_info", locals: { post: post, original: (post.original if post.respond_to?(:original)), show_rt: true, view: view } %>
         <% else %>
           <%= render partial: "posts/post_info", locals: { post: post, view: view } %>
-          <% if view.in?([:single_post, :timeline]) %>
+          <% if view.in?([:single_post, :timeline, :user_replies_page]) %>
             <div class="nested-comments">
               <%= render partial: "comments/show_comments", locals: { post: post, view: view } %>
             </div>
@@ -20,4 +20,3 @@
   <%= render partial: "posts/deleted_post", locals: { post: post, view: view } %>
 <% end %>
 
-<%# check for if the user is following any of the accounts of the comments %>

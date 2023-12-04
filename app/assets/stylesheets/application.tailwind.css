@@ -66,43 +66,8 @@
   flex: 1;
 }
 
-.nested-comments > .thread  {
-  display: flex;
-  flex: 1 0 100%;
-}
-
-.thread > .turbo-nested {
-  flex: 1;
-}
-
-.nested-comments .post {
-  border: none;
-  /* margin-top: -15px; */
-  margin-top: -5px;
-  margin-left: 0px;
-}
-
 .nested-comments:nth-child(1) {
   width: 100%
-}
-
-.collapse-line {
-  padding: 2px;
-  background-color: rgb(168, 168, 168);
-  border: 10px solid transparent;
-  background-clip: padding-box;
-}
-
-.nested-comments .collapse-line:hover {
-  background-color: rgb(56, 55, 55);
-}
-
-.thread.hidden .collapse-line {
-  background-color: rgb(207, 207, 207);
-}
-
-.thread.hidden .collapse-line:hover {
-  background-color: rgb(240, 239, 239);
 }
 
 .author {
@@ -155,5 +120,4 @@
 
 .individual-message {
   padding: 20px;
-
 }

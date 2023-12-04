@@ -11,8 +11,7 @@
     <%= link_to formatted_time_ago(post.created_at), single_post_path(username: post.author.username, id: post.id), class: "created-time hover:underline", target: "_top" %>
   </div>
 
-  <% more_info = true if local_assigns[:more_info].nil? %>
-  <% if more_info %>
+  <% unless post.comment? %>
     <%= render partial: "posts/more_info_button", locals: {post: post} %>
   <% end %>
 </div>

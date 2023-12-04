@@ -8,18 +8,8 @@
 
   <div class="activity-box flex">
     <%= render partial: "comments/comments", locals: { post: original } %>
-
-    <span class="reposts">
-      <%= render partial: "posts/reposts", locals: { post: original } %>
-    </span>
-
-    <span class="likes">
-      <%= render partial: "posts/likes", locals: { post: original } %>
-    </span>
-
-
-    <span class="bookmarks">
-      <%= render partial: "posts/bookmarks", locals: { post: original } %>
-    </span>
+    <%= render partial: "posts/reposts", locals: { post: original } %>
+    <%= render partial: "posts/likes", locals: { post: original } %>
+    <%= render partial: "posts/bookmarks", locals: { post: original } %>
   </div>
 </div>
