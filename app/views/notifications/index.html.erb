@@ -8,7 +8,7 @@
   <% elsif n.notification_type == "repost" %>
     <%= render partial: "repost_notification", locals: { notifier: n.notifier, post: n.post } %>
   <% elsif n.notification_type == "quote" %>
-    <%= render partial: "posts/single_post", locals: { post: n.post, original: n.post.original, view: :notification } %>
+    <%= render partial: "posts/single_post", locals: { post: n.post, view: :notification } %>
   <% end %>
 <% end %>
 

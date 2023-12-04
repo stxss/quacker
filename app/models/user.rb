@@ -93,7 +93,7 @@ class User < ApplicationRecord
     @posts = (@normal + @quotes + @reposts - created_comments).reject { |post| (post.type == "Repost" && post.original && post.original.author.account.has_blocked?(current)) }.sort_by(&:updated_at)&.reverse
   end
 
-  def all_likes(current, bypass=false)
+  def all_likes(current, bypass: false)
     likes.includes(post: {author: :account}).order(created_at: :desc).reject do |like|
       author_block_current = like.post.author.account.has_blocked?(current)
       current_blocked_author = bypass ? false : current.account.has_blocked?(like.post.author)
@@ -103,7 +103,7 @@ class User < ApplicationRecord
     end
   end
 
-  def all_replies(current)
+  def all_replies
     created_comments.includes(original: [author: :account], author: :account).sort_by(&:updated_at)
   end
 

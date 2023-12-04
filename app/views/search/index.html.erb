@@ -5,7 +5,7 @@
 <% @posts.each do |post| %>
   <% original = post.original if post.comment? || post.repost? || post.quote_post? %>
   <% next if post.repost? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
-  <%= render "posts/single_post", post: post, original: original, view: :timeline %>
+  <%= render partial: "posts/single_post", locals: {post: post, view: :timeline} %>
 <% end %>
 
 

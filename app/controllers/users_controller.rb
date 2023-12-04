@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def view_blocked_likes
     @user = User.find_by(username: params[:username])
-    @likes = @user.all_likes(current_user, bypass=true)
+    @likes = @user.all_likes(current_user, bypass: true)
 
     respond_to do |format|
       format.turbo_stream {
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
   def view_blocked_replies
     @user = User.find_by(username: params[:username])
-    @replies = @user.all_replies(current_user)
+    @replies = @user.all_replies
 
     respond_to do |format|
       format.turbo_stream {
@@ -61,11 +61,8 @@ class UsersController < ApplicationController
 
   def show_replies
     @user = User.find_by(username: params[:username])
-    unless @blocking || @blocked
-      @query = @user.created_comments.includes(:root, :original, author: :account).sort_by(&:updated_at)&.reverse
+    @replies = @user.all_replies unless @blocking || @blocked
 
-      @replies = @query.each { |comment| @query.delete(comment.original) if comment.original.in?(@query) }
-    end
     respond_to do |format|
       format.html {
         render template: "users/show_replies", locals: {user: @user, replies: @replies, blocking: @blocking, blocked: @blocked}

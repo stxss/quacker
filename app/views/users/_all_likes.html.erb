@@ -5,5 +5,5 @@
 <%= render partial: "users/page_links", locals: {user: user} %>
 
 <% likes.each do |like| %>
-  <%= render partial: "posts/single_post", locals: {post: like.post, original: (like.post.original if like.post.repost? || like.post.quote_post?), view: :likes} %>
+  <%= render partial: "posts/single_post", locals: {post: like.post, view: :likes} %>
 <% end %>

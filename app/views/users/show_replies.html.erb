@@ -1,16 +1,16 @@
-<%= render "profile_banner" %>
+<%= render partial: "users/profile_banner", locals: {user: user} %>
 
-<% if @blocking %>
+<% if blocking %>
   <%= render "users/blocked_view", last_action: "show_replies" %>
-<% elsif @blocked %>
-  <%= @user.username %> has blocked you
+<% elsif blocked %>
+  <%= user.username %> has blocked you
 <% else %>
-  <%= turbo_frame_tag "all-posts-#{@user.id}" do %>
-    <% if current_user.following?(@user) || current_user == @user || !@user.account.private_visibility %>
-      <%= render "users/all_replies", replies: @user.all_replies(current_user) %>
+  <%= turbo_frame_tag "all-posts-#{user.id}" do %>
+    <% if current_user.following?(user) || current_user == user || !user.account.private_visibility %>
+      <%= render partial: "users/all_replies", locals: {user: user, replies: user.all_replies} %>
     <% else %>
       <h3>These Posts are protected</h3>
-      <span>Only approved followers can see @<%= @user.username %>’s Posts. To request access, click Follow.</span>
+      <span>Only approved followers can see @<%= user.username %>’s Posts. To request access, click Follow.</span>
     <% end %>
   <% end %>
 <% end %>

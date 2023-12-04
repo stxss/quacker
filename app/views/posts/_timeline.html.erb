@@ -7,13 +7,13 @@
   <%= render partial: "posts/post_form", locals: { modal: false } %>
 
   <%= turbo_frame_tag "timeline", data: { turbo_permanent: true } do %>
+
     <% @posts.each do |post| %>
-      <% original = post.original if post.comment? || post.repost? || post.quote_post? %>
-      <% if post.comment? && post.new_post?(@posts) && session[:new_comment] == 1 && post.original.comments.last == post %>
-        <%= render partial: "comments/comment_post_info", locals: { post: post, original: original } %>
+      <% if post.comment? && post.new_post?(@posts) && session[:new_comment] == 1 && post.respond_to?(:original) && post.original.comments.last == post %>
+        <%= render partial: "comments/comment_post_info", locals: { post: post, original: (post.original if post.respond_to?(:original)) } %>
       <% else %>
-        <% next if post.repost? && (current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user)) %>
-        <%= render partial: "posts/single_post", locals: { post: post, original: original, view: :timeline } %>
+        <% next if post.repost? && (current_user.account.has_blocked?(post.original.author) || post.original.author.account.has_blocked?(current_user)) %>
+        <%= render partial: "posts/single_post", locals: { post: post, view: :timeline } %>
       <% end %>
     <% end %>
   <% end %>

@@ -3,7 +3,7 @@
 <% elsif @last_action == "index_liked_posts" %>
   <%= turbo_stream.replace("all-posts-#{@user.id}", partial: "users/all_likes", locals: {user: @user, likes: @user.all_likes(current_user)}) %>
 <% elsif @last_action == "show_replies" %>
-  <%= turbo_stream.replace("all-posts-#{@user.id}", partial: "users/all_replies", locals: {user: @user, replies: @user.all_replies(current_user)}) %>
+  <%= turbo_stream.replace("all-posts-#{@user.id}", partial: "users/all_replies", locals: {user: @user, replies: @user.all_replies}) %>
 <% end %>
 
 <%= turbo_stream.update_all("#unblock-#{@user.id}", partial: "follows/follow", locals: {user: @user}) %>

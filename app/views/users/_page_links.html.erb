@@ -1,8 +1,8 @@
 <div class="user-profile-private">
-  <span><%= link_to "Posts", username_path(@user.username), target: "_top" %></span>
-  <span><%= link_to "Replies", username_replies_path(@user.username), target: "_top" %></span>
+  <span><%= link_to "Posts", username_path(user.username), target: "_top" %></span>
+  <span><%= link_to "Replies", username_replies_path(user.username), target: "_top" %></span>
   <span> media </span>
-  <% if (@user.account.private_likes? && (@user == current_user)) || !@user.account.private_likes? %>
-    <span><%= link_to "Likes", user_likes_path(@user.username), target: "_top" %> </span>
+  <% if (user.account.private_likes? && (user == current_user)) || !user.account.private_likes? %>
+    <span><%= link_to "Likes", user_likes_path(user.username), target: "_top" %> </span>
   <% end %>
 </div>
