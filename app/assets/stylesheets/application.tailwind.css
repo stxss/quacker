@@ -48,17 +48,6 @@
   /* https://stackoverflow.com/a/39289453/17369830 */
 }
 
- #modal {
-   position: absolute;
-   z-index: 20;
-   right: 10px;
-   top: 10px;
-   width: 400px;
-   word-break: break-word;
-   border-radius: 6px;
-   background: #bad5ff;
- }
-
 .nested-comments {
   margin-top: 0px;
   display: flex;

@@ -20,5 +20,7 @@ export default class extends Controller {
       document.documentElement.classList.add("dark")
       localStorage.setItem("theme", "dark")
     }
+    document.getSelection().removeAllRanges()
+
   }
 }

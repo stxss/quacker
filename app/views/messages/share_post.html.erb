@@ -1,4 +1,4 @@
-<div class="backdrop"></div>
+<%= backdrop %>
 <%= turbo_frame_tag "modal" do %>
   <%= render "messages/share_form", post_share_params: {:post_share =>{username: params[:username], id: params[:id]}} %>
 <% end %>

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "modal" do %>
-  <div class="backdrop"></div>
+  <%= backdrop %>
   <%= render "posts/post_form", modal: true %>
 <% end %>
 

@@ -10,35 +10,33 @@ export default class extends Controller {
         if (!this.hasMenuTarget) {
             return
         }
+
+        if (this.menuTarget.style.display === "none") {
+            this.menuTarget.style.display = "flex"
+        }
         if (e.target.id === "backdrop") {
-            e.target.classList.add("hidden");
-            this.menuTarget.closest("article").classList.remove("z-10")
-            this.menuTarget.classList.add("hidden")
+            this.hideBackdrop(e.target)
+            this.hideMenu()
             return
         }
-        document.addEventListener("mousedown", (event) => {
+        document.addEventListener("click", (event) => {
             let withinBoundaries = event.composedPath().includes(this.element);
 
             if (!withinBoundaries) {
-                this.menuTarget.classList.add("hidden");
-                if (this.menuTarget.closest("article")) {
-                    this.menuTarget.closest("article").classList.remove("z-10")
-                }
+                this.hideMenu()
             }
         });
 
         this.element.addEventListener("keydown", (event) => {
             if (event.code === "Escape") {
-                this.menuTarget.classList.add("hidden");
-                this.menuTarget.closest("article").classList.remove("z-10")
-                this.menuTarget.parentElement.querySelector("#backdrop").classList.add("hidden")
+                this.hideMenu()
+                this.hideBackdrop(this.menuTarget.parentElement.querySelector("#backdrop"))
             }
         });
-        this.menuTarget.classList.remove("hidden");
-        this.menuTarget.classList.add("flex", "flex-col");
-        this.menuTarget.closest("article").classList.add("z-10")
-        this.menuTarget.parentElement.querySelector("#backdrop").classList.remove("hidden")
+        this.showMenu(this.menuTarget)
+        this.showBackdrop(this.menuTarget.parentElement.querySelector("#backdrop"), false)
         this.trapFocus(this.element);
+
     }
 
     trapFocus(element) {
@@ -72,5 +70,31 @@ export default class extends Controller {
                 }
             }
         });
+    }
+
+    hideMenu(el) {
+        this.menuTarget.classList.add("hidden")
+    }
+
+    showMenu(el) {
+        el.classList.remove("hidden");
+        el.classList.add("flex", "flex-col");
+        el.closest("article").classList.add("z-10")
+    }
+
+    hideBackdrop(el) {
+        el.classList.remove(...this.backdropClasses)
+        el.classList.add("hidden")
+    }
+
+    showBackdrop(el, addClasses) {
+        el.classList.remove("hidden")
+        if (addClasses) {
+            el.classList.add(...this.backdropClasses)
+        }
+    }
+
+    get backdropClasses() {
+        return ["bg-background", "opacity-60", "brightness-0", "transition", "duration-500"]
     }
 }

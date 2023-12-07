@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "modal" do %>
-  <div class="backdrop"></div>
+  <%= backdrop %>
   <%= render partial: "comments/comment_form", locals: {post: @comment , modal: true} %>
 <% end %>
 

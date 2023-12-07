@@ -7,6 +7,7 @@ export default class extends Controller {
         this.clickOutsideHandler = (e) => this.clickOutside(e);
         document.addEventListener("keyup", this.clickOutsideHandler)
         document.addEventListener("click", this.clickOutsideHandler)
+        this.showBackdrop(this.element.parentElement.firstElementChild, true)
     }
 
     disconnect() {
@@ -22,6 +23,7 @@ export default class extends Controller {
             }
         } else if (e.type === "keyup") {
             if (e.code === "Escape") {
+                document.querySelectorAll("#backdrop:not(.hidden)")[0].classList.remove(...this.backdropClasses)
                 this.close(e)
             }
         }
@@ -35,6 +37,7 @@ export default class extends Controller {
             this.element.parentElement.removeAttribute('complete')
             this.element.parentElement.innerHTML = ""
         } else if (history.length > 3) {
+            document.getSelection().removeAllRanges()
             history.back()
         } else {
             Turbo.visit("/home", { action: "advance" })
@@ -47,5 +50,16 @@ export default class extends Controller {
 
     get postShare() {
         return this.data.get("postShare");
+    }
+
+    showBackdrop(el, addClasses) {
+        el.classList.remove("hidden")
+        if (addClasses) {
+            el.classList.add(...this.backdropClasses)
+        }
+    }
+
+    get backdropClasses() {
+        return ["bg-background", "opacity-60", "brightness-0", "transition", "duration-500"]
     }
 }

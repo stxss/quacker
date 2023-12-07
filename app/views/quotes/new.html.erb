@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "modal" do %>
-  <div class="backdrop"></div>
-  <%= render "quotes/quote_form", repost: @repost %>
+  <%= backdrop %>
+  <%= render partial: "quotes/quote_form", locals: {repost: @repost} %>
 <% end %>
 
 <% if @render_everything %>

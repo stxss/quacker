@@ -1,6 +1,6 @@
 module ApplicationHelper
   def backdrop
-    content_tag(:div, "", id: "backdrop", class: "hidden fixed top-0 left-0 z-10 w-screen h-full scale-[2]")
+    content_tag(:div, "", id: "backdrop", class: "hidden fixed top-0 left-0 z-10 w-screen h-screen scale-[10]")
   end
 
   def reposts_private_validation(post)
