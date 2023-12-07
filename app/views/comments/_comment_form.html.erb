@@ -1,30 +1,12 @@
-<div data-controller="post <%= "turbo-modal" if modal %>" class="post-form <%= "z-20" if modal %>" <%= "data-post-target='modal'" if modal %>>
+<div data-controller="post <%= "turbo-modal" if modal %>" class="post-form relative <%= "z-30" if modal %>" <%= "data-post-target='modal'" if modal %>>
   <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text", data: {action: "click->turbo-modal#close"}) if modal %>
   <%= form_with model: Comment.new, url: comments_path(id: post), data: { action: "turbo:submit-end->post#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-    <div class="origin-post">
-      <%= render partial:"posts/creator_info", locals: { post: post, more_info: false } %>
-      <%= render partial:"posts/post_body", locals: { post: post } %>
-    </div>
-
-    <div class="area-box" >
       <% if params[:username] == current_user.username %>
-        <% placeholder = "Add another Post!" %>
+        <% placeholder = "10k characters isn't enough to express myself..." %>
       <% else %>
-        <% placeholder = "Post your reply!" %>
+        <% placeholder = "You rock!, I love you!1, Yeah, go touch grass or whatever else people say when they comment on stuff" %>
       <% end %>
-      <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", "post-target": "area", "action": "input->post#update"}, autofocus: modal %>
-    </div>
 
-    <%# Counter start %>
-      <div class="flex justify-end pr-4 text-base h-6">
-        <div class="counter relative text-white" data-post-target="counter" data-action="input->post#showCount"></div>
-      </div>
-    <%# Counter end %>
-
-    <%# Submit button start %>
-      <div class="post-button relative top-6 flex justify-end" data-post-target="submit">
-        <%= f.submit "Quack", disabled: true, class: "fake-submit-post cursor-default focus:outline-none focus:shadow bg-orange-500 text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60" %>
-      </div>
-    <%# Submit button end %>
+    <%= render partial: "shared/form", locals: {f: f, modal: true, repost: nil, comment: post, placeholder: placeholder} %>
   <% end %>
 </div>

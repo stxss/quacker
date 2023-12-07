@@ -1,0 +1,53 @@
+<%# Text area start %>
+<div class="area-box <%= 'bg-secondary p-4 rounded-lg' if modal %>">
+  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text", data: {action: "click->turbo-modal#close"}) if modal %>
+
+  <% if comment %>
+    <%# Original post start %>
+    <div class= "origin-post relative">
+      <%= render partial:"posts/creator_info", locals: { post: comment, more_info: false } %>
+      <%= render partial:"posts/post_body", locals: { post: comment } %>
+    </div>
+    <%# Original post end %>
+  <% end %>
+
+  <%# Toolbar start %>
+  <div class="w-full h-10 duration-500 bg-secondary relative rounded-tl-lg rounded-tr-lg border border-accent2" id="toolbar">
+    <%# Write button start %>
+    <button type="button" id="write-btn" class="w-20 -top-px -left-px py-3 relative bg-primary rounded-tl-lg border border-accent2 rounded-tr-md justify-center items-center inline-flex !outline-none hover:brightness-125 hover:transition hover:text-text hover:ease-in hover:duration-200 duration-500  text-text" data-post-target="write" data-action="click->post#changeToWrite">
+      <span class="relative text-xs duration-500">Write</span>
+    </button>
+    <%# Write button end %>
+
+    <%# Preview button start %>
+    <button type="button" id="preview-btn" class="w-20 -top-px -left-1.5 py-3 relative rounded-tl-lg rounded-tr-lg border-transparent justify-center items-center inline-flex text-text-dimmed !outline-0 hover:brightness-125 hover:text-text hover:transition hover:ease-in hover:duration-200 duration-500" data-post-target="preview" data-action="click->post#changeToPreview">
+      <span class="duration-500 text-xs">Preview</span>
+    </button>
+    <%# Preview button end %>
+  </div>
+  <%# Toolbar end %>
+
+  <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", post_target: "area", action: "input->post#update"}, autofocus: modal, maxlength: 10000, required: "true", id: "compose-area", class: "w-full duration-500 h-min max-h-min relative bg-secondary border-l border-r border-b border-accent2 pl-4 pr-4 pb-12 pt-4 focus:transition focus:ease-in focus:duration-200 focus:outline-none focus:shadow-centered focus:shadow-accent focus:ring-accent2 text-text resize-none align-top" %>
+
+  <% if repost %>
+    <%# Original post start %>
+    <div class= "origin-post relative">
+      <%= render partial:"posts/creator_info", locals: {post: repost} %>
+      <%= render partial:"posts/post_body", locals: {post: repost} %>
+    </div>
+    <%# Original post end %>
+  <% end %>
+
+  <div class="flex relative mt-4 justify-end text-base items-center gap-x-2.5">
+    <%# Counter start %>
+    <div class="counter relative text-text duration-500" data-post-target="counter" data-action="input->post#showCount"></div>
+    <%# Counter end %>
+
+    <%# Submit button start %>
+    <div class="post-button" data-post-target="submit">
+      <%= f.submit "Quack", disabled: true, class: "fake-submit-post cursor-default focus:outline-none focus:shadow bg-primary text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60 duration-500" %>
+    </div>
+    <%# Submit button end %>
+  </div>
+</div>
+<%# Text area end %>
