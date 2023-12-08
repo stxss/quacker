@@ -48,12 +48,18 @@ export default class extends Controller {
         return /^\s*$/.test(data);
     }
 
-    postClick() {
+    postClick(e) {
         if (document.getSelection().rangeCount === 1) {
             let selection = document.getSelection().getRangeAt(0);
             let selectionLength = selection.endOffset - selection.startOffset
+            let postLink
             if (selectionLength === 0 && document.getSelection().anchorNode.nodeName === "#text") {
-                this.element.querySelector("a.hidden").click()
+                if (e.target.classList.contains("post-info")) {
+                    postLink = e.target.querySelector("a.hidden")
+                } else {
+                    postLink = e.target.closest(`article`).querySelector("a.hidden")
+                }
+                postLink.click()
                 document.getSelection().removeAllRanges()
             }
         } else {
