@@ -1,15 +1,17 @@
-<div class="repost-info">
+<div class="repost-info p-4">
   <%= link_to username_path(post.author.username), class: "author", target: "_top" do %>
-    <span class="display-name"><%= post.author.display_name %></span> Reposted
+    <%= content_tag(:span, "#{post.author.display_name}", class: "display-name") %>
+    <%= content_tag(:span, "Reposted") %>
   <% end %>
+  <div class="p-2">
+    <%= render partial: "posts/creator_info", locals: { post: original, more_info: true } %>
+    <%= render partial: "posts/post_body", locals: { post: original } %>
 
-  <%= render partial: "posts/creator_info", locals: { post: original, more_info: true } %>
-  <%= render partial: "posts/post_body", locals: { post: original } %>
-
-  <div class="activity-box flex">
-    <%= render partial: "comments/comments", locals: { post: original } %>
-    <%= render partial: "posts/reposts", locals: { post: original } %>
-    <%= render partial: "posts/likes", locals: { post: original } %>
+    <div class="activity-box flex">
+      <%= render partial: "comments/comments", locals: { post: original } %>
+      <%= render partial: "posts/reposts", locals: { post: original } %>
+      <%= render partial: "posts/likes", locals: { post: original } %>
     <%= render partial: "posts/bookmarks", locals: { post: original } %>
+    </div>
   </div>
 </div>

@@ -23,8 +23,13 @@ export default class extends Controller {
             }
         } else if (e.type === "keyup") {
             if (e.code === "Escape") {
-                document.querySelectorAll("#backdrop:not(.hidden)")[0].classList.remove(...this.backdropClasses)
                 this.close(e)
+                let bdList = document.querySelectorAll("#backdrop:not(.hidden)")
+                bdList.forEach((el) => {
+                    el.classList.add("hidden")
+                    el.classList.remove(...this.backdropClasses)
+                })
+
             }
         }
     }

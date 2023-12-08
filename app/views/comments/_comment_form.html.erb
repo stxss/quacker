@@ -1,12 +1,10 @@
 <div data-controller="post <%= "turbo-modal" if modal %>" class="post-form relative <%= "z-30" if modal %>" <%= "data-post-target='modal'" if modal %>>
-  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text", data: {action: "click->turbo-modal#close"}) if modal %>
   <%= form_with model: Comment.new, url: comments_path(id: post), data: { action: "turbo:submit-end->post#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-      <% if params[:username] == current_user.username %>
-        <% placeholder = "10k characters isn't enough to express myself..." %>
-      <% else %>
-        <% placeholder = "You rock!, I love you!1, Yeah, go touch grass or whatever else people say when they comment on stuff" %>
-      <% end %>
-
-    <%= render partial: "shared/form", locals: {f: f, modal: true, repost: nil, comment: post, placeholder: placeholder} %>
+    <% if params[:username] == current_user.username %>
+      <% placeholder = "10k characters isn't enough to express myself lol..." %>
+    <% else %>
+      <% placeholder = "You rock! I love you!1 Yeah, go touch grass or whatever else people say when they comment on stuff" %>
+    <% end %>
+    <%= render partial: "shared/form", locals: {f: f, modal: true, placeholder: placeholder, repost: nil, comment: post} %>
   <% end %>
 </div>

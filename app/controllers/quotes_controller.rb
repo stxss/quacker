@@ -6,9 +6,11 @@ class QuotesController < PostsController
     @render_everything = request.referrer.nil?
 
     raise UserGonePrivate if @repost && @repost.author.account.private_visibility && current_user != @repost.author
+
+    render template: "quotes/new", locals: {repost: @repost}
   rescue UserGonePrivate
     respond_to do |format|
-      format.html { redirect_to root_path, alert: "Couldn't repost a privated post" }
+      format.html { redirect_to root_path, alert: "Couldn't repost a private post" }
     end
   rescue ActiveRecord::RecordNotFound, NoMethodError
     flash.now[:alert] = "Something went wrong, please try again!"

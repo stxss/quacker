@@ -6,7 +6,7 @@
       <%= tag.div data: {controller: :misc, url: single_post_url(username: post.author.username, id: post.id), action: "click->misc#copyLink"} do %>
         <%=  copy_link_btn_icon  %>
       <% end %>
-      <%= button_to send_via_message_btn_icon, share_post_path(username: post.author.username, id: post.id), data: { turbo_frame: "modal"}, class: "flex", method: :get %>
+      <%= link_to send_via_message_btn_icon, share_post_path(username: post.author.username, id: post.id), data: { turbo_frame: "modal", action: "turbo:click->dropdown#hideMenu", target: "_top"}, class: "flex", method: :get %>
     <% end %>
   <% end %>
 <% end %>

@@ -1,5 +1,5 @@
 <div data-controller="post turbo-modal" class="post-form relative z-30 bg-background rounded-md" data-post-target="modal">
   <%= form_with model: Quote.new, url: quotes_path(id: repost), data: {action: "turbo:submit-end->post#clear turbo:submit-end->turbo-modal#close"} do |f| %>
-    <%= render partial: "shared/form", locals: {f: f, modal: true, repost: repost, comment: nil, placeholder: "See, I have something to say about this kind of thing..."} %>
+    <%= render partial: "shared/form", locals: {f: f, modal: true, placeholder: "See, I have something to say about this kind of thing... ", repost: repost, comment: nil} %>
   <% end %>
 </div>

@@ -39,9 +39,11 @@ export default class Post extends Controller {
 
     showCount(length) {
         if (length > 0) {
+            this.counterTarget.classList.remove("hidden")
             this.counterTarget.textContent = `${length} / ${this.MAXLENGTH}`
         } else {
             this.counterTarget.textContent = ""
+            this.counterTarget.classList.add("hidden")
         }
         if (length >= 10000) {
             this.counterTarget.classList.replace("text-text", "text-red-600")
@@ -78,7 +80,6 @@ export default class Post extends Controller {
         let textDimmed = "text-text-dimmed"
         let activeBorder = ["border-l", "border-r", "border-t", "border-accent2"]
         let transparentBorder = "border-transparent"
-        let pixelStabilization = ["relative","top-[-0.5px]"]
 
         //  Target styling, changing the color, opacity and text brightness/color
         target.classList.remove(brightness, textDimmed)
@@ -88,9 +89,6 @@ export default class Post extends Controller {
         target.classList.remove(transparentBorder)
         target.classList.add(...activeBorder)
 
-        //  Maintain the text in the same place
-        target.firstElementChild.classList.add(...pixelStabilization)
-
         //  Other button styling, changing the color and opacity and text brightness/color
         other.classList.remove(primaryColor, textColor)
         other.classList.add(brightness, textDimmed)
@@ -98,9 +96,6 @@ export default class Post extends Controller {
         //  Remove border from other
         other.classList.remove(...activeBorder)
         other.classList.add(transparentBorder)
-
-        //  Maintain the text in the same place
-        other.firstElementChild.classList.remove(...pixelStabilization)
     }
 
     get content() {

@@ -1,26 +1,41 @@
-<%= render partial: "posts/creator_info", locals: { post: post } %>
-<div class="post-info">
+<div class="flex flex-col justify-between px-4 pt-4 transition duration-500">
+  <div class="post flex justify-between">
+    <%= render partial: "posts/creator_info", locals: {post: post} %>
+    <%= render partial: "posts/more_info_button", locals: {post: post} %>
+  </div>
 
   <%= render partial: "posts/post_body", locals: { post: post } %>
 
-  <% if original.nil? || !original.deleted_at.nil? %>
-    <%= render partial: "posts/deleted_post", locals: { post: original, view: view } %>
-  <% elsif current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user) %>
+  <%# Original post start %>
+  <div class="post-info p-4 border border-accent2">
+    <% if original.nil? || !original.deleted_at.nil? %>
+      <%= render partial: "posts/deleted_post", locals: { post: original, view: view } %>
+    <% elsif current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user) %>
       <%= render partial: "posts/unavailable_post" %>
-  <% else %>
-    <%= turbo_frame_tag "quoted_post_#{original.id}", class: "" do %>
-      <div class="post">
-        <%= render partial: "posts/creator_info", locals: { post: original } %>
-        <%= render partial: "posts/post_body", locals: { post: original } %>
-      </div>
-    <% end %>
-  <% end %>
+    <% else %>
+      <%= turbo_frame_tag "quoted_post_#{original.id}", class: "" do %>
+        <%#= link_to single_post_path(username: post.author.username, id: original.id) do %>
+          <article class="post">
+            <a class="hidden" onclick="window.location = '<%= single_post_path(username: post.author.username, id: original.id) %>'"></a>
 
-  <div class="activity-box flex">
+            <div class="flex justify-between">
+              <%= render partial: "posts/creator_info", locals: {post: original} %>
+              <%= render partial: "posts/more_info_button", locals: {post: original} %>
+            </div>
+            <%= render partial: "posts/post_body", locals: { post: original } %>
+          </article>
+        <%# end %>
+      <% end %>
+    <% end %>
+  </div>
+  <%# Original post end %>
+
+  <div class="activity-box flex py-4">
     <%= render partial: "comments/comments", locals: { post: post } %>
     <%= render partial: "posts/reposts", locals: { post: post } %>
     <%= render partial: "posts/likes", locals: { post: post } %>
     <%= render partial: "posts/bookmarks", locals: { post: post } %>
+    <%= render partial: "posts/share", locals: { post: post, view: view } %>
   </div>
 
   <% if view.in?([:single_post, :timeline]) %>

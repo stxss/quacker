@@ -49,7 +49,6 @@
 }
 
 .nested-comments {
-  margin-top: 0px;
   display: flex;
   flex-wrap: wrap;
   flex: 1;

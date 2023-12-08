@@ -1,10 +1,11 @@
 <%# Text area start %>
 <div class="area-box <%= 'bg-secondary p-4 rounded-lg' if modal %>">
-  <%= inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text", data: {action: "click->turbo-modal#close"}) if modal %>
+
+  <%= close_icon if modal %>
 
   <% if comment %>
     <%# Original post start %>
-    <div class= "origin-post relative">
+    <div class= "origin-post relative top-3">
       <%= render partial:"posts/creator_info", locals: { post: comment, more_info: false } %>
       <%= render partial:"posts/post_body", locals: { post: comment } %>
     </div>
@@ -31,23 +32,25 @@
 
   <% if repost %>
     <%# Original post start %>
-    <div class= "origin-post relative">
+    <div class= "origin-post relative top-3">
       <%= render partial:"posts/creator_info", locals: {post: repost} %>
       <%= render partial:"posts/post_body", locals: {post: repost} %>
     </div>
     <%# Original post end %>
   <% end %>
 
-  <div class="flex relative mt-4 justify-end text-base items-center gap-x-2.5">
+  <div class="flex justify-end gap-x-2.5 items-center my-4">
     <%# Counter start %>
-    <div class="counter relative text-text duration-500" data-post-target="counter" data-action="input->post#showCount"></div>
+    <div class="text-base" data-post-target="counter" data-action="input->post#showCount"></div>
     <%# Counter end %>
 
     <%# Submit button start %>
     <div class="post-button" data-post-target="submit">
-      <%= f.submit "Quack", disabled: true, class: "fake-submit-post cursor-default focus:outline-none focus:shadow bg-primary text-white font-bold py-2 px-4 rounded enabled:hover:brightness-125 disabled:opacity-60 duration-500" %>
+      <%= f.submit "Quack", disabled: true, class: "fake-submit-post py-2 px-4 cursor-default focus:outline-none focus:shadow bg-primary text-white font-bold rounded enabled:hover:brightness-125 disabled:opacity-60 duration-500" %>
     </div>
     <%# Submit button end %>
   </div>
+
+
 </div>
 <%# Text area end %>

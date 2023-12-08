@@ -102,4 +102,8 @@ module IconsHelper
   def expand_replies_icon
     inline_svg_tag("svg/double_arrow.svg", class: "hidden")
   end
+
+  def close_icon
+    content_tag(:div, inline_svg_tag("svg/x-close.svg", class: "close-button fill-text stroke-text relative flex justify-end", data: {action: "click->turbo-modal#close"}), class: "flex align-middle justify-end mb-2")
+  end
 end

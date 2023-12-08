@@ -1,6 +1,6 @@
 <% if post.deleted_at.nil? %>
     <%= turbo_frame_tag "post_#{post.id}", data: {controller: "misc", action: "mouseup->misc#postClick"}, class: "flex-auto" do %>
-      <article class="relative post <%= post.comment? ? "border-0 pt-2 mt-2" : "border border-accent2 hover:brightness-125 hover:transition hover:duration-500 hover:shadow-centered mb-3" %> m-0 bg-secondary text-text hover:shadow-accent ease hover:cursor-pointer duration-500">
+      <article class="relative post <%= post.comment? ? "border-0 pt-2 mt-2" : "border border-accent2 hover:brightness-125 hover:transition hover:duration-500 hover:shadow-centered mb-4" %> m-0 bg-secondary text-text hover:shadow-accent ease hover:cursor-pointer duration-500">
         <a class="hidden" onclick="window.location = '<%= single_post_path(username: post.author.username, id: post.id) %>'"></a>
         <% if post.repost? %>
           <%= render partial: "reposts/repost_info", locals: { post: post, original: (post.original if post.respond_to?(:original)) } %>
