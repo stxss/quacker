@@ -11,6 +11,7 @@ export default class extends Controller {
     connect() {
         this.popStateHandler = (e) => this.clear(e);
         window.addEventListener("popstate", this.popStateHandler);
+        document.documentElement.classList.add("overflow-hidden")
         this.update();
     }
 

@@ -5,7 +5,7 @@
 <% if !internal_post.blank? %>
   <%= render "messages/internal_post", internal_post: internal_post , message_comment: message, post_bg_color: post_bg_color , bg_color: bg_color, sender_corner: 'br', message_align: 'self-end' %>
 <% else %>
-  <div class="max-w-md h-fit p-3 rounded-xl m-1 rounded-br-none self-end text-white <%= bg_color %> break-words" id="<%= message.id %>" data-controller="scroller">
+  <div class="relative max-w-[60%] max-w-md h-fit p-3 rounded-xl m-1 rounded-br-none self-end text-white <%= bg_color %> break-words" id="<%= message.id %>" data-controller="scroller">
     <%= auto_link(message.body, html: {class: "underline hover:decoration-2", rel: "nofollow", target: "_blank"}) { |text| text.gsub(/https?:\/\//, "").truncate(20) } %>
   </div>
 <% end %>

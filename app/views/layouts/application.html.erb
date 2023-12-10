@@ -10,7 +10,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body class="h-screen bg-background text-text flex justify-around gap-4 duration-500">
+  <body class="bg-background text-text flex justify-around gap-4 duration-500">
     <%= turbo_frame_tag "modal", class: "absolute z-30 text-text top-1/4 bg-background" %>
 
     <div id="flash" class="flash fixed z-20 bottom-20">

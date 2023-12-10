@@ -75,8 +75,12 @@ module IconsHelper
     button_tag(type: "button", class: "flex gap-2 align-middle") { inline_svg_tag("svg/link.svg", class: "stroke-text") + "Copy Link to Post" }
   end
 
-  def send_via_message_btn_icon
+  def share_via_message_btn_icon
     content_tag(:div, inline_svg_tag("svg/send_via_message.svg", class: "stroke-text") + "Send via Direct Message", class: "flex gap-2 align-middle")
+  end
+
+  def send_message_icon
+    button_tag(type: "submit") { inline_svg_tag("svg/send_message.svg", class: "stroke-text") }
   end
 
   def delete_btn_icon

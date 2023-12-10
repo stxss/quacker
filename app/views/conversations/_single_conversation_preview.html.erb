@@ -1,5 +1,5 @@
-<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance}, class: "flex" do %>
-  <div class="flex flex-col h-12 hover:bg-slate-100">
+<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance}, class: "flex hover:bg-secondary hover:brightness-125 rounded-md p-2" do %>
+  <div class="flex flex-col h-12 whitespace-nowrap overflow-hidden text-ellipsis">
     <% if conversation.name.nil? %>
       <div>
         <%= conversation.members.excluding(current_user).first.display_name %>
@@ -7,7 +7,7 @@
       <% else %>
       <div><%= conversation.name %></div>
     <% end %>
-    <div class="last-msg-preview truncate">
+    <div class="last-msg-preview overflow-hidden text-ellipsis">
        <%= conversation.messages.last.body if conversation.messages.size > 0 %>
     </div>
   </div>
