@@ -11,7 +11,7 @@
   </div>
 <% elsif post.author.account.has_blocked?(current_user) %>
   <div class="thread flex flex-[1_0_100%]">
-    <button class="collapse-line rounded-full flex items-middle p-0.5 hover:brightness-200 bg-accent2 border-solid border-transparent border-8 bg-clip-padding" data-controller="misc" data-action="click->misc#toggleReplies">
+    <button class="collapse-line duration-500 rounded-full flex items-middle p-0.5 hover:brightness-200 bg-accent2 border-solid border-transparent border-8 bg-clip-padding" data-controller="misc" data-action="click->misc#toggleReplies">
       <%= expand_replies_icon %>
     </button>
     <%= turbo_frame_tag "post_#{post.id}", class: "turbo-nested flex-1" do %>
@@ -24,7 +24,7 @@
 <% elsif current_user.account.has_blocked?(post.author) %>
   <div class="thread flex flex-[1_0_100%]">
     <% unless post.original.author.account.has_blocked?(current_user) %>
-      <button class="collapse-line rounded-full flex items-middle p-0.5 hover:brightness-200 bg-accent2 border-solid border-transparent border-8 bg-clip-padding" data-controller="misc" data-action="click->misc#toggleReplies">
+      <button class="collapse-line duration-500 rounded-full flex items-middle p-0.5 hover:brightness-200 bg-accent2 border-solid border-transparent border-8 bg-clip-padding" data-controller="misc" data-action="click->misc#toggleReplies">
         <%= expand_replies_icon %>
       </button>
     <% end %>
@@ -37,7 +37,7 @@
   </div>
 <% else %>
     <div class="thread flex flex-[1_0_100%]">
-      <button class="collapse-line rounded-full flex items-middle p-0.5 hover:brightness-200 bg-accent2 border-solid border-transparent border-8 bg-clip-padding" data-controller="misc" data-action="click->misc#toggleReplies">
+      <button class="collapse-line duration-500 rounded-full flex items-middle p-0.5 hover:brightness-200 bg-accent2 border-solid border-transparent border-8 bg-clip-padding" data-controller="misc" data-action="click->misc#toggleReplies">
         <%= expand_replies_icon %>
       </button>
       <%= turbo_frame_tag "post_#{post.id}", class: "turbo-nested flex-1" do %>

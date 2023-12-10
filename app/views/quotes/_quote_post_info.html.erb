@@ -7,7 +7,7 @@
   <%= render partial: "posts/post_body", locals: { post: post } %>
 
   <%# Original post start %>
-  <div class="post-info p-4 border border-accent2">
+  <div class="post-info p-4 border border-accent2 duration-500">
     <% if original.nil? || !original.deleted_at.nil? %>
       <%= render partial: "posts/deleted_post", locals: { post: original, view: view } %>
     <% elsif current_user.account.has_blocked?(original.author) || original.author.account.has_blocked?(current_user) %>

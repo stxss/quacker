@@ -47,3 +47,16 @@ initialThemeCheck();
 
 //  Prevent the transitions from being fired on page load
 setTimeout(() => { document.documentElement.classList.remove("preload") }, 200)
+
+var isChromium = !!window.chrome;
+
+if (isChromium) {
+    const extraSheet = new CSSStyleSheet();
+    extraSheet.replaceSync(`[class*='duration-'] {
+        transition-property: color;
+        transition-duration: 0s;
+    }`);
+
+    // Combine the existing sheets and new one
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, extraSheet];
+}
