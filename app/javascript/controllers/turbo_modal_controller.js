@@ -16,21 +16,17 @@ export default class extends Controller {
     }
 
     clickOutside(e) {
-        if (e.type === "click") {
-            let withinBoundaries = e.composedPath().includes(this.element);
-            if (!withinBoundaries) {
-                this.close(e)
-            }
-        } else if (e.type === "keyup") {
-            if (e.code === "Escape") {
-                this.close(e)
-                let bdList = document.querySelectorAll("#backdrop:not(.hidden)")
-                bdList.forEach((el) => {
-                    el.classList.add("hidden")
-                    el.classList.remove(...this.backdropClasses)
-                })
+        let withinBoundaries = e.composedPath().includes(this.element);
 
-            }
+        if ((e.type === "click" && !withinBoundaries) || (e.type === "keyup" && e.code === "Escape")) {
+            this.close(e)
+            let bdList = document.querySelectorAll("#backdrop:not(.hidden)")
+            bdList.forEach((el) => {
+                el.classList.add("hidden")
+                el.classList.remove(...this.backdropClasses)
+            })
+            console.log(document.getElementById("flash"))
+        } else if (e.type === "keyup" && e.code !== "Escape") {
         }
     }
 

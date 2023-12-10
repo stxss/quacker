@@ -35,7 +35,7 @@
     <%= render partial: "posts/reposts", locals: { post: post } %>
     <%= render partial: "posts/likes", locals: { post: post } %>
     <%= render partial: "posts/bookmarks", locals: { post: post } %>
-    <%= render partial: "posts/share", locals: { post: post, view: view } %>
+    <%= render partial: "posts/share", locals: { post: post } %>
   </div>
 
   <% if view.in?([:single_post, :timeline]) %>

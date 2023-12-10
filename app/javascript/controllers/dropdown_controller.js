@@ -36,7 +36,6 @@ export default class extends Controller {
         this.showMenu(this.menuTarget)
         this.showBackdrop(this.menuTarget.parentElement.querySelector("#backdrop"), false)
         this.trapFocus(this.element);
-
     }
 
     trapFocus(element) {
@@ -72,7 +71,7 @@ export default class extends Controller {
         });
     }
 
-    hideMenu(el) {
+    hideMenu() {
         this.menuTarget.classList.add("hidden")
     }
 

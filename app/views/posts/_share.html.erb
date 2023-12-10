@@ -1,12 +1,12 @@
 <%= tag.div id: dom_id(post, :share) do %>
-  <%= tag.div class: "dropdown share relative", data: {controller: :dropdown, action: "click->dropdown#dropMenu"} do %>
+  <%= tag.div class: "dropdown share relative flex", data: {controller: :dropdown, action: "click->dropdown#dropMenu"} do %>
     <%= share_btn_icon %>
     <%= backdrop %>
     <%= tag.div class: "dropdown-content hidden absolute top-0 -right-5 bg-secondary p-2 gap-2 z-20 border-2 border-primary rounded-md whitespace-nowrap", data: {dropdown_target: :menu} do %>
       <%= tag.div data: {controller: :misc, url: single_post_url(username: post.author.username, id: post.id), action: "click->misc#copyLink"} do %>
         <%=  copy_link_btn_icon  %>
       <% end %>
-      <%= link_to send_via_message_btn_icon, share_post_path(username: post.author.username, id: post.id), data: { turbo_frame: "modal", action: "turbo:click->dropdown#hideMenu", target: "_top"}, class: "flex", method: :get %>
+      <%= link_to share_via_message_btn_icon, share_post_path(username: post.author.username, id: post.id), data: { turbo_frame: "modal", action: "turbo:click->dropdown#hideMenu"}, class: "flex", method: :get %>
     <% end %>
   <% end %>
 <% end %>

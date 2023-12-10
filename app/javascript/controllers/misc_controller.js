@@ -6,10 +6,26 @@ export default class extends Controller {
         navigator.clipboard
             .writeText(this.element.dataset.url)
             .then(function () {
-                document.querySelector(
-                    ".flash"
-                ).innerHTML = `<div class="flash__message" id="notice">Link copied!</div>`;
+                let wrapper = document.createElement("div")
+                wrapper.classList.add("fixed", "z-20", "bottom-20", "start-1/2")
+                let flash = document.createElement("div")
+                flash.classList.add("z-40", "animate-jump", "animate-duration-200", "animation-ease-in-out", "bg-primary", "py-2", "px-4", "rounded-md", "text-center", "text-white", "duration-500")
+                flash.dataset.controller = "misc"
+                flash.dataset.action = "animationend->misc#removeFlash"
+                flash.dataset.id = "notice"
+                flash.textContent = "Link Copied!"
+                document.documentElement.append(wrapper)
+                wrapper.append(flash)
+                setTimeout(() => {
+                    wrapper.remove()
+                }, 3001)
             });
+
+        // For some reason, using `this.element.parentElement.classList.add("hidden")` doesn't work, but setting a timeout to 0 does.
+        setTimeout(() => {
+            this.element.parentElement.classList.add("hidden")
+            this.element.closest(".dropdown").querySelector("#backdrop").classList.add("hidden")
+        }, 0);
     }
 
     toggleReplies() {

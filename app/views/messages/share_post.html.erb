@@ -1,6 +1,22 @@
-<%= backdrop %>
 <%= turbo_frame_tag "modal" do %>
-  <%= render "messages/share_form", post_share_params: {:post_share =>{username: params[:username], id: params[:id]}} %>
+  <%= backdrop %>
+  <div data-controller="message turbo-modal" data-turbo-modal-post-share="true" class="message-form relative z-30 bg-secondary p-4 w-96 h-96 rounded-md">
+    <%= close_icon %>
+    <%= form_with model: Message.new, url: messages_path(post_share: {username: params[:username], id: params[:id]}), data: { action: "turbo:submit-end->message#clear turbo:submit-end->turbo-modal#close"}, class: "flex flex-col" do |f| %>
+      <%= f.collection_check_boxes(:conversation_id, current_user.conversations, :id, :itself, include_hidden: false ) do |b| %>
+        <div class="list-none flex hover:bg-secondary hover:brightness-125 duration-500 rounded-md mb-2">
+          <%= b.label class: "flex flex-1 justify-between" do %>
+            <%= render partial: "conversations/conversation_to_share_to", locals: { conversation: b.object } %>
+            <%= b.check_box "data-action": "click->conversation#toggleName click->conversation#toggleSubmitButton", class: "relative end-[2%]" %>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="flex gap-2">
+        <%= f.text_area :body, placeholder: "Add a comment!", rows: 1, data: {controller: "autogrow", message_target: "area"}, class: "w-full duration-500 relative bg-background text-text p-2 resize-none rounded-md" %>
+        <%= send_message_icon %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
 
  <%# add check to only be able to send if there is at least one value checked %>

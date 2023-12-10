@@ -55,6 +55,10 @@ class User < ApplicationRecord
     other.notifications_received.where(notifier_id: id, notified_id: other.id, notification_type: :follow).delete_all
   end
 
+  def mutual_with?(other)
+    following?(other) && other.following?(self)
+  end
+
   def decline_follow_request(other)
     passive_follows.where(follower_id: other.id).delete_all
   end

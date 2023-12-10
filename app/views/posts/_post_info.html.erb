@@ -12,7 +12,7 @@
     <%= render partial: "posts/likes", locals: { post: post } %>
     <%= render partial: "posts/bookmarks", locals: { post: post } %>
 
-    <%= render partial: "posts/share", locals: { post: post, view: view } %>
+    <%= render partial: "posts/share", locals: { post: post } %>
     <% if post.comment? %>
       <%= render partial: "posts/more_info_button", locals: {post: post} %>
     <% end %>
