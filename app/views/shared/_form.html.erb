@@ -1,4 +1,3 @@
-<%# Text area start %>
 <div class="area-box <%= 'bg-secondary p-4 rounded-lg' if modal %>">
 
   <%= close_icon if modal %>
@@ -28,7 +27,9 @@
   </div>
   <%# Toolbar end %>
 
-  <%= f.text_area :body, placeholder: placeholder, :rows => 4 , :cols => 50, data: {controller: "autogrow", post_target: "area", action: "input->post#update"}, autofocus: modal, maxlength: 10000, required: "true", id: "compose-area", class: "w-full duration-500 h-min max-h-min relative bg-secondary border-l border-r border-b border-accent2 pl-4 pr-4 pb-12 pt-4 focus:transition focus:ease-in focus:duration-200 focus:outline-none focus:shadow-centered focus:shadow-accent focus:ring-accent2 text-text resize-none align-top" %>
+  <%# Text area start %>
+  <%= f.text_area :body, placeholder: placeholder, rows: 4 , cols: 50, data: {controller: "autogrow", post_target: "area", action: "input->post#update"}, autofocus: modal, maxlength: 10000, required: "true", id: "compose-area", class: "w-full duration-500 h-min max-h-min relative bg-secondary border-l border-r border-b border-accent2 pl-4 pr-4 pb-12 pt-4 focus:transition focus:ease-in focus:duration-200 focus:outline-none focus:shadow-centered focus:shadow-accent focus:ring-accent2 text-text resize-none align-top" %>
+  <%# Text area end %>
 
   <% if repost %>
     <%# Original post start %>
@@ -50,7 +51,4 @@
     </div>
     <%# Submit button end %>
   </div>
-
-
 </div>
-<%# Text area end %>

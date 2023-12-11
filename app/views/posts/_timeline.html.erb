@@ -1,7 +1,7 @@
-<%= turbo_stream_from "comments" %>
-<%= turbo_stream_from "reposts" %>
-<%= turbo_stream_from "likes" %>
-<%= turbo_stream_from "posts" %>
+<%= turbo_stream_from "comments", class: "hidden" %>
+<%= turbo_stream_from "reposts", class: "hidden" %>
+<%= turbo_stream_from "likes", class: "hidden" %>
+<%= turbo_stream_from "posts", class: "hidden" %>
 
 <div>
   <%= render partial: "posts/post_form", locals: { modal: false } %>
