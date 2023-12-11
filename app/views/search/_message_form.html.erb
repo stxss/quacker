@@ -2,8 +2,8 @@
   <%= form.text_field :query, placeholder: "Search Messages", data: { action: "focus->search#prepare input->search#prepare" }, class: "w-full text-sm text-text rounded-md px-1.5 py-1 bg-secondary" %>
 <% end %>
 
-<div class="bg-gray-100 p-4 col-span-5 bg-secondary rounded-md">
-  <%= turbo_frame_tag "search-results" do %>
-    <%= render "search/message_list", messages_search: @messages_search, query: @query %>
+<div class="py-2.5 col-span-5 bg-secondary bg-clip-padding rounded-md">
+  <%= turbo_frame_tag "search-results", class: "flex flex-col gap-2" do %>
+    <%= render partial: "search/message_list", locals: {messages_search: messages_search, query: query} %>
   <% end %>
 </div>

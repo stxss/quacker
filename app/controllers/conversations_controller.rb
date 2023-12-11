@@ -3,17 +3,27 @@ class ConversationsController < ApplicationController
   before_action :verify_membership, only: [:show]
 
   def index
-    @conversations = current_user.conversations
+    user_conversations = current_user.conversations.ordered
+
+    @conversations = user_conversations.reject do |conversation|
+      no_messages = conversation.messages.empty? && conversation.creator != current_user
+      two_members = conversation.members.size == 2
+      other_user = conversation.members.excluding(current_user).first
+
+      no_messages || (two_members && current_user.account.has_blocked?(other_user))
+    end
+    respond_to do |format|
+      format.html { render template: "conversations/index", locals: {conversations: @conversations, messages_search: [], query: ""} }
+    end
   end
 
   def show
-    @user = current_user
-    @conversations = current_user.conversations
+    @conversations = current_user.conversations.ordered
     @conversation = Conversation.find(params[:id])
     @other_user = @conversation.members.excluding(current_user).first if @conversation.members.size == 2
     respond_to do |format|
       format.turbo_stream
-      format.html {}
+      format.html { render template: "conversations/show", locals: {conversations: @conversations, conversation: @conversation, user_gid: current_user.to_gid_param, other_user: @other_user, messages_search: [], query: ""} }
     end
   end
 

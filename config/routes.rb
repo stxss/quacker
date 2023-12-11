@@ -16,13 +16,10 @@ Rails.application.routes.draw do
   get "search", to: "search#index", as: "search"
 
   get "/messages/search/", to: "messages#search", as: "messages_search"
-  get "/messages", to: "messages#index", as: "messages"
   get "/:username/status/:id/share", to: "messages#share_post", as: "share_post"
 
   resources :messages, only: [:new, :create, :destroy]
-
-  get "/messages/:id", to: "conversations#show", as: "conversation"
-  resources :conversations, only: [:new, :index, :create, :destroy]
+  resources :conversations, only: [:new, :show, :index, :create, :destroy]
 
   # path "" -> removes the /users/ prefix from url, specifying username as the identifier instead of the default :id
   # has to be placed after the other resources with names that can be mistaken for usernames, as rails reads the routes from top to bottom, so by placing the /messages, /bookmarks and such routes first, they will take precedence over the "users" route.

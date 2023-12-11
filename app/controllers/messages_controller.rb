@@ -1,20 +1,10 @@
 class MessagesController < ApplicationController
-  skip_before_action :set_query, only: [:index, :show]
+  class BlankMessage < StandardError; end
+
+  skip_before_action :set_query, only: [:show]
 
   def new
     @message = Message.new
-  end
-
-  def index
-    user_conversations = current_user.conversations.ordered
-
-    @conversations = user_conversations.reject do |conversation|
-      no_messages = conversation.messages.empty? && conversation.creator != current_user
-      two_members = conversation.members.size == 2
-      other_user = conversation.members.excluding(current_user).first
-
-      no_messages || (two_members && current_user.account.has_blocked?(other_user))
-    end
   end
 
   def messages
@@ -24,17 +14,19 @@ class MessagesController < ApplicationController
   def search
     @messages_search = Message.search(params[:query]).includes(:sender).order(created_at: :desc)
     @query = params[:query]
-    render partial: "search/message_form"
+    render partial: "search/message_form", locals: {messages_search: @messages_search, query: @query}
   end
 
   def create
     @message = if params[:post_share]
       MessageCreator.call(params, current_user)
     else
+      raise BlankMessage if message_params[:body].rstrip == ""
       current_user.sent_messages.build(body: message_params[:body].rstrip, sender_id: current_user.id, conversation_id: message_params[:conversation_id].to_i)
     end
 
     if @message.save
+      @message.conversation.touch
       @message.conversation.members.each do |member|
         next if member == @message.sender
 
@@ -46,11 +38,20 @@ class MessagesController < ApplicationController
     elsif @message.errors.any?
       respond_to do |format|
         format.turbo_stream {
-          render turbo_stream:
-            turbo_stream.update("message-form", @message.errors.full_messages.first)
+          render turbo_stream: turbo_stream.update("message-form", @message.errors.full_messages.first)
         }
         format.html { redirect_to conversation_path(id: @message.conversation.id) }
       end
+    end
+  rescue BlankMessage
+    respond_to do |format|
+      format.turbo_stream {
+        flash.now[:alert] = "Nah fam, you can't send an empty message lol"
+        render turbo_stream: [
+          turbo_stream.replace("message-form button[type=submit]", helpers.send_message_icon),
+          helpers.render_flash_message
+        ]
+      }
     end
   end
 

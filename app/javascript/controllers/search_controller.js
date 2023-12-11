@@ -21,7 +21,7 @@ export default class extends Controller {
       e.preventDefault();
       field.value = "";
       let resultsField = document.querySelector("#search-results")
-      resultsField.innerHTML = "Try searching for people, groups or messages";
+      resultsField.innerHTML = `<div class="align-middle self-center">Search for messages</div>`;
     }
   }
 

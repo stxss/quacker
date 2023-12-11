@@ -1,34 +1,18 @@
-<%= turbo_stream_from "#{@user&.to_gid_param}", class: "hidden" %>
+<%= turbo_stream_from user_gid, class: "hidden" %>
 
-<div class="flex m-5 gap-3 ">
-  <div class="w-1/4 conversation-list">
-    <div class="new-message flex-none">
-      <%= link_to "new conversation", new_conversation_path, data: { turbo_frame: "modal", turbo_action: :advance} %>
-    </div>
-
-    <div class="flex flex-col gap-3">
-      <%= render "search/message_form" %>
-    </div>
-
-    <div class="messages-list my-5 truncate overflow-auto">
-      <%= turbo_frame_tag "conversations", data: { turbo_action: :advance }, class: "flex flex-col gap-3" do %>
-          <% @conversations.ordered.each do |c| %>
-            <%= render "conversations/single_conversation_preview", conversation: c %>
-          <% end %>
-      <% end %>
-    </div>
-  </div>
+<div class="flex m-5 gap-3">
+  <%= render partial: "shared/conversation_list", locals: {conversations: conversations, messages_search: messages_search, query: query} %>
 
   <%= turbo_frame_tag "messages", data: { turbo_frame: "messages", turbo_action: :advance }, class: "flex flex-col flex-1" do %>
     <div class="fixed bottom-0 top-20 left-[45%] right-[10%]">
-      <div id="message-list" class="relative h-[80%] flex flex-col overflow-auto fixed">
-        <%= render "conversations/single_conversation_full", conversation: @conversation %>
+      <div id="message-list" class="relative h-[90%] flex flex-col overflow-auto fixed">
+        <%= render "conversations/single_conversation_full", conversation: conversation %>
       </div>
       <div id="message-form" class="relative w-full">
-        <% if @other_user&.account&.has_blocked?(current_user) %>
-          You can no longer send messages to @<%= @other_user.username %> as they have blocked you.
+        <% if other_user&.account&.has_blocked?(current_user) %>
+          You can no longer send messages to @<%= other_user.username %> as they have blocked you.
         <% else %>
-          <%= render "messages/new", conversation: @conversation %>
+          <%= render "messages/new", conversation: conversation %>
         <% end %>
       </div>
     </div>

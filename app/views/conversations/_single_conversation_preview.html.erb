@@ -1,8 +1,11 @@
-<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance}, class: "flex hover:bg-secondary hover:brightness-125 rounded-md p-2" do %>
+<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance, controller: :misc, action: "click->misc#selectConversation" }, class: "flex hover:bg-secondary bg-clip-padding p-2" do %>
   <div class="flex flex-col h-12 whitespace-nowrap overflow-hidden text-ellipsis">
     <% if conversation.name.nil? %>
-      <div>
-        <%= conversation.members.excluding(current_user).first.display_name %>
+      <div class="flex gap-2 text-text items-center">
+        <div class="font-bold"><%= conversation.members.excluding(current_user).first.display_name %></div>
+        <div class="text-sm opacity-60">@<%= conversation.members.excluding(current_user).first.username %></div>
+        <div class="text-sm opacity-60"> · </div>
+        <div class="text-sm opacity-60"><%= formatted_time_ago(conversation.messages.last.created_at) %></div>
       </div>
       <% else %>
       <div><%= conversation.name %></div>

@@ -80,7 +80,7 @@ module IconsHelper
   end
 
   def send_message_icon
-    button_tag(type: "submit") { inline_svg_tag("svg/send_message.svg", class: "stroke-text") }
+    button_tag(type: "submit", disabled: true, class: "disabled:opacity-50", data: {"message-target": "submit"}) { inline_svg_tag("svg/send_message.svg", class: "stroke-text") }
   end
 
   def delete_btn_icon

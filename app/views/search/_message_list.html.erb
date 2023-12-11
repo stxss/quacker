@@ -1,20 +1,26 @@
 <% if messages_search.blank? %>
-  <% if query.blank? %>
-    Try searching for people, groups or messages
-  <% else %>
-    No results for "<%= query %>"
-  <% end %>
+  <div class="align-middle self-center">
+    <% if query.blank? %>
+      Search for messages
+    <% else %>
+      No results for "<%= query %>"
+    <% end %>
+  </div>
 <% else %>
-  <% messages_search.each do |m| %>
-    <div>
-      <%= m.sender.display_name %>
-      <%= formatted_time_ago(m.created_at) %>
+<!--  TODO: implement lazy loading or a see more button to load more results-->
+  <% messages_search.limit(10).each do |m| %>
+    <div class="searched-message px-2.5 hover:bg-secondary hover:brightness-110 cursor-pointer" id="<%= dom_id(m) %>" data-controller="misc" data-action="click->misc#goToMessage">
+      <div class="flex gap-2 text-text items-center">
+        <div class="font-bold"><%= m.sender.display_name %></div>
+        <div class="text-sm opacity-60">@<%= m.sender.username %></div>
+        <div class="text-sm opacity-60"> · </div>
+        <div class="text-sm opacity-60"><%= formatted_time_ago(m.created_at) %></div>
+      </div>
+      <div class="w-full">
+        <%= highlight(m.body, query.split(" "), highlighter: '<span class="bg-primary">\1</span>') %>
+      </div>
     </div>
 
-    <div>
-      <%= highlight(m.body, query.split(" ")) %>
-      <%= m.body %>
-    </div>
   <% end %>
 <% end %>
 

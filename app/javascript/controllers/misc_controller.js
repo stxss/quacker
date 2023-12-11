@@ -92,4 +92,14 @@ export default class extends Controller {
             }, 500)
         }, 3000);
     }
+
+    selectConversation() {
+        let msgs = this.element.parentElement.children
+        let styleToAdd = ["border-r-2", "border-r-accent", "bg-secondary", "brightness-125", "hover:brightness-125"]
+        for (const msg of msgs) {
+            msg.classList.remove(...styleToAdd)
+        }
+        this.element.classList.add(...styleToAdd)
+    }
+
 }

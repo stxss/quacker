@@ -21,14 +21,11 @@ export default class extends Controller {
 
     verifyLength(length) {
         if (this.notMessage()) {
-            if (!this.submitTarget.querySelector(".fake-submit-message")) {
-                this.submitTarget.innerHTML = `<div class="fake-submit-message">Send</div>`;
+            if (!this.submitTarget.disabled) {
+                this.submitTarget.disabled = true
             }
         } else {
-            if (!this.submitTarget.querySelector("input")) {
-                this.submitTarget.innerHTML = `<input type="submit" name="commit" value="Send" class="w-fit p-3" data-disable-with="Sending Message" data-action="click->message#submit"></input>
-                `;
-            }
+            this.submitTarget.disabled = false
         }
     }
 

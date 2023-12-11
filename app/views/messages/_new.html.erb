@@ -1,7 +1,7 @@
-<div data-controller="message" class="message-form mt-2">
+<div data-controller="message" class="message-form relative bottom-30 mt-2">
   <%= form_with model: Message.new, url: messages_path, data: { action: "turbo:submit-end->message#clear"}, class: "flex gap-3 justify-end" do |f| %>
       <%= f.hidden_field :conversation_id, value: conversation.id %>
-      <%= f.text_area :body, class: "w-full p-4 bg-secondary resize-none rounded-md align-top", placeholder: "Start a new message", rows: 2 , cols: 50, data: {controller: "autogrow", message_target: "area", action: "input->message#update"} %>
+      <%= f.text_area :body, class: "w-full p-4 bg-secondary resize-none rounded-md align-top", placeholder: "Whaddya Hear, Whaddya Say?", rows: 2 , cols: 50, data: {controller: "autogrow", message_target: "area", action: "input->message#update"} %>
     <%= send_message_icon %>
   <% end %>
 </div>
