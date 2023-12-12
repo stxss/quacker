@@ -22,7 +22,6 @@ class ConversationsController < ApplicationController
     @conversation = Conversation.find(params[:id])
     @other_user = @conversation.members.excluding(current_user).first if @conversation.members.size == 2
     respond_to do |format|
-      format.turbo_stream
       format.html { render template: "conversations/show", locals: {conversations: @conversations, conversation: @conversation, user_gid: current_user.to_gid_param, other_user: @other_user, messages_search: [], query: ""} }
     end
   end

@@ -83,6 +83,10 @@ module IconsHelper
     button_tag(type: "submit", disabled: true, class: "disabled:opacity-50", data: {"message-target": "submit"}) { inline_svg_tag("svg/send_message.svg", class: "stroke-text") }
   end
 
+  def new_conversation_icon
+    content_tag(:div, inline_svg_tag("svg/envelope_plus.svg", class: "stroke-text m-2 bg-clip-padding"), class: "flex gap-1 align-middle items-center justify-end p-2")
+  end
+
   def delete_btn_icon
     content_tag(:div, inline_svg_tag("svg/trash.svg", class: "text-red-600") + "Delete", class: "flex gap-2 align-middle")
   end

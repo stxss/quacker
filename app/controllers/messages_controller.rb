@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
   end
 
   def search
-    @messages_search = Message.search(params[:query]).includes(:sender).order(created_at: :desc)
+    @messages_search = current_user.messages.search(params[:query]).includes(:sender)
     @query = params[:query]
     render partial: "search/message_form", locals: {messages_search: @messages_search, query: @query}
   end

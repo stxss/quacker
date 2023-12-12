@@ -1,16 +1,16 @@
-<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance, controller: :misc, action: "click->misc#selectConversation" }, class: "flex hover:bg-secondary bg-clip-padding p-2" do %>
-  <div class="flex flex-col h-12 whitespace-nowrap overflow-hidden text-ellipsis">
+<%= link_to conversation_path(id: conversation.id), data: {turbo_frame: "messages", turbo_action: :advance, controller: :misc, action: "click->misc#selectConversation connect->misc#overflowToggle" }, class: "flex hover:bg-secondary bg-clip-padding p-2", id: dom_id(conversation) do %>
+  <div class="flex flex-col h-12 whitespace-nowrap overflow-hidden text-ellipsis transition duration-500">
     <% if conversation.name.nil? %>
-      <div class="flex gap-2 text-text items-center">
+      <div class="flex gap-2 text-text items-center transition duration-500">
         <div class="font-bold"><%= conversation.members.excluding(current_user).first.display_name %></div>
         <div class="text-sm opacity-60">@<%= conversation.members.excluding(current_user).first.username %></div>
         <div class="text-sm opacity-60"> · </div>
         <div class="text-sm opacity-60"><%= formatted_time_ago(conversation.messages.last.created_at) %></div>
       </div>
-      <% else %>
+    <% else %>
       <div><%= conversation.name %></div>
     <% end %>
-    <div class="last-msg-preview overflow-hidden text-ellipsis">
+    <div class="last-msg-preview overflow-hidden text-ellipsis transition duration-500">
        <%= conversation.messages.last.body if conversation.messages.size > 0 %>
     </div>
   </div>

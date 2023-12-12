@@ -1,8 +1,8 @@
 <%= form_with url: messages_search_path, method: :get, data: { turbo_frame: "search-results", controller: "search", action: "input->search#submit" } do |form| %>
-  <%= form.text_field :query, placeholder: "Search Messages", data: { action: "focus->search#prepare input->search#prepare" }, class: "w-full text-sm text-text rounded-md px-1.5 py-1 bg-secondary" %>
+  <%= form.text_field :query, placeholder: "Search Messages", data: { action: "focus->search#prepare input->search#prepare" }, class: "w-full text-sm text-text rounded-md px-1.5 py-1 bg-secondary transition duration-500" %>
 <% end %>
 
-<div class="py-2.5 col-span-5 bg-secondary bg-clip-padding rounded-md">
+<div class="py-2.5 col-span-5 bg-secondary bg-clip-padding rounded-md transition duration-500">
   <%= turbo_frame_tag "search-results", class: "flex flex-col gap-2" do %>
     <%= render partial: "search/message_list", locals: {messages_search: messages_search, query: query} %>
   <% end %>

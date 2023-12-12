@@ -1,12 +1,16 @@
 class Message < ApplicationRecord
   include Reusable
   include PgSearch::Model
-  pg_search_scope :search, against: :body, using: {
-    tsearch: {
-      dictionary: "english",
-      prefix: true
-    }
-  }
+  pg_search_scope :search,
+    against: :body,
+    using: {
+      tsearch: {
+        dictionary: "english",
+        prefix: true
+      }
+    },
+    order_within_rank: "messages.created_at DESC"
+
   before_validation :validate_urls
   validates :body, presence: true
   validates :body, length: {minimum: 1, message: "Can't send an empty message"}

@@ -1,0 +1,9 @@
+<div class="flex m-5 mt-0 gap-3 transition">
+  <%= render partial: "shared/conversation_list", locals: {conversations: conversations, messages_search: messages_search, query: query} %>
+
+  <%= turbo_frame_tag "messages", data: { turbo_permanent: true }, class: "flex flex-col flex-nowrap self-center" do %>
+    <div class="flex content-center relative left-2/4 font-bold text-xl">
+      <h1>Your messages will appear here! :D</h1>
+    </div>
+<% end %>
+</div>

@@ -1,6 +1,6 @@
 <%= turbo_stream_from user_gid, class: "hidden" %>
 
-<div class="flex m-5 gap-3">
+<div class="flex m-5 mt-0 gap-3">
   <%= render partial: "shared/conversation_list", locals: {conversations: conversations, messages_search: messages_search, query: query} %>
 
   <%= turbo_frame_tag "messages", data: { turbo_frame: "messages", turbo_action: :advance }, class: "flex flex-col flex-1" do %>

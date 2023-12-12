@@ -15,6 +15,10 @@ export default class extends Controller {
         this.update();
     }
 
+    disconnect() {
+        document.documentElement.classList.remove("overflow-hidden")
+    }
+
     update() {
         this.verifyLength(this.length);
     }

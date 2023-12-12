@@ -94,12 +94,37 @@ export default class extends Controller {
     }
 
     selectConversation() {
-        let msgs = this.element.parentElement.children
+        let messages = this.element.parentElement.children
         let styleToAdd = ["border-r-2", "border-r-accent", "bg-secondary", "brightness-125", "hover:brightness-125"]
-        for (const msg of msgs) {
+        for (const msg of messages) {
             msg.classList.remove(...styleToAdd)
         }
         this.element.classList.add(...styleToAdd)
     }
 
+    goToMessage() {
+        // cam => conversation and message
+        let camID = this.element.closest(".searched-message").id.split("_message_", )
+        let conversationID = camID[0]
+        let messageID = camID[1]
+
+        console.log(document.querySelector(`#conversation_${conversationID}`))
+        document.querySelector(`#conversation_${conversationID}`).click()
+
+        const highlightMessage = (msg) => {
+            msg.scrollIntoView()
+            msg.parentElement.classList.add("bg-secondary")
+            setTimeout(() => {
+                msg.parentElement.classList.remove("bg-secondary")
+            }, 3000)
+        }
+
+        setTimeout(() => {
+            highlightMessage(document.querySelector(`#message_${messageID}`))
+        }, 100)
+    }
+
+    overflowToggle() {
+        document.documentElement.classList.add("overflow-hidden")
+    }
 }

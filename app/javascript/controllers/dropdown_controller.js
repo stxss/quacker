@@ -4,7 +4,9 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
     static targets = ["menu"];
 
-    connect() {}
+    connect() {
+        document.getSelection().removeAllRanges()
+    }
 
     dropMenu(e) {
         if (!this.hasMenuTarget) {
