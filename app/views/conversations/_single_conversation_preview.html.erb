@@ -10,7 +10,7 @@
     <% else %>
       <div><%= conversation.name %></div>
     <% end %>
-    <div class="last-msg-preview overflow-hidden text-ellipsis transition duration-500">
+    <div class="last-msg-preview overflow-hidden text-ellipsis transition duration-500" id="preview_<%= conversation.id %>">
        <%= conversation.messages.last.body if conversation.messages.size > 0 %>
     </div>
   </div>

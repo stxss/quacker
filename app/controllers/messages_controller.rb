@@ -28,6 +28,11 @@ class MessagesController < ApplicationController
     if @message.save
       @message.conversation.touch
       @message.conversation.members.each do |member|
+
+        @message.broadcast_update_to ["#{member&.to_gid_param}:#{@message.conversation&.to_gid_param}"],
+          target: "preview_#{@message.conversation.id}",
+          html: @message.body
+
         next if member == @message.sender
 
         @message.broadcast_append_to ["#{member&.to_gid_param}:#{@message.conversation&.to_gid_param}"],
