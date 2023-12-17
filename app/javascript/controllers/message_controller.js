@@ -33,6 +33,24 @@ export default class extends Controller {
         }
     }
 
+    // for when sharing a post via dm
+    calculateChecked() {
+        let boxes = this.element.querySelectorAll("input[type='checkbox']");
+        let checked = 0;
+
+        boxes.forEach((box) => {
+            if (box.checked) {
+                checked++;
+            }
+        });
+
+        return checked;
+    }
+
+    toggleSubmitButton() {
+        this.submitTarget.disabled = this.calculateChecked() <= 0
+    }
+
     submit(e) {
         if (this.notMessage()) {
             e.preventDefault();

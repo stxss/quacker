@@ -7,7 +7,7 @@
         <div class="list-none flex hover:bg-secondary hover:brightness-125 duration-500 rounded-md mb-2">
           <%= b.label class: "flex flex-1 justify-between" do %>
             <%= render partial: "conversations/conversation_to_share_to", locals: { conversation: b.object } %>
-            <%= b.check_box "data-action": "click->conversation#toggleName click->conversation#toggleSubmitButton", class: "relative end-[2%]" %>
+            <%= b.check_box "data-action": "click->message#toggleSubmitButton", class: "relative end-[2%]" %>
           <% end %>
         </div>
       <% end %>
@@ -18,6 +18,3 @@
     <% end %>
   </div>
 <% end %>
-
- <%# add check to only be able to send if there is at least one value checked %>
-

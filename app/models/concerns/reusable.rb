@@ -20,9 +20,9 @@ module Reusable
 
   def find_post_by_internal_url
     @post ||= Set.new
-
+    content = body.rstrip.split[0]
     # rstrip because in MessageCreator, i have `@url << " " << @body` in case a user also adds a comment. And if they have no body, i prefer doing the strip here, as for some reason stripping in the creator does lead to bugs
-    body.rstrip.gsub(URL_REGEX) do |url|
+    content.gsub(URL_REGEX) do |url|
       @url = parse_url(url)
       # @url.host[4..] because if for some reason the host is retrieved as `www.example.com`, with the "www" present, compare the 'cut off' version
       host_to_compare = @url.host.start_with?("www.") ? @url.host[4..] : @url.host
