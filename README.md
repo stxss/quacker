@@ -38,7 +38,8 @@ Also this is was a very nice learning opportunity that I used to delve deeper in
 - Pinning a post to the profile
 - Real-time messaging
 - Groupchats
-- Sharing content from within the platform, i.e. when a post with someone, it will be automatically embedded in a message.
+- Sharing content from within the platform, i.e. when a post with someone, it will be automatically embedded in a message
+- Searching for messages and being able to instantly navigate to them
 - URL parsing, not allowing invalid TLD's to be made into hyperlinks
 - Copying posts' links
 - Search feature
